@@ -15,12 +15,12 @@ bool ServerComponent::initialize()
 		.set_listen_port(8888)
 		.set_initialize_client_function(init_client_func));
 
-	auto on_client_connected = [&](server_client& client)
+	on_connected = [&](server_client& client)
 	{
 		trace("on_client_connected");
 	};
 
-	auto on_client_disconnected = [&](unsigned int client_uid)
+	 on_disconnected = [&](unsigned int client_uid)
 	{
 		trace("on_client_disconnected");
 	};
