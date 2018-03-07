@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)..\Builds\$(Configuration) ($(PlatformTarget))\</OutDir>
+    <IntDir>$(OutDir)..\Intermediate\$(ProjectName)\$(Configuration)($(PlatformTarget))\</IntDir>
+    <IncludePath>$(SolutionDir)..\Libs\ASGE\Include;$(SolutionDir)..\Source;$(SolutionDir)..\Libs\enet\Include;$(SolutionDir)..\Libs\enetpp\Include;$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)..\Source;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)..\Libs\ASGE\Bin;$(SolutionDir)..\Libs\enet\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Libs\ASGE\Bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Engine_$(PlatformTarget).lib</AdditionalDependencies>
+    </Lib>
+    <Link>
+      <AdditionalDependencies>Engine__$(Configuration)_$(PlatformTarget).lib;Enet__$(Configuration)_$(PlatformTarget).lib;ws2_32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)..\Resources\*" "$(OutDir)Resources\" /F /R /Y /I /S</Command>
+    </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <ClCompile>
+      <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

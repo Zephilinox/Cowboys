@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Client\stdafx.cpp">
+      <Filter>Source\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\GameFont.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\MyNetGame.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\Networking.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Client\GameFont.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\MyNetGame.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\Networking.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\stdafx.h">
+      <Filter>Headers\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\targetver.h">
+      <Filter>Headers\Platform</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{04c1d724-2739-411d-bf2e-c9d3ac2bc408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{2180af3a-3cea-49d8-8828-5bdd0d4602bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform">
+      <UniqueIdentifier>{8f0d336b-346f-4973-a49f-ff5ea5302de7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Platform">
+      <UniqueIdentifier>{fc276487-b5f7-4e8c-8498-69fb1506831b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
