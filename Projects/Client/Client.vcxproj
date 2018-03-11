@@ -61,46 +61,56 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\Libs\irrKlang\include;$(SolutionDir)..\Libs\SFML\include;$(SolutionDir)..\Libs\ini_parser\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\Libs\irrKlang\lib;$(SolutionDir)..\Libs\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\Libs\irrKlang\include;$(SolutionDir)..\Libs\SFML\include;$(SolutionDir)..\Libs\ini_parser\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\Libs\irrKlang\lib;$(SolutionDir)..\Libs\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\Libs\irrKlang\include;$(SolutionDir)..\Libs\SFML\include;$(SolutionDir)..\Libs\ini_parser\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\Libs\irrKlang\lib;$(SolutionDir)..\Libs\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>irrKlang.lib;sfml-audio-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -108,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -115,18 +126,65 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>irrKlang.lib;sfml-audio.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\birdman-the-game-teambirb\Source\Constants.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngine.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineNone.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineSFML.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Dialogues\Actor.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Dialogues\Dialogue.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Dialogues\DialogueTree.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\GameData.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Managers\AudioManager.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Managers\FontManager.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Managers\InputManager.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Managers\NetworkManager.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Managers\StateManager.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Messages\FunctionMessage.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Messages\Message.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Messages\MessageQueue.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Networking\Packet.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Rng.h" />
+    <ClInclude Include="..\..\Source\Architecture\Signals\Connection.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Signals\Disconnector.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Signals\Signal.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Signals\Slot.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Timer.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\UI\Button.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
-    <ClInclude Include="..\..\Source\Client\GameFont.h" />
     <ClInclude Include="..\..\Source\Client\Networking.h" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
     <ClInclude Include="..\..\Source\Client\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\birdman-the-game-teambirb\Source\Rng.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\AnimatedSprite.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngine.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineNone.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineSFML.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Dialogues\Actor.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Dialogues\Dialogue.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Dialogues\DialogueTree.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\GameData.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Managers\AudioManager.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Managers\FontManager.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Managers\InputManager.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Managers\NetworkManager.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Managers\StateManager.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Messages\MessageQueue.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Networking\Packet.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Signals\Connection.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Timer.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
-    <ClCompile Include="..\..\Source\Client\GameFont.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
     <ClCompile Include="..\..\Source\Client\Networking.cpp" />
     <ClCompile Include="..\..\Source\Client\stdafx.cpp">

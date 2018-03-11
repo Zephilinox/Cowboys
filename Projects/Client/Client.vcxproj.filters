@@ -4,9 +4,6 @@
     <ClCompile Include="..\..\Source\Client\stdafx.cpp">
       <Filter>Source\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Client\GameFont.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -16,11 +13,71 @@
     <ClCompile Include="..\..\Source\Client\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineNone.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineSFML.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngine.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Dialogues\DialogueTree.cpp">
+      <Filter>Source\Architecture\Dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Dialogues\Actor.cpp">
+      <Filter>Source\Architecture\Dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Dialogues\Dialogue.cpp">
+      <Filter>Source\Architecture\Dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\NetworkManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\StateManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\AudioManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\FontManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\InputManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Messages\MessageQueue.cpp">
+      <Filter>Source\Architecture\Messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Networking\Packet.cpp">
+      <Filter>Source\Architecture\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Signals\Connection.cpp">
+      <Filter>Source\Architecture\Signals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp">
+      <Filter>Source\Architecture\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp">
+      <Filter>Source\Architecture\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\AnimatedSprite.cpp">
+      <Filter>Source\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\GameData.cpp">
+      <Filter>Source\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Timer.cpp">
+      <Filter>Source\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\birdman-the-game-teambirb\Source\Rng.cpp">
+      <Filter>Source\Architecture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Client\GameFont.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -32,6 +89,87 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\targetver.h">
       <Filter>Headers\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\GameData.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Timer.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Messages\FunctionMessage.hpp">
+      <Filter>Headers\Architecture\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Messages\Message.hpp">
+      <Filter>Headers\Architecture\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Messages\MessageQueue.hpp">
+      <Filter>Headers\Architecture\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\Packet.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Signals\Connection.hpp">
+      <Filter>Headers\Architecture\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Signals\Disconnector.hpp">
+      <Filter>Headers\Architecture\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Signals\Signal.hpp">
+      <Filter>Headers\Architecture\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Signals\Slot.hpp">
+      <Filter>Headers\Architecture\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\UI\Button.hpp">
+      <Filter>Headers\Architecture\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp">
+      <Filter>Headers\Architecture\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineNone.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineSFML.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngine.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Dialogues\DialogueTree.hpp">
+      <Filter>Headers\Architecture\Dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Dialogues\Actor.hpp">
+      <Filter>Headers\Architecture\Dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Dialogues\Dialogue.hpp">
+      <Filter>Headers\Architecture\Dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\StateManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\AudioManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\FontManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\InputManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\NetworkManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Rng.h">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\birdman-the-game-teambirb\Source\Constants.hpp">
+      <Filter>Headers\Architecture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +184,54 @@
     </Filter>
     <Filter Include="Headers\Platform">
       <UniqueIdentifier>{fc276487-b5f7-4e8c-8498-69fb1506831b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture">
+      <UniqueIdentifier>{c1fc3e74-1850-46c3-8167-74027f4fda3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Audio">
+      <UniqueIdentifier>{9921678f-2537-4786-ae51-000850748a49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Dialogues">
+      <UniqueIdentifier>{8b5fc484-71c7-4bca-86e4-a7d8233d1695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Managers">
+      <UniqueIdentifier>{be3798af-fe25-4fd2-b768-74f1611df3cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Messages">
+      <UniqueIdentifier>{5d5dc1fd-5010-4c62-a981-cce47201c601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Networking">
+      <UniqueIdentifier>{7554d16f-983c-4edc-8d5d-3e8c715b7796}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Signals">
+      <UniqueIdentifier>{d5b73402-6485-4ab8-8bd2-070d44eb209d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\UI">
+      <UniqueIdentifier>{55ce208e-2619-4849-889e-a456b39b9ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture">
+      <UniqueIdentifier>{7a99f90e-2612-491a-b573-9a1e1fd02279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Audio">
+      <UniqueIdentifier>{3095cd56-5874-45fe-94ab-50333772dfd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Dialogues">
+      <UniqueIdentifier>{fe1ef675-82c8-4f4c-8a1d-f0e8aeb7d7b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Managers">
+      <UniqueIdentifier>{863c5a16-2f67-41d6-91e1-2662b8a4dd82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Messages">
+      <UniqueIdentifier>{8ef7a566-33bb-438d-aa04-a4fb9f3e423f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Networking">
+      <UniqueIdentifier>{91ec13f7-9738-4770-a6bb-9c04b71a4aa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Signals">
+      <UniqueIdentifier>{98018cab-6dcd-43a4-81bc-b04dddbb7c20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\UI">
+      <UniqueIdentifier>{d3f76600-e8c2-4cb9-a08a-9776a44f01f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
