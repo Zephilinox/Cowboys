@@ -3,6 +3,9 @@
 #include <Engine\Sprite.h>
 #include <Client\Networking.h>
 
+//SELF
+#include "../Architecture/GameData.hpp"
+
 namespace ASGE {
 	struct GameTime;
 }
@@ -82,5 +85,7 @@ private:
 							       The networking component used for clients. */
 	int key_handler_id = -1;  /**< Input Callback ID. 
 							       The callback ID assigned by the game engine. */
+
+	std::unique_ptr<GameData> game_data;
 };
 

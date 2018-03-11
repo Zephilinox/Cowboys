@@ -6,13 +6,13 @@
 NetworkManager::NetworkManager(GameData* game_data)
 	: game_data(game_data)
 {
-	enetpp::global_state::get().initialize();
+	//enetpp::global_state::get().initialize();
 }
 
 NetworkManager::~NetworkManager()
 {
 	reset();
-	enetpp::global_state::get().deinitialize();
+	//enetpp::global_state::get().deinitialize();
 }
 
 void NetworkManager::initialize(bool hostServer)

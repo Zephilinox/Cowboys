@@ -1,0 +1,10 @@
+{
+	"AudioEngine": 1,
+	
+	"GamePad": {
+		"Up": 10,
+		"Down": 12,
+		"Enter": 0,
+		"Escape": 7
+	}
+}

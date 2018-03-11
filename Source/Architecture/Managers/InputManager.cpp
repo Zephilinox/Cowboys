@@ -4,7 +4,7 @@
 #include <cassert>
 
 //LIB
-#include <ini_parser.hpp>
+#include <jsoncons/json.hpp>
 
 /**
 *   @brief   Constructor.
@@ -21,18 +21,25 @@ InputManager::InputManager(ASGE::Input* input) noexcept
 
 	callback_id = input->addCallbackFnc(ASGE::EventType::E_GAMEPAD_STATUS, &InputManager::gamepadHandler, this);
 
-	ini_parser parser("settings.ini");
-
 	try
 	{
-		gamepad_button_up = parser.get_int("GamePadUp") + ASGE::KEYS::KEY_LAST;
-		gamepad_button_down = parser.get_int("GamePadDown") + ASGE::KEYS::KEY_LAST;
-		gamepad_button_enter = parser.get_int("GamePadEnter") + ASGE::KEYS::KEY_LAST;
-		gamepad_button_escape = parser.get_int("GamePadEscape") + ASGE::KEYS::KEY_LAST;
+		std::ifstream file("../../Resources/settings.json");
+
+		jsoncons::json settings;
+		file >> settings;
+
+		gamepad_button_up = settings["GamePad"]["Up"].as_int() + ASGE::KEYS::KEY_LAST;
+		gamepad_button_down = settings["GamePad"]["Down"].as_int() + ASGE::KEYS::KEY_LAST;
+		gamepad_button_enter = settings["GamePad"]["Enter"].as_int() + ASGE::KEYS::KEY_LAST;
+		gamepad_button_escape = settings["GamePad"]["Escape"].as_int() + ASGE::KEYS::KEY_LAST;
+		std::cout << "GamePadUp: " << settings["GamePad"]["Up"].as_int() << "\n";
+		std::cout << "GamePadDown: " << settings["GamePad"]["Down"].as_int() << "\n";
+		std::cout << "GamePadEnter: " << settings["GamePad"]["Enter"].as_int() << "\n";
+		std::cout << "GamePadEscape: " << settings["GamePad"]["Escape"].as_int() << "\n";
 	}
 	catch (std::exception& e)
 	{
-		std::cout << e.what() << "\n";
+		std::cout << "ERROR INFO: " << e.what() << "\n";
 	}
 }
 

@@ -23,6 +23,8 @@ bool MyNetGame::init()
 		return false;
 	}
 
+	game_data = std::make_unique<GameData>(renderer.get(), this->inputs.get(), game_width, game_height);
+
 	renderer->setWindowTitle("My Network Game");
 	renderer->setClearColour(ASGE::COLOURS::CORNFLOWERBLUE);
 	renderer->setSpriteMode(ASGE::SpriteSortMode::BACK_TO_FRONT);

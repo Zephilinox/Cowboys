@@ -4,7 +4,7 @@
 #include <assert.h>
 
 //LIB
-#include <ini_parser.hpp>
+#include <jsoncons/json.hpp>
 
 GameData::GameData(ASGE::Renderer* renderer, ASGE::Input* input, int width, int height)
 	: renderer(renderer)
@@ -18,15 +18,16 @@ GameData::GameData(ASGE::Renderer* renderer, ASGE::Input* input, int width, int 
 {
 	assert(renderer);
 
-	ini_parser ini("settings.ini");
-
 	try
 	{
-		audio_manager.setEngineType(ini.get_int("AudioEngine"));
+		std::ifstream file("../../Resources/settings.json");
+		jsoncons::json settings;
+		file >> settings;
+		audio_manager.setEngineType(settings["AudioEngine"].as_int());
+		std::cout << "AudioEngine: " << settings["AudioEngine"].as_int() << "\n";
 	}
 	catch (std::runtime_error& e)
 	{
-		std::cout << "ERROR: Setting 'AudioEngine' not found in 'settings.ini'.\n";
 		std::cout << "ERROR INFO: " << e.what() << "\n";
 	}
 }
