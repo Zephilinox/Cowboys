@@ -22,7 +22,6 @@ public:
 	InputManager* getInputManager() noexcept;
 	FontManager* getFontManager() noexcept;
 	MessageQueue* getMessageQueue() noexcept;
-	AudioManager* getAudioManager() noexcept;
 	NetworkManager* getNetworkManager() noexcept;
 	Rng* getRandomNumberGenerator() noexcept;
 	
@@ -53,8 +52,6 @@ private:
 	MessageQueue message_queue;
 
 	Rng random_number_gen;
-
-	AudioManager audio_manager;
 
 	NetworkManager network_manager;
 

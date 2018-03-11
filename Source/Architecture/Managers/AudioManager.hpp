@@ -6,30 +6,29 @@
 
 //SELF
 #include "../Audio/AudioEngine.hpp"
+#include "../Audio/AudioEngineIrrklang.hpp"
+#include "../Audio/AudioEngineSFML.hpp"
+#include "../Audio/AudioEngineNone.hpp"
 
-//This is a factory atm, might become more later though.
-class AudioManager
+enum AudioEngineType
+{
+	None = 0,
+	IrrKlang = 1,
+	SFML = 2
+};
+
+class AudioLocator
 {
 public:
-	enum Engine
+	static void set(AudioEngine* audio_engine);
+	static void set(int engine_type);
+
+	inline static AudioEngine* get()
 	{
-		None = 0,
-		IrrKlang = 1,
-		SFML = 2
-	};
-
-	AudioManager(Engine engine, const std::string audio_path);
-	AudioManager(const std::string audio_path);
-	AudioEngine* getAudioEngine() const noexcept;
-	Engine getEngineType() const noexcept;
-
-	void setEngineType(int engine);
-
-	void play(const std::string& name, bool loop = false);
-	void reset();
+		return audio.get();
+	}
 
 private:
-	std::unique_ptr<AudioEngine> audio_engine;
-	Engine engine;
-	std::string audio_path;
+	static const std::string path;
+	static std::unique_ptr<AudioEngine> audio;
 };

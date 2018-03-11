@@ -4,6 +4,7 @@
 #include "../GameData.hpp"
 #include "../Managers/InputManager.hpp"
 #include "../Constants.hpp"
+#include "../Managers/AudioManager.hpp"
 
 Menu::Menu(GameData* game_data, bool vertical)
 	: game_data(game_data)
@@ -42,7 +43,7 @@ void Menu::update()
 
 	if (game_data->getInputManager()->isActionPressed("enter"))
 	{
-		game_data->getAudioManager()->play("button_click.wav");
+		AudioLocator::get()->play("button_click.wav");
 
 		if (buttons.size())
 		{
@@ -100,5 +101,5 @@ void Menu::selectButton(int button_id)
 	selected_button_id = button_id;
 	buttons[selected_button_id].setSelected(true);
 
-	game_data->getAudioManager()->play("button_select.wav");
+	AudioLocator::get()->play("button_select.wav");
 }

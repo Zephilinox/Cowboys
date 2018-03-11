@@ -11,7 +11,6 @@ GameData::GameData(ASGE::Renderer* renderer, ASGE::Input* input, int width, int 
 	, state_manager(this)
 	, input_manager(input)
 	, font_manager(renderer)
-	, audio_manager("Resources/Sounds/")
 	, network_manager(this) //todo: evaluate if needed
 	, window_width(width)
 	, window_height(height)
@@ -23,7 +22,7 @@ GameData::GameData(ASGE::Renderer* renderer, ASGE::Input* input, int width, int 
 		std::ifstream file("../../Resources/settings.json");
 		jsoncons::json settings;
 		file >> settings;
-		audio_manager.setEngineType(settings["AudioEngine"].as_int());
+		AudioLocator::set(settings["AudioEngine"].as_int());
 		std::cout << "AudioEngine: " << settings["AudioEngine"].as_int() << "\n";
 	}
 	catch (std::runtime_error& e)
@@ -55,11 +54,6 @@ MessageQueue* GameData::getMessageQueue() noexcept
 StateManager* GameData::getStateManager() noexcept
 {
 	return &state_manager;
-}
-
-AudioManager* GameData::getAudioManager() noexcept
-{
-	return &audio_manager;
 }
 
 Rng* GameData::getRandomNumberGenerator() noexcept
