@@ -4,7 +4,7 @@
 #include "../GameData.hpp"
 #include "../Managers/InputManager.hpp"
 #include "../Constants.hpp"
-#include "../Managers/AudioManager.hpp"
+#include "../Audio/AudioLocator.hpp"
 
 Menu::Menu(GameData* game_data, bool vertical)
 	: game_data(game_data)

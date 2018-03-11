@@ -136,11 +136,11 @@
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineNone.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineSFML.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Actor.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Dialogue.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\DialogueTree.hpp" />
     <ClInclude Include="..\..\Source\Architecture\GameData.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Managers\AudioManager.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Managers\FontManager.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Managers\InputManager.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Managers\NetworkManager.hpp" />
@@ -169,11 +169,11 @@
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineNone.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineSFML.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioLocator.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\Actor.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\Dialogue.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\DialogueTree.cpp" />
     <ClCompile Include="..\..\Source\Architecture\GameData.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Managers\AudioManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Managers\FontManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Managers\InputManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Managers\NetworkManager.cpp" />

@@ -40,9 +40,6 @@
     <ClCompile Include="..\..\Source\Architecture\Managers\StateManager.cpp">
       <Filter>Source\Architecture\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Architecture\Managers\AudioManager.cpp">
-      <Filter>Source\Architecture\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Architecture\Managers\FontManager.cpp">
       <Filter>Source\Architecture\Managers</Filter>
     </ClCompile>
@@ -75,6 +72,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\birdman-the-game-teambirb\Source\Rng.cpp">
       <Filter>Source\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioLocator.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,9 +153,6 @@
     <ClInclude Include="..\..\Source\Architecture\Managers\StateManager.hpp">
       <Filter>Headers\Architecture\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Architecture\Managers\AudioManager.hpp">
-      <Filter>Headers\Architecture\Managers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\Managers\FontManager.hpp">
       <Filter>Headers\Architecture\Managers</Filter>
     </ClInclude>
@@ -170,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\birdman-the-game-teambirb\Source\Constants.hpp">
       <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

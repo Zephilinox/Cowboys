@@ -6,6 +6,9 @@
 //LIB
 #include <jsoncons/json.hpp>
 
+//SELF
+#include "Audio/AudioLocator.hpp";
+
 GameData::GameData(ASGE::Renderer* renderer, ASGE::Input* input, int width, int height)
 	: renderer(renderer)
 	, state_manager(this)
