@@ -36,6 +36,9 @@
     <ClInclude Include="..\..\Source\Common\stdafx.h">
       <Filter>Header Files\Platform</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Common\Constants.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Common\stdafx.cpp">

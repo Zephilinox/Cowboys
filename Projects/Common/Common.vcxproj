@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\Common\Component.h" />
     <ClInclude Include="..\..\Source\Common\Components.h" />
+    <ClInclude Include="..\..\Source\Common\Constants.hpp" />
     <ClInclude Include="..\..\Source\Common\Networking.h" />
     <ClInclude Include="..\..\Source\Common\stdafx.h" />
     <ClInclude Include="..\..\Source\Common\targetver.h" />
