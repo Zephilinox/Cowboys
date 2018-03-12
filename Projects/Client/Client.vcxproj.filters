@@ -70,11 +70,11 @@
     <ClCompile Include="..\..\Source\Architecture\Timer.cpp">
       <Filter>Source\Architecture</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\birdman-the-game-teambirb\Source\Rng.cpp">
-      <Filter>Source\Architecture</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioLocator.cpp">
       <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Rng.cpp">
+      <Filter>Source\Architecture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,14 +162,14 @@
     <ClInclude Include="..\..\Source\Architecture\Managers\NetworkManager.hpp">
       <Filter>Headers\Architecture\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Architecture\Rng.h">
-      <Filter>Headers\Architecture</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\birdman-the-game-teambirb\Source\Constants.hpp">
       <Filter>Headers\Architecture</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp">
       <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Rng.h">
+      <Filter>Headers\Architecture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
