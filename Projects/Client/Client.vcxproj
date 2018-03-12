@@ -164,7 +164,6 @@
     <ClInclude Include="SpritePaths.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\birdman-the-game-teambirb\Source\Rng.cpp" />
     <ClCompile Include="..\..\Source\Architecture\AnimatedSprite.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngine.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.cpp" />
@@ -181,6 +180,7 @@
     <ClCompile Include="..\..\Source\Architecture\Managers\StateManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Messages\MessageQueue.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Networking\Packet.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Rng.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Signals\Connection.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Timer.cpp" />
     <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp" />

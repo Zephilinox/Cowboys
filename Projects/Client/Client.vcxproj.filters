@@ -70,14 +70,14 @@
     <ClCompile Include="..\..\Source\Architecture\Timer.cpp">
       <Filter>Source\Architecture</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\birdman-the-game-teambirb\Source\Rng.cpp">
-      <Filter>Source\Architecture</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioLocator.cpp">
       <Filter>Source\Architecture\Audio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Client\Character.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Rng.cpp">
+      <Filter>Source\Architecture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
