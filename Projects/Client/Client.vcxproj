@@ -157,11 +157,14 @@
     <ClInclude Include="..\..\Source\Architecture\Signals\Disconnector.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Signals\Signal.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Signals\Slot.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\State.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Timer.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Button.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
     <ClInclude Include="..\..\Source\Client\Networking.h" />
+    <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
+    <ClInclude Include="..\..\Source\Client\States\StatePingPong.hpp" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
     <ClInclude Include="..\..\Source\Client\targetver.h" />
   </ItemGroup>
@@ -191,6 +194,8 @@
     <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp" />
     <ClCompile Include="..\..\Source\Client\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">Create</PrecompiledHeader>

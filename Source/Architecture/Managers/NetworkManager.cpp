@@ -10,12 +10,13 @@ NetworkManager::NetworkManager(GameData* game_data)
 	: game_data(game_data)
 {
 	enetpp::global_state::get().initialize();
-	network_thread = std::thread(&NetworkManager::update, this);
+	network_thread = std::thread(&NetworkManager::runThreadedNetworking, this);
 	network_thread.detach();
 }
 
 NetworkManager::~NetworkManager()
 {
+	exit_thread = true;
 	enetpp::global_state::get().deinitialize();
 	if (network)
 	{
@@ -37,9 +38,9 @@ void NetworkManager::initialize(bool server)
 	network->initialize();
 }
 
-void NetworkManager::update()
+void NetworkManager::runThreadedNetworking()
 {
-	while (true)
+	while (!exit_thread)
 	{
 		if (network)
 		{

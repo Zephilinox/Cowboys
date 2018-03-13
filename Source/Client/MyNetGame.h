@@ -26,7 +26,7 @@ public:
 	/**
 	*  Default constructor for game.
 	*/
-	MyNetGame();
+	MyNetGame() = default;
 	
 	/**
 	*  Destructor for game.
@@ -54,7 +54,7 @@ private:
 	*  @param us The ms time between frames and running time
 	*  @see GameTime
 	*/
-	virtual void update(const ASGE::GameTime& ms) override;
+	virtual void update(const ASGE::GameTime& gt) override;
 	
 	/**
 	*  The rendering of the game.
@@ -64,7 +64,7 @@ private:
 	*  @param us The delta time between frames and running time
 	*  @see GameTime
 	*/
-	virtual void render(const ASGE::GameTime& ms) override;
+	virtual void render(const ASGE::GameTime& gt) override;
 
 	/**
 	*  The key handling function for the game.
@@ -78,11 +78,11 @@ private:
 	void keyHandler(const ASGE::SharedEventData data);
 
 private:
-	int key_handler_id = -1;  /**< Input Callback ID. 
-							       The callback ID assigned by the game engine. */
-
 	std::unique_ptr<GameData> game_data;
 
-	std::unique_ptr<Menu> menu;
+	int key_handler_id = -1;
+	bool capFPS;
+
+	Timer networkHello;
 };
 

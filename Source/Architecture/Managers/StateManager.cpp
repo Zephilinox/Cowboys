@@ -4,7 +4,7 @@
 #include <iostream>
 
 //SELF
-#include "../BaseState.hpp"
+#include "../State.hpp"
 #include "../GameData.hpp"
 
 StateManager::StateManager(GameData* game_data) noexcept
@@ -45,7 +45,7 @@ void StateManager::render() const
 	}
 }
 
-BaseState* StateManager::top() const
+State* StateManager::top() const
 {
 	if (states.empty())
 	{

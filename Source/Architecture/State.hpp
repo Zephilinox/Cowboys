@@ -8,11 +8,11 @@
 
 class GameData;
 
-class BaseState
+class State
 {
 public:
-	BaseState() = delete;
-	virtual ~BaseState() noexcept = default;
+	State() = delete;
+	virtual ~State() noexcept = default;
 
 	/**
 	*   @brief   Processes game logic
@@ -49,7 +49,7 @@ public:
 	}
 
 protected:
-	BaseState(GameData* game_data, bool render_previous_state = false)
+	State(GameData* game_data, bool render_previous_state = false)
 		: game_data(game_data)
 		, render_previous_state(render_previous_state)
 	{}

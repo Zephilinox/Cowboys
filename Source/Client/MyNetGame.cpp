@@ -2,14 +2,12 @@
 
 #include "MyNetGame.h"
 
+#include "States/StateMenu.hpp"
+
 namespace {
 	const float BACKGROUND_LAYER = 0.0f;
 	const float FOREGROUND_LAYER = 1.0f;
 };
-
-MyNetGame::MyNetGame()
-{
-}
 
 MyNetGame::~MyNetGame()
 {
@@ -26,16 +24,16 @@ bool MyNetGame::init()
 		return false;
 	}
 
-	renderer->setWindowTitle("My Network Game");
-	const float dark_grey[3] = { 0.1f, 0.1f, 0.1f };
+	renderer->setWindowTitle("The Game With Fun Hats");
+	const float dark_grey[] = { 0.08f, 0.08f, 0.08f };
 	renderer->setClearColour(dark_grey);
 	renderer->setSpriteMode(ASGE::SpriteSortMode::BACK_TO_FRONT);
 	toggleFPS();
 
-	this->inputs->use_threads = false;
+	this->inputs->use_threads = true;
 
-	key_handler_id = this->inputs->addCallbackFnc(
-		ASGE::EventType::E_KEY, &MyNetGame::keyHandler, this);
+	//todo: do this in input manager directly
+	key_handler_id = this->inputs->addCallbackFnc(ASGE::EventType::E_KEY, &MyNetGame::keyHandler, this);
 
 	game_data = std::make_unique<GameData>(renderer.get(), inputs.get(), game_width, game_height);
 
@@ -55,30 +53,65 @@ bool MyNetGame::init()
 
 	game_data->getFontManager()->addFont("../../Resources/Fonts/Zorque.ttf", "Default", 24);
 
-	menu = std::make_unique<Menu>(game_data.get());
-	menu->addButton(500, 300, "SERVER", ASGE::COLOURS::GREY, ASGE::COLOURS::WHITE);
-	menu->addButton(500, 400, "CLIENT", ASGE::COLOURS::GREY, ASGE::COLOURS::WHITE);
+	game_data->getStateManager()->push<StateMenu>();
 
-	menu->getButton(0).on_click.connect([&]()
+	game_data->getMessageQueue()->addListener([](Message* msg)
 	{
-		game_data->getNetworkManager()->initialize(true);
+		std::cout << "Processed\t" << msg->id << "\n";
 	});
 
-	menu->getButton(1).on_click.connect([&]()
+	game_data->getMessageQueue()->addListener([](Message* msg)
 	{
-		game_data->getNetworkManager()->initialize(false);
+		if (msg->id == FunctionMessage::ID)
+		{
+			std::cout << "Executed\t" << msg->id << "\n";
+			FunctionMessage* func = static_cast<FunctionMessage*>(msg);
+			func->execute();
+		}
 	});
 		
 	return true;
 }
 
-void MyNetGame::update(const ASGE::GameTime& ms)
+void MyNetGame::update(const ASGE::GameTime& gt)
 {
-	game_data->getInputManager()->update();
-	menu->update();
-
-	if (game_data->getNetworkManager()->network)
+	if (capFPS && 5 - gt.delta_time.count() > 0)
 	{
+		std::this_thread::sleep_for(
+			std::chrono::duration<double, std::milli>(5 - gt.delta_time.count())
+		);
+	}
+
+	game_data->getMessageQueue()->processMessages(3ms);
+	game_data->getInputManager()->update();
+	game_data->getStateManager()->update(gt);
+
+	if (game_data->getInputManager()->isKeyPressed(ASGE::KEYS::KEY_F1))
+	{
+		if (renderer->getWindowMode() == ASGE::Renderer::WindowMode::WINDOWED)
+		{
+			renderer->setWindowedMode(ASGE::Renderer::WindowMode::FULLSCREEN);
+		}
+		else
+		{
+			renderer->setWindowedMode(ASGE::Renderer::WindowMode::WINDOWED);
+		}
+	}
+
+	if (game_data->getInputManager()->isKeyPressed(ASGE::KEYS::KEY_F2))
+	{
+		toggleFPS();
+	}
+
+	if (game_data->getInputManager()->isKeyPressed(ASGE::KEYS::KEY_F3))
+	{
+		capFPS = !capFPS;
+		std::cout << "capFPS " << std::boolalpha << capFPS << "\n";
+	}
+
+	/*if (networkHello.getElapsedTime() > 1 && game_data->getNetworkManager()->network)
+	{
+		networkHello.restart();
 		auto network = game_data->getNetworkManager()->network.get();
 
 		if (network->isConnected())
@@ -94,36 +127,17 @@ void MyNetGame::update(const ASGE::GameTime& ms)
 			}
 			network->sendPacket(0, &p);
 		}
+	}*/
 
+	if (renderer->exit() || this->exit || game_data->exit || game_data->getStateManager()->empty())
+	{
+		signalExit();
 	}
 }
 
-void MyNetGame::render(const ASGE::GameTime& ms)
+void MyNetGame::render(const ASGE::GameTime& gt)
 {
-	if (game_data->getNetworkManager()->network)
-	{
-		if (game_data->getNetworkManager()->network->isConnected())
-		{
-			renderer->renderText("CONNECTED", 250, 100, ASGE::COLOURS::WHITE);
-		}
-		else
-		{
-			renderer->renderText("DISCONNECTED", 250, 100, ASGE::COLOURS::WHITE);
-		}
-
-		if (game_data->getNetworkManager()->network->isServer())
-		{
-			renderer->renderText("SERVER", 250, 50, ASGE::COLOURS::WHITE);
-		}
-		else
-		{
-			renderer->renderText("CLIENT", 250, 50, ASGE::COLOURS::WHITE);
-		}
-	}
-	else
-	{
-		menu->render();
-	}
+	game_data->getStateManager()->render();
 }
 
 void MyNetGame::keyHandler(const ASGE::SharedEventData data)
@@ -135,9 +149,4 @@ void MyNetGame::keyHandler(const ASGE::SharedEventData data)
 	auto action = key_event->action;
 
 	game_data->getInputManager()->handleInput(key, action);
-
-	if (key == ASGE::KEYS::KEY_ESCAPE)
-	{
-		signalExit();
-	}
 }
