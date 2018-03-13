@@ -14,7 +14,6 @@ MyNetGame::MyNetGame()
 MyNetGame::~MyNetGame()
 {
 	this->inputs->unregisterCallback(key_handler_id);
-	//network.deinitialize();
 }
 
 bool MyNetGame::init()
@@ -77,6 +76,26 @@ void MyNetGame::update(const ASGE::GameTime& ms)
 {
 	game_data->getInputManager()->update();
 	menu->update();
+
+	if (game_data->getNetworkManager()->network)
+	{
+		auto network = game_data->getNetworkManager()->network.get();
+
+		if (network->isConnected())
+		{
+			Packet p;
+			if (network->isServer())
+			{
+				p << std::string("Hello from server [" + std::to_string(network->getClientID()) + "]\n");
+			}
+			else
+			{
+				p << std::string("Hello from client " + std::to_string(network->getClientID()) + "\n");
+			}
+			network->sendPacket(0, &p);
+		}
+
+	}
 }
 
 void MyNetGame::render(const ASGE::GameTime& ms)

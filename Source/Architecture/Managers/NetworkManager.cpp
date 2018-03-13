@@ -41,7 +41,6 @@ void NetworkManager::update()
 {
 	while (true)
 	{
-		std::cout << "Network Tick\n";
 		if (network)
 		{
 			network->processEvents();

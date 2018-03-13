@@ -52,6 +52,10 @@ void NetworkServer::processEvents()
 	auto on_client_data_received = [&](ClientInfo& client, const enet_uint8* data, size_t data_size)
 	{
 		//client_sent_packet.emit(&client, { data, data_size });
+		Packet p(data, data_size);
+		std::string msg;
+		p >> msg;
+		std::cout << msg;
 	};
 
 	server.consume_events(std::move(on_client_connected),

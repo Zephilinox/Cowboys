@@ -34,7 +34,6 @@ void NetworkClient::processEvents()
 
 	auto on_data_received = [this](const enet_uint8* data, size_t data_size)
 	{
-		std::cout << "Client Received Packet\n";
 		Packet p(data, data_size);
 		if (p.getID() == hash("ClientID"))
 		{
@@ -43,6 +42,9 @@ void NetworkClient::processEvents()
 		}
 		else
 		{
+			std::string msg;
+			p >> msg;
+			std::cout << msg;
 		}
 	};
 
