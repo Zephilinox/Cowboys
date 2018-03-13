@@ -22,16 +22,19 @@ void NetworkClient::processEvents()
 {
 	auto on_connected = [&]()
 	{
+		std::cout << "Client Connected\n";
 		client_connected_to_server = true;
 	};
 
 	auto on_disconnected = [&]()
 	{
+		std::cout << "Client Disconnected\n";
 		client_connected_to_server = false;
 	};
 
 	auto on_data_received = [this](const enet_uint8* data, size_t data_size)
 	{
+		std::cout << "Client Received Packet\n";
 		Packet p(data, data_size);
 		if (p.getID() == hash("ClientID"))
 		{
@@ -40,7 +43,6 @@ void NetworkClient::processEvents()
 		}
 		else
 		{
-
 		}
 	};
 

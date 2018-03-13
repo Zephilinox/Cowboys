@@ -39,12 +39,13 @@ void NetworkServer::processEvents()
 {
 	auto on_client_connected = [&](ClientInfo& client)
 	{
-		std::cout << "client " << client.id << " connected \n";
+		std::cout << "client " << client.id << " connected\n";
 		//client_connected.emit(&client);
 	};
 
 	auto on_client_disconnected = [&](uint32_t client_uid)
 	{
+		std::cout << "client " << client_uid << " disconnected\n";
 		//client_disconnected.emit(client_uid);
 	};
 
@@ -60,7 +61,7 @@ void NetworkServer::processEvents()
 
 bool NetworkServer::isConnected() const
 {
-	return false;
+	return server.get_connected_clients().size();
 }
 
 bool NetworkServer::isServer() const
