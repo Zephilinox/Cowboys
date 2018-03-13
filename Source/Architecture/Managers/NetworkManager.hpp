@@ -25,8 +25,9 @@ public:
 	std::unique_ptr<Network> network;
 
 private:
-	void update();
+	void runThreadedNetworking();
 
 	GameData* game_data;
 	std::thread network_thread;
+	bool exit_thread = false;
 };

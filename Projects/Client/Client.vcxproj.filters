@@ -79,6 +79,12 @@
     <ClCompile Include="..\..\Source\Architecture\Rng.cpp">
       <Filter>Source\Architecture</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
@@ -183,6 +189,15 @@
     <ClInclude Include="..\..\Source\Architecture\Networking\Network.hpp">
       <Filter>Headers\Architecture\Networking</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StatePingPong.hpp">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\State.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -244,6 +259,12 @@
     </Filter>
     <Filter Include="Source\Architecture\UI">
       <UniqueIdentifier>{d3f76600-e8c2-4cb9-a08a-9776a44f01f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\States">
+      <UniqueIdentifier>{2175b590-58c3-437a-8940-4ea568252d02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\States">
+      <UniqueIdentifier>{5bb78bc3-e8ed-4eaf-ae05-645c9eeaf6e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

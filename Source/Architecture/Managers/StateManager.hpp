@@ -10,7 +10,7 @@
 
 //SELF
 #include "../Messages/MessageQueue.hpp"
-#include "../BaseState.hpp"
+#include "../State.hpp"
 #include "../Messages/FunctionMessage.hpp"
 
 class GameData;
@@ -27,12 +27,12 @@ public:
 	template <class T> void push();
 	template <class T, class... Args> void push(Args... args);
 
-	BaseState* top() const;
+	State* top() const;
 	bool empty() const noexcept;
 
 private:
 	GameData* game_data;
-	std::vector<std::unique_ptr<BaseState>> states;
+	std::vector<std::unique_ptr<State>> states;
 };
 
 template <class T>
