@@ -148,6 +148,9 @@
     <ClInclude Include="..\..\Source\Architecture\Messages\FunctionMessage.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Messages\Message.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Messages\MessageQueue.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Networking\Network.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Networking\NetworkClient.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Networking\NetworkServer.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Networking\Packet.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Rng.h" />
     <ClInclude Include="..\..\Source\Architecture\Signals\Connection.hpp" />
@@ -179,6 +182,8 @@
     <ClCompile Include="..\..\Source\Architecture\Managers\NetworkManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Managers\StateManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Messages\MessageQueue.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Networking\NetworkClient.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Networking\NetworkServer.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Networking\Packet.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Signals\Connection.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Timer.cpp" />
@@ -186,17 +191,11 @@
     <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
-    <ClCompile Include="..\..\Source\Client\Networking.cpp" />
     <ClCompile Include="..\..\Source\Client\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.vcxproj">
-      <Project>{fd6a68bf-5aae-4c47-82da-0ec7d4ec4529}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

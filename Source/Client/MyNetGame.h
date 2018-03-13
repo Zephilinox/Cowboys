@@ -1,7 +1,6 @@
 #pragma once
 #include <Engine\OGLGame.h>
 #include <Engine\Sprite.h>
-#include <Client\Networking.h>
 
 //SELF
 #include "../Architecture/GameData.hpp"
@@ -78,11 +77,6 @@ private:
 	void keyHandler(const ASGE::SharedEventData data);
 
 private:
-	
-	std::thread th;           /**< Network Event Thread. 
-							       Consumes incoming network events. */
-	ClientComponent network;  /**< Network Component. 
-							       The networking component used for clients. */
 	int key_handler_id = -1;  /**< Input Callback ID. 
 							       The callback ID assigned by the game engine. */
 
