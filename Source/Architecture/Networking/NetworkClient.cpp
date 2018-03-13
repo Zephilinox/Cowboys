@@ -37,8 +37,8 @@ void NetworkClient::processEvents()
 		Packet p(data, data_size);
 		if (p.getID() == hash("ClientID"))
 		{
-			p >> clientID;
-			std::cout << "ClientID " << this->clientID << " received\n";
+			p >> id;
+			std::cout << "ClientID " << this->id << " received\n";
 		}
 		else
 		{

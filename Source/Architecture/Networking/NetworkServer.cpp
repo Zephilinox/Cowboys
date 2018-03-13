@@ -7,7 +7,7 @@ void NetworkServer::initialize()
 {
 	initialized = true;
 	
-	clientID = 1;
+	id = 1;
 
 	auto client_init = [&](ClientInfo& client, const char* ip)
 	{

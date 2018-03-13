@@ -28,6 +28,5 @@ private:
 	void update();
 
 	GameData* game_data;
-
 	std::thread network_thread;
 };

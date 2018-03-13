@@ -41,12 +41,12 @@ public:
 		return initialized;
 	}
 
-	inline uint32_t getClientID()
+	inline uint32_t getID()
 	{
-		return clientID;
+		return id;
 	}
 
 protected:
 	bool initialized;
-	uint32_t clientID;
+	uint32_t id;
 };

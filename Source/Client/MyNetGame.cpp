@@ -86,11 +86,11 @@ void MyNetGame::update(const ASGE::GameTime& ms)
 			Packet p;
 			if (network->isServer())
 			{
-				p << std::string("Hello from server [" + std::to_string(network->getClientID()) + "]\n");
+				p << std::string("Hello from server [" + std::to_string(network->getID()) + "]\n");
 			}
 			else
 			{
-				p << std::string("Hello from client " + std::to_string(network->getClientID()) + "\n");
+				p << std::string("Hello from client " + std::to_string(network->getID()) + "\n");
 			}
 			network->sendPacket(0, &p);
 		}
