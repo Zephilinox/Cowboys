@@ -10,14 +10,25 @@ NetworkManager::NetworkManager(GameData* game_data)
 	: game_data(game_data)
 {
 	enetpp::global_state::get().initialize();
-	network = std::move(std::make_unique<NetworkServer>());
-	network_thread = std::thread(&NetworkManager::update, this);
-	network_thread.detach();
+	//network_thread = std::thread(&NetworkManager::update, this);
+	//network_thread.detach();
 }
 
 NetworkManager::~NetworkManager()
 {
 	enetpp::global_state::get().deinitialize();
+}
+
+void NetworkManager::initialize(bool server)
+{
+	if (server)
+	{
+		network = std::move(std::make_unique<NetworkServer>());
+	}
+	else
+	{
+		network = std::move(std::make_unique<NetworkClient>());
+	}
 }
 
 void NetworkManager::update()

@@ -9,8 +9,8 @@
 #include <enetpp/server.h>
 
 //SELF
-#include "../Networking/Network.hpp"
 #include "../Networking/NetworkServer.hpp"
+#include "../Networking/NetworkClient.hpp"
 
 class GameData;
 
@@ -20,6 +20,8 @@ public:
 	NetworkManager(GameData* game_data);
 	~NetworkManager();
 
+	void initialize(bool server);
+
 	std::unique_ptr<Network> network;
 
 private:
@@ -28,5 +30,4 @@ private:
 	GameData* game_data;
 
 	std::thread network_thread;
-
 };

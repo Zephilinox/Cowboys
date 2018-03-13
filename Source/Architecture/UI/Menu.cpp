@@ -9,6 +9,7 @@
 Menu::Menu(GameData* game_data, bool vertical)
 	: game_data(game_data)
 {
+	assert(game_data);
 	buttons.reserve(4);
 	selected_button_id = 0;
 }

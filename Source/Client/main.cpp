@@ -5,15 +5,12 @@
 //	PSTR pScmdline, int iCmdshow)
 int main()
 {
-	std::unique_ptr<MyNetGame> game = 
-		std::make_unique<MyNetGame>();
+	MyNetGame game;
 	
-	if (game->init())
+	if (game.init())
 	{
-		return game->run();
+		return game.run();
 	}
-
-	// game failed to initialise
 	else
 	{
 		return -1;
