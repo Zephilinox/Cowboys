@@ -20,9 +20,15 @@ public:
 	}
 };
 
+class GameData;
+
 class Network
 {
 public:
+	Network(GameData* game_data)
+		: game_data(game_data)
+	{};
+
 	virtual ~Network() = default;
 
 	virtual void initialize() = 0;
@@ -47,6 +53,7 @@ public:
 	}
 
 protected:
+	GameData* game_data;
 	bool initialized;
 	uint32_t id;
 };

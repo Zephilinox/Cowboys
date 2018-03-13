@@ -69,7 +69,14 @@ bool MyNetGame::init()
 			func->execute();
 		}
 	});
-		
+	
+	game_data->getNetworkManager()->packet_received.connect([&](Packet p)
+	{
+		std::string msg;
+		p >> msg;
+		std::cout << msg << " from client " << p.senderID << "\n";
+	});
+
 	return true;
 }
 
@@ -83,6 +90,7 @@ void MyNetGame::update(const ASGE::GameTime& gt)
 	}
 
 	game_data->getMessageQueue()->processMessages(3ms);
+	game_data->getNetworkManager()->update();
 	game_data->getInputManager()->update();
 	game_data->getStateManager()->update(gt);
 
@@ -109,7 +117,7 @@ void MyNetGame::update(const ASGE::GameTime& gt)
 		std::cout << "capFPS " << std::boolalpha << capFPS << "\n";
 	}
 
-	/*if (networkHello.getElapsedTime() > 1 && game_data->getNetworkManager()->network)
+	if (networkHello.getElapsedTime() > 2 && game_data->getNetworkManager()->network)
 	{
 		networkHello.restart();
 		auto network = game_data->getNetworkManager()->network.get();
@@ -117,17 +125,11 @@ void MyNetGame::update(const ASGE::GameTime& gt)
 		if (network->isConnected())
 		{
 			Packet p;
-			if (network->isServer())
-			{
-				p << std::string("Hello from server [" + std::to_string(network->getID()) + "]\n");
-			}
-			else
-			{
-				p << std::string("Hello from client " + std::to_string(network->getID()) + "\n");
-			}
+			p.setID(hash("Message"));
+			p << "Hello";
 			network->sendPacket(0, &p);
 		}
-	}*/
+	}
 
 	if (renderer->exit() || this->exit || game_data->exit || game_data->getStateManager()->empty())
 	{

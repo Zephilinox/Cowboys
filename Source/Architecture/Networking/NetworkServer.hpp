@@ -9,6 +9,7 @@
 class NetworkServer : public Network
 {
 public:
+	NetworkServer(GameData* game_data);
 	virtual ~NetworkServer() override final = default;
 
 	virtual void initialize() override final;

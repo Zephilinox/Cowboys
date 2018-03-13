@@ -3,10 +3,16 @@
 //STD
 #include <iostream>
 
+//SELF
+#include "../GameData.hpp"
+
+NetworkServer::NetworkServer(GameData* game_data)
+	: Network(game_data)
+{}
+
 void NetworkServer::initialize()
 {
 	initialized = true;
-	
 	id = 1;
 
 	auto client_init = [&](ClientInfo& client, const char* ip)
@@ -51,11 +57,9 @@ void NetworkServer::processEvents()
 
 	auto on_client_data_received = [&](ClientInfo& client, const enet_uint8* data, size_t data_size)
 	{
-		//client_sent_packet.emit(&client, { data, data_size });
 		Packet p(data, data_size);
-		std::string msg;
-		p >> msg;
-		std::cout << msg;
+		p.senderID = client.id;
+		game_data->getNetworkManager()->pushPacket(std::move(p));
 	};
 
 	server.consume_events(std::move(on_client_connected),

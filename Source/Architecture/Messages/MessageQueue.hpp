@@ -3,6 +3,7 @@
 //STD
 #include <queue>
 #include <chrono>
+#include <mutex>
 
 //SELF
 #include "../Signals/Signal.hpp"

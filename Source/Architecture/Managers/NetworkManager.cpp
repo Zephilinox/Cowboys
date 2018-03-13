@@ -28,14 +28,31 @@ void NetworkManager::initialize(bool server)
 {
 	if (server)
 	{
-		network = std::move(std::make_unique<NetworkServer>());
+		network = std::move(std::make_unique<NetworkServer>(game_data));
 	}
 	else
 	{
-		network = std::move(std::make_unique<NetworkClient>());
+		network = std::move(std::make_unique<NetworkClient>(game_data));
 	}
 
 	network->initialize();
+}
+
+void NetworkManager::update()
+{
+	std::lock_guard<std::mutex> guard(packets_mutex);
+	while (!packets.empty())
+	{
+		auto packet = packets.front();
+		packet_received.emit(packet);
+		packets.pop();
+	}
+}
+
+void NetworkManager::pushPacket(Packet&& p)
+{
+	std::lock_guard<std::mutex> guard(packets_mutex);
+	packets.push(p);
 }
 
 void NetworkManager::runThreadedNetworking()

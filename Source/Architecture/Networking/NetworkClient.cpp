@@ -3,6 +3,13 @@
 //STD
 #include <iostream>
 
+//SELF
+#include "../GameData.hpp"
+
+NetworkClient::NetworkClient(GameData* game_data)
+	: Network(game_data)
+{}
+
 void NetworkClient::initialize()
 {
 	initialized = true;
@@ -42,9 +49,8 @@ void NetworkClient::processEvents()
 		}
 		else
 		{
-			std::string msg;
-			p >> msg;
-			std::cout << msg;
+			p.senderID = 1;
+			game_data->getNetworkManager()->pushPacket(std::move(p));
 		}
 	};
 

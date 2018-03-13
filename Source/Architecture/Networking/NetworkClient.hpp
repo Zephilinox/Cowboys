@@ -9,6 +9,7 @@
 class NetworkClient : public Network
 {
 public:
+	NetworkClient(GameData* game_data);
 	virtual ~NetworkClient() override final = default;
 
 	virtual void initialize() override final;

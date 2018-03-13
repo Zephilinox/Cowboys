@@ -53,6 +53,11 @@ Packet& Packet::operator <<(std::string src)
 	return *this;
 }
 
+Packet& Packet::operator<<(const char* src)
+{
+	return *this << std::string(src);
+}
+
 Packet& Packet::operator <<(int32_t src)
 {
 	serialize(&src, sizeof(src));

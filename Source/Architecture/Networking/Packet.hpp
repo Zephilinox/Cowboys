@@ -32,6 +32,7 @@ struct Packet
 
 	void serialize(void* data, size_t size);
 	Packet& operator <<(std::string src);
+	Packet& operator <<(const char* src);
 	Packet& operator <<(int32_t src);
 	Packet& operator <<(uint32_t src);
 	Packet& operator <<(float src);
@@ -46,4 +47,6 @@ struct Packet
 
 	std::vector<enet_uint8> buffer;
 	size_t deserializePosition = 0;
+
+	uint32_t senderID;
 };
