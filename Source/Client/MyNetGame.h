@@ -1,10 +1,10 @@
 #pragma once
 #include <Engine\OGLGame.h>
 #include <Engine\Sprite.h>
-#include <Client\Networking.h>
 
 //SELF
 #include "../Architecture/GameData.hpp"
+#include "../Architecture/UI/Menu.hpp"
 
 namespace ASGE {
 	struct GameTime;
@@ -26,7 +26,7 @@ public:
 	/**
 	*  Default constructor for game.
 	*/
-	MyNetGame() = default;
+	MyNetGame();
 	
 	/**
 	*  Destructor for game.
@@ -78,14 +78,11 @@ private:
 	void keyHandler(const ASGE::SharedEventData data);
 
 private:
-	
-	std::thread th;           /**< Network Event Thread. 
-							       Consumes incoming network events. */
-	ClientComponent network;  /**< Network Component. 
-							       The networking component used for clients. */
 	int key_handler_id = -1;  /**< Input Callback ID. 
 							       The callback ID assigned by the game engine. */
 
 	std::unique_ptr<GameData> game_data;
+
+	std::unique_ptr<Menu> menu;
 };
 
