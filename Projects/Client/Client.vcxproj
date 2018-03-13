@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="DebugFast|Win32">
@@ -19,7 +19,7 @@
     <ProjectGuid>{503EE74A-5AE3-43A1-B492-438B644DB6EF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Client</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -166,7 +166,6 @@
     <ClInclude Include="..\..\Source\Client\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\birdman-the-game-teambirb\Source\Rng.cpp" />
     <ClCompile Include="..\..\Source\Architecture\AnimatedSprite.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngine.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.cpp" />
@@ -185,6 +184,7 @@
     <ClCompile Include="..\..\Source\Architecture\Networking\NetworkClient.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Networking\NetworkServer.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Networking\Packet.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Rng.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Signals\Connection.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Timer.cpp" />
     <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp" />
