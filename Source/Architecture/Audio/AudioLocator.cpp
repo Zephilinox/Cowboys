@@ -4,7 +4,7 @@
 #include <functional>
 #include <string>
 
-const std::string AudioLocator::path("../../Resources/Sounds");
+const std::string AudioLocator::path("../../Resources/Sounds/");
 std::unique_ptr<AudioEngine> AudioLocator::audio(std::make_unique<AudioEngineNone>(path));
 
 void AudioLocator::set(AudioEngine* audio_engine)
