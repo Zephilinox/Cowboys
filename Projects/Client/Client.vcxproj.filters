@@ -87,7 +87,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">

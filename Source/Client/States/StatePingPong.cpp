@@ -40,7 +40,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 					{
 						p.reset();
 						p.setID(hash("CreateEntity"));
-						p << &ent->entity_info;
+						p << ent->entity_info;
 						game_data->getNetworkManager()->network->sendPacket(p.senderID, 0, &p);
 					}
 				}
@@ -65,7 +65,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 			case hash("Entity"):
 			{
 				EntityInfo info;
-				p >> &info;
+				p >> info;
 				Entity* ent = getEntity(info.networkID);
 				if (ent && //exists
 					ent->entity_info.ownerID == info.ownerID && //owners match
@@ -82,7 +82,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 			{
 				//so if client sends a spawn ent, just trust it. create the ent with the owner id and entity id it gave us. but then the network ID might not be right, so.. we send back the network id?
 				EntityInfo info;
-				p >> &info;
+				p >> info;
 				if (game_data->getNetworkManager()->network->isServer()) //server
 				{
 					switch (info.type)

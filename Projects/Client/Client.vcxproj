@@ -181,7 +181,6 @@
     <ClCompile Include="..\..\Source\Architecture\Dialogues\Actor.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\Dialogue.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\DialogueTree.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Entity.cpp" />
     <ClCompile Include="..\..\Source\Architecture\GameData.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Managers\FontManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Managers\InputManager.cpp" />
