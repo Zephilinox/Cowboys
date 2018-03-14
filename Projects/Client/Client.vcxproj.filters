@@ -198,6 +198,9 @@
     <ClInclude Include="..\..\Source\Architecture\State.hpp">
       <Filter>Headers\Architecture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Entity.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

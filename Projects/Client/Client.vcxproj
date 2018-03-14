@@ -140,6 +140,7 @@
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Actor.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Dialogue.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\DialogueTree.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Entity.hpp" />
     <ClInclude Include="..\..\Source\Architecture\GameData.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Managers\FontManager.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Managers\InputManager.hpp" />

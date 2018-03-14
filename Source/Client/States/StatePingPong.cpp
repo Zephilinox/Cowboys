@@ -4,58 +4,14 @@
 #include "../../Architecture/GameData.hpp"
 #include "../States/StateMenu.hpp"
 #include "../../Architecture/Constants.hpp"
-
-struct EntityInfo
-{
-	uint32_t networkID;
-	uint32_t ownerID;
-	HashedID type;
-};
-
-Packet& operator <<(Packet& p, EntityInfo* e)
-{
-	p << e->networkID
-		<< e->ownerID
-		<< e->type;
-	return p;
-}
-
-Packet& operator >>(Packet& p, EntityInfo* e)
-{
-	p >> e->networkID
-		>> e->ownerID
-		>> e->type;
-	return p;
-}
-
-class Entity
-{
-public:
-	virtual ~Entity() = default;
-	virtual void update(float dt) = 0;
-	virtual void render(ASGE::Renderer* renderer) const = 0;
-	virtual void receivedPacket(uint32_t channelID, Packet* p) = 0;
-
-	EntityInfo entity_info;
-};
-
-Packet& operator <<(Packet& p, Entity* e)
-{
-	p << &e->entity_info;
-	return p;
-}
-
-Packet& operator >>(Packet& p, Entity* e)
-{
-	p >> &e->entity_info;
-	return p;
-}
+#include "../../Architecture/Entity.hpp"
 
 class Paddle : public Entity
 {
 public:
 	Paddle(GameData* game_data)
-		: sprite(game_data->getRenderer())
+		: Entity(game_data)
+		, sprite(game_data->getRenderer())
 		, game_data(game_data)
 	{
 		entity_info.type = hash("Paddle");
@@ -115,7 +71,8 @@ class Ball : public Entity
 {
 public:
 	Ball(GameData* game_data)
-		: sprite(game_data->getRenderer())
+		: Entity(game_data)
+		, sprite(game_data->getRenderer())
 		, game_data(game_data)
 	{
 		entity_info.type = hash("Ball");
