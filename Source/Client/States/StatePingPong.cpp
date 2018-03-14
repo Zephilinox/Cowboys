@@ -21,20 +21,11 @@ StatePingPong::StatePingPong(GameData* game_data)
 		serverPaddle = static_cast<Paddle*>(getEntity(1));
 		serverBall = static_cast<Ball*>(getEntity(2));
 
-	});
-
-	menu.getButton(1).on_click.connect([game_data]()
-	{
-		game_data->getNetworkManager()->initialize(false);
-	});
-
-	managed_slot_1 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
-	{
-		switch (p.getID())
+		managed_slot_1 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
 		{
-			case hash("Connected"):
+			switch (p.getID())
 			{
-				if (game_data->getNetworkManager()->network->isServer())
+				case hash("Connected"):
 				{
 					for (const auto& ent : entities)
 					{
@@ -43,48 +34,37 @@ StatePingPong::StatePingPong(GameData* game_data)
 						p << ent->entity_info;
 						game_data->getNetworkManager()->network->sendPacket(p.senderID, 0, &p);
 					}
-				}
-			} break;
-			case hash("Disconnected"):
-			{
-				if (game_data->getNetworkManager()->network->isServer())
+				} break;
+				case hash("Disconnected"):
 				{
 					std::experimental::erase_if(entities, [p](const auto& entity)
 					{
 						return entity->entity_info.ownerID == p.senderID;
 					});
-				}
-			} break;
-		}
-	});
-
-	managed_slot_2 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
-	{
-		switch (p.getID())
+				} break;
+			}
+		});
+		managed_slot_2 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
 		{
-			case hash("Entity"):
+			switch (p.getID())
 			{
-				EntityInfo info;
-				p >> info;
-				Entity* ent = getEntity(info.networkID);
-				if (ent && //exists
-					ent->entity_info.ownerID == info.ownerID && //owners match
-					ent->entity_info.type == info.type) //types match
+				case hash("Entity"):
 				{
-					if (p.senderID == 1 || //client received packet, we trust the server
-						info.ownerID == p.senderID) //received packet from client, make sure they aren't lying about what they own
+					EntityInfo info;
+					p >> info;
+					Entity* ent = getEntity(info.networkID);
+					if (ent && //exists
+						ent->entity_info.ownerID == info.ownerID && //owners match
+						ent->entity_info.type == info.type && //types match
+						info.ownerID == p.senderID) //client owns it
 					{
 						ent->receivedPacket(std::move(p));
 					}
-				}
-			} break;
-			case hash("CreateEntity"):
-			{
-				//so if client sends a spawn ent, just trust it. create the ent with the owner id and entity id it gave us. but then the network ID might not be right, so.. we send back the network id?
-				EntityInfo info;
-				p >> info;
-				if (game_data->getNetworkManager()->network->isServer()) //server
+				} break;
+				case hash("CreateEntity"):
 				{
+					EntityInfo info;
+					p >> info;
 					switch (info.type)
 					{
 						case hash("Paddle"):
@@ -96,12 +76,36 @@ StatePingPong::StatePingPong(GameData* game_data)
 							createEntity<Ball>(p.senderID, game_data);
 						} break;
 					}
-				}
-				else
+				} break;
+			}
+		});
+	});
+
+	menu.getButton(1).on_click.connect([this, game_data]()
+	{
+		game_data->getNetworkManager()->initialize(false);
+
+		managed_slot_1 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
+		{
+			switch (p.getID())
+			{
+				case hash("Entity"):
 				{
+					EntityInfo info;
+					p >> info;
+					Entity* ent = getEntity(info.networkID);
+					if (ent)
+					{
+						ent->receivedPacket(std::move(p));
+					}
+				} break;
+				case hash("CreateEntity"):
+				{
+					EntityInfo info;
+					p >> info;
+
 					switch (info.type)
 					{
-						//issue with constructor data, oh no
 						case hash("Paddle"):
 						{
 							entities.emplace_back(std::make_unique<Paddle>(game_data));
@@ -113,13 +117,13 @@ StatePingPong::StatePingPong(GameData* game_data)
 					}
 
 					entities.back()->entity_info = info;
-				}
-			} break;
-			case hash("ClientID"):
-			{
-				createEntity<Paddle>(game_data);
+				} break;
+				case hash("ClientID"):
+				{
+					createEntity<Paddle>(game_data);
+				} break;
 			}
-		}
+		});
 	});
 }
 
@@ -159,14 +163,15 @@ void StatePingPong::update(const ASGE::GameTime& gt)
 			uint32_t clientPaddleID = 0;
 			for (const auto& ent : entities)
 			{
-				if (ent->entity_info.ownerID != 1 &&
-					ent->entity_info.type == hash("Paddle")) //1 is server id
+				if (!ent->isOwner() &&
+					ent->entity_info.type == hash("Paddle"))
 				{
 					clientPaddleID = ent->entity_info.networkID;
+					clientPaddle = static_cast<Paddle*>(getEntity(clientPaddleID));
 					break;
 				}
 			}
-			clientPaddle = static_cast<Paddle*>(getEntity(clientPaddleID));
+
 			if (clientPaddle)
 			{
 				if (clientPaddle->sprite.xPos < serverBall->sprite.xPos + serverBall->sprite.getCurrentFrameSprite()->width() &&
