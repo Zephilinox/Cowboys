@@ -28,7 +28,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 		game_data->getNetworkManager()->initialize(false);
 	});
 
-	game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
+	managed_slot_1 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
 	{
 		switch (p.getID())
 		{
@@ -58,7 +58,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 		}
 	});
 
-	game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
+	managed_slot_2 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
 	{
 		switch (p.getID())
 		{
@@ -125,6 +125,11 @@ StatePingPong::StatePingPong(GameData* game_data)
 
 StatePingPong::~StatePingPong()
 {
+	if (game_data->getNetworkManager()->network)
+	{
+		game_data->getNetworkManager()->network->deinitialize();
+		game_data->getNetworkManager()->network.reset(nullptr);
+	}
 }
 
 void StatePingPong::update(const ASGE::GameTime& gt)
@@ -178,6 +183,11 @@ void StatePingPong::update(const ASGE::GameTime& gt)
 	else
 	{
 		menu.update();
+	}
+
+	if (game_data->getInputManager()->isActionPressed("escape"))
+	{
+		game_data->getStateManager()->pop();
 	}
 }
 

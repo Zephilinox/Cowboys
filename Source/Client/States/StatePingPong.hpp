@@ -43,7 +43,7 @@ public:
 			//Send packets to all clients (except us, of course)
 			Packet p;
 			p.setID(hash("CreateEntity"));
-			p << &entities.back()->entity_info;
+			p << entities.back()->entity_info;
 			game_data->getNetworkManager()->network->sendPacket(0, &p);
 		}
 		else
@@ -52,7 +52,7 @@ public:
 			T ent(game_data);
 			Packet p;
 			p.setID(hash("CreateEntity"));
-			p << &ent.entity_info;
+			p << ent.entity_info;
 			game_data->getNetworkManager()->network->sendPacket(0, &p);
 		}
 	}
@@ -70,7 +70,7 @@ public:
 		//Send packet to all clients
 		Packet p;
 		p.setID(hash("CreateEntity"));
-		p << &entities.back()->entity_info;
+		p << entities.back()->entity_info;
 		game_data->getNetworkManager()->network->sendPacket(0, &p);
 	}
 
@@ -84,4 +84,7 @@ private:
 	Paddle* clientPaddle;
 
 	uint32_t next_network_id = 1;
+
+	ManagedConnection managed_slot_1;
+	ManagedConnection managed_slot_2;
 };
