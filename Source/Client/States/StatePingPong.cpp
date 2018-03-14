@@ -12,7 +12,6 @@ public:
 	Paddle(GameData* game_data)
 		: Entity(game_data)
 		, sprite(game_data->getRenderer())
-		, game_data(game_data)
 	{
 		entity_info.type = hash("Paddle");
 		sprite.addFrame("ppl1", 1);
@@ -33,7 +32,7 @@ public:
 	{
 		sprite.update(dt);
 
-		if (entity_info.ownerID == game_data->getNetworkManager()->network->getID())
+		if (isOwner())
 		{
 			if (game_data->getInputManager()->isActionDown("up"))
 			{
@@ -58,13 +57,12 @@ public:
 		renderer->renderSprite(*sprite.getCurrentFrameSprite());
 	}
 
-	void receivedPacket(uint32_t channel_id, Packet* p) override final
+	void receivedPacket(Packet&& p) override final
 	{
-		*p >> sprite.xPos >> sprite.yPos;
+		p >> sprite.xPos >> sprite.yPos;
 	}
 
 	AnimatedSprite sprite;
-	GameData* game_data;
 };
 
 class Ball : public Entity
@@ -73,7 +71,6 @@ public:
 	Ball(GameData* game_data)
 		: Entity(game_data)
 		, sprite(game_data->getRenderer())
-		, game_data(game_data)
 	{
 		entity_info.type = hash("Ball");
 		sprite.addFrame("DialogueMarker", 1, 0, 0, 2, 2);
@@ -85,7 +82,7 @@ public:
 	{
 		sprite.update(dt);
 
-		if (game_data->getNetworkManager()->network->isServer())
+		if (isOwner())
 		{
 			if (sprite.yPos < 0)
 			{
@@ -109,10 +106,7 @@ public:
 
 			sprite.xPos += 200 * dt * (movingLeft ? -1 : 1);
 			sprite.yPos += 200 * dt * dirY;
-		}
 
-		if (entity_info.ownerID == game_data->getNetworkManager()->network->getID())
-		{
 			Packet p;
 			p.setID(hash("Entity"));
 			p << &entity_info
@@ -127,13 +121,12 @@ public:
 		renderer->renderSprite(*sprite.getCurrentFrameSprite());
 	}
 
-	void receivedPacket(uint32_t channelID, Packet* p) override final
+	void receivedPacket(Packet&& p) override final
 	{
-		*p >> sprite.xPos >> sprite.yPos;
+		p >> sprite.xPos >> sprite.yPos;
 	}
 
 	AnimatedSprite sprite;
-	GameData* game_data;
 	bool movingLeft = false;
 	float dirY = 0;
 };
@@ -207,7 +200,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 					if (p.senderID == 1 || //client received packet, we trust the server
 						info.ownerID == p.senderID) //received packet from client, make sure they aren't lying about what they own
 					{
-						ent->receivedPacket(0, &p);
+						ent->receivedPacket(std::move(p));
 					}
 				}
 			} break;

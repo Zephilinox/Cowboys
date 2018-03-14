@@ -42,7 +42,7 @@ public:
 	virtual ~Entity() = default;
 	virtual void update(float dt) = 0;
 	virtual void render(ASGE::Renderer* renderer) const = 0;
-	virtual void receivedPacket(uint32_t channelID, Packet* p) = 0;
+	virtual void receivedPacket(Packet&& p) = 0;
 
 	inline bool isOwner()
 	{
