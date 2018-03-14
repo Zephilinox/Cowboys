@@ -29,14 +29,24 @@ void NetworkClient::processEvents()
 {
 	auto on_connected = [&]()
 	{
-		std::cout << "Client Connected\n";
+		std::cout << "Connected to server\n";
 		client_connected_to_server = true;
+
+		Packet p;
+		p.setID(hash("Connected"));
+		p.senderID = 1;
+		game_data->getNetworkManager()->pushPacket(std::move(p));
 	};
 
 	auto on_disconnected = [&]()
 	{
-		std::cout << "Client Disconnected\n";
+		std::cout << "Disconnected from server\n";
 		client_connected_to_server = false;
+
+		Packet p;
+		p.setID(hash("Disconnected"));
+		p.senderID = 1;
+		game_data->getNetworkManager()->pushPacket(std::move(p));
 	};
 
 	auto on_data_received = [this](const enet_uint8* data, size_t data_size)
@@ -45,13 +55,11 @@ void NetworkClient::processEvents()
 		if (p.getID() == hash("ClientID"))
 		{
 			p >> id;
-			std::cout << "ClientID " << this->id << " received\n";
+			std::cout << "Our Network ID is " << this->id << "\n";
 		}
-		else
-		{
-			p.senderID = 1;
-			game_data->getNetworkManager()->pushPacket(std::move(p));
-		}
+
+		p.senderID = 1;
+		game_data->getNetworkManager()->pushPacket(std::move(p));
 	};
 
 	client.consume_events(std::move(on_connected),

@@ -45,14 +45,20 @@ void NetworkServer::processEvents()
 {
 	auto on_client_connected = [&](ClientInfo& client)
 	{
-		std::cout << "client " << client.id << " connected\n";
-		//client_connected.emit(&client);
+		std::cout << "Client " << client.id << " Connected\n";
+		Packet p;
+		p.setID(hash("Connected"));
+		p.senderID = client.id;
+		game_data->getNetworkManager()->pushPacket(std::move(p));
 	};
 
 	auto on_client_disconnected = [&](uint32_t client_uid)
 	{
-		std::cout << "client " << client_uid << " disconnected\n";
-		//client_disconnected.emit(client_uid);
+		std::cout << "Client " << client_uid << " Disconnected\n";
+		Packet p;
+		p.setID(hash("Disconnected"));
+		p.senderID = client_uid;
+		game_data->getNetworkManager()->pushPacket(std::move(p));
 	};
 
 	auto on_client_data_received = [&](ClientInfo& client, const enet_uint8* data, size_t data_size)

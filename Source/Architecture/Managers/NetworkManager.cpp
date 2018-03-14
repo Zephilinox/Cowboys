@@ -63,6 +63,6 @@ void NetworkManager::runThreadedNetworking()
 		{
 			network->processEvents();
 		}
-		std::this_thread::sleep_for(250ms);
+		std::this_thread::sleep_for(1s / 60.0f);
 	}
 }

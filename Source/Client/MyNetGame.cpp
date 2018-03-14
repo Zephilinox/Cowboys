@@ -72,9 +72,12 @@ bool MyNetGame::init()
 	
 	game_data->getNetworkManager()->packet_received.connect([&](Packet p)
 	{
-		std::string msg;
-		p >> msg;
-		std::cout << msg << " from client " << p.senderID << "\n";
+		if (p.getID() == hash("Message"))
+		{
+			std::string msg;
+			p >> msg;
+			std::cout << msg << " from client " << p.senderID << "\n";
+		}
 	});
 
 	return true;
