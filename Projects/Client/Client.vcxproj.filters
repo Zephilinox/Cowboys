@@ -85,6 +85,8 @@
     <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp">
       <Filter>Source\States</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
@@ -198,6 +200,15 @@
     <ClInclude Include="..\..\Source\Architecture\State.hpp">
       <Filter>Headers\Architecture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Entity.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp">
+      <Filter>Headers\States\PingPong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp">
+      <Filter>Headers\States\PingPong</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -266,8 +277,12 @@
     <Filter Include="Source\States">
       <UniqueIdentifier>{5bb78bc3-e8ed-4eaf-ae05-645c9eeaf6e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\States\PingPong">
+      <UniqueIdentifier>{63d741ab-77b4-45ec-94c5-c52850121417}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

@@ -21,6 +21,7 @@ NetworkManager::~NetworkManager()
 	if (network)
 	{
 		network->deinitialize();
+		network.reset(nullptr);
 	}
 }
 

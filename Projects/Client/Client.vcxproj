@@ -140,6 +140,7 @@
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Actor.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Dialogue.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\DialogueTree.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Entity.hpp" />
     <ClInclude Include="..\..\Source\Architecture\GameData.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Managers\FontManager.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Managers\InputManager.hpp" />
@@ -163,6 +164,8 @@
     <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
     <ClInclude Include="..\..\Source\Client\Networking.h" />
+    <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp" />
+    <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StatePingPong.hpp" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
@@ -194,6 +197,8 @@
     <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp" />
     <ClCompile Include="..\..\Source\Client\stdafx.cpp">
@@ -204,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
