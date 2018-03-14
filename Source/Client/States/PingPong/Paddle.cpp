@@ -37,12 +37,7 @@ void Paddle::update(float dt)
 			sprite.yPos += 1000 * dt;
 		}
 
-		Packet p;
-		p.setID(hash("Entity"));
-		p << entity_info
-			<< sprite.xPos
-			<< sprite.yPos;
-		game_data->getNetworkManager()->network->sendPacket(0, &p);
+		sendPacket();
 	}
 }
 
@@ -51,7 +46,12 @@ void Paddle::render(ASGE::Renderer* renderer) const
 	renderer->renderSprite(*sprite.getCurrentFrameSprite());
 }
 
-void Paddle::receivedPacket(Packet&& p)
+void Paddle::serialize(Packet& p)
+{
+	p << sprite.xPos << sprite.yPos;
+}
+
+void Paddle::deserialize(Packet& p)
 {
 	p >> sprite.xPos >> sprite.yPos;
 }

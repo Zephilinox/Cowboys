@@ -42,12 +42,7 @@ void Ball::update(float dt)
 		sprite.xPos += 200 * dt * (movingLeft ? -1 : 1);
 		sprite.yPos += 200 * dt * dirY;
 
-		Packet p;
-		p.setID(hash("Entity"));
-		p << entity_info
-			<< sprite.xPos
-			<< sprite.yPos;
-		game_data->getNetworkManager()->network->sendPacket(0, &p);
+		sendPacket();
 	}
 }
 
@@ -56,7 +51,12 @@ void Ball::render(ASGE::Renderer* renderer) const
 	renderer->renderSprite(*sprite.getCurrentFrameSprite());
 }
 
-void Ball::receivedPacket(Packet&& p)
+void Ball::serialize(Packet & p)
+{
+	p << sprite.xPos << sprite.yPos;
+}
+
+void Ball::deserialize(Packet & p)
 {
 	p >> sprite.xPos >> sprite.yPos;
 }

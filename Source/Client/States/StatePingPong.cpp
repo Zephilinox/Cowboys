@@ -58,7 +58,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 						ent->entity_info.type == info.type && //types match
 						info.ownerID == p.senderID) //client owns it
 					{
-						ent->receivedPacket(std::move(p));
+						ent->receivePacket(std::move(p));
 					}
 				} break;
 				case hash("CreateEntity"):
@@ -96,7 +96,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 					Entity* ent = getEntity(info.networkID);
 					if (ent)
 					{
-						ent->receivedPacket(std::move(p));
+						ent->receivePacket(std::move(p));
 					}
 				} break;
 				case hash("CreateEntity"):

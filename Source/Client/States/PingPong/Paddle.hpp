@@ -11,7 +11,9 @@ public:
 
 	void update(float dt) override final;
 	void render(ASGE::Renderer* renderer) const override final;
-	void receivedPacket(Packet&& p) override final;
+
+	void serialize(Packet& p) override final;
+	void deserialize(Packet& p) override final;
 
 	AnimatedSprite sprite;
 };
