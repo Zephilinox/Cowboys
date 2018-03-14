@@ -6,6 +6,7 @@
 //SELF
 #include "Messages/Message.hpp"
 #include "Networking/Packet.hpp"
+#include "GameData.hpp"
 
 struct EntityInfo
 {
@@ -14,7 +15,7 @@ struct EntityInfo
 	HashedID type;
 };
 
-Packet& operator <<(Packet& p, EntityInfo* e)
+inline Packet& operator <<(Packet& p, EntityInfo* e)
 {
 	p << e->networkID
 		<< e->ownerID
@@ -22,15 +23,13 @@ Packet& operator <<(Packet& p, EntityInfo* e)
 	return p;
 }
 
-Packet& operator >>(Packet& p, EntityInfo* e)
+inline Packet& operator >>(Packet& p, EntityInfo* e)
 {
 	p >> e->networkID
 		>> e->ownerID
 		>> e->type;
 	return p;
 }
-
-class GameData;
 
 class Entity
 {

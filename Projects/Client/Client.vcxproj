@@ -164,6 +164,8 @@
     <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
     <ClInclude Include="..\..\Source\Client\Networking.h" />
+    <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp" />
+    <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StatePingPong.hpp" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
@@ -179,6 +181,7 @@
     <ClCompile Include="..\..\Source\Architecture\Dialogues\Actor.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\Dialogue.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\DialogueTree.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Entity.cpp" />
     <ClCompile Include="..\..\Source\Architecture\GameData.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Managers\FontManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Managers\InputManager.cpp" />
@@ -195,6 +198,8 @@
     <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp" />
     <ClCompile Include="..\..\Source\Client\stdafx.cpp">

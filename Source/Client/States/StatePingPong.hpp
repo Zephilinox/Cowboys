@@ -12,12 +12,10 @@
 #include "../../Architecture/Managers/NetworkManager.hpp"
 #include "../../Architecture/AnimatedSprite.hpp"
 #include "../../Architecture/UI/Menu.hpp"
+#include "PingPong/Paddle.hpp"
+#include "PingPong/Ball.hpp"
 
 class GameData;
-
-class Entity;
-class Paddle;
-class Ball;
 
 class StatePingPong : public State
 {
