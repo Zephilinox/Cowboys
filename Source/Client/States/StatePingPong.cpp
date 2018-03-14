@@ -9,15 +9,10 @@ StatePingPong::StatePingPong(GameData* game_data)
 	: State(game_data)
 	, menu(game_data)
 {
-	menu.addButton(500, 300, "SERVER", ASGE::COLOURS::GREY, ASGE::COLOURS::WHITE);
-	menu.addButton(500, 400, "CLIENT", ASGE::COLOURS::GREY, ASGE::COLOURS::WHITE);
-
-	menu.getButton(0).on_click.connect([this, game_data]()
+	if (game_data->getNetworkManager()->network->isServer())
 	{
-		game_data->getNetworkManager()->initialize(true);
-
-		createEntity<Paddle>(this->game_data);
-		createEntity<Ball>(this->game_data);
+		createEntity<Paddle>(game_data);
+		createEntity<Ball>(game_data);
 		serverPaddle = static_cast<Paddle*>(getEntity(1));
 		serverBall = static_cast<Ball*>(getEntity(2));
 
@@ -44,6 +39,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 				} break;
 			}
 		});
+
 		managed_slot_2 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
 		{
 			switch (p.getID())
@@ -79,12 +75,10 @@ StatePingPong::StatePingPong(GameData* game_data)
 				} break;
 			}
 		});
-	});
-
-	menu.getButton(1).on_click.connect([this, game_data]()
+	}
+	else
 	{
-		game_data->getNetworkManager()->initialize(false);
-
+		createEntity<Paddle>(game_data);
 		managed_slot_1 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
 		{
 			switch (p.getID())
@@ -118,13 +112,9 @@ StatePingPong::StatePingPong(GameData* game_data)
 
 					entities.back()->entity_info = info;
 				} break;
-				case hash("ClientID"):
-				{
-					createEntity<Paddle>(game_data);
-				} break;
 			}
 		});
-	});
+	}
 }
 
 StatePingPong::~StatePingPong()
@@ -139,60 +129,53 @@ StatePingPong::~StatePingPong()
 void StatePingPong::update(const ASGE::GameTime& gt)
 {
 	auto network = game_data->getNetworkManager()->network.get();
-	if (network && network->isInitialized())
+	const float dt = gt.delta_time.count() / 1000.0f;
+
+	for (auto& ent : entities)
 	{
-		const float dt = gt.delta_time.count() / 1000.0f;
-
-		for (auto& ent : entities)
-		{
-			ent->update(dt);
-		}
-
-		if (network->isServer())
-		{
-			//Simple AABB collision check
-			if (serverPaddle->sprite.xPos < serverBall->sprite.xPos + serverBall->sprite.getCurrentFrameSprite()->width() &&
-				serverPaddle->sprite.xPos + serverPaddle->sprite.getCurrentFrameSprite()->width() > serverBall->sprite.xPos &&
-				serverPaddle->sprite.yPos < serverBall->sprite.yPos + serverBall->sprite.getCurrentFrameSprite()->height() &&
-				serverPaddle->sprite.yPos + serverPaddle->sprite.getCurrentFrameSprite()->height() > serverBall->sprite.yPos)
-			{
-				serverBall->movingLeft = false;
-				serverBall->dirY = game_data->getRandomNumberGenerator()->getRandomFloat(-0.8, 0.8);
-			}
-
-			uint32_t clientPaddleID = 0;
-			for (const auto& ent : entities)
-			{
-				if (!ent->isOwner() &&
-					ent->entity_info.type == hash("Paddle"))
-				{
-					clientPaddleID = ent->entity_info.networkID;
-					clientPaddle = static_cast<Paddle*>(getEntity(clientPaddleID));
-					break;
-				}
-			}
-
-			if (clientPaddle)
-			{
-				if (clientPaddle->sprite.xPos < serverBall->sprite.xPos + serverBall->sprite.getCurrentFrameSprite()->width() &&
-					clientPaddle->sprite.xPos + clientPaddle->sprite.getCurrentFrameSprite()->width() > serverBall->sprite.xPos &&
-					clientPaddle->sprite.yPos < serverBall->sprite.yPos + serverBall->sprite.getCurrentFrameSprite()->height() &&
-					clientPaddle->sprite.yPos + clientPaddle->sprite.getCurrentFrameSprite()->height() > serverBall->sprite.yPos)
-				{
-					serverBall->movingLeft = true;
-					serverBall->dirY = game_data->getRandomNumberGenerator()->getRandomFloat(-0.8, 0.8);
-				}
-			}
-		}
-	}
-	else
-	{
-		menu.update();
+		ent->update(dt);
 	}
 
 	if (game_data->getInputManager()->isActionPressed("escape"))
 	{
 		game_data->getStateManager()->pop();
+	}
+
+	if (network->isServer())
+	{
+		//Simple AABB collision check
+		if (serverPaddle->sprite.xPos < serverBall->sprite.xPos + serverBall->sprite.getCurrentFrameSprite()->width() &&
+			serverPaddle->sprite.xPos + serverPaddle->sprite.getCurrentFrameSprite()->width() > serverBall->sprite.xPos &&
+			serverPaddle->sprite.yPos < serverBall->sprite.yPos + serverBall->sprite.getCurrentFrameSprite()->height() &&
+			serverPaddle->sprite.yPos + serverPaddle->sprite.getCurrentFrameSprite()->height() > serverBall->sprite.yPos)
+		{
+			serverBall->movingLeft = false;
+			serverBall->dirY = game_data->getRandomNumberGenerator()->getRandomFloat(-0.8, 0.8);
+		}
+
+		uint32_t clientPaddleID = 0;
+		for (const auto& ent : entities)
+		{
+			if (!ent->isOwner() &&
+				ent->entity_info.type == hash("Paddle"))
+			{
+				clientPaddleID = ent->entity_info.networkID;
+				clientPaddle = static_cast<Paddle*>(getEntity(clientPaddleID));
+				break;
+			}
+		}
+
+		if (clientPaddle)
+		{
+			if (clientPaddle->sprite.xPos < serverBall->sprite.xPos + serverBall->sprite.getCurrentFrameSprite()->width() &&
+				clientPaddle->sprite.xPos + clientPaddle->sprite.getCurrentFrameSprite()->width() > serverBall->sprite.xPos &&
+				clientPaddle->sprite.yPos < serverBall->sprite.yPos + serverBall->sprite.getCurrentFrameSprite()->height() &&
+				clientPaddle->sprite.yPos + clientPaddle->sprite.getCurrentFrameSprite()->height() > serverBall->sprite.yPos)
+			{
+				serverBall->movingLeft = true;
+				serverBall->dirY = game_data->getRandomNumberGenerator()->getRandomFloat(-0.8, 0.8);
+			}
+		}
 	}
 }
 
@@ -201,34 +184,9 @@ void StatePingPong::render() const
 	auto renderer = game_data->getRenderer();
 	auto network = game_data->getNetworkManager()->network.get();
 
-	if (network)
+	for (const auto& ent : entities)
 	{
-		if (network->isConnected())
-		{
-			renderer->renderText("CONNECTED", 250, 100, ASGE::COLOURS::WHITE);
-		}
-		else
-		{
-			renderer->renderText("DISCONNECTED", 250, 100, ASGE::COLOURS::WHITE);
-		}
-
-		if (network->isServer())
-		{
-			renderer->renderText("SERVER", 250, 50, ASGE::COLOURS::WHITE);
-		}
-		else
-		{
-			renderer->renderText("CLIENT", 250, 50, ASGE::COLOURS::WHITE);
-		}
-
-		for (const auto& ent : entities)
-		{
-			ent->render(game_data->getRenderer());
-		}
-	}
-	else
-	{
-		menu.render();
+		ent->render(game_data->getRenderer());
 	}
 }
 

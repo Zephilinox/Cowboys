@@ -87,6 +87,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp">
       <Filter>Headers\States\PingPong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp">
+      <Filter>Headers\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
