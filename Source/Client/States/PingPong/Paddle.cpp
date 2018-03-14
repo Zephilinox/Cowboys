@@ -39,7 +39,7 @@ void Paddle::update(float dt)
 
 		Packet p;
 		p.setID(hash("Entity"));
-		p << &entity_info
+		p << entity_info
 			<< sprite.xPos
 			<< sprite.yPos;
 		game_data->getNetworkManager()->network->sendPacket(0, &p);

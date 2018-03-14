@@ -15,19 +15,19 @@ struct EntityInfo
 	HashedID type;
 };
 
-inline Packet& operator <<(Packet& p, EntityInfo* e)
+inline Packet& operator <<(Packet& p, EntityInfo& e)
 {
-	p << e->networkID
-		<< e->ownerID
-		<< e->type;
+	p << e.networkID
+		<< e.ownerID
+		<< e.type;
 	return p;
 }
 
-inline Packet& operator >>(Packet& p, EntityInfo* e)
+inline Packet& operator >>(Packet& p, EntityInfo& e)
 {
-	p >> e->networkID
-		>> e->ownerID
-		>> e->type;
+	p >> e.networkID
+		>> e.ownerID
+		>> e.type;
 	return p;
 }
 
