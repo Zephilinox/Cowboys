@@ -9,7 +9,7 @@
 #include <Engine/Sprite.h>
 
 //todo: utilise timer class
-typedef std::chrono::high_resolution_clock Clock;
+using Clock = std::chrono::high_resolution_clock;
 
 class AnimatedSprite
 {
@@ -27,7 +27,7 @@ public:
 	AnimatedSprite(AnimatedSprite&& other) = delete;
 	AnimatedSprite& operator= (const AnimatedSprite& other) = delete;
 	AnimatedSprite& operator= (AnimatedSprite&& other) = delete;
-	void update(double dt);
+	void update(double dt_milli);
 
 	void addFrame(std::string texture, float frame_length_seconds, float relative_x = 0, float relative_y = 0, float width_mult = 1, float height_mult = 1);
 	ASGE::Sprite* getCurrentFrameSprite() const;

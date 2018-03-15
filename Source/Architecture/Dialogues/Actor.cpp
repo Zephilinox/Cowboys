@@ -1,7 +1,9 @@
 #include "Actor.hpp"
 
+#include <utility>
+
 Actor::Actor(std::string name)
-	: name(name)
+	: name(std::move(name))
 {}
 
 bool Actor::hasFlag(const std::string flag)
@@ -11,11 +13,11 @@ bool Actor::hasFlag(const std::string flag)
 		std::cout << "FLAG " + flag + " IS ON " + name + " FLAG\n";
 		return true;
 	}
-	else
-	{
+	
+	
 		std::cout << "FLAG " + flag + " IS NOT ON " + name + " FLAG\n";
 		return false;
-	}
+	
 }
 
 void Actor::addFlag(std::string flag)
@@ -49,11 +51,11 @@ bool Actor::hasData(const std::string id)
 		std::cout << name + " HAS DATA " + id + "\n";
 		return true;
 	}
-	else
-	{
+	
+	
 		std::cout << name + " DOES NOT HAVE DATA " + id + "\n";
 		return false;
-	}
+	
 }
 
 void Actor::removeData(const std::string id)

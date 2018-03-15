@@ -22,7 +22,7 @@ namespace ASGE
 		constexpr int KEY_F4 = 293;
 		constexpr int KEY_LAST = 512; /**< GLFW defines it as 348 however I want to be safe. */
 	}
-}
+}  // namespace ASGE
 
 /**
 * Input Manager. Handles input thread safety and different key states.
@@ -61,7 +61,7 @@ public:
 	int gamepad_button_escape = ASGE::KEYS::KEY_LAST + 7;
 
 private:
-	void gamepadHandler(const ASGE::SharedEventData data);
+	void gamepadHandler(ASGE::SharedEventData data);
 
 	int gamepad_id;
 	bool gamepad_connected = false;

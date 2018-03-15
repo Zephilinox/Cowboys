@@ -1,7 +1,7 @@
 #include "GameData.hpp"
 
 //STD
-#include <assert.h>
+#include <cassert>
 
 //LIB
 #include <jsoncons/json.hpp>

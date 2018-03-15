@@ -39,7 +39,7 @@ StateMenu::StateMenu(GameData* game_data)
 	});
 }
 
-void StateMenu::update(const ASGE::GameTime&)
+void StateMenu::update(const ASGE::GameTime& /*unused*/)
 {
 	menu.update();
 }

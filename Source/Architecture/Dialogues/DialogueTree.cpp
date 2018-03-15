@@ -1,7 +1,7 @@
 #include "DialogueTree.hpp"
 
 //STD
-#include <assert.h>
+#include <cassert>
 #include <locale>
 
 //SELF
@@ -53,11 +53,11 @@ void DialogueTree::addPlayerOption(std::string dialogue_name, std::string dialog
 
 Actor* DialogueTree::getActor(std::string name)
 {
-	for (size_t i = 0; i < actors.size(); ++i)
+	for (auto & actor : actors)
 	{
-		if (actors[i].name == name)
+		if (actor.name == name)
 		{
-			return &actors[i];
+			return &actor;
 		}
 	}
 
@@ -101,7 +101,7 @@ std::string DialogueTree::play(std::string dialogue_name)
 	//Don't ask how this works. it's a mess.
 
 	//passed empty dialog string, stop
-	if (dialogue_name == "")
+	if (dialogue_name.empty())
 	{
 		previous_speaker = nullptr;
 		previous_dialogue = nullptr;
@@ -137,22 +137,22 @@ std::string DialogueTree::play(std::string dialogue_name)
 				std::cout << "RUNNING DIALOGUE TEXT DETERMINATOR FOR '" << d.name << "'\n";
 				std::string text = d.text();
 				std::cout << "text = " << text << "\n";
-				if (text != "")
+				if (!text.empty())
 				{
 					return std::move(text);
 				}
-				else
-				{
+				
+				
 					//uhoh, normal dialogue should never return a blank screen, dialogue is malformed
 					std::cout << "ERROR: DIALOGUE TEXT FOR '" << d.name << "' IS EMPTY. STOPPING.\n";
 					previous_dialogue = current_dialogue;
 					current_dialogue = nullptr;
 					playing = false;
 					return "";
-				}
+				
 			}
-			else
-			{
+			
+			
 				//found a player option, push it to the vector and keep looping to find more options with the same name
 				if (current_dialogue)
 				{
@@ -164,7 +164,7 @@ std::string DialogueTree::play(std::string dialogue_name)
 				playing = true;
 				player_option = true;
 				current_player_options.push_back(&d);
-			}
+			
 		}
 	}
 
@@ -175,15 +175,15 @@ std::string DialogueTree::play(std::string dialogue_name)
 		//use current_player_options to get them all
 		return "";
 	}
-	else
-	{
+	
+	
 		//if we got to this point it means nothing was found, so reset.
 		previous_speaker = nullptr;
 		previous_dialogue = current_dialogue;
 		current_dialogue = nullptr;
 		playing = false;
 		return "";
-	}
+	
 }
 
 std::string DialogueTree::next()

@@ -65,7 +65,7 @@ bool MyNetGame::init()
 		if (msg->id == FunctionMessage::ID)
 		{
 			std::cout << "Executed\t" << msg->id << "\n";
-			FunctionMessage* func = static_cast<FunctionMessage*>(msg);
+			auto* func = static_cast<FunctionMessage*>(msg);
 			func->execute();
 		}
 	});
@@ -147,7 +147,7 @@ void MyNetGame::render(const ASGE::GameTime& gt)
 
 void MyNetGame::keyHandler(const ASGE::SharedEventData data)
 {
-	const ASGE::KeyEvent* key_event =
+	const auto* key_event =
 		static_cast<const ASGE::KeyEvent*>(data.get());
 
 	auto key = key_event->key;

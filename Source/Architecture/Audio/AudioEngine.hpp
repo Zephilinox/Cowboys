@@ -2,12 +2,13 @@
 
 //STD
 #include <string>
+#include <utility>
 
 class AudioEngine
 {
 public:
-	AudioEngine(const std::string& audio_path)
-		: audio_path(audio_path)
+	AudioEngine(std::string  audio_path)
+		: audio_path(std::move(audio_path))
 	{};
 
 	virtual ~AudioEngine() noexcept = default;

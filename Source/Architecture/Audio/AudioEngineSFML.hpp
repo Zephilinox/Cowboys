@@ -16,9 +16,7 @@ class AudioEngineSFML : public AudioEngine
 {
 public:
 	AudioEngineSFML(const std::string& audio_path);
-	AudioEngineSFML() = default;
-
-	void play(const std::string& name, bool loop = false) override final;
+	void play(const std::string& name, bool loop = false) final;
 	
 private:
 	std::unordered_map<std::string, sf::SoundBuffer> buffers;

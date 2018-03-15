@@ -16,12 +16,12 @@ class Actor
 public:
 	Actor(std::string name);
 
-	bool hasFlag(const std::string flag);
+	bool hasFlag(std::string flag);
 	void addFlag(std::string flag);
-	void removeFlag(const std::string flag);
+	void removeFlag(std::string flag);
 
-	bool hasData(const std::string id);
-	void removeData(const std::string id);
+	bool hasData(std::string id);
+	void removeData(std::string id);
 
 	template <class T>
 	void addData(std::string id, T data)

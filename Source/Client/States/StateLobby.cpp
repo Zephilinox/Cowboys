@@ -32,7 +32,7 @@ StateLobby::StateLobby(GameData* game_data)
 	});
 }
 
-void StateLobby::update(const ASGE::GameTime&)
+void StateLobby::update(const ASGE::GameTime& /*unused*/)
 {
 	if (!ready &&
 		game_data->getNetworkManager()->network &&

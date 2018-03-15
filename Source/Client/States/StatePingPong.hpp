@@ -21,12 +21,12 @@ class StatePingPong : public State
 {
 public:
 	StatePingPong(GameData* game_data);
-	~StatePingPong();
+	~StatePingPong() override;
 
-	void update(const ASGE::GameTime&) override final;
-	void render() const override final;
-	void onActive() override final;
-	void onInactive() override final;
+	void update(const ASGE::GameTime& /*unused*/) final;
+	void render() const final;
+	void onActive() final;
+	void onInactive() final;
 
 	template <class T, class... Args>
 	void createEntity(Args... args)

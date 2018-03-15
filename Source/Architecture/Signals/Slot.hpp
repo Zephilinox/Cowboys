@@ -2,11 +2,10 @@
 
 //STD
 #include <functional>
+#include <utility>
 
-template <typename... Args>
-class Signal;
-
-class Connection;
+//SELF
+#include "Connection.hpp"
 
 /*
 The Slot struct is just a replacement for std::pair.
@@ -17,7 +16,7 @@ struct Slot
 {
 	Slot(Connection c, std::function<void(Args...)> f)
 		: connection(c)
-		, function(f)
+		, function(std::move(f))
 	{}
 
 	Connection connection;

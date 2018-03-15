@@ -15,10 +15,10 @@ class StateLobby : public State
 public:
 	StateLobby(GameData* game_data);
 
-	void update(const ASGE::GameTime&) override final;
-	void render() const override final;
-	void onActive() override final;
-	void onInactive() override final;
+	void update(const ASGE::GameTime& /*unused*/) final;
+	void render() const final;
+	void onActive() final;
+	void onInactive() final;
 
 private:
 	Menu menu;

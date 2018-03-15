@@ -3,9 +3,11 @@
 //LIB
 #include <Engine/Renderer.h>
 
+#include <utility>
+
 FontManager::FontManager(ASGE::Renderer* renderer, std::string font_path)
 	: renderer(renderer)
-	, font_path(font_path)
+	, font_path(std::move(font_path))
 {}
 
 void FontManager::addFont(const std::string& path, const std::string& name, FontSize size)

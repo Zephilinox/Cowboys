@@ -1,5 +1,7 @@
 #include "Connection.hpp"
 
+#include <utility>
+
 //SELF
 #include "Disconnector.hpp"
 
@@ -20,7 +22,7 @@ bool Connection::disconnect()
 }
 
 Connection::Connection(std::weak_ptr<Disconnector> dc, unsigned id)
-	: dc(dc)
+	: dc(std::move(dc))
 	, slot_id(id)
 {}
 

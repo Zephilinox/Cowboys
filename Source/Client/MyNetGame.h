@@ -34,7 +34,7 @@ public:
 	*  memory inside the game's destructor. For example
 	*  game fonts need to be deallocated.
 	*/ 
-	~MyNetGame();
+	~MyNetGame() override;
 
 	/**
 	*  The initialisation of the game.
@@ -43,7 +43,7 @@ public:
 	*  API is up and running the input system can register
 	*  callback functions when certain events happen.
 	*/ 
-	virtual bool init() override;
+	bool init() override;
 	
 private:
 	/**
@@ -54,7 +54,7 @@ private:
 	*  @param us The ms time between frames and running time
 	*  @see GameTime
 	*/
-	virtual void update(const ASGE::GameTime& gt) override;
+	void update(const ASGE::GameTime& gt) override;
 	
 	/**
 	*  The rendering of the game.
@@ -64,7 +64,7 @@ private:
 	*  @param us The delta time between frames and running time
 	*  @see GameTime
 	*/
-	virtual void render(const ASGE::GameTime& gt) override;
+	void render(const ASGE::GameTime& gt) override;
 
 	/**
 	*  The key handling function for the game.
@@ -75,7 +75,7 @@ private:
 	*  @param data They key event and its related data.
 	*  @see SharedEventData
 	*/
-	void keyHandler(const ASGE::SharedEventData data);
+	void keyHandler(ASGE::SharedEventData data);
 
 private:
 	std::unique_ptr<GameData> game_data;

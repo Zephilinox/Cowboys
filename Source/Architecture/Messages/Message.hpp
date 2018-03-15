@@ -5,8 +5,8 @@
 
 namespace
 {
-	static constexpr uint32_t offset = 2166136261u;
-	static constexpr uint32_t prime = 16777619u;
+	constexpr uint32_t offset = 2166136261u;
+	constexpr uint32_t prime = 16777619u;
 
 
 	//not_null?
@@ -15,7 +15,7 @@ namespace
 		//Correct cast?
 		return str[0] == 0 ? partial : helper(static_cast<unsigned long long>((partial^str[0])) * prime, str + 1);
 	}
-}
+}  // namespace
 
 using HashedID = uint32_t;
 

@@ -11,8 +11,8 @@ int main()
 	{
 		return game.run();
 	}
-	else
-	{
+	
+	
 		return -1;
-	}
+	
 }

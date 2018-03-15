@@ -75,7 +75,7 @@ void NetworkServer::processEvents()
 
 bool NetworkServer::isConnected() const
 {
-	return server.get_connected_clients().size();
+	return !server.get_connected_clients().empty();
 }
 
 bool NetworkServer::isServer() const

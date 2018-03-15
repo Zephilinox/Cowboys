@@ -16,7 +16,8 @@ Menu::Menu(GameData* game_data, bool vertical)
 
 void Menu::update()
 {
-	if (buttons.empty()) return;
+	if (buttons.empty()) { return;
+}
 
 	if (game_data->getInputManager()->isActionPressed("down"))
 	{
@@ -46,7 +47,7 @@ void Menu::update()
 	{
 		AudioLocator::get()->play("button_click.wav");
 
-		if (buttons.size())
+		if (!buttons.empty())
 		{
 			buttons[selected_button_id].on_click.emit();
 		}

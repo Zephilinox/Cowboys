@@ -29,7 +29,7 @@ public:
 
 	Signal() noexcept
 		: dc(std::make_shared<SignalDisconnector<Args...>>(this))
-		, slot_id_counter(0)
+		 
 	{}
 
 	//Connect to a non-member function/lambda/etc.
@@ -137,7 +137,7 @@ private:
 			: signal(signal)
 		{}
 
-		bool disconnect(Connection& c) override final
+		bool disconnect(Connection& c) final
 		{
 			if (signal)
 			{
@@ -151,7 +151,7 @@ private:
 	};
 
 	//0 is invalid(like a nullptr), anything higher is fine.
-	unsigned slot_id_counter;
+	unsigned slot_id_counter{0};
 	
 	//We own this, only share weak_ptrs so that connections
 	//know when this signal is destroyed

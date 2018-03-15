@@ -9,11 +9,11 @@ class Paddle : public Entity
 public:
 	Paddle(GameData* game_data);
 
-	void update(float dt) override final;
-	void render(ASGE::Renderer* renderer) const override final;
+	void update(float dt) final;
+	void render(ASGE::Renderer* renderer) const final;
 
-	void serialize(Packet& p) override final;
-	void deserialize(Packet& p) override final;
+	void serialize(Packet& p) final;
+	void deserialize(Packet& p) final;
 
 	AnimatedSprite sprite;
 };
