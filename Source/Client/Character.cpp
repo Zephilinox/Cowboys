@@ -25,18 +25,26 @@ void Character::setFacing(CharacterFacing new_facing)
 	char_facing = new_facing;
 }
 
+Character::CharacterFacing Character::getFacing() const
+{
+	return char_facing;
+}
+
 void Character::setState(CharacterState new_state)
 {
 	char_state = new_state;
 }
 
-void Character::setIsActive(bool new_active)
+Character::CharacterState Character::getState() const
 {
-	isActive = new_active;
+	return char_state;
 }
+
 
 void Character::doAttack(Character* enemy_target)
 {
+	//Arithmetic in here to make the character's facing in the general direction of the enemy.
+
 	//BRENDON
 	//how many time units will it take to shoot? These should be either constexpr in the constants class OR determined by the conditions in the level (foggy weather, rain etc)
 	float shooting_threshold = 5.0f;
@@ -76,12 +84,14 @@ void Character::getAttacked(Character* attacker, float damage)
 
 void Character::turnEnded()
 {
-	hasReactiveFired = false;
+	//Trigger end of action phase specific things
+
 }
 
-bool Character::getIsActive() const
+void Character::roundEnded()
 {
-	return isActive;
+	//Trigger end of round specific things here
+	hasReactiveFired = false;
 }
 
 void Character::setPosition(float x, float y)

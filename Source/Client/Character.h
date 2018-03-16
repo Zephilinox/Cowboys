@@ -1,6 +1,7 @@
 #pragma once
 #include <Engine\Sprite.h>
 #include "Architecture\AnimatedSprite.hpp"
+#include "..\Architecture\GameData.hpp"
 
 
 class Character
@@ -25,19 +26,19 @@ public:
 	~Character();
 
 	void setFacing(CharacterFacing new_facing);
+	Character::CharacterFacing getFacing() const;
 	void setState(CharacterState new_state);
+	Character::CharacterState getState() const;
 
 	float getXPosition() const { return x_position; } 
 	float getYPosition() const { return y_position; }
 	void setPosition(float x, float y);
 
-	bool getIsActive() const;
-	void setIsActive(bool new_active);
-
 	void doAttack(Character* enemy);
 	void getAttacked(Character* attacker, float weapon_damage);
 
 	void turnEnded();
+	void roundEnded();
 
 	//These may end up overridden
 	virtual void slowMoveToPosition(float x, float y);
@@ -54,6 +55,7 @@ public:
 	float getReactions() const			{ return reactions; }
 	float getFiringAccuracy() const		{ return firing_accuracy; }
 	float getStrength() const			{ return strength; }
+	float getInitiative() const			{ return initiative; }
 
 	std::string getFullName();
 
@@ -65,7 +67,9 @@ public:
 	void setReactions(float new_val)		{ reactions = new_val; }
 	void setFiringAccuracy(float new_val)	{ firing_accuracy = new_val; }
 	void setStrength(float new_val)			{ strength = new_val; }
+	void setInitiative(float new_val)       { initiative = new_val; }
 
+	bool getIsAlive() const					{ return isAlive; };
 
 private:
 	//FACING
@@ -88,9 +92,10 @@ private:
 	float reactions = 10.0f;
 	float firing_accuracy = 10.0f;
 	float strength = 10.0f;
+	float initiative = 10.0f;
 	bool hasReactiveFired = false;
 
-	bool isActive = false;
+	bool isAlive = true;
 	float base_move_speed = 30.0f;
 	void updateOverridePositions();
 

@@ -161,6 +161,7 @@
     <ClInclude Include="..\..\Source\Client\Networking.h" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
     <ClInclude Include="..\..\Source\Client\targetver.h" />
+    <ClInclude Include="..\..\Source\Client\Warband.h" />
     <ClInclude Include="SpritePaths.h" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +195,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Client\Warband.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

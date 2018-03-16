@@ -79,6 +79,9 @@
     <ClCompile Include="..\..\Source\Architecture\Rng.cpp">
       <Filter>Source\Architecture</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Client\Warband.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
@@ -175,6 +178,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SpritePaths.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\Warband.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
