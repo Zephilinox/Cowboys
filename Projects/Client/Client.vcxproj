@@ -130,7 +130,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\birdman-the-game-teambirb\Source\Constants.hpp" />
     <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngine.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.hpp" />
@@ -162,6 +161,7 @@
     <ClInclude Include="..\..\Source\Architecture\Timer.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Button.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
+    <ClInclude Include="..\..\Source\Client\Character.h" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
     <ClInclude Include="..\..\Source\Client\Networking.h" />
     <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp" />
@@ -170,6 +170,8 @@
     <ClInclude Include="..\..\Source\Client\States\StatePingPong.hpp" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
     <ClInclude Include="..\..\Source\Client\targetver.h" />
+    <ClInclude Include="..\..\Source\Client\Warband.h" />
+    <ClInclude Include="SpritePaths.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Architecture\AnimatedSprite.cpp" />
@@ -195,6 +197,7 @@
     <ClCompile Include="..\..\Source\Architecture\Timer.cpp" />
     <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp" />
     <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
+    <ClCompile Include="..\..\Source\Client\Character.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
@@ -206,6 +209,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Client\Warband.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
