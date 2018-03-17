@@ -85,8 +85,12 @@
     <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp">
       <Filter>Source\States</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp">
+      <Filter>Source\States\PingPong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp">
+      <Filter>Source\States\PingPong</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
@@ -279,6 +283,9 @@
     </Filter>
     <Filter Include="Headers\States\PingPong">
       <UniqueIdentifier>{63d741ab-77b4-45ec-94c5-c52850121417}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\States\PingPong">
+      <UniqueIdentifier>{7dcb4dba-ee63-41a1-9b68-91efa19da28b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
