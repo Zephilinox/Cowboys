@@ -22,6 +22,11 @@ void Packet::reset()
 	buffer.resize(sizeof(HashedID));
 }
 
+void Packet::resetSerializePosition()
+{
+	deserializePosition = sizeof(HashedID);
+}
+
 void Packet::setID(HashedID id) noexcept
 {
 	memcpy(buffer.data(), &id, sizeof(id));

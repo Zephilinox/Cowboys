@@ -10,7 +10,7 @@ Paddle::Paddle(GameData* game_data)
 	entity_info.type = hash("Paddle");
 	sprite.addFrame("ppl1", 1);
 
-	if (game_data->getNetworkManager()->network->isServer())
+	if (game_data->getNetworkManager()->client->getID() == 1)
 	{
 		sprite.xPos = 60;
 		sprite.yPos = 720 / 2;

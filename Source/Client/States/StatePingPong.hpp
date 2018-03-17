@@ -31,47 +31,36 @@ public:
 	template <class T, class... Args>
 	void createEntity(Args... args)
 	{
-		assert(game_data->getNetworkManager()->network);
+		assert(game_data->getNetworkManager()->client);
+		
+		//Ask server to create our entity
+		T ent(std::forward<Args>(args)...);
+		ent.entity_info.ownerID = game_data->getNetworkManager()->client->getID();
 
-		if (game_data->getNetworkManager()->network->isServer())
-		{
-			entities.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
-			entities.back()->entity_info.networkID = next_network_id;
-			next_network_id++;
-			entities.back()->entity_info.ownerID = game_data->getNetworkManager()->network->getID();
-
-			//Send packets to all clients (except us, of course)
-			Packet p;
-			p.setID(hash("CreateEntity"));
-			p << entities.back()->entity_info;
-			game_data->getNetworkManager()->network->sendPacket(0, &p);
-		}
-		else
-		{
-			//Send packet to server with what we want to create
-			T ent(game_data);
-			Packet p;
-			p.setID(hash("CreateEntity"));
-			p << ent.entity_info;
-			game_data->getNetworkManager()->network->sendPacket(0, &p);
-		}
+		Packet p;
+		p.setID(hash("CreateEntity"));
+		p.senderID = game_data->getNetworkManager()->client->getID();
+		p << ent.entity_info;
+		game_data->getNetworkManager()->client->sendPacket(0, &p);
 	}
 
 	template <class T, class... Args>
 	void createEntity(uint32_t ownerID, Args... args)
 	{
-		assert(game_data->getNetworkManager()->network->isInitialized() && game_data->getNetworkManager()->network->isServer());
+		assert(game_data->getNetworkManager()->server);
 
-		entities.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
-		entities.back()->entity_info.networkID = next_network_id;
+		T ent(std::forward<Args>(args)...);
+		EntityInfo info = ent.entity_info;
+		info.networkID = next_network_id;
 		next_network_id++;
-		entities.back()->entity_info.ownerID = ownerID;
+		info.ownerID = ownerID;
 
-		//Send packet to all clients
+		//Tell clients to create this entity
 		Packet p;
 		p.setID(hash("CreateEntity"));
-		p << entities.back()->entity_info;
-		game_data->getNetworkManager()->network->sendPacket(0, &p);
+		p.senderID = 1;
+		p << info;
+		game_data->getNetworkManager()->server->sendPacketToAllClients(0, &p);
 	}
 
 private:

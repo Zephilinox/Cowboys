@@ -4,66 +4,106 @@
 #include <iostream>
 #include <chrono>
 
+//SELF
+#include "../Networking/ServerHost.hpp"
+#include "../Networking/ClientHost.hpp"
+#include "../Networking/ClientStandard.hpp"
+
 using namespace std::chrono_literals;
 
 NetworkManager::NetworkManager(GameData* game_data)
 	: game_data(game_data)
 {
+	std::cout << "Initializing global state\n";
 	enetpp::global_state::get().initialize();
-	network_thread = std::thread(&NetworkManager::runThreadedNetworking, this);
+
+	network_thread = std::thread(&NetworkManager::runThreadedNetwork, this);
 	network_thread.detach();
 }
 
 NetworkManager::~NetworkManager()
 {
+	std::cout << "Deinitializing global state\n";
 	exit_thread = true;
+
+	stopHost();
+
 	enetpp::global_state::get().deinitialize();
-	if (network)
-	{
-		network->deinitialize();
-		network.reset(nullptr);
-	}
 }
 
-void NetworkManager::initialize(bool server)
+void NetworkManager::startHost()
 {
+	std::cout << "starting server/client\n";
+	server = std::move(std::make_unique<ServerHost>(game_data));
+	client = std::move(std::make_unique<ClientHost>(game_data));
+
+	server->initialize();
+	client->initialize();
+}
+
+void NetworkManager::startClient()
+{
+	assert(!server);
+
+	std::cout << "starting client\n";
+	client = std::move(std::make_unique<ClientStandard>(game_data));
+	client->initialize();
+}
+
+void NetworkManager::stopHost()
+{
+	std::cout << "stopHost()\n";
+
 	if (server)
 	{
-		network = std::move(std::make_unique<NetworkServer>(game_data));
-	}
-	else
-	{
-		network = std::move(std::make_unique<NetworkClient>(game_data));
+		std::cout << "stopping server\n";
+		server->deinitialize();
+		server.reset(nullptr);
 	}
 
-	network->initialize();
+	stopClient();
+}
+
+void NetworkManager::stopClient()
+{
+	std::cout << "stopClient()\n";
+	if (client)
+	{
+		std::cout << "stopping client\n";
+		client->deinitialize();
+		client.reset(nullptr);
+	}
 }
 
 void NetworkManager::update()
 {
-	std::lock_guard<std::mutex> guard(packets_mutex);
-	while (!packets.empty())
+	if (server)
 	{
-		auto packet = packets.front();
-		packet_received.emit(packet);
-		packets.pop();
+		server->update();
+	}
+	
+	if (client)
+	{
+		client->update();
 	}
 }
 
-void NetworkManager::pushPacket(Packet&& p)
-{
-	std::lock_guard<std::mutex> guard(packets_mutex);
-	packets.push(p);
-}
-
-void NetworkManager::runThreadedNetworking()
+void NetworkManager::runThreadedNetwork()
 {
 	while (!exit_thread)
 	{
-		if (network)
+		if (server)
 		{
-			network->processEvents();
+			server->processPackets();
 		}
+
+		if (client)
+		{
+			client->processPackets();
+		}
+
 		std::this_thread::sleep_for(1s / 60.0f);
 	}
+
+	std::cout << "Network thread stopped\n";
 }

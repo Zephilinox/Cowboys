@@ -70,12 +70,6 @@
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioLocator.cpp">
       <Filter>Source\Architecture\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Architecture\Networking\NetworkClient.cpp">
-      <Filter>Source\Architecture\Networking</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Architecture\Networking\NetworkServer.cpp">
-      <Filter>Source\Architecture\Networking</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Architecture\Rng.cpp">
       <Filter>Source\Architecture</Filter>
     </ClCompile>
@@ -90,6 +84,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp">
       <Filter>Source\States\PingPong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Networking\ClientHost.cpp">
+      <Filter>Source\Architecture\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Networking\ClientStandard.cpp">
+      <Filter>Source\Architecture\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Networking\ServerHost.cpp">
+      <Filter>Source\Architecture\Networking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,15 +189,6 @@
     <ClInclude Include="..\..\Source\Architecture\Rng.h">
       <Filter>Headers\Architecture</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Architecture\Networking\NetworkClient.hpp">
-      <Filter>Headers\Architecture\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Architecture\Networking\NetworkServer.hpp">
-      <Filter>Headers\Architecture\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Architecture\Networking\Network.hpp">
-      <Filter>Headers\Architecture\Networking</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp">
       <Filter>Headers\States</Filter>
     </ClInclude>
@@ -212,6 +206,21 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp">
       <Filter>Headers\States\PingPong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\Client.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\ClientHost.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\ClientStandard.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\Server.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\ServerHost.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

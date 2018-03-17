@@ -8,12 +8,9 @@
 #include <enetpp/client.h>
 #include <enetpp/server.h>
 
-//SELF
-#include "../Networking/NetworkServer.hpp"
-#include "../Networking/NetworkClient.hpp"
-#include "../Signals/Signal.hpp"
-
 class GameData;
+class Server;
+class Client;
 
 class NetworkManager
 {
@@ -21,21 +18,46 @@ public:
 	NetworkManager(GameData* game_data);
 	~NetworkManager();
 
-	void initialize(bool server);
+	void startHost();
+	void startClient();
+	
+	void stopHost();
+	void stopClient();
+
 	void update();
-	void pushPacket(Packet&& p);
 
-	std::unique_ptr<Network> network;
-	Signal<Packet> packet_received;
+	std::unique_ptr<Server> server = nullptr;
+	std::unique_ptr<Client> client = nullptr;
 
+	inline uint32_t getMaxClients()
+	{
+		return max_clients;
+	}
+
+	inline uint8_t getChannelCount()
+	{
+		return channel_count;
+	}
+
+	inline const char* getServerIP()
+	{
+		return server_ip;
+	}
+
+	inline uint32_t getServerPort()
+	{
+		return server_port;
+	}
+	
 private:
-	void runThreadedNetworking();
+	void runThreadedNetwork();
 
 	GameData* game_data;
-
 	std::thread network_thread;
 	bool exit_thread = false;
 
-	std::mutex packets_mutex;
-	std::queue<Packet> packets;
+	uint32_t max_clients = 2;
+	uint8_t channel_count = 1;
+	const char* server_ip = "localhost";
+	uint32_t server_port = 22222;
 };
