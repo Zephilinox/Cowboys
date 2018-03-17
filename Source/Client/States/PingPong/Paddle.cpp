@@ -1,5 +1,8 @@
 #include "Paddle.hpp"
 
+//STD
+#include <iostream>
+
 //SELF
 #include "../../../Architecture/GameData.hpp"
 
@@ -20,6 +23,15 @@ Paddle::Paddle(GameData* game_data)
 		sprite.xPos = 1100;
 		sprite.yPos = 720 / 2;
 	}
+
+	mc = game_data->getNetworkManager()->on_network_tick.connect([this]()
+	{
+		if (isOwner())
+		{
+			//std::cout << "Paddle Packet Sent\n";
+			sendPacket();
+		}
+	});
 }
 
 void Paddle::update(float dt)
@@ -36,8 +48,6 @@ void Paddle::update(float dt)
 		{
 			sprite.yPos += 1000 * dt;
 		}
-
-		sendPacket();
 	}
 }
 

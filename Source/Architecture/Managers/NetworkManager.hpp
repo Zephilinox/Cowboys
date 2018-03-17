@@ -8,6 +8,10 @@
 #include <enetpp/client.h>
 #include <enetpp/server.h>
 
+//SELF
+#include "../Signals/Signal.hpp"
+#include "../Timer.hpp"
+
 class GameData;
 class Server;
 class Client;
@@ -48,6 +52,8 @@ public:
 	{
 		return server_port;
 	}
+
+	Signal<> on_network_tick;
 	
 private:
 	void runThreadedNetwork();
@@ -60,4 +66,9 @@ private:
 	uint8_t channel_count = 1;
 	const char* server_ip = "localhost";
 	uint32_t server_port = 22222;
+
+	Timer networkSendTimer;
+	int networkSendRate = 10;
+
+	int networkTickRate = 60;
 };

@@ -15,7 +15,6 @@ void ClientStandard::deinitialize()
 }
 
 void ClientStandard::processPackets()
-
 {
 	auto on_connected = [this]()
 	{
@@ -38,14 +37,22 @@ void ClientStandard::processPackets()
 	auto on_data_received = [this](const enet_uint8* data, size_t data_size)
 	{
 		Packet p(data, data_size);
+		//std::cout << "Received Packet " << p.getID() << "\n";
 
 		if (p.getID() == hash("ClientInitialized"))
 		{
 			p >> id;
 			std::cout << "Our ID is " << id << "\n";
-			return;
 		}
 
+		/*if (p.getID() == hash("Entity"))
+		{
+			EntityInfo info;
+			p >> info;
+			std::cout << "EntityPacket for " << info.networkID << " owned by " << info.ownerID << " of type " << info.type << "\n";
+		}*/
+
+		p.resetSerializePosition();
 		p.senderID = 1;
 		pushPacket(std::move(p));
 	};

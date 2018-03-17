@@ -18,4 +18,6 @@ public:
 	AnimatedSprite sprite;
 	bool movingLeft = false;
 	float dirY = 0;
+
+	ManagedConnection mc;
 };

@@ -28,6 +28,8 @@ public:
 	
 	inline void update()
 	{
+		std::lock_guard<std::mutex> guard(mutex);
+
 		packetsReceived += packets.size();
 
 		if (packetsTimer.getElapsedTime() > 5)
@@ -37,7 +39,6 @@ public:
 			packetsReceived = 0;
 		}
 
-		std::lock_guard<std::mutex> guard(mutex);
 		while (!packets.empty())
 		{
 			on_packet_received.emit(packets.front());

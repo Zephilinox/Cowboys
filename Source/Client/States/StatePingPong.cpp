@@ -13,6 +13,7 @@ StatePingPong::StatePingPong(GameData* game_data)
 {
 	menu.addButton(500, 300, "SERVER", ASGE::COLOURS::GREY, ASGE::COLOURS::WHITE);
 	menu.addButton(500, 400, "CLIENT", ASGE::COLOURS::GREY, ASGE::COLOURS::WHITE);
+	std::cout << "Entity = " << hash("Entity") << "\n";
 
 	auto serverPacketReceive = [this](Packet p)
 	{
@@ -45,7 +46,10 @@ StatePingPong::StatePingPong(GameData* game_data)
 				ent->entity_info.type == info.type && //types match
 				info.ownerID == p.senderID) //client owns it
 			{
-				this->game_data->getNetworkManager()->server->sendPacketToAllClients(0, &p);
+				this->game_data->getNetworkManager()->server->sendPacketToSomeClients(0, &p, ENET_PACKET_FLAG_RELIABLE, [senderID = p.senderID](const ClientInfo& ci)
+				{
+					return ci.id != senderID;
+				});
 			}
 		} break;
 		case hash("CreateEntity"):

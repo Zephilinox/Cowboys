@@ -86,6 +86,12 @@ void NetworkManager::update()
 	{
 		client->update();
 	}
+
+	if (networkSendTimer.getElapsedTime() > 1.0f / float(networkSendRate))
+	{
+		networkSendTimer.restart();
+		on_network_tick.emit();
+	}
 }
 
 void NetworkManager::runThreadedNetwork()
@@ -102,7 +108,7 @@ void NetworkManager::runThreadedNetwork()
 			client->processPackets();
 		}
 
-		std::this_thread::sleep_for(1s / 60.0f);
+		std::this_thread::sleep_for(1s / float(networkTickRate));
 	}
 
 	std::cout << "Network thread stopped\n";
