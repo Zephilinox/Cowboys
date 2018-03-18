@@ -25,9 +25,15 @@ public:
 
 	inline bool isConnected() const final
 	{
-		return client.get_connection_status() == enetpp::client::Status::CONNECTED;
+		return isConnecting() && connected_to_server;
+	}
+
+	inline bool isConnecting() const final
+	{
+		return client.is_connecting_or_connected();
 	}
 
 private:
 	enetpp::client client;
+	bool connected_to_server = false;
 };

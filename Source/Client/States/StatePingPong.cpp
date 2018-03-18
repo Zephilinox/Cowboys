@@ -139,14 +139,15 @@ StatePingPong::StatePingPong(GameData* game_data)
 
 StatePingPong::~StatePingPong()
 {
-	game_data->getNetworkManager()->stopHost();
+	game_data->getNetworkManager()->stopServer();
+	game_data->getNetworkManager()->stopClient();
 }
 
 void StatePingPong::update(const ASGE::GameTime& gt)
 {
 	auto client = game_data->getNetworkManager()->client.get();
 	auto server = game_data->getNetworkManager()->server.get();
-	if (client && client->isConnected())
+	if (client && client->isConnecting())
 	{
 		const float dt = gt.delta_time.count() / 1000.0f;
 
@@ -237,7 +238,7 @@ void StatePingPong::render() const
 		renderer->renderText("CLIENT", 250, 50, ASGE::COLOURS::WHITE);
 	}
 
-	if (client && client->isConnected())
+	if (client && client->isConnecting())
 	{
 		for (const auto& ent : entities)
 		{

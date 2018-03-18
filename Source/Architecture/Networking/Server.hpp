@@ -64,10 +64,17 @@ public:
 		packets.push(std::move(p));
 	}
 
+	inline bool isInitialized() const
+	{
+		return initialized;
+	}
+
 	Signal<Packet> on_packet_received;
 
 protected:
 	GameData* game_data;
+
+	bool initialized;
 
 private:
 	std::mutex mutex;

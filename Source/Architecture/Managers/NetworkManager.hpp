@@ -25,7 +25,7 @@ public:
 	void startHost();
 	void startClient();
 	
-	void stopHost();
+	void stopServer();
 	void stopClient();
 
 	void update();

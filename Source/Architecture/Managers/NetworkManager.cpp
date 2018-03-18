@@ -18,15 +18,16 @@ NetworkManager::NetworkManager(GameData* game_data)
 	enetpp::global_state::get().initialize();
 
 	network_thread = std::thread(&NetworkManager::runThreadedNetwork, this);
-	network_thread.detach();
 }
 
 NetworkManager::~NetworkManager()
 {
 	std::cout << "Deinitializing global state\n";
-	exit_thread = true;
+	exit_thread = true;	
+	network_thread.join();
 
-	stopHost();
+	stopServer();
+	stopClient();
 
 	enetpp::global_state::get().deinitialize();
 }
@@ -50,27 +51,36 @@ void NetworkManager::startClient()
 	client->initialize();
 }
 
-void NetworkManager::stopHost()
+void NetworkManager::stopServer()
 {
-	std::cout << "stopHost()\n";
-
+	std::cout << "stopping server\n";
 	if (server)
 	{
-		std::cout << "stopping server\n";
-		server->deinitialize();
+		std::cout << "server exists\n";
+		if (server->isInitialized())
+		{
+			std::cout << "server was initialized\n";
+			server->deinitialize();
+		}
+
+		std::cout << "server destroyed\n";
 		server.reset(nullptr);
 	}
-
-	stopClient();
 }
 
 void NetworkManager::stopClient()
 {
-	std::cout << "stopClient()\n";
+	std::cout << "stopping client\n";
 	if (client)
 	{
-		std::cout << "stopping client\n";
-		client->deinitialize();
+		std::cout << "client exists\n";
+		if (client->isInitialized())
+		{
+			std::cout << "client was initialized\n";
+			client->deinitialize();
+		}
+
+		std::cout << "client destroyed\n";
 		client.reset(nullptr);
 	}
 }
@@ -89,8 +99,12 @@ void NetworkManager::update()
 
 	if (networkSendTimer.getElapsedTime() > 1.0f / float(networkSendRate))
 	{
-		networkSendTimer.restart();
-		on_network_tick.emit();
+		if ((server && client && server->isConnected()) ||
+			!server && client && client->isConnected())
+		{
+			networkSendTimer.restart();
+			on_network_tick.emit();
+		}
 	}
 }
 

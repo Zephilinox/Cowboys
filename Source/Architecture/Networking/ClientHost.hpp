@@ -31,4 +31,9 @@ public:
 	{
 		return true;
 	}
+
+	inline bool isConnecting() const final
+	{
+		return true;
+	}
 };

@@ -2,6 +2,7 @@
 
 void ServerHost::initialize()
 {
+	initialized = true;
 	std::cout << "Server Initialized\n";
 
 	auto client_init = [&](ClientInfo& client, const char* ip)
@@ -27,6 +28,7 @@ void ServerHost::initialize()
 }
 void ServerHost::deinitialize()
 {
+	initialized = false;
 	std::cout << "Server Deinitialized\n";
 	server.stop_listening();
 }

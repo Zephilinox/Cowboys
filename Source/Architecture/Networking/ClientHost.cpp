@@ -2,11 +2,13 @@
 
 void ClientHost::initialize()
 {
+	initialized = true;
 	std::cout << "Client Initialized\n";
 }
 
 void ClientHost::deinitialize()
 {
+	initialized = false;
 	std::cout << "Client Deinitialized\n";
 }
 

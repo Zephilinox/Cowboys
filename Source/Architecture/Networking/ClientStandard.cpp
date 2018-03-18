@@ -2,6 +2,7 @@
 
 void ClientStandard::initialize()
 {
+	initialized = true;
 	std::cout << "Client Initialized\n";
 	client.connect(enetpp::client_connect_params()
 		.set_channel_count(game_data->getNetworkManager()->getChannelCount())
@@ -10,6 +11,7 @@ void ClientStandard::initialize()
 
 void ClientStandard::deinitialize()
 {
+	initialized = false;
 	std::cout << "Client Deinitialized\n";
 	client.disconnect();
 }
@@ -18,6 +20,7 @@ void ClientStandard::processPackets()
 {
 	auto on_connected = [this]()
 	{
+		connected_to_server = true;
 		std::cout << "Connected\n";
 		Packet p;
 		p.setID(hash("Connected"));
@@ -27,6 +30,7 @@ void ClientStandard::processPackets()
 
 	auto on_disconnected = [this]()
 	{
+		connected_to_server = false;
 		std::cout << "Disconnected\n";
 		Packet p;
 		p.setID(hash("Disconnected"));

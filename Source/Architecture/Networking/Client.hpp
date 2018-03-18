@@ -25,6 +25,7 @@ public:
 	virtual void sendPacket(enet_uint8 channel_id, Packet* p, enet_uint32 flags = ENET_PACKET_FLAG_RELIABLE) = 0;
 
 	virtual bool isConnected() const = 0;
+	virtual bool isConnecting() const = 0;
 	
 	inline void update()
 	{
@@ -57,12 +58,18 @@ public:
 		return id;
 	}
 
+	inline bool isInitialized() const
+	{
+		return initialized;
+	}
+
 	Signal<Packet> on_packet_received;
 
 protected:
 	GameData* game_data;
 
 	uint32_t id;
+	bool initialized = false;
 
 private:
 	std::mutex mutex;
