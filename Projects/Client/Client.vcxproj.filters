@@ -94,6 +94,9 @@
     <ClCompile Include="..\..\Source\Architecture\Networking\ServerHost.cpp">
       <Filter>Source\Architecture\Networking</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
@@ -221,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\Networking\ServerHost.hpp">
       <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp">
+      <Filter>Headers\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

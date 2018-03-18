@@ -33,6 +33,11 @@ public:
 		return !server.get_connected_clients().empty();
 	}
 
+	inline bool isListening() const final
+	{
+		return server.is_listening();
+	}
+
 private:
 	enetpp::server<ClientInfo> server;
 	uint32_t next_uid = 2;

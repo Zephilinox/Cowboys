@@ -3,7 +3,7 @@
 //SELF
 #include "../../Architecture/GameData.hpp"
 #include "../../Architecture/Constants.hpp"
-#include "StatePingPong.hpp"
+#include "StateLobby.hpp"
 
 StateMenu::StateMenu(GameData* game_data)
 	: State(game_data)
@@ -35,7 +35,7 @@ StateMenu::StateMenu(GameData* game_data)
 
 	menu.getButton(2).on_click.connect([game_data]()
 	{
-		game_data->getStateManager()->push<StatePingPong>();
+		game_data->getStateManager()->push<StateLobby>();
 	});
 }
 
