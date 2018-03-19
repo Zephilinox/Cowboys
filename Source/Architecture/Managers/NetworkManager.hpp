@@ -65,7 +65,7 @@ private:
 	uint32_t max_clients = 2;
 	uint8_t channel_count = 1;
 	const char* server_ip = "localhost";
-	uint32_t server_port = 22222;
+	uint32_t server_port = 11111;
 
 	Timer networkSendTimer;
 	int networkSendRate = 10;

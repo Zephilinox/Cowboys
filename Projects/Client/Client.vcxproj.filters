@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Client\stdafx.cpp">
-      <Filter>Source\Platform</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -97,19 +94,11 @@
     <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp">
       <Filter>Source\States</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\AppData\Local\Microsoft\VisualStudio\15.0_0b731702\Extensions\orwyirvx.wka\micro-profiler.initializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
       <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Client\Networking.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Client\stdafx.h">
-      <Filter>Headers\Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Client\targetver.h">
-      <Filter>Headers\Platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp">
       <Filter>Headers\Architecture</Filter>
@@ -183,9 +172,6 @@
     <ClInclude Include="..\..\Source\Architecture\Managers\NetworkManager.hpp">
       <Filter>Headers\Architecture\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\birdman-the-game-teambirb\Source\Constants.hpp">
-      <Filter>Headers\Architecture</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp">
       <Filter>Headers\Architecture\Audio</Filter>
     </ClInclude>
@@ -235,12 +221,6 @@
     </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{2180af3a-3cea-49d8-8828-5bdd0d4602bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Platform">
-      <UniqueIdentifier>{8f0d336b-346f-4973-a49f-ff5ea5302de7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headers\Platform">
-      <UniqueIdentifier>{fc276487-b5f7-4e8c-8498-69fb1506831b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Headers\Architecture">
       <UniqueIdentifier>{c1fc3e74-1850-46c3-8167-74027f4fda3c}</UniqueIdentifier>
@@ -306,5 +286,8 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\..\AppData\Local\Microsoft\VisualStudio\15.0_0b731702\Extensions\orwyirvx.wka\micro-profiler_$(PlatformName).lib" />
   </ItemGroup>
 </Project>

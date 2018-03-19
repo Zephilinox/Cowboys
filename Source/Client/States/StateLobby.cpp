@@ -87,7 +87,7 @@ StateLobby::StateLobby(GameData* game_data)
 	
 	lobby.getButton(0).on_click.connect([this]()
 	{
-		if (this->game_data->getNetworkManager()->server)
+		if (this->game_data->getNetworkManager()->server && ready && other_ready)
 		{
 			Packet p;
 			p.setID(hash("GameStart"));
