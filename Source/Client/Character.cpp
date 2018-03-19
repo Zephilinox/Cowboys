@@ -1,6 +1,6 @@
 #include "Character.h"
 #include <Engine\Renderer.h>
-#include "..\Common\Constants.hpp"
+#include "Constants.hpp"
 
 
 Character::Character(ASGE::Renderer* rend) :
@@ -15,10 +15,6 @@ Character::Character(ASGE::Renderer* rend) :
 	//Wouldn't it be nice if we did something inside this constructor? Everything happens before we even get in here...
 }
 
-Character::~Character()
-{
-
-}
 
 void Character::setFacing(CharacterFacing new_facing)
 {
@@ -137,9 +133,9 @@ void Character::update(float dt)
 	case WALKING:
 		{
 
-		forward_walk_sprite.update(dt);
+		/*forward_walk_sprite.update(dt);
 		backward_walk_sprite.update(dt);
-		horizontal_walk_sprite.update(dt);
+		horizontal_walk_sprite.update(dt);*/
 
 		bool xPosMatched = false;
 		bool yPosMatched = false;
@@ -174,21 +170,21 @@ void Character::update(float dt)
 			{
 				char_state = CharacterState::IDLE;
 
-				horizontal_walk_sprite.restart();
-				horizontal_walk_sprite.pause();
-				backward_walk_sprite.restart();
-				backward_walk_sprite.pause();
-				forward_walk_sprite.restart();
-				forward_walk_sprite.pause();
+				//horizontal_walk_sprite.restart();
+				//horizontal_walk_sprite.pause();
+				//backward_walk_sprite.restart();
+				//backward_walk_sprite.pause();
+				//forward_walk_sprite.restart();
+				//forward_walk_sprite.pause();
 			}
 
 			break;
 		}
 	case SHOOTING:
 	{
-		horizontal_shoot_sprite.update(dt);
-		forward_shoot_sprite.update(dt);
-		backward_shoot_sprite.update(dt);
+		//horizontal_shoot_sprite.update(dt);
+		//forward_shoot_sprite.update(dt);
+		//backward_shoot_sprite.update(dt);
 		break;
 	}
 	default:

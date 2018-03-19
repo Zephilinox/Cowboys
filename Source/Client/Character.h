@@ -1,6 +1,6 @@
 #pragma once
 #include <Engine\Sprite.h>
-#include "Architecture\AnimatedSprite.hpp"
+#include "..\Architecture\AnimatedSprite.hpp"
 #include "..\Architecture\GameData.hpp"
 
 
@@ -23,12 +23,12 @@ public:
 	};
 
 	Character(ASGE::Renderer* rend);
-	~Character();
+	~Character() = default;
 
 	void setFacing(CharacterFacing new_facing);
-	Character::CharacterFacing getFacing() const;
+	CharacterFacing getFacing() const;
 	void setState(CharacterState new_state);
-	Character::CharacterState getState() const;
+	CharacterState getState() const;
 
 	float getXPosition() const { return x_position; } 
 	float getYPosition() const { return y_position; }

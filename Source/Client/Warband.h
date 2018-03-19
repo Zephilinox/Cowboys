@@ -11,7 +11,6 @@ public:
 	Warband(GameData* game_data);
 	~Warband() = default;
 
-	Character* getCharacter(int unit_no);
 
 	void update(float dt);
 	void render() const;
@@ -25,7 +24,5 @@ public:
 
 private:
 	GameData* game_data;
-	std::vector <Character> units;
-
-
+	std::vector<std::unique_ptr<Character>> units;
 };
