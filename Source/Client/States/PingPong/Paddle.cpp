@@ -40,11 +40,11 @@ void Paddle::update(float dt)
 
 	if (isOwner())
 	{
-		if (game_data->getInputManager()->isActionDown("up"))
+		if (game_data->getInputManager()->isActionDown(hash("up")))
 		{
 			sprite.yPos -= 1000 * dt;
 		}
-		else if (game_data->getInputManager()->isActionDown("down"))
+		else if (game_data->getInputManager()->isActionDown(hash("down")))
 		{
 			sprite.yPos += 1000 * dt;
 		}

@@ -18,7 +18,7 @@ void Menu::update()
 {
 	if (buttons.empty()) return;
 
-	if (game_data->getInputManager()->isActionPressed("down"))
+	if (game_data->getInputManager()->isActionPressed(hash("down")))
 	{
 		if (selected_button_id == buttons.size() - 1)
 		{
@@ -30,7 +30,7 @@ void Menu::update()
 		}
 	}
 	
-	if (game_data->getInputManager()->isActionPressed("up"))
+	if (game_data->getInputManager()->isActionPressed(hash("up")))
 	{
 		if (selected_button_id == 0)
 		{
@@ -42,7 +42,7 @@ void Menu::update()
 		}
 	}
 
-	if (game_data->getInputManager()->isActionPressed("enter"))
+	if (game_data->getInputManager()->isActionPressed(hash("enter")))
 	{
 		AudioLocator::get()->play("button_click.wav");
 

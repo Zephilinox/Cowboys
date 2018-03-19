@@ -200,7 +200,7 @@ void StatePingPong::update(const ASGE::GameTime& gt)
 		}
 	}
 
-	if (game_data->getInputManager()->isActionPressed("escape"))
+	if (game_data->getInputManager()->isActionPressed(hash("escape")))
 	{
 		game_data->getStateManager()->pop();
 	}

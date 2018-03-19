@@ -41,19 +41,19 @@ bool MyNetGame::init()
 
 	game_data = std::make_unique<GameData>(renderer.get(), inputs.get(), game_width, game_height);
 
-	game_data->getInputManager()->addAction("enter", ASGE::KEYS::KEY_ENTER);
-	game_data->getInputManager()->addAction("enter", game_data->getInputManager()->gamepad_button_enter);
+	game_data->getInputManager()->addAction(hash("enter"), ASGE::KEYS::KEY_ENTER);
+	game_data->getInputManager()->addAction(hash("enter"), game_data->getInputManager()->gamepad_button_enter);
 
-	game_data->getInputManager()->addAction("escape", ASGE::KEYS::KEY_ESCAPE);
-	game_data->getInputManager()->addAction("escape", game_data->getInputManager()->gamepad_button_escape);
+	game_data->getInputManager()->addAction(hash("escape"), ASGE::KEYS::KEY_ESCAPE);
+	game_data->getInputManager()->addAction(hash("escape"), game_data->getInputManager()->gamepad_button_escape);
 
-	game_data->getInputManager()->addAction("up", ASGE::KEYS::KEY_UP);
-	game_data->getInputManager()->addAction("up", ASGE::KEYS::KEY_W);
-	game_data->getInputManager()->addAction("up", game_data->getInputManager()->gamepad_button_up);
+	game_data->getInputManager()->addAction(hash("up"), ASGE::KEYS::KEY_UP);
+	game_data->getInputManager()->addAction(hash("up"), ASGE::KEYS::KEY_W);
+	game_data->getInputManager()->addAction(hash("up"), game_data->getInputManager()->gamepad_button_up);
 
-	game_data->getInputManager()->addAction("down", ASGE::KEYS::KEY_DOWN);
-	game_data->getInputManager()->addAction("down", ASGE::KEYS::KEY_S);
-	game_data->getInputManager()->addAction("down", game_data->getInputManager()->gamepad_button_down);
+	game_data->getInputManager()->addAction(hash("down"), ASGE::KEYS::KEY_DOWN);
+	game_data->getInputManager()->addAction(hash("down"), ASGE::KEYS::KEY_S);
+	game_data->getInputManager()->addAction(hash("down"), game_data->getInputManager()->gamepad_button_down);
 
 	game_data->getFontManager()->addFont("../../Resources/Fonts/Zorque.ttf", "Default", 24);
 
