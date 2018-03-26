@@ -4,7 +4,7 @@
 #include "../../Architecture/GameData.hpp"
 #include "../../Architecture/Constants.hpp"
 
-#include "StatePingPong.hpp"
+#include "StateLobby.hpp"
 #include "WarbandSelectionState.h"
 
 StateMenu::StateMenu(GameData* game_data)
