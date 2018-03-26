@@ -27,7 +27,7 @@ bool MyNetGame::init()
 	renderer->setWindowTitle("The Game With Fun Hats");
 	const float dark_grey[] = { 0.08f, 0.08f, 0.08f };
 	renderer->setClearColour(dark_grey);
-	renderer->setSpriteMode(ASGE::SpriteSortMode::BACK_TO_FRONT);
+	renderer->setSpriteMode(ASGE::SpriteSortMode::FRONT_TO_BACK);
 	toggleFPS();
 
 	this->inputs->use_threads = true;

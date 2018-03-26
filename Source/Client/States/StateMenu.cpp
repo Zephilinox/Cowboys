@@ -4,6 +4,7 @@
 #include "../../Architecture/GameData.hpp"
 #include "../../Architecture/Constants.hpp"
 #include "StatePingPong.hpp"
+#include "WarbandSelectionState.h"
 
 StateMenu::StateMenu(GameData* game_data)
 	: State(game_data)
@@ -23,7 +24,7 @@ StateMenu::StateMenu(GameData* game_data)
 	menu.getButton(0).on_click.connect([game_data]()
 	{
 		//TODO push warband selection
-		//game_data->getStateManager()->push<GameState>();
+		game_data->getStateManager()->push<WarbandSelectionState>();
 	});
 
 	menu.getButton(1).on_click.connect([game_data]()

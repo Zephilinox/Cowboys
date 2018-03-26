@@ -36,6 +36,8 @@
     <ClCompile Include="..\..\Source\Client\Hero.cpp" />
     <ClCompile Include="..\..\Source\Client\Unit.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PauseState.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\WarbandSelectionState.cpp" />
+    <ClCompile Include="..\..\Source\Client\UnitSelectPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp" />
@@ -85,6 +87,9 @@
     <ClInclude Include="..\..\Source\Client\ListOfNames.h" />
     <ClInclude Include="..\..\Source\Client\States\PauseState.h" />
     <ClInclude Include="..\..\Source\Architecture\Constants.hpp" />
+    <ClInclude Include="..\..\Source\Client\States\WarbandSelectionState.h" />
+    <ClInclude Include="..\..\Source\Client\UnitSelectPanel.h" />
+    <ClInclude Include="..\..\Source\Client\PortraitTextureStrings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
