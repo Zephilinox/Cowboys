@@ -15,17 +15,15 @@ StateMenu::StateMenu(GameData* game_data)
 	menu.addButton(game_data->getWindowWidth() / 2 - 80, game_data->getWindowHeight() / 2, "EXIT", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
 	menu.addButton(game_data->getWindowWidth() / 2 - 80, game_data->getWindowHeight() / 2 + 40, "PING PONG", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
 
+
 	//register actions to button clicks
 	//button lives as long as menu, which lives as long as this menu state
 	//so no need to keep track of Connection lifetime
 	//Take at look at Signal.hpp for more info on how that works.
 	menu.getButton(0).on_click.connect([game_data]()
 	{
-		/*//here we're using the fade out state to transition to another state
-		game_data->getStateManager()->push<FadeOutState>([game)data]()
-		{
-			game_data->getStateManager()->push<GameState>();
-		});*/
+		//TODO push warband selection
+		//game_data->getStateManager()->push<GameState>();
 	});
 
 	menu.getButton(1).on_click.connect([game_data]()

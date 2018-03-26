@@ -136,6 +136,7 @@
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineNone.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineSFML.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Constants.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Actor.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Dialogue.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\DialogueTree.hpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="..\..\Source\Client\ListOfNames.h" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
     <ClInclude Include="..\..\Source\Client\Networking.h" />
+    <ClInclude Include="..\..\Source\Client\States\PauseState.h" />
     <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp" />
     <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
@@ -204,6 +206,7 @@
     <ClCompile Include="..\..\Source\Client\Hero.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\PauseState.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />

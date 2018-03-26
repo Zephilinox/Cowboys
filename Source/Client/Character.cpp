@@ -1,6 +1,6 @@
 #include "Character.h"
 #include <Engine\Renderer.h>
-#include "Constants.hpp"
+#include "../Architecture/Constants.hpp"
 
 
 Character::Character(ASGE::Renderer* rend) : Unit(rend)

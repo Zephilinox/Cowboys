@@ -1,6 +1,6 @@
 #include "Hero.h"
 #include <Engine\Renderer.h>
-#include "Constants.hpp"
+#include "../Architecture/Constants.hpp"
 
 
 Hero::Hero(ASGE::Renderer* rend) : Unit::Unit(rend)

@@ -35,6 +35,7 @@
     <ClCompile Include="..\..\Source\Client\Character.cpp" />
     <ClCompile Include="..\..\Source\Client\Hero.cpp" />
     <ClCompile Include="..\..\Source\Client\Unit.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\PauseState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp" />
@@ -82,9 +83,28 @@
     <ClInclude Include="..\..\Source\Client\Hero.h" />
     <ClInclude Include="..\..\Source\Client\Unit.h" />
     <ClInclude Include="..\..\Source\Client\ListOfNames.h" />
+    <ClInclude Include="..\..\Source\Client\States\PauseState.h" />
+    <ClInclude Include="..\..\Source\Architecture\Constants.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Architecture">
+      <UniqueIdentifier>{4f111c12-dfeb-43a2-a2c9-cc6cbf69248c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Architecture\Audio">
+      <UniqueIdentifier>{d5e8909a-d1b8-4d35-a97b-ae23ca908122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Architecture\Audio\irKlang">
+      <UniqueIdentifier>{26519430-d7d8-484c-ac2a-9c08b9abd11f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Architecture\Audio\None">
+      <UniqueIdentifier>{43bfaaa6-c8fc-4e1f-9ab2-07507f85da11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Architecture\Audio\SFML">
+      <UniqueIdentifier>{dad56dab-066d-44da-85d2-58eb7f9bd650}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

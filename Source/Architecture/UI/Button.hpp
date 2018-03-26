@@ -17,7 +17,7 @@ class Button
 public:
 	Button() noexcept;
 
-	void render(GameData* game_data, int z_order = Z_ORDER_LAYER::PANELS_TEXT) const;
+	void render(GameData* game_data, int z_order = Z_ORDER_LAYER::OVERLAY_TEXT) const;
 
 	bool isSelected() const noexcept;
 	void setSelected(bool selected) noexcept;
