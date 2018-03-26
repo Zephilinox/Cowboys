@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Character.h"
+#include "Unit.h"
+#include "Hero.h"
 #include "..\Architecture\GameData.hpp"
 
 constexpr unsigned int number_of_characters = 4;
@@ -24,5 +26,5 @@ public:
 
 private:
 	GameData* game_data;
-	std::vector<std::unique_ptr<Character>> units;
+	std::vector<std::unique_ptr<Unit>> units;
 };

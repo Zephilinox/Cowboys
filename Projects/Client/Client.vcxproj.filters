@@ -33,6 +33,8 @@
     <ClCompile Include="..\..\Source\Client\stdafx.cpp" />
     <ClCompile Include="..\..\Source\Client\Warband.cpp" />
     <ClCompile Include="..\..\Source\Client\Character.cpp" />
+    <ClCompile Include="..\..\Source\Client\Hero.cpp" />
+    <ClCompile Include="..\..\Source\Client\Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp" />
@@ -77,6 +79,9 @@
     <ClInclude Include="..\..\Source\Client\Warband.h" />
     <ClInclude Include="SpritePaths.h" />
     <ClInclude Include="..\..\Source\Client\Character.h" />
+    <ClInclude Include="..\..\Source\Client\Hero.h" />
+    <ClInclude Include="..\..\Source\Client\Unit.h" />
+    <ClInclude Include="..\..\Source\Client\ListOfNames.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

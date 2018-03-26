@@ -3,20 +3,35 @@
 #include "..\Architecture\GameData.hpp"
 #include "Unit.h"
 
-
-class Character : public Unit
+class Hero : public Unit
 {
 public:
+	enum CharacterFacing
+	{
+		NORTH = 0,
+		EAST,
+		SOUTH,
+		WEST
+	};
 
-	Character(ASGE::Renderer* rend);
-	~Character() = default;
+	enum CharacterState
+	{
+		IDLE = 0,
+		WALKING,
+		SHOOTING,
+	};
+
+	Hero(ASGE::Renderer* rend);
+	~Hero() = default;
 
 
 	void doAttack(Unit* enemy) override;
 	void getAttacked(Unit* attacker, float weapon_damage) override;
 
 	void update(float dt) override;
-    void render(ASGE::Renderer* renderer) const override;
+	void render(ASGE::Renderer* renderer) const override;
+
+	//void useSpecialAbility();
 
 private:
 

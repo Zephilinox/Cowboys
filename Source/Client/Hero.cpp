@@ -1,14 +1,15 @@
-#include "Character.h"
+#include "Hero.h"
 #include <Engine\Renderer.h>
 #include "Constants.hpp"
 
 
-Character::Character(ASGE::Renderer* rend) : Unit(rend)
-{	
+Hero::Hero(ASGE::Renderer* rend) : Unit::Unit(rend)
+{
+	//Wouldn't it be nice if we did something inside this constructor? Everything happens before we even get in here...
 }
 
 
-void Character::doAttack(Unit* enemy_target)
+void Hero::doAttack(Unit* enemy_target)
 {
 	//Arithmetic in here to make the character's facing in the general direction of the enemy.
 
@@ -29,7 +30,7 @@ void Character::doAttack(Unit* enemy_target)
 	}
 }
 
-void Character::getAttacked(Unit* attacker, float damage)
+void Hero::getAttacked(Unit* attacker, float damage)
 {
 	//BRENDON - balancing
 	//These should be either constexpr in the constants class OR determined by the conditions in the level(foggy weather, rain etc)
@@ -40,7 +41,7 @@ void Character::getAttacked(Unit* attacker, float damage)
 	//Apply any damage reduction from armour or any of that shit here?
 	health -= damage;
 
-	if(reactions >= reactions_threshold 
+	if(reactions >= reactions_threshold
 		&& !hasReactiveFired
 		&& time_units >= shooting_threshold)
 	{
@@ -49,22 +50,19 @@ void Character::getAttacked(Unit* attacker, float damage)
 	}
 }
 
-
-void Character::update(float dt)
+void Hero::update(float dt)
 {
 	//do everything parent update would do
 	Unit::update(dt);
 
 	//then any extra shit
-	
 }
 
-void Character::render(ASGE::Renderer* renderer) const
+void Hero::render(ASGE::Renderer* renderer) const
 {
 	//Render what parent wants to render
 	Unit::render(renderer);
-	
-	//then any extra shit you wanna do
 
+	//then any extra shit you wanna do
 }
 
