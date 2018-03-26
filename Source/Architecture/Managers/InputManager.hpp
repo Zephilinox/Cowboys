@@ -53,6 +53,12 @@ public:
 	bool isGamePadButtonPressed(int button);
 	bool isGamePadButtonDown(int button);
 
+	bool isMouseButtonPressed(int button);
+	bool isMouseButtonReleased(int button);
+	bool isMouseButtonDown(int button);
+
+	void getMousePosition(double& xpos, double& ypos);
+
 	GamePadData getGamePad();
 
 	int gamepad_button_up = ASGE::KEYS::KEY_LAST + 10;
@@ -62,19 +68,27 @@ public:
 
 private:
 	void gamepadHandler(const ASGE::SharedEventData data);
+	void mouseHandler(const ASGE::SharedEventData data);
 
 	int gamepad_id;
 	bool gamepad_connected = false;
 	int callback_id;
+	int callback_id2;
 
 	ASGE::Input* input;
 	std::mutex keys_mutex;
+	std::mutex mouse_mutex;
 	
 	std::multimap<std::string, int> actions;
 
 	std::array<int, ASGE::KEYS::KEY_LAST> toggle_keys;
 	std::array<int, ASGE::KEYS::KEY_LAST> keys;
 
-	std::array<int, ASGE::KEYS::KEY_LAST + ASGE::KEYS::KEY_LAST> buttons_last_frame;
-	std::array<int, ASGE::KEYS::KEY_LAST + ASGE::KEYS::KEY_LAST> buttons;
+	//todo: try and remember why I doubled this :( related to both gamepad buttons and keys having consecutive ranges
+	std::array<int, ASGE::KEYS::KEY_LAST + ASGE::KEYS::KEY_LAST> gamepad_buttons_last_frame;
+	std::array<int, ASGE::KEYS::KEY_LAST + ASGE::KEYS::KEY_LAST> gamepad_buttons;
+
+	//just do 512, work it out latah
+	std::array<int, 512> mouse_buttons_last_frame;
+	std::array<int, 512> mouse_buttons;
 };
