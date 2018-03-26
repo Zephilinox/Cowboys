@@ -4,66 +4,126 @@
 #include <iostream>
 #include <chrono>
 
+//SELF
+#include "../Networking/ServerHost.hpp"
+#include "../Networking/ClientHost.hpp"
+#include "../Networking/ClientStandard.hpp"
+
 using namespace std::chrono_literals;
 
 NetworkManager::NetworkManager(GameData* game_data)
 	: game_data(game_data)
 {
+	std::cout << "Initializing global state\n";
 	enetpp::global_state::get().initialize();
-	network_thread = std::thread(&NetworkManager::runThreadedNetworking, this);
-	network_thread.detach();
+
+	network_thread = std::thread(&NetworkManager::runThreadedNetwork, this);
 }
 
 NetworkManager::~NetworkManager()
 {
-	exit_thread = true;
+	std::cout << "Deinitializing global state\n";
+	exit_thread = true;	
+	network_thread.join();
+
+	stopServer();
+	stopClient();
+
 	enetpp::global_state::get().deinitialize();
-	if (network)
+}
+
+void NetworkManager::startHost()
+{
+	std::cout << "starting server/client\n";
+	server = std::move(std::make_unique<ServerHost>(game_data));
+	client = std::move(std::make_unique<ClientHost>(game_data));
+
+	server->initialize();
+	client->initialize();
+}
+
+void NetworkManager::startClient()
+{
+	assert(!server);
+
+	std::cout << "starting client\n";
+	client = std::move(std::make_unique<ClientStandard>(game_data));
+	client->initialize();
+}
+
+void NetworkManager::stopServer()
+{
+	std::cout << "stopping server\n";
+	if (server)
 	{
-		network->deinitialize();
-		network.reset(nullptr);
+		std::cout << "server exists\n";
+		if (server->isInitialized())
+		{
+			std::cout << "server was initialized\n";
+			server->deinitialize();
+		}
+
+		std::cout << "server destroyed\n";
+		server.reset(nullptr);
 	}
 }
 
-void NetworkManager::initialize(bool server)
+void NetworkManager::stopClient()
 {
-	if (server)
+	std::cout << "stopping client\n";
+	if (client)
 	{
-		network = std::move(std::make_unique<NetworkServer>(game_data));
-	}
-	else
-	{
-		network = std::move(std::make_unique<NetworkClient>(game_data));
-	}
+		std::cout << "client exists\n";
+		if (client->isInitialized())
+		{
+			std::cout << "client was initialized\n";
+			client->deinitialize();
+		}
 
-	network->initialize();
+		std::cout << "client destroyed\n";
+		client.reset(nullptr);
+	}
 }
 
 void NetworkManager::update()
 {
-	std::lock_guard<std::mutex> guard(packets_mutex);
-	while (!packets.empty())
+	if (server)
 	{
-		auto packet = packets.front();
-		packet_received.emit(packet);
-		packets.pop();
+		server->update();
+	}
+	
+	if (client)
+	{
+		client->update();
+	}
+
+	if (networkSendTimer.getElapsedTime() > 1.0f / float(networkSendRate))
+	{
+		if ((server && client && server->isConnected()) ||
+			!server && client && client->isConnected())
+		{
+			networkSendTimer.restart();
+			on_network_tick.emit();
+		}
 	}
 }
 
-void NetworkManager::pushPacket(Packet&& p)
-{
-	std::lock_guard<std::mutex> guard(packets_mutex);
-	packets.push(p);
-}
-
-void NetworkManager::runThreadedNetworking()
+void NetworkManager::runThreadedNetwork()
 {
 	while (!exit_thread)
 	{
-		if (network)
+		if (server)
 		{
-			network->processEvents();
+			server->processPackets();
 		}
-		std::this_thread::sleep_for(1s / 60.0f);
+
+		if (client)
+		{
+			client->processPackets();
+		}
+
+		std::this_thread::sleep_for(1s / float(networkTickRate));
 	}
+
+	std::cout << "Network thread stopped\n";
 }

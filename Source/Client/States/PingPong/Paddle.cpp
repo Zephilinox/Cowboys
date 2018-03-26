@@ -1,5 +1,8 @@
 #include "Paddle.hpp"
 
+//STD
+#include <iostream>
+
 //SELF
 #include "../../../Architecture/GameData.hpp"
 
@@ -10,7 +13,7 @@ Paddle::Paddle(GameData* game_data)
 	entity_info.type = hash("Paddle");
 	sprite.addFrame("ppl1", 1);
 
-	if (game_data->getNetworkManager()->network->isServer())
+	if (game_data->getNetworkManager()->client->getID() == 1)
 	{
 		sprite.xPos = 60;
 		sprite.yPos = 720 / 2;
@@ -20,6 +23,15 @@ Paddle::Paddle(GameData* game_data)
 		sprite.xPos = 1100;
 		sprite.yPos = 720 / 2;
 	}
+
+	mc = game_data->getNetworkManager()->on_network_tick.connect([this]()
+	{
+		if (isOwner())
+		{
+			//std::cout << "Paddle Packet Sent\n";
+			sendPacket();
+		}
+	});
 }
 
 void Paddle::update(float dt)
@@ -36,8 +48,6 @@ void Paddle::update(float dt)
 		{
 			sprite.yPos += 1000 * dt;
 		}
-
-		sendPacket();
 	}
 }
 

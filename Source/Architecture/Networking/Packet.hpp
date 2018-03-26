@@ -26,6 +26,7 @@ struct Packet
 	Packet(const enet_uint8* data, size_t size) noexcept;
 	
 	void reset();
+	void resetSerializePosition();
 
 	void setID(HashedID id) noexcept;
 	HashedID getID() const noexcept;

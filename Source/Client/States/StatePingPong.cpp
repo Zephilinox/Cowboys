@@ -4,142 +4,155 @@
 #include "../../Architecture/GameData.hpp"
 #include "../States/StateMenu.hpp"
 #include "../../Architecture/Constants.hpp"
+#include "../../Architecture/Networking/Client.hpp"
+#include "../../Architecture/Networking/Server.hpp"
 
 StatePingPong::StatePingPong(GameData* game_data)
 	: State(game_data)
 	, menu(game_data)
 {
-	menu.addButton(500, 300, "SERVER", ASGE::COLOURS::GREY, ASGE::COLOURS::WHITE);
-	menu.addButton(500, 400, "CLIENT", ASGE::COLOURS::GREY, ASGE::COLOURS::WHITE);
+	Packet p;
+	p.setID(hash("GameJoined"));
+	this->game_data->getNetworkManager()->client->sendPacket(0, &p);
 
-	menu.getButton(0).on_click.connect([this, game_data]()
+	auto serverPacketReceive = [this](Packet p)
 	{
-		game_data->getNetworkManager()->initialize(true);
+		switch (p.getID())
+		{
+		case hash("Connected"):
+		{
+			p.reset();
+			p.setID(hash("GameStart"));
+			this->game_data->getNetworkManager()->server->sendPacketToOneClient(p.senderID, 0, &p);
+		}
+		case hash("GameJoined"):
+		{
+			for (const auto& ent : entities)
+			{
+				p.reset();
+				p.setID(hash("CreateEntity"));
+				p << ent->entity_info;
+				this->game_data->getNetworkManager()->server->sendPacketToOneClient(p.senderID, 0, &p);
+			}
+		} break;
+		case hash("Disconnected"):
+		{
+			std::experimental::erase_if(entities, [p](const auto& entity)
+			{
+				return entity->entity_info.ownerID == p.senderID;
+			});
+		} break;
+		case hash("Entity"):
+		{
+			EntityInfo info;
+			p >> info;
+			Entity* ent = getEntity(info.networkID);
+			if (ent && //exists
+				ent->entity_info.ownerID == info.ownerID && //owners match
+				ent->entity_info.type == info.type && //types match
+				info.ownerID == p.senderID) //client owns it
+			{
+				this->game_data->getNetworkManager()->server->sendPacketToSomeClients(0, &p, ENET_PACKET_FLAG_RELIABLE, [senderID = p.senderID](const ClientInfo& ci)
+				{
+					return ci.id != senderID;
+				});
+			}
+		} break;
+		case hash("CreateEntity"):
+		{
+			EntityInfo info;
+			p >> info;
+			std::cout << "server create ent : " << info.networkID << " " << info.ownerID << "\n";
+			switch (info.type)
+			{
+			case hash("Paddle"):
+			{
+				createEntity<Paddle>(p.senderID, this->game_data);
+			} break;
+			case hash("Ball"):
+			{
+				createEntity<Ball>(p.senderID, this->game_data);
+			} break;
+			}
+		} break;
+		}
+	};
 
+	auto clientPacketReceive = [this](Packet p)
+	{
+		switch (p.getID())
+		{
+		case hash("Entity"):
+		{
+			EntityInfo info;
+			p >> info;
+			Entity* ent = getEntity(info.networkID);
+
+			if (ent && !ent->isOwner())
+			{
+				ent->receivePacket(Packet(p));
+			}
+		} break;
+		case hash("CreateEntity"):
+		{
+			EntityInfo info;
+			p >> info;
+
+			std::cout << "client create ent : " << info.networkID << " " << info.ownerID << "\n";
+			if (getEntity(info.networkID))
+			{
+				std::cout << "WAS ASKED TO CREATE EXISTING ENTITY " << info.networkID << ". REFUSING.\n";
+				return;
+			}
+
+			switch (info.type)
+			{
+			case hash("Paddle"):
+			{
+				entities.emplace_back(std::make_unique<Paddle>(this->game_data));
+			} break;
+			case hash("Ball"):
+			{
+				entities.emplace_back(std::make_unique<Ball>(this->game_data));
+			} break;
+			}
+
+			entities.back()->entity_info = info;
+		} break;
+		}
+	};
+
+	managed_slot_1 = this->game_data->getNetworkManager()->client->on_packet_received.connect(clientPacketReceive);
+
+	if (game_data->getNetworkManager()->server)
+	{
+		managed_slot_2 = this->game_data->getNetworkManager()->server->on_packet_received.connect(serverPacketReceive);
+	}
+
+	if (game_data->getNetworkManager()->client)
+	{
 		createEntity<Paddle>(this->game_data);
+	}
+
+	if (game_data->getNetworkManager()->server)
+	{
 		createEntity<Ball>(this->game_data);
 		serverPaddle = static_cast<Paddle*>(getEntity(1));
 		serverBall = static_cast<Ball*>(getEntity(2));
-
-		managed_slot_1 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
-		{
-			switch (p.getID())
-			{
-				case hash("Connected"):
-				{
-					for (const auto& ent : entities)
-					{
-						p.reset();
-						p.setID(hash("CreateEntity"));
-						p << ent->entity_info;
-						game_data->getNetworkManager()->network->sendPacket(p.senderID, 0, &p);
-					}
-				} break;
-				case hash("Disconnected"):
-				{
-					std::experimental::erase_if(entities, [p](const auto& entity)
-					{
-						return entity->entity_info.ownerID == p.senderID;
-					});
-				} break;
-			}
-		});
-		managed_slot_2 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
-		{
-			switch (p.getID())
-			{
-				case hash("Entity"):
-				{
-					EntityInfo info;
-					p >> info;
-					Entity* ent = getEntity(info.networkID);
-					if (ent && //exists
-						ent->entity_info.ownerID == info.ownerID && //owners match
-						ent->entity_info.type == info.type && //types match
-						info.ownerID == p.senderID) //client owns it
-					{
-						ent->receivePacket(std::move(p));
-					}
-				} break;
-				case hash("CreateEntity"):
-				{
-					EntityInfo info;
-					p >> info;
-					switch (info.type)
-					{
-						case hash("Paddle"):
-						{
-							createEntity<Paddle>(p.senderID, game_data);
-						} break;
-						case hash("Ball"):
-						{
-							createEntity<Ball>(p.senderID, game_data);
-						} break;
-					}
-				} break;
-			}
-		});
-	});
-
-	menu.getButton(1).on_click.connect([this, game_data]()
-	{
-		game_data->getNetworkManager()->initialize(false);
-
-		managed_slot_1 = game_data->getNetworkManager()->packet_received.connect([&, game_data](Packet p)
-		{
-			switch (p.getID())
-			{
-				case hash("Entity"):
-				{
-					EntityInfo info;
-					p >> info;
-					Entity* ent = getEntity(info.networkID);
-					if (ent)
-					{
-						ent->receivePacket(std::move(p));
-					}
-				} break;
-				case hash("CreateEntity"):
-				{
-					EntityInfo info;
-					p >> info;
-
-					switch (info.type)
-					{
-						case hash("Paddle"):
-						{
-							entities.emplace_back(std::make_unique<Paddle>(game_data));
-						} break;
-						case hash("Ball"):
-						{
-							entities.emplace_back(std::make_unique<Ball>(game_data));
-						} break;
-					}
-
-					entities.back()->entity_info = info;
-				} break;
-				case hash("ClientID"):
-				{
-					createEntity<Paddle>(game_data);
-				} break;
-			}
-		});
-	});
+	}
 }
 
 StatePingPong::~StatePingPong()
 {
-	if (game_data->getNetworkManager()->network)
-	{
-		game_data->getNetworkManager()->network->deinitialize();
-		game_data->getNetworkManager()->network.reset(nullptr);
-	}
+	game_data->getNetworkManager()->stopServer();
+	game_data->getNetworkManager()->stopClient();
 }
 
 void StatePingPong::update(const ASGE::GameTime& gt)
 {
-	auto network = game_data->getNetworkManager()->network.get();
-	if (network && network->isInitialized())
+	auto client = game_data->getNetworkManager()->client.get();
+	auto server = game_data->getNetworkManager()->server.get();
+	if (client && client->isConnecting())
 	{
 		const float dt = gt.delta_time.count() / 1000.0f;
 
@@ -148,7 +161,7 @@ void StatePingPong::update(const ASGE::GameTime& gt)
 			ent->update(dt);
 		}
 
-		if (network->isServer())
+		if (server)
 		{
 			//Simple AABB collision check
 			if (serverPaddle->sprite.xPos < serverBall->sprite.xPos + serverBall->sprite.getCurrentFrameSprite()->width() &&
@@ -161,6 +174,7 @@ void StatePingPong::update(const ASGE::GameTime& gt)
 			}
 
 			uint32_t clientPaddleID = 0;
+			clientPaddle = nullptr;
 			for (const auto& ent : entities)
 			{
 				if (!ent->isOwner() &&
@@ -185,10 +199,6 @@ void StatePingPong::update(const ASGE::GameTime& gt)
 			}
 		}
 	}
-	else
-	{
-		menu.update();
-	}
 
 	if (game_data->getInputManager()->isActionPressed("escape"))
 	{
@@ -199,36 +209,14 @@ void StatePingPong::update(const ASGE::GameTime& gt)
 void StatePingPong::render() const
 {
 	auto renderer = game_data->getRenderer();
-	auto network = game_data->getNetworkManager()->network.get();
+	auto client = game_data->getNetworkManager()->client.get();
 
-	if (network)
+	if (client && client->isConnecting())
 	{
-		if (network->isConnected())
-		{
-			renderer->renderText("CONNECTED", 250, 100, ASGE::COLOURS::WHITE);
-		}
-		else
-		{
-			renderer->renderText("DISCONNECTED", 250, 100, ASGE::COLOURS::WHITE);
-		}
-
-		if (network->isServer())
-		{
-			renderer->renderText("SERVER", 250, 50, ASGE::COLOURS::WHITE);
-		}
-		else
-		{
-			renderer->renderText("CLIENT", 250, 50, ASGE::COLOURS::WHITE);
-		}
-
 		for (const auto& ent : entities)
 		{
-			ent->render(game_data->getRenderer());
+			ent->render(renderer);
 		}
-	}
-	else
-	{
-		menu.render();
 	}
 }
 

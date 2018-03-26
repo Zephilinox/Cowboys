@@ -81,8 +81,6 @@ private:
 	std::unique_ptr<GameData> game_data;
 
 	int key_handler_id = -1;
-	bool capFPS;
-
-	Timer networkHello;
+	bool capFPS = true;
 };
 

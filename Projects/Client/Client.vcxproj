@@ -19,7 +19,7 @@
     <ProjectGuid>{503EE74A-5AE3-43A1-B492-438B644DB6EF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Client</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -95,7 +95,7 @@
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -105,7 +105,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalDependencies>irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrKlang.lib;sfml-audio-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,6 +119,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,10 +150,12 @@
     <ClInclude Include="..\..\Source\Architecture\Messages\FunctionMessage.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Messages\Message.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Messages\MessageQueue.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Networking\Network.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Networking\NetworkClient.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Networking\NetworkServer.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Networking\Client.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Networking\ClientHost.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Networking\ClientStandard.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Networking\Packet.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Networking\Server.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Networking\ServerHost.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Rng.h" />
     <ClInclude Include="..\..\Source\Architecture\Signals\Connection.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Signals\Disconnector.hpp" />
@@ -171,6 +174,7 @@
     <ClInclude Include="..\..\Source\Client\States\PauseState.h" />
     <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp" />
     <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp" />
+    <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StatePingPong.hpp" />
     <ClInclude Include="..\..\Source\Client\States\WarbandSelectionState.h" />
@@ -197,9 +201,10 @@
     <ClCompile Include="..\..\Source\Architecture\Managers\NetworkManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Managers\StateManager.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Messages\MessageQueue.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Networking\NetworkClient.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Networking\NetworkServer.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Networking\ClientHost.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Networking\ClientStandard.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Networking\Packet.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Networking\ServerHost.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Rng.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Signals\Connection.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Timer.cpp" />
@@ -212,6 +217,7 @@
     <ClCompile Include="..\..\Source\Client\States\PauseState.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp" />
     <ClCompile Include="..\..\Source\Client\States\WarbandSelectionState.cpp" />

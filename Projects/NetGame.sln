@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{503EE74A-5AE3-43A1-B492-438B644DB6EF}"
 EndProject
@@ -20,9 +20,11 @@ Global
 		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.Debug|x86.ActiveCfg = Debug|Win32
 		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.Debug|x86.Build.0 = Debug|Win32
 		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.DebugFast|x64.ActiveCfg = DebugFast|Win32
+		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.DebugFast|x64.Build.0 = DebugFast|Win32
 		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.DebugFast|x86.ActiveCfg = DebugFast|Win32
 		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.DebugFast|x86.Build.0 = DebugFast|Win32
 		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.Release|x64.ActiveCfg = Release|Win32
+		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.Release|x64.Build.0 = Release|Win32
 		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.Release|x86.ActiveCfg = Release|Win32
 		{503EE74A-5AE3-43A1-B492-438B644DB6EF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection

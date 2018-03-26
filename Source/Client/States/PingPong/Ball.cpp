@@ -11,6 +11,15 @@ Ball::Ball(GameData* game_data)
 	sprite.addFrame("DialogueMarker", 1, 0, 0, 2, 2);
 	sprite.xPos = 1280 / 2;
 	sprite.yPos = 720 / 2;
+
+	mc = game_data->getNetworkManager()->on_network_tick.connect([this]()
+	{
+		if (isOwner())
+		{
+			//std::cout << "Ball Packet Sent\n";
+			sendPacket();
+		}
+	});
 }
 
 void Ball::update(float dt)
@@ -41,8 +50,6 @@ void Ball::update(float dt)
 
 		sprite.xPos += 200 * dt * (movingLeft ? -1 : 1);
 		sprite.yPos += 200 * dt * dirY;
-
-		sendPacket();
 	}
 }
 

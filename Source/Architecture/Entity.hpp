@@ -7,6 +7,7 @@
 #include "Messages/Message.hpp"
 #include "Networking/Packet.hpp"
 #include "GameData.hpp"
+#include "Networking/Client.hpp"
 
 struct EntityInfo
 {
@@ -47,7 +48,7 @@ public:
 
 	inline bool isOwner()
 	{
-		return entity_info.ownerID == game_data->getNetworkManager()->network->getID();
+		return entity_info.ownerID == game_data->getNetworkManager()->client->getID();
 	}
 
 	inline void receivePacket(Packet&& p)
@@ -59,9 +60,11 @@ public:
 	{
 		Packet p;
 		p.setID(hash("Entity"));
+		p.senderID = game_data->getNetworkManager()->client->getID();
+
 		p << entity_info;
 		serialize(p);
-		game_data->getNetworkManager()->network->sendPacket(0, &p);
+		game_data->getNetworkManager()->client->sendPacket(0, &p);
 	}
 
 	EntityInfo entity_info;

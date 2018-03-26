@@ -1,8 +1,12 @@
-#include <Engine\InputEvents.h>
-
 #include "MyNetGame.h"
 
+//LIB
+#include <Engine\InputEvents.h>
+
+//SELF
 #include "States/StateMenu.hpp"
+#include "../Architecture/Networking/Packet.hpp"
+#include "../Architecture/Networking/Client.hpp"
 
 namespace {
 	const float BACKGROUND_LAYER = 0.0f;
@@ -69,26 +73,16 @@ bool MyNetGame::init()
 			func->execute();
 		}
 	});
-	
-	game_data->getNetworkManager()->packet_received.connect([&](Packet p)
-	{
-		if (p.getID() == hash("Message"))
-		{
-			std::string msg;
-			p >> msg;
-			std::cout << msg << " from client " << p.senderID << "\n";
-		}
-	});
 
 	return true;
 }
 
 void MyNetGame::update(const ASGE::GameTime& gt)
 {
-	if (capFPS && 5 - gt.delta_time.count() > 0)
+	if (capFPS && 10 - gt.delta_time.count() > 0)
 	{
 		std::this_thread::sleep_for(
-			std::chrono::duration<double, std::milli>(5 - gt.delta_time.count())
+			std::chrono::duration<double, std::milli>(10 - gt.delta_time.count())
 		);
 	}
 
@@ -118,20 +112,6 @@ void MyNetGame::update(const ASGE::GameTime& gt)
 	{
 		capFPS = !capFPS;
 		std::cout << "capFPS " << std::boolalpha << capFPS << "\n";
-	}
-
-	if (networkHello.getElapsedTime() > 2 && game_data->getNetworkManager()->network)
-	{
-		networkHello.restart();
-		auto network = game_data->getNetworkManager()->network.get();
-
-		if (network->isConnected())
-		{
-			Packet p;
-			p.setID(hash("Message"));
-			p << "Hello";
-			network->sendPacket(0, &p);
-		}
 	}
 
 	if (renderer->exit() || this->exit || game_data->exit || game_data->getStateManager()->empty())

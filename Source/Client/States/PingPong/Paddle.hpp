@@ -16,4 +16,6 @@ public:
 	void deserialize(Packet& p) override final;
 
 	AnimatedSprite sprite;
+
+	ManagedConnection mc;
 };

@@ -1,37 +1,103 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Architecture\AnimatedSprite.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngine.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineNone.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineSFML.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Audio\AudioLocator.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Dialogues\Actor.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Dialogues\Dialogue.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Dialogues\DialogueTree.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\GameData.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Managers\FontManager.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Managers\InputManager.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Managers\NetworkManager.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Managers\StateManager.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Messages\MessageQueue.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Networking\NetworkClient.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Networking\NetworkServer.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Networking\Packet.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Rng.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Signals\Connection.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\Timer.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp" />
-    <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
-    <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
-    <ClCompile Include="..\..\Source\Client\main.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp" />
-    <ClCompile Include="..\..\Source\Client\stdafx.cpp" />
-    <ClCompile Include="..\..\Source\Client\Warband.cpp" />
+    <ClCompile Include="..\..\Source\Client\stdafx.cpp">
+      <Filter>Source\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\MyNetGame.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineNone.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineSFML.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngine.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Dialogues\DialogueTree.cpp">
+      <Filter>Source\Architecture\Dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Dialogues\Actor.cpp">
+      <Filter>Source\Architecture\Dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Dialogues\Dialogue.cpp">
+      <Filter>Source\Architecture\Dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\NetworkManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\StateManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\FontManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\InputManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Messages\MessageQueue.cpp">
+      <Filter>Source\Architecture\Messages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Networking\Packet.cpp">
+      <Filter>Source\Architecture\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Signals\Connection.cpp">
+      <Filter>Source\Architecture\Signals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp">
+      <Filter>Source\Architecture\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp">
+      <Filter>Source\Architecture\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\AnimatedSprite.cpp">
+      <Filter>Source\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\GameData.cpp">
+      <Filter>Source\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Timer.cpp">
+      <Filter>Source\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\AudioLocator.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Rng.cpp">
+      <Filter>Source\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp">
+      <Filter>Source\States\PingPong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp">
+      <Filter>Source\States\PingPong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Networking\ClientHost.cpp">
+      <Filter>Source\Architecture\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Networking\ClientStandard.cpp">
+      <Filter>Source\Architecture\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Networking\ServerHost.cpp">
+      <Filter>Source\Architecture\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
+	<ClCompile Include="..\..\Source\Client\Warband.cpp" />
     <ClCompile Include="..\..\Source\Client\Character.cpp" />
     <ClCompile Include="..\..\Source\Client\Hero.cpp" />
     <ClCompile Include="..\..\Source\Client\Unit.cpp" />
@@ -40,46 +106,136 @@
     <ClCompile Include="..\..\Source\Client\UnitSelectPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngine.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineNone.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineSFML.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Dialogues\Actor.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Dialogues\Dialogue.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Dialogues\DialogueTree.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Entity.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\GameData.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Managers\FontManager.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Managers\InputManager.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Managers\NetworkManager.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Managers\StateManager.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Messages\FunctionMessage.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Messages\Message.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Messages\MessageQueue.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Networking\Network.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Networking\NetworkClient.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Networking\NetworkServer.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Networking\Packet.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Rng.h" />
-    <ClInclude Include="..\..\Source\Architecture\Signals\Connection.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Signals\Disconnector.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Signals\Signal.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Signals\Slot.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\State.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Timer.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\UI\Button.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
-    <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
-    <ClInclude Include="..\..\Source\Client\Networking.h" />
-    <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp" />
-    <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp" />
-    <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
-    <ClInclude Include="..\..\Source\Client\States\StatePingPong.hpp" />
-    <ClInclude Include="..\..\Source\Client\stdafx.h" />
-    <ClInclude Include="..\..\Source\Client\targetver.h" />
-    <ClInclude Include="..\..\Source\Client\Warband.h" />
+    <ClInclude Include="..\..\Source\Client\MyNetGame.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\Networking.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\stdafx.h">
+      <Filter>Headers\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\targetver.h">
+      <Filter>Headers\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\GameData.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Timer.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Messages\FunctionMessage.hpp">
+      <Filter>Headers\Architecture\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Messages\Message.hpp">
+      <Filter>Headers\Architecture\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Messages\MessageQueue.hpp">
+      <Filter>Headers\Architecture\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\Packet.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Signals\Connection.hpp">
+      <Filter>Headers\Architecture\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Signals\Disconnector.hpp">
+      <Filter>Headers\Architecture\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Signals\Signal.hpp">
+      <Filter>Headers\Architecture\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Signals\Slot.hpp">
+      <Filter>Headers\Architecture\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\UI\Button.hpp">
+      <Filter>Headers\Architecture\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp">
+      <Filter>Headers\Architecture\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineIrrklang.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineNone.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineSFML.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngine.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Dialogues\DialogueTree.hpp">
+      <Filter>Headers\Architecture\Dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Dialogues\Actor.hpp">
+      <Filter>Headers\Architecture\Dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Dialogues\Dialogue.hpp">
+      <Filter>Headers\Architecture\Dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\StateManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\FontManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\InputManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\NetworkManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\birdman-the-game-teambirb\Source\Constants.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Rng.h">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StatePingPong.hpp">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\State.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Entity.hpp">
+      <Filter>Headers\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp">
+      <Filter>Headers\States\PingPong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp">
+      <Filter>Headers\States\PingPong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\Client.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\ClientHost.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\ClientStandard.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\Server.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Networking\ServerHost.hpp">
+      <Filter>Headers\Architecture\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+	<ClInclude Include="..\..\Source\Client\Warband.h" />
     <ClInclude Include="SpritePaths.h" />
     <ClInclude Include="..\..\Source\Client\Character.h" />
     <ClInclude Include="..\..\Source\Client\Hero.h" />
@@ -92,24 +248,81 @@
     <ClInclude Include="..\..\Source\Client\PortraitTextureStrings.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
+    <Filter Include="Headers">
+      <UniqueIdentifier>{04c1d724-2739-411d-bf2e-c9d3ac2bc408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{2180af3a-3cea-49d8-8828-5bdd0d4602bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform">
+      <UniqueIdentifier>{8f0d336b-346f-4973-a49f-ff5ea5302de7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Platform">
+      <UniqueIdentifier>{fc276487-b5f7-4e8c-8498-69fb1506831b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture">
+      <UniqueIdentifier>{c1fc3e74-1850-46c3-8167-74027f4fda3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Audio">
+      <UniqueIdentifier>{9921678f-2537-4786-ae51-000850748a49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Dialogues">
+      <UniqueIdentifier>{8b5fc484-71c7-4bca-86e4-a7d8233d1695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Managers">
+      <UniqueIdentifier>{be3798af-fe25-4fd2-b768-74f1611df3cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Messages">
+      <UniqueIdentifier>{5d5dc1fd-5010-4c62-a981-cce47201c601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Networking">
+      <UniqueIdentifier>{7554d16f-983c-4edc-8d5d-3e8c715b7796}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\Signals">
+      <UniqueIdentifier>{d5b73402-6485-4ab8-8bd2-070d44eb209d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Architecture\UI">
+      <UniqueIdentifier>{55ce208e-2619-4849-889e-a456b39b9ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture">
+      <UniqueIdentifier>{7a99f90e-2612-491a-b573-9a1e1fd02279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Audio">
+      <UniqueIdentifier>{3095cd56-5874-45fe-94ab-50333772dfd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Dialogues">
+      <UniqueIdentifier>{fe1ef675-82c8-4f4c-8a1d-f0e8aeb7d7b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Managers">
+      <UniqueIdentifier>{863c5a16-2f67-41d6-91e1-2662b8a4dd82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Messages">
+      <UniqueIdentifier>{8ef7a566-33bb-438d-aa04-a4fb9f3e423f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Networking">
+      <UniqueIdentifier>{91ec13f7-9738-4770-a6bb-9c04b71a4aa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\Signals">
+      <UniqueIdentifier>{98018cab-6dcd-43a4-81bc-b04dddbb7c20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Architecture\UI">
+      <UniqueIdentifier>{d3f76600-e8c2-4cb9-a08a-9776a44f01f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\States">
+      <UniqueIdentifier>{2175b590-58c3-437a-8940-4ea568252d02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\States">
+      <UniqueIdentifier>{5bb78bc3-e8ed-4eaf-ae05-645c9eeaf6e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\States\PingPong">
+      <UniqueIdentifier>{63d741ab-77b4-45ec-94c5-c52850121417}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\States\PingPong">
+      <UniqueIdentifier>{7dcb4dba-ee63-41a1-9b68-91efa19da28b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Architecture">
-      <UniqueIdentifier>{4f111c12-dfeb-43a2-a2c9-cc6cbf69248c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Architecture\Audio">
-      <UniqueIdentifier>{d5e8909a-d1b8-4d35-a97b-ae23ca908122}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Architecture\Audio\irKlang">
-      <UniqueIdentifier>{26519430-d7d8-484c-ac2a-9c08b9abd11f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Architecture\Audio\None">
-      <UniqueIdentifier>{43bfaaa6-c8fc-4e1f-9ab2-07507f85da11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Architecture\Audio\SFML">
-      <UniqueIdentifier>{dad56dab-066d-44da-85d2-58eb7f9bd650}</UniqueIdentifier>
-    </Filter>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>
