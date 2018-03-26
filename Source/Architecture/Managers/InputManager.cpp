@@ -16,10 +16,14 @@ InputManager::InputManager(ASGE::Input* input) noexcept
 	toggle_keys.fill(ASGE::KEYS::KEY_RELEASED);
 	keys.fill(ASGE::KEYS::KEY_RELEASED);
 
-	buttons_last_frame.fill(ASGE::KEYS::KEY_RELEASED);
-	buttons.fill(ASGE::KEYS::KEY_RELEASED);
+	gamepad_buttons_last_frame.fill(ASGE::KEYS::KEY_RELEASED);
+	gamepad_buttons.fill(ASGE::KEYS::KEY_RELEASED);
+
+	mouse_buttons_last_frame.fill(ASGE::KEYS::KEY_RELEASED);
+	mouse_buttons.fill(ASGE::KEYS::KEY_RELEASED);
 
 	callback_id = input->addCallbackFnc(ASGE::EventType::E_GAMEPAD_STATUS, &InputManager::gamepadHandler, this);
+	callback_id2 = input->addCallbackFnc(ASGE::EventType::E_MOUSE_CLICK, &InputManager::mouseHandler, this);
 
 	try
 	{
@@ -46,6 +50,7 @@ InputManager::InputManager(ASGE::Input* input) noexcept
 InputManager::~InputManager()
 {
 	input->unregisterCallback(callback_id);
+	input->unregisterCallback(callback_id2);
 }
 
 
@@ -75,8 +80,8 @@ void InputManager::update()
 
 		for (int i = ASGE::KEYS::KEY_LAST; i < game_pad.no_of_buttons + ASGE::KEYS::KEY_LAST; ++i)
 		{
-			buttons_last_frame[i] = buttons[i];
-			buttons[i] = game_pad.buttons[i - ASGE::KEYS::KEY_LAST];
+			gamepad_buttons_last_frame[i] = gamepad_buttons[i];
+			gamepad_buttons[i] = game_pad.buttons[i - ASGE::KEYS::KEY_LAST];
 		}
 	}
 
@@ -86,6 +91,14 @@ void InputManager::update()
 		if (isGamePadButtonPressed(i))
 		{
 			std::cout << "GamePad Button Pressed: ID " << i - ASGE::KEYS::KEY_LAST << "\n";
+		}
+	}
+
+	{
+		std::lock_guard<std::mutex> lock(mouse_mutex);
+		for (int i = 0; i < mouse_buttons_last_frame.size(); ++i)
+		{
+			mouse_buttons_last_frame[i] = mouse_buttons[i];
 		}
 	}
 }
@@ -206,13 +219,35 @@ bool InputManager::isKeyDown(int key) noexcept
 
 bool InputManager::isGamePadButtonPressed(int button)
 {
-	return buttons_last_frame[button] == ASGE::KEYS::KEY_RELEASED &&
-		buttons_last_frame[button] != buttons[button];
+	return gamepad_buttons_last_frame[button] == ASGE::KEYS::KEY_RELEASED &&
+		gamepad_buttons_last_frame[button] != gamepad_buttons[button];
 }
 
 bool InputManager::isGamePadButtonDown(int button)
 {
-	return buttons[button] == ASGE::KEYS::KEY_PRESSED;
+	return gamepad_buttons[button] == ASGE::KEYS::KEY_PRESSED;
+}
+
+bool InputManager::isMouseButtonPressed(int button)
+{
+	return mouse_buttons[button] == ASGE::KEYS::KEY_PRESSED &&
+		mouse_buttons_last_frame[button] != mouse_buttons[button];
+}
+
+bool InputManager::isMouseButtonReleased(int button)
+{
+	return mouse_buttons[button] == ASGE::KEYS::KEY_RELEASED &&
+		mouse_buttons_last_frame[button] != mouse_buttons[button];
+}
+
+bool InputManager::isMouseButtonDown(int button)
+{
+	return mouse_buttons[button] == ASGE::KEYS::KEY_PRESSED;
+}
+
+void InputManager::getMousePosition(double& xpos, double& ypos)
+{
+	input->getCursorPos(xpos, ypos);
 }
 
 GamePadData InputManager::getGamePad()
@@ -237,4 +272,11 @@ void InputManager::gamepadHandler(const ASGE::SharedEventData data)
 
 	//todo: what's the point of this?
 	std::cout << "Gamepad Event Received (is connected) " << gamepad_event->connected;
+}
+
+void InputManager::mouseHandler(const ASGE::SharedEventData data)
+{
+	const auto mouse_event = static_cast<const ASGE::ClickEvent*>(data.get());
+	std::lock_guard<std::mutex> guard(mouse_mutex);
+	mouse_buttons[mouse_event->button] = mouse_event->action;
 }

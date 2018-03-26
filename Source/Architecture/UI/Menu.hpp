@@ -30,7 +30,7 @@ private:
 	void selectButton(int button_id);
 
 	GameData* game_data;
-	std::vector<Button> buttons;
+	std::vector<Button> gamepad_buttons;
 
 	unsigned selected_button_id;
 };
