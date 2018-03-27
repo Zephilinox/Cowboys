@@ -4,14 +4,15 @@
 #include "../Architecture/Constants.hpp"
 
 
-Unit::Unit(ASGE::Renderer* rend) :
-	horizontal_walk_sprite(rend, true),
-	forward_walk_sprite(rend, true),
-	backward_walk_sprite(rend, true),
+Unit::Unit(GameData* game_data) :
+	Entity(game_data),
+	horizontal_walk_sprite(game_data->getRenderer(), true),
+	forward_walk_sprite(game_data->getRenderer(), true),
+	backward_walk_sprite(game_data->getRenderer(), true),
 
-	horizontal_shoot_sprite(rend, true),
-	forward_shoot_sprite(rend, true),
-	backward_shoot_sprite(rend, true)
+	horizontal_shoot_sprite(game_data->getRenderer(), true),
+	forward_shoot_sprite(game_data->getRenderer(), true),
+	backward_shoot_sprite(game_data->getRenderer(), true)
 {
 	//Wouldn't it be nice if we did something inside this constructor? Everything happens before we even get in here...
 	current_move_speed = base_move_speed;
@@ -310,6 +311,34 @@ void Unit::randomiseName()
 	//Rng::getRandomInt(0, ListOfFirstNames.getLength())
 }
 
+void Unit::loadFromJSON(int unit_to_load)
+{
+	std::string id = "unit" + std::to_string(unit_to_load);
+	std::ifstream file("../../Resources/unitStats.json");
+	jsoncons::json unitStats;
+	file >> unitStats;
+
+	try
+	{
+		health = (unitStats[id]["HP"].as_double());
+		view_distance = (unitStats[id]["viewDistance"].as_double());
+		time_units = (unitStats[id]["timeUnits"].as_double());
+		stamina = (unitStats[id]["stamina"].as_double());
+		bravery = (unitStats[id]["bravery"].as_double());
+		reactions = (unitStats[id]["reactions"].as_double());
+		firing_accuracy = (unitStats[id]["firing_accuracy"].as_double());
+		strength = (unitStats[id]["strength"].as_double());
+		initiative = (unitStats[id]["initiative"].as_double());
+		base_move_speed = (unitStats[id]["base_move_speed"].as_double());
+
+		//TODO load in textures
+	}
+	catch(std::runtime_error& e)
+	{
+		std::cout << "ERROR INFO: " << e.what() << "\n";
+	}
+}
+
 void Unit::updateOverridePositions()
 {
 	//update all sprites positions to the same values
@@ -343,4 +372,40 @@ void Unit::updateOverridePositions()
 	backward_shoot_sprite.yPos = y_position;
 	horizontal_shoot_sprite.yPos = y_position;
 
+}
+
+
+void Unit::serialize(Packet & p)
+{
+	p << x_position << y_position;
+}
+
+void Unit::deserialize(Packet & p)
+{
+	int packet_type;
+	p >> packet_type;
+	switch(packet_type)
+	{
+		case LOAD_JSON:
+		{
+			int unitID;
+			p >> unitID;
+			loadFromJSON(unitID);
+			break;
+		}
+		case MOVE:
+		{
+			break;
+		}
+		case ATTACK:
+		{
+			break;
+		}
+		case REACTIVE_FIRE:
+		{
+			break;
+		}
+	}
+
+	p >> x_position >> y_position;
 }

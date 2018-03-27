@@ -3,7 +3,7 @@
 #include "../Architecture/Constants.hpp"
 
 
-Character::Character(ASGE::Renderer* rend) : Unit(rend)
+Character::Character(GameData* game_data) : Unit(game_data)
 {	
 }
 

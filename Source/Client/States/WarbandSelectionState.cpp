@@ -3,6 +3,7 @@
 //SELF
 #include "../../Architecture/GameData.hpp"
 #include "../../Architecture/Constants.hpp"
+#include "GameState.h"
 
 #include "../PortraitTextureStrings.h"
 
@@ -14,7 +15,6 @@ WarbandSelectionState::WarbandSelectionState(GameData* game_data)
 	panel4(game_data, 768.0f),
 	panel5(game_data, 1024.0f),
 	menu(game_data)
-
 {
 	portraits.reserve(number_of_portraits);
 
@@ -72,6 +72,7 @@ std::string WarbandSelectionState::getTextureStringAtPositon(int index)
 	}
 }
 
+
 void WarbandSelectionState::initMenu()
 {
 	//TODO refactor this entire initialisation into a menu init function, cleans up constructor
@@ -90,6 +91,21 @@ void WarbandSelectionState::initMenu()
 
 	menu.addButton(1024.0f + 25, 640, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
 	menu.addButton(1024.0f + 175, 640, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+
+	menu.addButton(game_data->getWindowWidth() - 100, game_data->getWindowHeight() * 0.5f, "DONE!", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+
+	menu.getButton(10).on_click.connect([this]()
+	{
+		game_data->getStateManager()->pop();
+
+		game_data->getStateManager()->push<GameState>
+			(panel1.getSelectedUnitID(),
+			panel2.getSelectedUnitID(),
+			panel3.getSelectedUnitID(),
+			panel4.getSelectedUnitID(),
+			panel5.getSelectedUnitID());
+	});
+
 
 	menu.getButton(0).on_click.connect([this]()
 	{

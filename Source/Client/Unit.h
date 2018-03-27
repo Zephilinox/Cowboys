@@ -2,9 +2,14 @@
 #include <Engine\Sprite.h>
 #include "..\Architecture\AnimatedSprite.hpp"
 #include "..\Architecture\GameData.hpp"
+#include "../Architecture/Entity.hpp"
 
+//LIB
+#include <jsoncons/json.hpp>
 
-class Unit
+class GameData;
+
+class Unit : public Entity
 {
 public:
 	enum UnitFacing
@@ -22,7 +27,15 @@ public:
 		SHOOTING,
 	};
 
-	Unit(ASGE::Renderer* rend);
+	enum PacketType
+	{
+		LOAD_JSON,
+		MOVE,
+		ATTACK,
+		REACTIVE_FIRE
+	};
+
+	Unit(GameData* game_data);
 	Unit() = default;
 	virtual ~Unit() = default;
 
@@ -40,6 +53,11 @@ public:
 
 	void turnEnded();
 	void roundEnded();
+
+	void serialize(Packet& p) override final;
+	void deserialize(Packet& p) override final;
+
+
 
 	//These may end up overridden
 	virtual void moveToPosition(float x, float y);
@@ -72,6 +90,8 @@ public:
 	bool getIsAlive() const { return isAlive; };
 
 	void randomiseName();
+
+	void loadFromJSON(int unit_to_load);
 
 protected:
 

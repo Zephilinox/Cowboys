@@ -1,55 +1,62 @@
 #include "Warband.h"
 #include "Character.h"
 
-Warband::Warband(GameData * game_data)
+Warband::Warband(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID)
+	: game_data(game_data)
 {
-	//Init the characters vector
-	units.reserve(number_of_characters);
+	units.reserve(5);
+	units.push_back(unit1ID);
+	units.push_back(unit2ID);
+	units.push_back(unit3ID);
+	units.push_back(unit4ID);
+	units.push_back(unit5ID);
+}
 
+void Warband::addToNetworkIDs(uint32_t new_ID)
+{
+	unit_network_IDs.push_back(new_ID);
+}
 
-	units.push_back(std::make_unique<Hero>(game_data->getRenderer() ));
-	//Read in stats from hero selection
-	
-	for(unsigned int i = 1; i < number_of_characters; i++)
+void Warband::sendJSONPackets()
+{
+	//send 5 packets, 1 per ID of JSON files to load (from units vector)
+	for(int i = 0; i < 5; i++)
 	{
-		units.push_back(std::make_unique<Character>(game_data->getRenderer() ));
-		//Read in stats from character selection here?
+		//make a packet
+		Packet p;
+		p.setID(hash("Entity"));
+		//set up manual info as cannot pass gamestate into warband class
+		EntityInfo info;
+		info.networkID = unit_network_IDs[i];
+		info.ownerID = game_data->getNetworkManager()->client->getID();
+		info.type = (hash("Unit"));
+		//put info, packet type and the unitID into the packet
+		p << info;
+		p << Unit::PacketType::LOAD_JSON;
+		p << units[i];
+		//Send the packet
+		game_data->getNetworkManager()->client->sendPacket(0, &p);
 	}
 }
 
-
-void Warband::update(float dt)
+unsigned int Warband::getUnitNetworkIDsSize()
 {
-	for(auto& current_unit : units)
-	{
-		if(current_unit->getIsAlive())
-		{
-			current_unit->update(dt);
-		}
-	}
+	return unit_network_IDs.size();
 }
 
-void Warband::render() const
+uint32_t Warband::getUnitNetworkIDAt(int index)
 {
-	for(const auto& current_unit : units)
-	{
-		current_unit->render(game_data->getRenderer());
-	}
+	return unit_network_IDs[index];
 }
 
-void Warband::turnEnded(int unit_no)
+int Warband::getUnitIDAt(int index)
 {
-	units[unit_no]->turnEnded();
+	return units[index];
 }
 
-void Warband::roundEnded()
+Warband::Warband(GameData* game_data)
+	: game_data(game_data)
 {
-	for(auto& current_unit : units)
-	{
-		current_unit->roundEnded();
-	}
+
 }
 
-void Warband::selectUnit()
-{
-}

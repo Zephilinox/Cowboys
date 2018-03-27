@@ -3,25 +3,13 @@
 #include "..\Architecture\GameData.hpp"
 #include "Unit.h"
 
+class GameData;
+
 class Hero : public Unit
 {
 public:
-	enum CharacterFacing
-	{
-		NORTH = 0,
-		EAST,
-		SOUTH,
-		WEST
-	};
 
-	enum CharacterState
-	{
-		IDLE = 0,
-		WALKING,
-		SHOOTING,
-	};
-
-	Hero(ASGE::Renderer* rend);
+	Hero(GameData* game_data);
 	~Hero() = default;
 
 

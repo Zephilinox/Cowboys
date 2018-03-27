@@ -40,6 +40,7 @@ private:
 	void initMenu();
 
 	std::vector<std::string> portraits;
+
 	Menu menu;
 };
 

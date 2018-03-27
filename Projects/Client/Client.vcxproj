@@ -171,6 +171,7 @@
     <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
     <ClInclude Include="..\..\Source\Client\Networking.h" />
     <ClInclude Include="..\..\Source\Client\PortraitTextureStrings.h" />
+    <ClInclude Include="..\..\Source\Client\States\GameState.h" />
     <ClInclude Include="..\..\Source\Client\States\PauseState.h" />
     <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp" />
     <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp" />
@@ -214,6 +215,7 @@
     <ClCompile Include="..\..\Source\Client\Hero.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\GameState.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PauseState.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />

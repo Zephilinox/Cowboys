@@ -3,7 +3,7 @@
 #include "../Architecture/Constants.hpp"
 
 
-Hero::Hero(ASGE::Renderer* rend) : Unit::Unit(rend)
+Hero::Hero(GameData* game_data) : Unit::Unit(game_data)
 {
 	//Wouldn't it be nice if we did something inside this constructor? Everything happens before we even get in here...
 }

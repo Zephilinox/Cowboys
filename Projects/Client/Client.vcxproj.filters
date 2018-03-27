@@ -97,13 +97,20 @@
     <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp">
       <Filter>Source\States</Filter>
     </ClCompile>
-	<ClCompile Include="..\..\Source\Client\Warband.cpp" />
+    <ClCompile Include="..\..\Source\Client\Warband.cpp" />
     <ClCompile Include="..\..\Source\Client\Character.cpp" />
     <ClCompile Include="..\..\Source\Client\Hero.cpp" />
     <ClCompile Include="..\..\Source\Client\Unit.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\PauseState.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\WarbandSelectionState.cpp" />
     <ClCompile Include="..\..\Source\Client\UnitSelectPanel.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\GameState.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\PauseState.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\WarbandSelectionState.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
@@ -190,9 +197,6 @@
     <ClInclude Include="..\..\Source\Architecture\Managers\NetworkManager.hpp">
       <Filter>Headers\Architecture\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\birdman-the-game-teambirb\Source\Constants.hpp">
-      <Filter>Headers\Architecture</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp">
       <Filter>Headers\Architecture\Audio</Filter>
     </ClInclude>
@@ -235,17 +239,24 @@
     <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp">
       <Filter>Headers\States</Filter>
     </ClInclude>
-	<ClInclude Include="..\..\Source\Client\Warband.h" />
+    <ClInclude Include="..\..\Source\Client\Warband.h" />
     <ClInclude Include="SpritePaths.h" />
     <ClInclude Include="..\..\Source\Client\Character.h" />
     <ClInclude Include="..\..\Source\Client\Hero.h" />
     <ClInclude Include="..\..\Source\Client\Unit.h" />
     <ClInclude Include="..\..\Source\Client\ListOfNames.h" />
-    <ClInclude Include="..\..\Source\Client\States\PauseState.h" />
     <ClInclude Include="..\..\Source\Architecture\Constants.hpp" />
-    <ClInclude Include="..\..\Source\Client\States\WarbandSelectionState.h" />
     <ClInclude Include="..\..\Source\Client\UnitSelectPanel.h" />
     <ClInclude Include="..\..\Source\Client\PortraitTextureStrings.h" />
+    <ClInclude Include="..\..\Source\Client\States\GameState.h">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\PauseState.h">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\WarbandSelectionState.h">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

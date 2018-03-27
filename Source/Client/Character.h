@@ -3,12 +3,13 @@
 #include "..\Architecture\GameData.hpp"
 #include "Unit.h"
 
+class GameData;
 
 class Character : public Unit
 {
 public:
 
-	Character(ASGE::Renderer* rend);
+	Character(GameData* game_data);
 	~Character() = default;
 
 

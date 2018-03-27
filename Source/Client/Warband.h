@@ -5,26 +5,26 @@
 #include "Hero.h"
 #include "..\Architecture\GameData.hpp"
 
-constexpr unsigned int number_of_characters = 4;
-
 class Warband
 {
 public:
 	Warband(GameData* game_data);
+	Warband(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID);
 	~Warband() = default;
 
-
-	void update(float dt);
-	void render() const;
-	void turnEnded(int unit_no);
-	void roundEnded();
-
-	//Ideas functions for gameplay
+	void addToNetworkIDs(uint32_t new_ID);
+	void sendJSONPackets();
+	
+	unsigned int getUnitNetworkIDsSize();
 
 	//after selecting unit with mouse?
 	void selectUnit(); // Or Set Controlled unit?
+	uint32_t getUnitNetworkIDAt(int index);
+	int getUnitIDAt(int index);
+
 
 private:
 	GameData* game_data;
-	std::vector<std::unique_ptr<Unit>> units;
+	std::vector<int> units;
+	std::vector<uint32_t> unit_network_IDs;
 };
