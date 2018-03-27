@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 #include "Grid.h"
 #include "SearchCell.h"
 #include <iostream>

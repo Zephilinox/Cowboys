@@ -62,7 +62,7 @@ void Pathfinding::SetStartAndGoal(SearchCell start, SearchCell goal)
 
 }
 
-SearchCell* PathFinding::GetNextCell()
+SearchCell* Pathfinding::GetNextCell()
 {
 	float bestF = 99999.0f;
 	int cellIndex = -1;
@@ -83,5 +83,64 @@ SearchCell* PathFinding::GetNextCell()
 			
 		}
 		return nextCell;
+	}
+
+}
+
+void Pathfinding::PathOpened(int x, int y, float newCost, SearchCell *parent)
+{
+	
+	int id = y * GRID_SIZE + x;
+
+	for (int i = 0; i < visitedList.size(); i++)
+	{
+		if (id == visitedList[i]->id)
+		{
+			return;
+		}
+	}
+	SearchCell* newChild = new SearchCell(x, y, parent);
+	newChild->G = newCost;
+	newChild->H = parent->ManHattanDistance(goalCell);
+
+	for (int i = 0; i < openList.size(); i++)
+	{
+		if (id == openList[i]->id)
+		{
+			float newF = newChild->G = newCost + openList[i]->H;
+
+			if (openList[i]->GetF() > newF)
+			{
+				openList[i]->G = newChild->G + newCost;
+				openList[1]->parent = newChild;
+			}
+			else
+			{
+				delete newChild;
+				return;
+			}
+		}
+	}
+
+	openList.push_back(newChild);
+
+}
+void Pathfinding::ContinuePath()
+{
+	if (openList.empty())
+	{
+		return;
+	}
+	SearchCell* currentCell = GetNextCell();
+
+	if (currentCell->id == goalCell->id)
+	{
+		goalCell->parent = currentCell->parent;
+		SearchCell* getPath;
+
+		for (getPath = goalCell; getPath != NULL; getPath = getPath->parent)
+		{
+
+		}
 	}
 }
