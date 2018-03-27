@@ -18,8 +18,6 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	//Create entity function call
 	//tell warband what created entity's Id is
 
-	//TODO create warband
-
 
 	//TODO create map
 
@@ -39,6 +37,8 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 		}
 		case hash("GameJoined"):
 		{
+			//TODO ensure entities created use JSON to read in, active sends packets to recover state.
+			//TODO ensure positions and facings are also updated
 			for(const auto& ent : entities)
 			{
 				p.reset();
