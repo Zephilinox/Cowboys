@@ -2,6 +2,7 @@
 	"constants": {
 		"NumberOfUnitTypes" : 8
 	},
+
 	"unit0": {
 		"Title" : "Gunslinger",
 		"HP": 10.0,
@@ -14,7 +15,16 @@
 		"strength": 10.0,
 		"initiative": 10.0,
 		"base_move_speed": 30.0,
-		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy1.png"
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy1.png",
+		"idleForward" : "../../Resources/Textures/Units/Cowboy1/forward0.png",
+		"walkForward1" : "../../Resources/Textures/Units/Cowboy1/forward1.png",
+		"walkForward2" : "../../Resources/Textures/Units/Cowboy1/forward2.png",
+		"idleBack" : "../../Resources/Textures/Units/Cowboy1/back0.png",
+		"walkBack1" : "../../Resources/Textures/Units/Cowboy1/back1.png",
+		"walkBack2" : "../../Resources/Textures/Units/Cowboy1/back2.png",
+		"idleLeft" : "../../Resources/Textures/Units/Cowboy1/left0.png",
+		"walkLeft1" : "../../Resources/Textures/Units/Cowboy1/left1.png",
+		"walkLeft2" : "../../Resources/Textures/Units/Cowboy1/left2.png"
 	},
 	"unit1": {
 		"Title" : "Cowboy",
@@ -28,7 +38,16 @@
 		"strength": 10.0,
 		"initiative": 10.0,
 		"base_move_speed": 30.0,
-		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy2.png"
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy2.png",
+		"idleForward" : "../../Resources/Textures/Units/Cowboy2/forward0.png",
+		"walkForward1" : "../../Resources/Textures/Units/Cowboy2/forward1.png",
+		"walkForward2" : "../../Resources/Textures/Units/Cowboy2/forward2.png",
+		"idleBack" : "../../Resources/Textures/Units/Cowboy2/back0.png",
+		"walkBack1" : "../../Resources/Textures/Units/Cowboy2/back1.png",
+		"walkBack2" : "../../Resources/Textures/Units/Cowboy2/back2.png",
+		"idleLeft" : "../../Resources/Textures/Units/Cowboy2/left0.png",
+		"walkLeft1" : "../../Resources/Textures/Units/Cowboy2/left1.png",
+		"walkLeft2" : "../../Resources/Textures/Units/Cowboy2/left2.png"
 	},
 	"unit2": {
 		"Title" : "Ranger",
@@ -42,7 +61,16 @@
 		"strength": 10.0,
 		"initiative": 10.0,
 		"base_move_speed": 30.0,
-		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy3.png"
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy3.png",
+		"idleForward" : "../../Resources/Textures/Units/Cowboy3/forward0.png",
+		"walkForward1" : "../../Resources/Textures/Units/Cowboy3/forward1.png",
+		"walkForward2" : "../../Resources/Textures/Units/Cowboy3/forward2.png",
+		"idleBack" : "../../Resources/Textures/Units/Cowboy3/back0.png",
+		"walkBack1" : "../../Resources/Textures/Units/Cowboy3/back1.png",
+		"walkBack2" : "../../Resources/Textures/Units/Cowboy3/back2.png",
+		"idleLeft" : "../../Resources/Textures/Units/Cowboy3/left0.png",
+		"walkLeft1" : "../../Resources/Textures/Units/Cowboy3/left1.png",
+		"walkLeft2" : "../../Resources/Textures/Units/Cowboy3/left2.png"
 	},
 	"unit3": {
 		"Title" : "Outlaw",
@@ -56,7 +84,16 @@
 		"strength": 10.0,
 		"initiative": 10.0,
 		"base_move_speed": 30.0,
-		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy4.png"
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy4.png",
+		"idleForward" : "../../Resources/Textures/Units/Cowboy4/forward0.png",
+		"walkForward1" : "../../Resources/Textures/Units/Cowboy4/forward1.png",
+		"walkForward2" : "../../Resources/Textures/Units/Cowboy4/forward2.png",
+		"idleBack" : "../../Resources/Textures/Units/Cowboy4/back0.png",
+		"walkBack1" : "../../Resources/Textures/Units/Cowboy4/back1.png",
+		"walkBack2" : "../../Resources/Textures/Units/Cowboy4/back2.png",
+		"idleLeft" : "../../Resources/Textures/Units/Cowboy4/left0.png",
+		"walkLeft1" : "../../Resources/Textures/Units/Cowboy4/left1.png",
+		"walkLeft2" : "../../Resources/Textures/Units/Cowboy4/left2.png"
 	},
 	"unit4": {
 		"Title" : "Placeholder",
@@ -70,7 +107,16 @@
 		"strength": 10.0,
 		"initiative": 10.0,
 		"base_move_speed": 30.0,
-		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy5.png"
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy5.png",
+		"idleForward" : "../../Resources/Textures/Units/Cowboy5/forward0.png",
+		"walkForward1" : "../../Resources/Textures/Units/Cowboy5/forward1.png",
+		"walkForward2" : "../../Resources/Textures/Units/Cowboy5/forward2.png",
+		"idleBack" : "../../Resources/Textures/Units/Cowboy5/back0.png",
+		"walkBack1" : "../../Resources/Textures/Units/Cowboy5/back1.png",
+		"walkBack2" : "../../Resources/Textures/Units/Cowboy5/back2.png",
+		"idleLeft" : "../../Resources/Textures/Units/Cowboy5/left0.png",
+		"walkLeft1" : "../../Resources/Textures/Units/Cowboy5/left1.png",
+		"walkLeft2" : "../../Resources/Textures/Units/Cowboy5/left2.png"
 	},
 	"unit5": {
 		"Title" : "Placeholder",
@@ -84,7 +130,16 @@
 		"strength": 10.0,
 		"initiative": 10.0,
 		"base_move_speed": 30.0,
-		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy6.png"
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy6.png",
+		"idleForward" : "../../Resources/Textures/Units/Cowboy6/forward0.png",
+		"walkForward1" : "../../Resources/Textures/Units/Cowboy6/forward1.png",
+		"walkForward2" : "../../Resources/Textures/Units/Cowboy6/forward2.png",
+		"idleBack" : "../../Resources/Textures/Units/Cowboy6/back0.png",
+		"walkBack1" : "../../Resources/Textures/Units/Cowboy6/back1.png",
+		"walkBack2" : "../../Resources/Textures/Units/Cowboy6/back2.png",
+		"idleLeft" : "../../Resources/Textures/Units/Cowboy6/left0.png",
+		"walkLeft1" : "../../Resources/Textures/Units/Cowboy6/left1.png",
+		"walkLeft2" : "../../Resources/Textures/Units/Cowboy6/left2.png"
 	},
 	"unit6": {
 		"Title" : "Placeholder",
@@ -98,7 +153,16 @@
 		"strength": 10.0,
 		"initiative": 10.0,
 		"base_move_speed": 30.0,
-		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy7.png"
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy7.png",
+		"idleForward" : "../../Resources/Textures/Units/Cowboy7/forward0.png",
+		"walkForward1" : "../../Resources/Textures/Units/Cowboy7/forward1.png",
+		"walkForward2" : "../../Resources/Textures/Units/Cowboy7/forward2.png",
+		"idleBack" : "../../Resources/Textures/Units/Cowboy7/back0.png",
+		"walkBack1" : "../../Resources/Textures/Units/Cowboy7/back1.png",
+		"walkBack2" : "../../Resources/Textures/Units/Cowboy7/back2.png",
+		"idleLeft" : "../../Resources/Textures/Units/Cowboy7/left0.png",
+		"walkLeft1" : "../../Resources/Textures/Units/Cowboy7/left1.png",
+		"walkLeft2" : "../../Resources/Textures/Units/Cowboy7/left2.png"
 	},
 	"unit7": {
 		"Title" : "Placeholder",
@@ -112,6 +176,15 @@
 		"strength": 10.0,
 		"initiative": 10.0,
 		"base_move_speed": 30.0,
-		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy8.png"
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy8.png",
+		"idleForward" : "../../Resources/Textures/Units/Cowboy8/forward0.png",
+		"walkForward1" : "../../Resources/Textures/Units/Cowboy8/forward1.png",
+		"walkForward2" : "../../Resources/Textures/Units/Cowboy8/forward2.png",
+		"idleBack" : "../../Resources/Textures/Units/Cowboy8/back0.png",
+		"walkBack1" : "../../Resources/Textures/Units/Cowboy8/back1.png",
+		"walkBack2" : "../../Resources/Textures/Units/Cowboy8/back2.png",
+		"idleLeft" : "../../Resources/Textures/Units/Cowboy8/left0.png",
+		"walkLeft1" : "../../Resources/Textures/Units/Cowboy8/left1.png",
+		"walkLeft2" : "../../Resources/Textures/Units/Cowboy8/left2.png"
 	}
 }

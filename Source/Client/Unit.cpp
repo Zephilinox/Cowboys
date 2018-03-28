@@ -8,11 +8,7 @@ Unit::Unit(GameData* game_data) :
 	Entity(game_data),
 	horizontal_walk_sprite(game_data->getRenderer(), true),
 	forward_walk_sprite(game_data->getRenderer(), true),
-	backward_walk_sprite(game_data->getRenderer(), true),
-
-	horizontal_shoot_sprite(game_data->getRenderer(), true),
-	forward_shoot_sprite(game_data->getRenderer(), true),
-	backward_shoot_sprite(game_data->getRenderer(), true)
+	backward_walk_sprite(game_data->getRenderer(), true)
 {
 	//Wouldn't it be nice if we did something inside this constructor? Everything happens before we even get in here...
 	current_move_speed = base_move_speed;
@@ -134,9 +130,9 @@ void Unit::update(float dt)
 	case WALKING:
 	{
 
-		/*forward_walk_sprite.update(dt);
+		forward_walk_sprite.update(dt);
 		backward_walk_sprite.update(dt);
-		horizontal_walk_sprite.update(dt);*/
+		horizontal_walk_sprite.update(dt);
 
 		bool xPosMatched = false;
 		bool yPosMatched = false;
@@ -171,21 +167,18 @@ void Unit::update(float dt)
 		{
 			char_state = UnitState::IDLE;
 
-			//horizontal_walk_sprite.restart();
-			//horizontal_walk_sprite.pause();
-			//backward_walk_sprite.restart();
-			//backward_walk_sprite.pause();
-			//forward_walk_sprite.restart();
-			//forward_walk_sprite.pause();
+			horizontal_walk_sprite.restart();
+			horizontal_walk_sprite.pause();
+			backward_walk_sprite.restart();
+			backward_walk_sprite.pause();
+			forward_walk_sprite.restart();
+			forward_walk_sprite.pause();
 		}
 
 		break;
 	}
 	case SHOOTING:
 	{
-		//horizontal_shoot_sprite.update(dt);
-		//forward_shoot_sprite.update(dt);
-		//backward_shoot_sprite.update(dt);
 		break;
 	}
 	default:
@@ -211,7 +204,11 @@ void Unit::render(ASGE::Renderer* renderer) const
 		}
 		case EAST:
 		{
-			renderer->renderSprite(*idle_sprite_right, Z_ORDER_LAYER::UNITS + this->y_position);
+			if(!idle_sprite_left->isFlippedOnX())
+			{
+				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
+			}
+			renderer->renderSprite(*idle_sprite_left, Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case SOUTH:
@@ -239,7 +236,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 		}
 		case EAST:
 		{
-			if(horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
+			if(!horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
 			{
 				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
 			}
@@ -253,7 +250,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 		}
 		case WEST:
 		{
-			if(!horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
+			if(horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
 			{
 				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
 			}
@@ -269,30 +266,19 @@ void Unit::render(ASGE::Renderer* renderer) const
 		{
 		case NORTH:
 		{
-			renderer->renderSprite(*backward_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
+			
 			break;
 		}
 		case EAST:
 		{
-			if(horizontal_shoot_sprite.getCurrentFrameSprite()->isFlippedOnX())
-			{
-				horizontal_shoot_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
-			}
-			renderer->renderSprite(*horizontal_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case SOUTH:
 		{
-			renderer->renderSprite(*forward_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case WEST:
 		{
-			if(!horizontal_shoot_sprite.getCurrentFrameSprite()->isFlippedOnX())
-			{
-				horizontal_shoot_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
-			}
-			renderer->renderSprite(*horizontal_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		default:
@@ -339,7 +325,27 @@ void Unit::loadFromJSON(int unit_to_load)
 		initiative = (unitStats[id]["initiative"].as_double());
 		base_move_speed = (unitStats[id]["base_move_speed"].as_double());
 
-		//TODO load in textures
+			//TODO load in textures
+			//SPRITES
+		horizontal_walk_sprite.addFrame(unitStats[id]["walkLeft1"].as_string(), 0.25f, 0.0f, 0.0f);
+		horizontal_walk_sprite.addFrame(unitStats[id]["idleLeft"].as_string(), 0.25f, 0.0f, 0.0f);
+		horizontal_walk_sprite.addFrame(unitStats[id]["walkLeft2"].as_string(), 0.25f, 0.0f, 0.0f);
+		horizontal_walk_sprite.addFrame(unitStats[id]["idleLeft"].as_string(), 0.25f, 0.0f, 0.0f);
+
+		forward_walk_sprite.addFrame(unitStats[id]["walkForward1"].as_string(), 0.25f, 0.0f, 0.0f);
+		forward_walk_sprite.addFrame(unitStats[id]["idleForward"].as_string(), 0.25f, 0.0f, 0.0f);
+		forward_walk_sprite.addFrame(unitStats[id]["walkForward2"].as_string(), 0.25f, 0.0f, 0.0f);
+		forward_walk_sprite.addFrame(unitStats[id]["idleForward"].as_string(), 0.25f, 0.0f, 0.0f);
+
+		backward_walk_sprite.addFrame(unitStats[id]["idleBack"].as_string(), 0.25f, 0.0f, 0.0f);
+		backward_walk_sprite.addFrame(unitStats[id]["walkBack1"].as_string(), 0.25f, 0.0f, 0.0f);
+		backward_walk_sprite.addFrame(unitStats[id]["idleBack"].as_string(), 0.25f, 0.0f, 0.0f);
+		backward_walk_sprite.addFrame(unitStats[id]["walkBack2"].as_string(), 0.25f, 0.0f, 0.0f);
+
+
+		idle_sprite_forward->loadTexture(unitStats[id]["idleForward"].as_string());
+		idle_sprite_back->loadTexture(unitStats[id]["idleBack"].as_string());
+		idle_sprite_left->loadTexture(unitStats[id]["idleLeft"].as_string());
 	}
 	catch(std::runtime_error& e)
 	{
@@ -352,9 +358,6 @@ void Unit::updateOverridePositions()
 	//update all sprites positions to the same values
 	idle_sprite_forward->xPos(x_position);
 	idle_sprite_forward->yPos(y_position);
-
-	idle_sprite_right->xPos(x_position);
-	idle_sprite_right->yPos(y_position);
 
 	idle_sprite_back->xPos(x_position);
 	idle_sprite_back->yPos(y_position);
@@ -370,15 +373,6 @@ void Unit::updateOverridePositions()
 	forward_walk_sprite.yPos = y_position;
 	backward_walk_sprite.yPos = y_position;
 	horizontal_walk_sprite.yPos = y_position;
-
-	//update walk anim sprite positions
-	forward_shoot_sprite.xPos = x_position;
-	backward_shoot_sprite.xPos = x_position;
-	horizontal_shoot_sprite.xPos = x_position;
-
-	forward_shoot_sprite.yPos = y_position;
-	backward_shoot_sprite.yPos = y_position;
-	horizontal_shoot_sprite.yPos = y_position;
 }
 
 void Unit::serialize(Packet& p)
