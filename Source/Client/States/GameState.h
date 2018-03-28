@@ -16,8 +16,6 @@
 #include "PingPong/Paddle.hpp"
 #include "PingPong/Ball.hpp"
 
-#include "../Hero.h"
-#include "../Character.h"
 #include "../Unit.h"
 #include "../Warband.h"
 

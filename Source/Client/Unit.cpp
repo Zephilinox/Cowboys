@@ -48,14 +48,13 @@ void Unit::doAttack(Unit* enemy_target)
 
 	//BRENDON
 	//how many time CHARACTERS will it take to shoot? These should be either constexpr in the constants class OR determined by the conditions in the level (foggy weather, rain etc)
-	float shooting_threshold = 5.0f;
-	float weapon_damage = 5.0f;
 
 	//here you can balance the attack against the enemy etc.
-	if(time_units >= shooting_threshold)
+	if(time_units >= time_unit_attack_cost)
 	{
 		//RNG shit to roll d100 against the aim stat?
 		enemy_target->getAttacked(this, weapon_damage);
+		time_units -= time_unit_attack_cost;
 	}
 	else
 	{
@@ -63,24 +62,33 @@ void Unit::doAttack(Unit* enemy_target)
 	}
 }
 
+
+
 void Unit::getAttacked(Unit* attacker, float damage)
 {
 	//BRENDON - balancing
 	//These should be either constexpr in the constants class OR determined by the conditions in the level(foggy weather, rain etc)
-	float reactions_threshold = 5.0f;
-	float shooting_threshold = 5.0f;
 
 	//take the damage
 	//Apply any damage reduction from armour or any of that shit here?
 	health -= damage;
 
-	if(reactions >= reactions_threshold
+	if(reactions >= time_unit_reactive_cost
 		&& !hasReactiveFired
-		&& time_units >= shooting_threshold)
+		&& time_units >= time_unit_attack_cost)
 	{
 		doAttack(attacker);
 		hasReactiveFired = true;
 	}
+}
+
+void Unit::getReactiveAttacked(Unit* attacker, float damage)
+{
+	//TODO attacker->attackAnimation()
+
+	//take the damage
+	//Apply any damage reduction from armour or any of that shit here?
+	health -= damage;
 }
 
 void Unit::turnEnded()
@@ -198,22 +206,22 @@ void Unit::render(ASGE::Renderer* renderer) const
 		{
 		case NORTH:
 		{
-			renderer->renderSprite(*idle_sprite_back, Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*idle_sprite_back, Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case EAST:
 		{
-			renderer->renderSprite(*idle_sprite_right, Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*idle_sprite_right, Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case SOUTH:
 		{
-			renderer->renderSprite(*idle_sprite_forward, Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*idle_sprite_forward, Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case WEST:
 		{
-			renderer->renderSprite(*idle_sprite_left, Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*idle_sprite_left, Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		}
@@ -226,7 +234,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 		{
 		case NORTH:
 		{
-			renderer->renderSprite(*backward_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*backward_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case EAST:
@@ -235,12 +243,12 @@ void Unit::render(ASGE::Renderer* renderer) const
 			{
 				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
 			}
-			renderer->renderSprite(*horizontal_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*horizontal_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case SOUTH:
 		{
-			renderer->renderSprite(*forward_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*forward_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case WEST:
@@ -249,7 +257,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 			{
 				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
 			}
-			renderer->renderSprite(*horizontal_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*horizontal_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		}
@@ -261,7 +269,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 		{
 		case NORTH:
 		{
-			renderer->renderSprite(*backward_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*backward_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case EAST:
@@ -270,12 +278,12 @@ void Unit::render(ASGE::Renderer* renderer) const
 			{
 				horizontal_shoot_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
 			}
-			renderer->renderSprite(*horizontal_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*horizontal_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case SOUTH:
 		{
-			renderer->renderSprite(*forward_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*forward_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		case WEST:
@@ -284,7 +292,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 			{
 				horizontal_shoot_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
 			}
-			renderer->renderSprite(*horizontal_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::CHARACTERS + this->y_position);
+			renderer->renderSprite(*horizontal_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
 		}
 		default:
@@ -398,10 +406,6 @@ void Unit::deserialize(Packet & p)
 			break;
 		}
 		case ATTACK:
-		{
-			break;
-		}
-		case REACTIVE_FIRE:
 		{
 			break;
 		}

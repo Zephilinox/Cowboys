@@ -32,7 +32,6 @@ public:
 		LOAD_JSON,
 		MOVE,
 		ATTACK,
-		REACTIVE_FIRE
 	};
 
 	Unit(GameData* game_data);
@@ -48,8 +47,9 @@ public:
 	float getYPosition() const { return y_position; }
 	void setPosition(float x, float y);
 
-	virtual void doAttack(Unit* enemy);
-	virtual void getAttacked(Unit* attacker, float weapon_damage);
+	void doAttack(Unit* enemy);
+	void getAttacked(Unit* attacker, float weapon_damage);
+	void getReactiveAttacked(Unit* attacker, float damage);
 
 	void turnEnded();
 	void roundEnded();
@@ -58,12 +58,10 @@ public:
 	void deserialize(Packet& p) override final;
 
 
+	void moveToPosition(float x, float y);
 
-	//These may end up overridden
-	virtual void moveToPosition(float x, float y);
-
-	virtual void update(float dt);
-	virtual void render(ASGE::Renderer* renderer) const;
+	void update(float dt);
+	void render(ASGE::Renderer* renderer) const;
 
 	float getViewDistance() const { return view_distance; }
 	float getTimeUnits() const { return time_units; }
@@ -122,6 +120,11 @@ protected:
 	float base_move_speed = 30.0f;
 	float current_move_speed = 0.0f;
 	void updateOverridePositions();
+
+	//ATTACKING
+	float weapon_damage = 5.0f;
+	float time_unit_attack_cost = 10.0f;
+	float time_unit_reactive_cost = 5.0f;
 
 	//POSITIONS
 	float x_position = 0.0f;

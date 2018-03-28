@@ -1,5 +1,7 @@
 #include "Warband.h"
-#include "Character.h"
+#include "../Architecture/Networking/Packet.hpp"
+#include "../Architecture/Entity.hpp"
+#include "Unit.h"
 
 Warband::Warband(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID)
 	: game_data(game_data)
@@ -37,6 +39,50 @@ void Warband::sendJSONPackets()
 		//Send the packet
 		game_data->getNetworkManager()->client->sendPacket(0, &p);
 	}
+}
+
+//RICARDO check pls
+void Warband::sendMoveCommand(uint32_t unit_network_ID, int target_grid_x, int target_grid_y )
+{
+	//make a packet
+	Packet p;
+	p.setID(hash("Entity"));
+	//set up manual info as cannot pass gamestate into warband class
+	EntityInfo info;
+	info.networkID = unit_network_ID;
+	info.ownerID = game_data->getNetworkManager()->client->getID();
+	info.type = (hash("UnitMove"));
+
+	//put info, packet type and the unitID into the packet
+	p << info;
+	p << Unit::PacketType::MOVE;
+	p << target_grid_x << target_grid_y;
+	//Send the packet
+	game_data->getNetworkManager()->client->sendPacket(0, &p);
+}
+
+void Warband::sendAttackCommand(uint32_t attacking_unit_network_ID, uint32_t defending_unit_network_ID, float damage)
+{
+	//make packet
+	//get damage caused (unit function)
+	//send packet containing attacker ID, defender ID and damage dealt
+
+	//make a packet
+	Packet p;
+	p.setID(hash("Entity"));
+	//set up manual info as cannot pass gamestate into warband class
+	EntityInfo info;
+	info.networkID = attacking_unit_network_ID;
+	info.ownerID = game_data->getNetworkManager()->client->getID();
+	info.type = (hash("UnitAttack"));
+
+	//put info, packet type and the unitID into the packet
+	p << info;
+	p << Unit::PacketType::ATTACK;
+	p << attacking_unit_network_ID << defending_unit_network_ID << damage;
+
+	//Send the packet
+	game_data->getNetworkManager()->client->sendPacket(0, &p);
 }
 
 unsigned int Warband::getUnitNetworkIDsSize()

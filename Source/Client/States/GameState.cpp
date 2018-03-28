@@ -13,14 +13,9 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	our_warband(game_data, unit1ID, unit2ID, unit3ID, unit4ID, unit5ID),
 	their_warband(game_data)
 {
-
-	//Warband is container of network IDs
-	//Create entity function call
-	//tell warband what created entity's Id is
-
-
 	//TODO create map
 
+	//RICARDO check pls - where do we put this? remove?
 	Packet p;
 	p.setID(hash("GameJoined"));
 	this->game_data->getNetworkManager()->client->sendPacket(0, &p);
@@ -70,6 +65,8 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				});
 			}
 		} break;
+
+		//RICARDO check pls - does this need to be replaced with what we've done below?
 		case hash("CreateEntity"):
 		{
 			EntityInfo info;
@@ -100,6 +97,41 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 			p >> info;
 			Entity* ent = getEntity(info.networkID);
 
+			switch(info.type)
+			{
+				//RICARDO check pls
+				case hash("UnitMove"):
+				{
+					//p.getID();
+					float pos_x;
+					float pos_y;
+
+					p >> pos_x >> pos_y;
+					Unit* unit = static_cast<Unit*>(ent);
+					unit->moveToPosition(pos_x, pos_y);
+					break;
+				}
+				case hash("UnitAttack"):
+				{
+					//p.getID();
+					uint32_t attacker;
+					uint32_t defender;
+					float damage;
+					p >> attacker >> defender >> damage;
+
+					Entity* ent_attacker = getEntity(attacker);
+					Entity* ent_defender = getEntity(defender);
+
+					Unit* unit_attacker = static_cast<Unit*>(ent_attacker);
+					Unit* unit_defender = static_cast<Unit*>(ent_defender);
+					//RICARDO check pls
+					//Triggers chain of function calls which should be exactly the same on both clients
+					unit_attacker->doAttack(unit_defender);
+					break;
+				}
+			}
+
+			//RICARDO - Not sure what to do with this
 			if(ent && !ent->isOwner())
 			{
 				ent->receivePacket(Packet(p));
@@ -138,11 +170,13 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 								Unit* unit = static_cast<Unit*>(ent);
 								unit->loadFromJSON(our_warband.getUnitIDAt(i));
 							}
+							break;
 						}
 					}
 					else
 					{
 						their_warband.addToNetworkIDs(info.networkID);
+						break;
 					}
 				}
 			}
@@ -159,6 +193,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 		managed_slot_2 = this->game_data->getNetworkManager()->server->on_packet_received.connect(serverPacketReceive);
 	}
 
+	//TODO review the below section, remove if not needed?
 	if(game_data->getNetworkManager()->client)
 	{
 		createEntity<Paddle>(this->game_data);
