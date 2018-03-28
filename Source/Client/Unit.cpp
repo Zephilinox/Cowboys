@@ -10,9 +10,6 @@ Unit::Unit(GameData* game_data) :
 	forward_walk_sprite(game_data->getRenderer(), true),
 	backward_walk_sprite(game_data->getRenderer(), true)
 {
-	//Wouldn't it be nice if we did something inside this constructor? Everything happens before we even get in here...
-	current_move_speed = base_move_speed;
-
 	//TODO override base stats with ones read in from JSON or unit selection?
 	entity_info.type = hash("Unit");
 
@@ -340,7 +337,7 @@ void Unit::loadFromJSON(int unit_to_load)
 		strength = (unitStats[id]["strength"].as_double());
 		initiative = (unitStats[id]["initiative"].as_double());
 		base_move_speed = (unitStats[id]["base_move_speed"].as_double());
-
+		current_move_speed = base_move_speed;
 		//SPRITES
 		horizontal_walk_sprite.addFrame(unitStats[id]["walkLeft1"].as_string(), 0.25f, 0.0f, 0.0f);
 		horizontal_walk_sprite.addFrame(unitStats[id]["idleLeft"].as_string(), 0.25f, 0.0f, 0.0f);
