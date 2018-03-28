@@ -28,7 +28,7 @@
 	},
 	"unit1": {
 		"Title" : "Cowboy",
-		"HP": 10.0,
+		"HP": 1.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
 		"stamina": 10.0,
@@ -51,7 +51,7 @@
 	},
 	"unit2": {
 		"Title" : "Ranger",
-		"HP": 10.0,
+		"HP": 100.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
 		"stamina": 10.0,
