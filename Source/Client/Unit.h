@@ -51,8 +51,8 @@ public:
 	void getAttacked(Unit* attacker, float weapon_damage);
 	void getReactiveAttacked(Unit* attacker, float damage);
 
-	void turnEnded();
-	void roundEnded();
+	void endTurn();
+	void endRound();
 
 	void serialize(Packet& p) override final;
 	void deserialize(Packet& p) override final;

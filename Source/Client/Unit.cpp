@@ -91,15 +91,15 @@ void Unit::getReactiveAttacked(Unit* attacker, float damage)
 	health -= damage;
 }
 
-void Unit::turnEnded()
+void Unit::endTurn()
 {
-	//Trigger end of action phase specific things
+	//TODO - low priority, trigger any visuals to notify user that unit has acted (dim overlay?)
 
 }
 
-void Unit::roundEnded()
+void Unit::endRound()
 {
-	//Trigger end of round specific things here
+	//TODO - low priority, re-init any temp value changes to default
 	hasReactiveFired = false;
 }
 

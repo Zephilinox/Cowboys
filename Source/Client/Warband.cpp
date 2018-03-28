@@ -2,6 +2,7 @@
 #include "../Architecture/Networking/Packet.hpp"
 #include "../Architecture/Entity.hpp"
 #include "Unit.h"
+#include <algorithm>
 
 Warband::Warband(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID)
 	: game_data(game_data)
@@ -41,6 +42,11 @@ void Warband::sendJSONPackets()
 	}
 }
 
+//bool Warband::compareByInitiative(const InitiativeTrack &a, const InitiativeTrack &b)
+//{
+//	return a.initiative < b.initiative;
+//}
+
 void Warband::checkReady(EntityManager & ent_man)
 {
 	static bool already_checked = false;
@@ -55,10 +61,30 @@ void Warband::checkReady(EntityManager & ent_man)
 		{
 			Entity* ent = ent_man.getEntity(unit_network_IDs[i]);
 			Unit* unit = static_cast<Unit*>(ent);
-			unit->loadFromJSON(units[1]);
+			unit->loadFromJSON(units[i]);
+
+			InitiativeTrack unitTrack;
+			unitTrack.net_ID = unit_network_IDs[i];
+			unitTrack.initiative = unit->getInitiative();
+			unitTrack.hasActed = false;
+			initiativeTracker.push_back(std::move(unitTrack));
+		}
+		//do sort here
+		std::sort(initiativeTracker.begin(), initiativeTracker.end(), isLowerFunctor());
+	}
+}
+
+uint32_t Warband::getNextUnitInInitiativeList()
+{
+	for(auto& tracker : initiativeTracker)
+	{
+		if(!tracker.hasActed)
+		{
+			return tracker.net_ID;
 		}
 	}
 }
+
 
 //RICARDO check pls
 //this is fine, but it might be better to make these functions on the unit itself.
@@ -105,6 +131,27 @@ void Warband::sendAttackCommand(uint32_t attacking_unit_network_ID, uint32_t def
 	//Send the packet
 	game_data->getNetworkManager()->client->sendPacket(0, &p);
 }
+
+bool Warband::getAllUnitsActed()
+{
+	return allUnitsActed;
+}
+
+void Warband::resetAllActed()
+{
+	for(auto& tracker : initiativeTracker)
+	{
+		tracker.hasActed = false;
+	}
+}
+
+void Warband::endTurn(EntityManager & ent_man, uint32_t netID)
+{
+	Entity* ent = ent_man.getEntity(netID);
+	Unit* unit = static_cast<Unit*>(ent);
+	unit->endTurn();
+}
+
 
 unsigned int Warband::getUnitNetworkIDsSize()
 {
