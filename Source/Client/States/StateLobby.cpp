@@ -6,12 +6,17 @@
 #include "../../Architecture/Networking/Client.hpp"
 #include "../../Architecture/Networking/Server.hpp"
 
-#include "WarbandSelectionState.h"
+#include "GameState.h"
 
 StateLobby::StateLobby(GameData* game_data)
 	: State(game_data)
 	, menu(game_data)
-	, lobby(game_data)
+	, lobby(game_data, false)
+	, panel1(game_data, 0.0f)
+	, panel2(game_data, 256.0f)
+	, panel3(game_data, 512.0f)
+	, panel4(game_data, 768.0f)
+	, panel5(game_data, 1024.0f)
 {
 	menu.addButton(game_data->getWindowWidth() / 2 - 80, game_data->getWindowHeight() / 2 - 40, "SERVER", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
 	menu.addButton(game_data->getWindowWidth() / 2 - 80, game_data->getWindowHeight() / 2, "CLIENT", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
@@ -51,7 +56,12 @@ StateLobby::StateLobby(GameData* game_data)
 		if (p.getID() == hash("GameStart"))
 		{
 			this->game_data->getStateManager()->pop();
-			this->game_data->getStateManager()->push<WarbandSelectionState>();
+			this->game_data->getStateManager()->push<GameState>
+				(panel1.getSelectedUnitID(),
+					panel2.getSelectedUnitID(),
+					panel3.getSelectedUnitID(),
+					panel4.getSelectedUnitID(),
+					panel5.getSelectedUnitID());
 		}
 		
 		if (p.getID() == hash("Connected"))
@@ -81,9 +91,9 @@ StateLobby::StateLobby(GameData* game_data)
 		this->game_data->getStateManager()->pop();
 	});
 
-	lobby.addButton(game_data->getWindowWidth() / 2 - 80, game_data->getWindowHeight() / 2 - 40, "START", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
-	lobby.addButton(game_data->getWindowWidth() / 2 - 80, game_data->getWindowHeight() / 2, "TOGGLE READY", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
-	lobby.addButton(game_data->getWindowWidth() / 2 - 80, game_data->getWindowHeight() / 2 + 40, "BACK", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
+	lobby.addButton(game_data->getWindowWidth() / 2 - 80 - 80, game_data->getWindowHeight() * 0.8f, "START", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
+	lobby.addButton(game_data->getWindowWidth() / 2 - 80, game_data->getWindowHeight() * 0.8f, "TOGGLE READY", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
+	lobby.addButton(game_data->getWindowWidth() / 2 - 80 + 180, game_data->getWindowHeight() * 0.8f, "BACK", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE);
 	
 	lobby.getButton(0).on_click.connect([this]()
 	{
@@ -115,6 +125,75 @@ StateLobby::StateLobby(GameData* game_data)
 		this->game_data->getNetworkManager()->stopServer();
 		this->game_data->getNetworkManager()->stopClient();
 	});
+
+	//warband selection
+
+	lobby.addButton(0.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	lobby.addButton(0.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+
+	lobby.addButton(256.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	lobby.addButton(256.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+
+	lobby.addButton(512.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	lobby.addButton(512.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+
+	lobby.addButton(768.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	lobby.addButton(768.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+
+	lobby.addButton(1024.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	lobby.addButton(1024.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+
+	lobby.getButton(3).on_click.connect([this]()
+	{
+		panel1.decrementSelectedUnit();
+	});
+
+	lobby.getButton(4).on_click.connect([this]()
+	{
+		panel1.incrementSelectedUnit();
+
+	});
+
+	lobby.getButton(5).on_click.connect([this]()
+	{
+		panel2.decrementSelectedUnit();
+	});
+
+	lobby.getButton(6).on_click.connect([this]()
+	{
+		panel2.incrementSelectedUnit();
+	});
+
+	lobby.getButton(7).on_click.connect([this]()
+	{
+		panel3.decrementSelectedUnit();
+	});
+
+	lobby.getButton(8).on_click.connect([this]()
+	{
+		panel3.incrementSelectedUnit();
+	});
+
+	lobby.getButton(9).on_click.connect([this]()
+	{
+		panel4.decrementSelectedUnit();
+	});
+
+	lobby.getButton(10).on_click.connect([this]()
+	{
+		panel4.incrementSelectedUnit();
+
+	});
+
+	lobby.getButton(11).on_click.connect([this]()
+	{
+		panel5.decrementSelectedUnit();
+	});
+
+	lobby.getButton(12).on_click.connect([this]()
+	{
+		panel5.incrementSelectedUnit();
+	});
 }
 
 void StateLobby::update(const ASGE::GameTime&)
@@ -124,6 +203,11 @@ void StateLobby::update(const ASGE::GameTime&)
 	if (client && client->isConnecting())
 	{
 		lobby.update();
+		panel1.update();
+		panel2.update();
+		panel3.update();
+		panel4.update();
+		panel5.update();
 	}
 	else
 	{
@@ -137,41 +221,50 @@ void StateLobby::render() const
 	auto client = game_data->getNetworkManager()->client.get();
 	auto server = game_data->getNetworkManager()->server.get();
 
+	if (client && client->isConnecting())
+	{
+		panel1.render(game_data->getRenderer());
+		panel2.render(game_data->getRenderer());
+		panel3.render(game_data->getRenderer());
+		panel4.render(game_data->getRenderer());
+		panel5.render(game_data->getRenderer());
+	}
+
 	if (server)
 	{
 		if (server->isConnected())
 		{
-			renderer->renderText("CONNECTED", 250, 100, ASGE::COLOURS::WHITE);
+			renderer->renderText("CONNECTED", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
 		else
 		{
-			renderer->renderText("DISCONNECTED", 250, 100, ASGE::COLOURS::WHITE);
+			renderer->renderText("DISCONNECTED", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
 
-		renderer->renderText("SERVER", 250, 50, ASGE::COLOURS::WHITE);
+		renderer->renderText("SERVER", 250, 50, 1.0f, ASGE::COLOURS::BLACK, 10000);
 	}
 	else if (client)
 	{
 		if (client->isConnected())
 		{
-			renderer->renderText("CONNECTED", 250, 100, ASGE::COLOURS::WHITE);
+			renderer->renderText("CONNECTED", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
 		else if (client->isConnecting())
 		{
-			renderer->renderText("CONNECTING", 250, 100, ASGE::COLOURS::WHITE);
+			renderer->renderText("CONNECTING", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
 		else
 		{
-			renderer->renderText("DISCONNECTED", 250, 100, ASGE::COLOURS::WHITE);
+			renderer->renderText("DISCONNECTED", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
 
-		renderer->renderText("CLIENT", 250, 50, ASGE::COLOURS::WHITE);
+		renderer->renderText("CLIENT", 250, 50, 1.0f, ASGE::COLOURS::BLACK, 10000);
 	}
 
 	if (client && client->isConnecting())
 	{
-		renderer->renderText(ready ? "READY" : "NOT READY", 250, 150, ASGE::COLOURS::WHITE);
-		renderer->renderText(other_ready ? "OTHER PLAYER READY" : "OTHER PLAYER NOT READY", 250, 200, ASGE::COLOURS::WHITE);
+		renderer->renderText(ready ? "READY" : "NOT READY", 250, 150, 1.0f, ASGE::COLOURS::BLACK, 10000);
+		renderer->renderText(other_ready ? "OTHER PLAYER READY" : "OTHER PLAYER NOT READY", 250, 200, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		lobby.render();
 	}
 	else
