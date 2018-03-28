@@ -9,9 +9,10 @@
 
 GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID)
 	: State(game_data)
-	, menu(game_data),
-	our_warband(game_data, unit1ID, unit2ID, unit3ID, unit4ID, unit5ID),
-	their_warband(game_data)
+	, menu(game_data)
+	, our_warband(game_data, unit1ID, unit2ID, unit3ID, unit4ID, unit5ID)
+	, their_warband(game_data)
+	, ent_man(game_data)
 {
 	//TODO create map
 
@@ -37,7 +38,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				//TODO ensure entities created use JSON to read in, active sends packets to recover state.
 				//TODO ensure positions and facings are also updated
 				//once a client has started their game (pushed GameState), send them all existing entities.
-				for (const auto& ent : entities)
+				for (const auto& ent : ent_man.entities)
 				{
 					p.reset();
 					p.setID(hash("CreateEntity"));
@@ -60,7 +61,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 			{
 				EntityInfo info;
 				p >> info;
-				Entity* ent = getEntity(info.networkID);
+				Entity* ent = ent_man.getEntity(info.networkID);
 
 				//Make sure the entity packet is all valid, then send it to the other client.
 				if(ent && //exists
@@ -86,7 +87,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				{
 					case hash("Unit"):
 					{
-						createEntity<Unit>(p.senderID, this->game_data);
+						ent_man.createEntityForClient<Unit>(p.senderID, this->game_data);
 					} break;
 				}
 			} break;
@@ -102,7 +103,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				//Find the entity and give them the packet to deserialize
 				EntityInfo info;
 				p >> info;
-				Entity* ent = getEntity(info.networkID);
+				Entity* ent = ent_man.getEntity(info.networkID);
 
 				if (ent && !ent->isOwner())
 				{
@@ -118,7 +119,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 				std::cout << "client create ent : " << info.networkID << " " << info.ownerID << "\n";
 
-				if (getEntity(info.networkID))
+				if (ent_man.getEntity(info.networkID))
 				{
 					std::cout << "WAS ASKED TO CREATE EXISTING ENTITY " << info.networkID << ". REFUSING.\n";
 					return;
@@ -128,11 +129,11 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				{
 					case hash("Unit"):
 					{
-						entities.emplace_back(std::make_unique<Unit>(this->game_data));
-						entities.back()->entity_info = info;
+						ent_man.entities.emplace_back(std::make_unique<Unit>(this->game_data));
+						ent_man.entities.back()->entity_info = info;
 
 						//todo: refactor. once we have all 5 units from the other client constructed then we send the json load commands
-						if (entities.back()->isOwner())
+						if (ent_man.entities.back()->isOwner())
 						{
 							our_warband.addToNetworkIDs(info.networkID);
 							//	once our warband has all 5 units pushed back, it sends 5 packets, 1 per unit
@@ -143,7 +144,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 								for (int i = 0; i < 5; i++)
 								{
-									Entity* ent = getEntity(our_warband.getUnitNetworkIDAt(i));
+									Entity* ent = ent_man.getEntity(our_warband.getUnitNetworkIDAt(i));
 									Unit* unit = static_cast<Unit*>(ent);
 									unit->loadFromJSON(our_warband.getUnitIDAt(i));
 								}
@@ -167,7 +168,11 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 		managed_slot_2 = this->game_data->getNetworkManager()->server->on_packet_received.connect(serverPacketReceive);
 	}
 
-	//todo: call create unit for our warband units
+	//Create 5 units for our warband
+	for (int i = 0; i < 5; ++i)
+	{
+		ent_man.createEntityRequest<Unit>(game_data);
+	}
 }
 
 GameState::~GameState()
@@ -185,7 +190,7 @@ void GameState::update(const ASGE::GameTime& gt)
 	{
 		const float dt = gt.delta_time.count() / 1000.0f;
 
-		for (auto& ent : entities)
+		for (auto& ent : ent_man.entities)
 		{
 			ent->update(dt);
 		}
@@ -204,7 +209,7 @@ void GameState::render() const
 
 	if (client && client->isConnecting())
 	{
-		for (const auto& ent : entities)
+		for (const auto& ent : ent_man.entities)
 		{
 			ent->render(renderer);
 		}
@@ -217,19 +222,4 @@ void GameState::onActive()
 
 void GameState::onInactive()
 {
-}
-
-Entity* GameState::getEntity(uint32_t networkID)
-{
-	auto it = std::find_if(entities.begin(), entities.end(), [&](const auto& ent)
-	{
-		return ent->entity_info.networkID == networkID;
-	});
-
-	if (it != entities.end())
-	{
-		return it->get();
-	}
-
-	return nullptr;
 }
