@@ -379,11 +379,9 @@ void Unit::updateOverridePositions()
 	forward_shoot_sprite.yPos = y_position;
 	backward_shoot_sprite.yPos = y_position;
 	horizontal_shoot_sprite.yPos = y_position;
-
 }
 
-
-void Unit::serialize(Packet & p)
+void Unit::serialize(Packet& p)
 {
 	p << x_position << y_position;
 }
@@ -392,6 +390,7 @@ void Unit::deserialize(Packet & p)
 {
 	int packet_type;
 	p >> packet_type;
+
 	switch(packet_type)
 	{
 		case LOAD_JSON:
@@ -403,13 +402,23 @@ void Unit::deserialize(Packet & p)
 		}
 		case MOVE:
 		{
+			float pos_x;
+			float pos_y;
+			p >> pos_x >> pos_y;
+
+			moveToPosition(pos_x, pos_y);
 			break;
 		}
 		case ATTACK:
 		{
+			uint32_t defender;
+			p >> defender;
+
+			//todo: need access to the game state for get entity
+			//Entity* ent_defender = getEntity(defender);
+			//Unit* unit_defender = static_cast<Unit*>(ent_defender);
+			//doAttack(unit_defender);
 			break;
 		}
 	}
-
-	p >> x_position >> y_position;
 }

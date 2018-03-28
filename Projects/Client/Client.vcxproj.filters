@@ -109,6 +109,9 @@
     <ClCompile Include="..\..\Source\Client\States\WarbandSelectionState.cpp">
       <Filter>Source\States</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Managers\EntityManager.cpp">
+      <Filter>Source\Architecture\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\States\WarbandSelectionState.h">
       <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Managers\EntityManager.hpp">
+      <Filter>Headers\Architecture\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
