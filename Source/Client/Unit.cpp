@@ -15,6 +15,10 @@ Unit::Unit(GameData* game_data) :
 
 	//TODO override base stats with ones read in from JSON or unit selection?
 	entity_info.type = hash("Unit");
+
+	idle_sprite_forward = game_data->getRenderer()->createUniqueSprite();
+	idle_sprite_back = game_data->getRenderer()->createUniqueSprite();
+	idle_sprite_left = game_data->getRenderer()->createUniqueSprite();
 }
 
 
@@ -338,7 +342,7 @@ void Unit::loadFromJSON(int unit_to_load)
 		base_move_speed = (unitStats[id]["base_move_speed"].as_double());
 
 		//SPRITES
-		horizontal_walk_sprite.addFrame((unitStats[id]["walkLeft1"].as_string(), 0.25f, 0.0f, 0.0f);
+		horizontal_walk_sprite.addFrame(unitStats[id]["walkLeft1"].as_string(), 0.25f, 0.0f, 0.0f);
 		horizontal_walk_sprite.addFrame(unitStats[id]["idleLeft"].as_string(), 0.25f, 0.0f, 0.0f);
 		horizontal_walk_sprite.addFrame(unitStats[id]["walkLeft2"].as_string(), 0.25f, 0.0f, 0.0f);
 		horizontal_walk_sprite.addFrame(unitStats[id]["idleLeft"].as_string(), 0.25f, 0.0f, 0.0f);
