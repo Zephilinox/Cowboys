@@ -42,6 +42,8 @@ void Warband::sendJSONPackets()
 }
 
 //RICARDO check pls
+//this is fine, but it might be better to make these functions on the unit itself.
+//I'll take a look at improving some of the base entity stuff so this is easier
 void Warband::sendMoveCommand(uint32_t unit_network_ID, int target_grid_x, int target_grid_y )
 {
 	//make a packet
