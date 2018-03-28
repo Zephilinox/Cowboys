@@ -1,6 +1,7 @@
 #pragma once
 
 #include "..\Architecture\GameData.hpp"
+#include "../Architecture/Managers/EntityManager.hpp"
 
 class Warband
 {
@@ -11,7 +12,8 @@ public:
 
 	void addToNetworkIDs(uint32_t new_ID);
 	void sendJSONPackets();
-	
+	void checkReady(EntityManager& ent_man);
+
 	unsigned int getUnitNetworkIDsSize();
 	void sendMoveCommand(uint32_t unit_network_ID, int grid_x, int grid_y);
 	void sendAttackCommand(uint32_t attacking_unit_network_ID, uint32_t defending_unit_network_ID);

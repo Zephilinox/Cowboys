@@ -55,6 +55,14 @@ bool MyNetGame::init()
 	game_data->getInputManager()->addAction("down", ASGE::KEYS::KEY_S);
 	game_data->getInputManager()->addAction("down", game_data->getInputManager()->gamepad_button_down);
 
+	game_data->getInputManager()->addAction("right", ASGE::KEYS::KEY_RIGHT);
+	game_data->getInputManager()->addAction("right", ASGE::KEYS::KEY_D);
+	//game_data->getInputManager()->addAction("right", game_data->getInputManager()->gamepad_button_right;
+
+	game_data->getInputManager()->addAction("left", ASGE::KEYS::KEY_LEFT);
+	game_data->getInputManager()->addAction("left", ASGE::KEYS::KEY_A);
+	//game_data->getInputManager()->addAction("left", game_data->getInputManager()->gamepad_button_left);
+
 	game_data->getFontManager()->addFont("../../Resources/Fonts/Zorque.ttf", "Default", 24);
 
 	game_data->getStateManager()->push<StateMenu>();

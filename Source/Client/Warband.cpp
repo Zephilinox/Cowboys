@@ -41,6 +41,25 @@ void Warband::sendJSONPackets()
 	}
 }
 
+void Warband::checkReady(EntityManager & ent_man)
+{
+	static bool already_checked = false;
+	//	once our warband has all 5 units pushed back, it sends 5 packets, 1 per unit
+	//	saying which unit to load from json
+	if (!already_checked && unit_network_IDs.size() == 5)
+	{
+		already_checked = true;
+		sendJSONPackets();
+
+		for (int i = 0; i < 5; i++)
+		{
+			Entity* ent = ent_man.getEntity(unit_network_IDs[i]);
+			Unit* unit = static_cast<Unit*>(ent);
+			unit->loadFromJSON(units[1]);
+		}
+	}
+}
+
 //RICARDO check pls
 //this is fine, but it might be better to make these functions on the unit itself.
 //I'll take a look at improving some of the base entity stuff so this is easier

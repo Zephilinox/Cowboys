@@ -23,7 +23,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 	auto serverPacketReceive = [this](Packet p)
 	{
-		switch(p.getID())
+		switch (p.getID())
 		{
 			case hash("Connected"):
 			{
@@ -53,7 +53,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				//So if they rejoin they're all still there? maybe? not sure how to go about this really.
 				/*std::experimental::erase_if(entities, [p](const auto& entity)
 				{
-					return entity->entity_info.ownerID == p.senderID;
+				return entity->entity_info.ownerID == p.senderID;
 				});*/
 			} break;
 
@@ -64,7 +64,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				Entity* ent = ent_man.getEntity(info.networkID);
 
 				//Make sure the entity packet is all valid, then send it to the other client.
-				if(ent && //exists
+				if (ent && //exists
 					ent->entity_info.ownerID == info.ownerID && //owners match
 					ent->entity_info.type == info.type && //types match
 					info.ownerID == p.senderID) //client owns it
@@ -83,12 +83,12 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				p >> info;
 				std::cout << "server create ent : " << info.networkID << " " << info.ownerID << "\n";
 
-				switch(info.type)
+				switch (info.type)
 				{
-					case hash("Unit"):
-					{
-						ent_man.createEntityForClient<Unit>(p.senderID, this->game_data);
-					} break;
+				case hash("Unit"):
+				{
+					ent_man.createEntityForClient<Unit>(p.senderID, this->game_data);
+				} break;
 				}
 			} break;
 		}
@@ -96,8 +96,8 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 	auto clientPacketReceive = [this](Packet p)
 	{
-		switch(p.getID())
-			{
+		switch (p.getID())
+		{
 			case hash("Entity"):
 			{
 				//Find the entity and give them the packet to deserialize
@@ -110,7 +110,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					ent->receivePacket(Packet(p));
 				}
 			} break;
-		
+
 			case hash("CreateEntity"):
 			{
 				//Server told us to create an entity, so we do.
@@ -125,30 +125,17 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					return;
 				}
 
-				switch(info.type)
+				switch (info.type)
 				{
 					case hash("Unit"):
 					{
 						ent_man.entities.emplace_back(std::make_unique<Unit>(this->game_data));
 						ent_man.entities.back()->entity_info = info;
 
-						//todo: refactor. once we have all 5 units from the other client constructed then we send the json load commands
 						if (ent_man.entities.back()->isOwner())
 						{
 							our_warband.addToNetworkIDs(info.networkID);
-							//	once our warband has all 5 units pushed back, it sends 5 packets, 1 per unit
-							//	saying which unit to load from json
-							if (our_warband.getUnitNetworkIDsSize() == 5)
-							{
-								our_warband.sendJSONPackets();
-
-								for (int i = 0; i < 5; i++)
-								{
-									Entity* ent = ent_man.getEntity(our_warband.getUnitNetworkIDAt(i));
-									Unit* unit = static_cast<Unit*>(ent);
-									unit->loadFromJSON(our_warband.getUnitIDAt(i));
-								}
-							}
+							our_warband.checkReady(ent_man);
 						}
 						else
 						{

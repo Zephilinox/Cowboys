@@ -12,13 +12,24 @@ Menu::Menu(GameData* game_data, bool vertical)
 	assert(game_data);
 	buttons.reserve(4);
 	selected_button_id = 0;
+
+	if (vertical)
+	{
+		next_selection_string = "down";
+		prev_selection_string = "up";
+	}
+	else
+	{
+		next_selection_string = "right";
+		prev_selection_string = "left";
+	}
 }
 
 void Menu::update()
 {
 	if (buttons.empty()) return;
 
-	if (game_data->getInputManager()->isActionPressed("down"))
+	if (game_data->getInputManager()->isActionPressed(next_selection_string))
 	{
 		if (selected_button_id == buttons.size() - 1)
 		{
@@ -30,7 +41,7 @@ void Menu::update()
 		}
 	}
 	
-	if (game_data->getInputManager()->isActionPressed("up"))
+	if (game_data->getInputManager()->isActionPressed(prev_selection_string))
 	{
 		if (selected_button_id == 0)
 		{

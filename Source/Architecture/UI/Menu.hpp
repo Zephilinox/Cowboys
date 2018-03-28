@@ -26,6 +26,7 @@ public:
 	Button& getButton(int button_id);
 
 	std::unique_ptr<ASGE::Sprite> selection_image = nullptr;
+
 private:
 	void selectButton(int button_id);
 
@@ -33,4 +34,6 @@ private:
 	std::vector<Button> buttons;
 
 	unsigned selected_button_id;
+	std::string next_selection_string;
+	std::string prev_selection_string;
 };

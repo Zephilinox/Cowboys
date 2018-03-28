@@ -13,7 +13,7 @@ WarbandSelectionState::WarbandSelectionState(GameData* game_data)
 	panel3(game_data, 512.0f),
 	panel4(game_data, 768.0f),
 	panel5(game_data, 1024.0f),
-	menu(game_data)
+	menu(game_data, false)
 {
 	initMenu();
 }
