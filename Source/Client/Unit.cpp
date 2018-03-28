@@ -314,6 +314,7 @@ void Unit::loadFromJSON(int unit_to_load)
 
 	try
 	{
+		//STATS
 		health = (unitStats[id]["HP"].as_double());
 		view_distance = (unitStats[id]["viewDistance"].as_double());
 		time_units = (unitStats[id]["timeUnits"].as_double());
@@ -325,9 +326,8 @@ void Unit::loadFromJSON(int unit_to_load)
 		initiative = (unitStats[id]["initiative"].as_double());
 		base_move_speed = (unitStats[id]["base_move_speed"].as_double());
 
-			//TODO load in textures
-			//SPRITES
-		horizontal_walk_sprite.addFrame(unitStats[id]["walkLeft1"].as_string(), 0.25f, 0.0f, 0.0f);
+		//SPRITES
+		horizontal_walk_sprite.addFrame((unitStats[id]["walkLeft1"].as_string(), 0.25f, 0.0f, 0.0f);
 		horizontal_walk_sprite.addFrame(unitStats[id]["idleLeft"].as_string(), 0.25f, 0.0f, 0.0f);
 		horizontal_walk_sprite.addFrame(unitStats[id]["walkLeft2"].as_string(), 0.25f, 0.0f, 0.0f);
 		horizontal_walk_sprite.addFrame(unitStats[id]["idleLeft"].as_string(), 0.25f, 0.0f, 0.0f);
@@ -342,10 +342,9 @@ void Unit::loadFromJSON(int unit_to_load)
 		backward_walk_sprite.addFrame(unitStats[id]["idleBack"].as_string(), 0.25f, 0.0f, 0.0f);
 		backward_walk_sprite.addFrame(unitStats[id]["walkBack2"].as_string(), 0.25f, 0.0f, 0.0f);
 
-
-		idle_sprite_forward->loadTexture(unitStats[id]["idleForward"].as_string());
-		idle_sprite_back->loadTexture(unitStats[id]["idleBack"].as_string());
-		idle_sprite_left->loadTexture(unitStats[id]["idleLeft"].as_string());
+		idle_sprite_forward->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleForward"].as_string() + ".png").c_str()));
+		idle_sprite_back->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleBack"].as_string() + ".png").c_str()));
+		idle_sprite_left->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleLeft"].as_string() + ".png").c_str()));
 	}
 	catch(std::runtime_error& e)
 	{
