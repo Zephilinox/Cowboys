@@ -137,12 +137,11 @@ protected:
 	AnimatedSprite forward_walk_sprite;
 	AnimatedSprite backward_walk_sprite;
 
-	AnimatedSprite horizontal_shoot_sprite;
-	AnimatedSprite forward_shoot_sprite;
-	AnimatedSprite backward_shoot_sprite;
+	//Can render for a few frames when shooting, placement will be determined by direction from unit to enemy unit.
+	std::unique_ptr<ASGE::Sprite> shoot_sprite;
+
 
 	std::unique_ptr<ASGE::Sprite> idle_sprite_forward;
-	std::unique_ptr<ASGE::Sprite> idle_sprite_right;
 	std::unique_ptr<ASGE::Sprite> idle_sprite_back;
 	std::unique_ptr<ASGE::Sprite> idle_sprite_left;
 };
