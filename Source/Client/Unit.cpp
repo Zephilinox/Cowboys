@@ -241,7 +241,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 		{
 			if(horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
 			{
-				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
+				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
 			}
 			renderer->renderSprite(*horizontal_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
@@ -255,7 +255,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 		{
 			if(!horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
 			{
-				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
+				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
 			}
 			renderer->renderSprite(*horizontal_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
@@ -276,7 +276,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 		{
 			if(horizontal_shoot_sprite.getCurrentFrameSprite()->isFlippedOnX())
 			{
-				horizontal_shoot_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
+				horizontal_shoot_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
 			}
 			renderer->renderSprite(*horizontal_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
@@ -290,7 +290,7 @@ void Unit::render(ASGE::Renderer* renderer) const
 		{
 			if(!horizontal_shoot_sprite.getCurrentFrameSprite()->isFlippedOnX())
 			{
-				horizontal_shoot_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
+				horizontal_shoot_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
 			}
 			renderer->renderSprite(*horizontal_shoot_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 			break;
