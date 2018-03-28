@@ -6,7 +6,7 @@
 #include "../../Architecture/Networking/Client.hpp"
 #include "../../Architecture/Networking/Server.hpp"
 
-#include "StatePingPong.hpp"
+#include "WarbandSelectionState.h"
 
 StateLobby::StateLobby(GameData* game_data)
 	: State(game_data)
@@ -51,7 +51,7 @@ StateLobby::StateLobby(GameData* game_data)
 		if (p.getID() == hash("GameStart"))
 		{
 			this->game_data->getStateManager()->pop();
-			this->game_data->getStateManager()->push<StatePingPong>();
+			this->game_data->getStateManager()->push<WarbandSelectionState>();
 		}
 		
 		if (p.getID() == hash("Connected"))
