@@ -16,6 +16,7 @@ UnitSelectPanel::UnitSelectPanel(GameData* data, float x_pos)
 	panel_image->loadTexture("../../Resources/Textures/UI/Panels/UnitSelectPanel.png");
 	panel_image->xPos(x_position);
 	panel_image->yPos(y_position);
+	panel_image->height(data->getWindowHeight() * 0.7f);
 
 	unit_image->xPos(x_position + 23);
 	unit_image->yPos(y_position + 23);
@@ -72,8 +73,8 @@ void UnitSelectPanel::update()
 
 void UnitSelectPanel::render(ASGE::Renderer* rend) const
 {
-	rend->renderSprite(*panel_image, Z_ORDER_LAYER::OVERLAY);
-	rend->renderSprite(*unit_image, Z_ORDER_LAYER::OVERLAY_TEXT);
+	rend->renderSprite(*panel_image, 0);
+	rend->renderSprite(*unit_image, 1);
 	renderStatsText(rend);
 }
 
@@ -81,17 +82,18 @@ void UnitSelectPanel::renderStatsText(ASGE::Renderer* rend) const
 {
 	float x_pos = panel_image->xPos() + 25;
 
-	rend->renderText(title, x_pos, 300, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(health, x_pos, 325, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(view_distance, x_pos, 350, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(time_units, x_pos, 375, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(stamina, x_pos, 400, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(bravery, x_pos, 425, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(reactions, x_pos, 450, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(firing_accuracy, x_pos, 475, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(strength, x_pos, 500, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(initiative, x_pos, 525, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-	rend->renderText(base_move_speed, x_pos, 550, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	const int baseHeight = 250;
+	rend->renderText(title, x_pos, baseHeight, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(health, x_pos, baseHeight + 15, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(view_distance, x_pos, baseHeight + 30, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(time_units, x_pos, baseHeight + 45, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(stamina, x_pos, baseHeight + 60, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(bravery, x_pos, baseHeight + 75, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(reactions, x_pos, baseHeight + 90, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(firing_accuracy, x_pos, baseHeight + 105, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(strength, x_pos, baseHeight + 120, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(initiative, x_pos, baseHeight + 135, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+	rend->renderText(base_move_speed, x_pos, baseHeight + 150, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
 }
 
 void UnitSelectPanel::incrementSelectedUnit()

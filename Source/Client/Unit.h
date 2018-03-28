@@ -144,4 +144,6 @@ protected:
 	std::unique_ptr<ASGE::Sprite> idle_sprite_forward;
 	std::unique_ptr<ASGE::Sprite> idle_sprite_back;
 	std::unique_ptr<ASGE::Sprite> idle_sprite_left;
+
+	bool initialized = false;
 };

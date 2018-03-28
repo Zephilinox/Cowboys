@@ -14,6 +14,7 @@ Unit::Unit(GameData* game_data) :
 	current_move_speed = base_move_speed;
 
 	//TODO override base stats with ones read in from JSON or unit selection?
+	entity_info.type = hash("Unit");
 }
 
 
@@ -118,6 +119,11 @@ void Unit::moveToPosition(float x, float y)
 
 void Unit::update(float dt)
 {
+	if (!initialized)
+	{
+		return;
+	}
+
 	updateOverridePositions();
 
 	switch(char_state)
@@ -190,6 +196,11 @@ void Unit::update(float dt)
 
 void Unit::render(ASGE::Renderer* renderer) const
 {
+	if (!initialized)
+	{
+		return;
+	}
+
 	switch(char_state)
 	{
 	case IDLE:
@@ -345,6 +356,8 @@ void Unit::loadFromJSON(int unit_to_load)
 		idle_sprite_forward->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleForward"].as_string() + ".png").c_str()));
 		idle_sprite_back->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleBack"].as_string() + ".png").c_str()));
 		idle_sprite_left->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleLeft"].as_string() + ".png").c_str()));
+
+		initialized = true;
 	}
 	catch(std::runtime_error& e)
 	{

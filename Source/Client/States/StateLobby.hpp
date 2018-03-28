@@ -4,6 +4,7 @@
 #include "../../Architecture/State.hpp"
 #include "../../Architecture/UI/Menu.hpp"
 #include "../../Architecture/Dialogues/DialogueTree.hpp"
+#include "../UnitSelectPanel.h"
 
 class GameData;
 
@@ -29,4 +30,16 @@ private:
 
 	ManagedConnection mc1;
 	ManagedConnection mc2;
+
+	UnitSelectPanel panel1;
+	UnitSelectPanel panel2;
+	UnitSelectPanel panel3;
+	UnitSelectPanel panel4;
+	UnitSelectPanel panel5;
+
+	float panel1_x_pos = 0.0f;
+	float panel2_x_pos = 0.0f;
+	float panel3_x_pos = 0.0f;
+	float panel4_x_pos = 0.0f;
+	float panel5_x_pos = 0.0f;
 };
