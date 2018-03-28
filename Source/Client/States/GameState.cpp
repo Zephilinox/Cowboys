@@ -7,6 +7,15 @@
 #include "../../Architecture/Networking/Client.hpp"
 #include "../../Architecture/Networking/Server.hpp"
 
+
+//TODO - send packet to server to request coin flip to determine who goes first!
+//TODO - send packet to declare turn over
+//TODO - send packet allUnitsActed
+//TODO - receive packet to server to request coin flip to determine who goes first!
+//TODO - receive packet to declare turn over
+//TODO - receive packet allUnitsActed
+
+
 GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID)
 	: State(game_data)
 	, menu(game_data)
@@ -209,4 +218,19 @@ void GameState::onActive()
 
 void GameState::onInactive()
 {
+}
+
+void GameState::endTurn()
+{
+	//set active player's warband.endTurn(networkID)
+	if(our_warband.getAllUnitsActed() && their_warband.getAllUnitsActed())
+	{
+		endRound();
+	}
+}
+
+void GameState::endRound()
+{
+	our_warband.resetAllActed();
+	their_warband.resetAllActed();
 }

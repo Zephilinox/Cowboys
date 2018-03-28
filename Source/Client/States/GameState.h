@@ -31,6 +31,10 @@ public:
 	void onActive() override final;
 	void onInactive() override final;
 
+	void endTurn();
+
+	void endRound();
+
 private:
 	ManagedConnection managed_slot_1;
 	ManagedConnection managed_slot_2;
