@@ -46,8 +46,6 @@ void WarbandSelectionState::onInactive()
 {
 }
 
-
-
 void WarbandSelectionState::initMenu()
 {
 	menu.addButton(0.0f + 25, 640, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
