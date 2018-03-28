@@ -1,5 +1,9 @@
 {
+	"constants": {
+		"NumberOfUnitTypes" : 8
+	},
 	"unit0": {
+		"Title" : "Gunslinger",
 		"HP": 10.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
@@ -9,9 +13,11 @@
 		"firing_accuracy": 10.0,
 		"strength": 10.0,
 		"initiative": 10.0,
-		"base_move_speed": 30.0
+		"base_move_speed": 30.0,
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy1.png"
 	},
 	"unit1": {
+		"Title" : "Cowboy",
 		"HP": 10.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
@@ -21,9 +27,11 @@
 		"firing_accuracy": 10.0,
 		"strength": 10.0,
 		"initiative": 10.0,
-		"base_move_speed": 30.0
+		"base_move_speed": 30.0,
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy2.png"
 	},
 	"unit2": {
+		"Title" : "Ranger",
 		"HP": 10.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
@@ -33,9 +41,11 @@
 		"firing_accuracy": 10.0,
 		"strength": 10.0,
 		"initiative": 10.0,
-		"base_move_speed": 30.0
+		"base_move_speed": 30.0,
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy3.png"
 	},
 	"unit3": {
+		"Title" : "Outlaw",
 		"HP": 10.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
@@ -45,9 +55,11 @@
 		"firing_accuracy": 10.0,
 		"strength": 10.0,
 		"initiative": 10.0,
-		"base_move_speed": 30.0
+		"base_move_speed": 30.0,
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy4.png"
 	},
 	"unit4": {
+		"Title" : "Placeholder",
 		"HP": 10.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
@@ -57,9 +69,11 @@
 		"firing_accuracy": 10.0,
 		"strength": 10.0,
 		"initiative": 10.0,
-		"base_move_speed": 30.0
+		"base_move_speed": 30.0,
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy5.png"
 	},
 	"unit5": {
+		"Title" : "Placeholder",
 		"HP": 10.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
@@ -69,9 +83,11 @@
 		"firing_accuracy": 10.0,
 		"strength": 10.0,
 		"initiative": 10.0,
-		"base_move_speed": 30.0
+		"base_move_speed": 30.0,
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy6.png"
 	},
 	"unit6": {
+		"Title" : "Placeholder",
 		"HP": 10.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
@@ -81,9 +97,11 @@
 		"firing_accuracy": 10.0,
 		"strength": 10.0,
 		"initiative": 10.0,
-		"base_move_speed": 30.0
+		"base_move_speed": 30.0,
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy7.png"
 	},
 	"unit7": {
+		"Title" : "Placeholder",
 		"HP": 10.0,
 		"viewDistance": 10.0,
 		"timeUnits": 10.0,
@@ -93,6 +111,7 @@
 		"firing_accuracy": 10.0,
 		"strength": 10.0,
 		"initiative": 10.0,
-		"base_move_speed": 30.0
+		"base_move_speed": 30.0,
+		"PortraitSource" : "../../Resources/Textures/Units/Portraits/Cowboy8.png"
 	}
 }

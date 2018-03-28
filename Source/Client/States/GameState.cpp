@@ -116,8 +116,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					//p.getID();
 					uint32_t attacker;
 					uint32_t defender;
-					float damage;
-					p >> attacker >> defender >> damage;
+					p >> attacker >> defender;
 
 					Entity* ent_attacker = getEntity(attacker);
 					Entity* ent_defender = getEntity(defender);

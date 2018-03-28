@@ -168,7 +168,6 @@
     <ClInclude Include="..\..\Source\Client\ListOfNames.h" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
     <ClInclude Include="..\..\Source\Client\Networking.h" />
-    <ClInclude Include="..\..\Source\Client\PortraitTextureStrings.h" />
     <ClInclude Include="..\..\Source\Client\States\GameState.h" />
     <ClInclude Include="..\..\Source\Client\States\PauseState.h" />
     <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp" />

@@ -61,7 +61,7 @@ void Warband::sendMoveCommand(uint32_t unit_network_ID, int target_grid_x, int t
 	game_data->getNetworkManager()->client->sendPacket(0, &p);
 }
 
-void Warband::sendAttackCommand(uint32_t attacking_unit_network_ID, uint32_t defending_unit_network_ID, float damage)
+void Warband::sendAttackCommand(uint32_t attacking_unit_network_ID, uint32_t defending_unit_network_ID)
 {
 	//make packet
 	//get damage caused (unit function)
@@ -79,7 +79,7 @@ void Warband::sendAttackCommand(uint32_t attacking_unit_network_ID, uint32_t def
 	//put info, packet type and the unitID into the packet
 	p << info;
 	p << Unit::PacketType::ATTACK;
-	p << attacking_unit_network_ID << defending_unit_network_ID << damage;
+	p << attacking_unit_network_ID << defending_unit_network_ID;
 
 	//Send the packet
 	game_data->getNetworkManager()->client->sendPacket(0, &p);

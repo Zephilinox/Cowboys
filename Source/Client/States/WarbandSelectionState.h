@@ -20,8 +20,6 @@ public:
 	void onActive() override final;
 	void onInactive() override final;
 
-	std::string getTextureStringAtPositon(int index);
-
 private:
 	UnitSelectPanel panel1;
 	UnitSelectPanel panel2;
@@ -35,11 +33,7 @@ private:
 	float panel4_x_pos = 0.0f;
 	float panel5_x_pos = 0.0f;
 
-	void buttonAction(UnitSelectPanel& panel);
-
 	void initMenu();
-
-	std::vector<std::string> portraits;
 
 	Menu menu;
 };

@@ -243,7 +243,6 @@
     <ClInclude Include="..\..\Source\Client\ListOfNames.h" />
     <ClInclude Include="..\..\Source\Architecture\Constants.hpp" />
     <ClInclude Include="..\..\Source\Client\UnitSelectPanel.h" />
-    <ClInclude Include="..\..\Source\Client\PortraitTextureStrings.h" />
     <ClInclude Include="..\..\Source\Client\States\GameState.h">
       <Filter>Headers\States</Filter>
     </ClInclude>
