@@ -54,4 +54,5 @@ private:
 	std::vector<InitiativeTrack> initiativeTracker;
 
 	bool allUnitsActed = false;
+	bool already_checked = false;
 };

@@ -114,9 +114,20 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				p >> info;
 				Entity* ent = ent_man.getEntity(info.networkID);
 
-				if (ent && !ent->isOwner())
+				if (ent)
 				{
-					ent->receivePacket(Packet(p));
+					if (!ent->isOwner())
+					{
+						ent->receivePacket(Packet(p));
+					}
+					else
+					{
+						std::cout << "huh... received EntityPacket for an entity that we own?\n";
+					}
+				}
+				else
+				{
+					std::cout << "uhoh, received EntityPacket for an entity that doesn't exist?\n";
 				}
 			} break;
 
@@ -134,13 +145,14 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					return;
 				}
 
+				ent_man.entities.emplace_back(std::make_unique<Unit>(this->game_data));
+				ent_man.entities.back()->entity_info = info;
+				ent_man.entities.back()->onSpawn();
+
 				switch (info.type)
 				{
 					case hash("Unit"):
 					{
-						ent_man.entities.emplace_back(std::make_unique<Unit>(this->game_data));
-						ent_man.entities.back()->entity_info = info;
-
 						if (ent_man.entities.back()->isOwner())
 						{
 							our_warband.addToNetworkIDs(info.networkID);
@@ -175,6 +187,7 @@ GameState::~GameState()
 {
 	game_data->getNetworkManager()->stopServer();
 	game_data->getNetworkManager()->stopClient();
+	ent_man.entities.clear();
 }
 
 void GameState::update(const ASGE::GameTime& gt)

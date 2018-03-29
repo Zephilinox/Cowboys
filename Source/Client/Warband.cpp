@@ -49,7 +49,6 @@ void Warband::sendJSONPackets()
 
 void Warband::checkReady(EntityManager & ent_man)
 {
-	static bool already_checked = false;
 	//	once our warband has all 5 units pushed back, it sends 5 packets, 1 per unit
 	//	saying which unit to load from json
 	if (!already_checked && unit_network_IDs.size() == 5)

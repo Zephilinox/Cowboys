@@ -38,6 +38,8 @@ public:
 	Entity(GameData* game_data)
 		: game_data(game_data)
 	{};
+	
+	virtual void onSpawn() {};
 
 	virtual ~Entity() = default;
 	virtual void update(float dt) = 0;
@@ -60,10 +62,10 @@ public:
 	{
 		Packet p;
 		p.setID(hash("Entity"));
-		p.senderID = game_data->getNetworkManager()->client->getID();
 
 		p << entity_info;
 		serialize(p);
+
 		game_data->getNetworkManager()->client->sendPacket(0, &p);
 	}
 

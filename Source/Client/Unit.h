@@ -38,6 +38,11 @@ public:
 	Unit() = default;
 	virtual ~Unit() = default;
 
+
+	void onSpawn() final;
+	void serialize(Packet& p) override final;
+	void deserialize(Packet& p) override final;
+
 	void setFacing(UnitFacing new_facing);
 	virtual UnitFacing getFacing() const;
 	void setState(UnitState new_state);
@@ -53,10 +58,6 @@ public:
 
 	void endTurn();
 	void endRound();
-
-	void serialize(Packet& p) override final;
-	void deserialize(Packet& p) override final;
-
 
 	void moveToPosition(float x, float y);
 
@@ -140,10 +141,10 @@ protected:
 	//Can render for a few frames when shooting, placement will be determined by direction from unit to enemy unit.
 	std::unique_ptr<ASGE::Sprite> shoot_sprite;
 
-
 	std::unique_ptr<ASGE::Sprite> idle_sprite_forward;
 	std::unique_ptr<ASGE::Sprite> idle_sprite_back;
 	std::unique_ptr<ASGE::Sprite> idle_sprite_left;
 
 	bool initialized = false;
+	PacketType serializePacketType;
 };

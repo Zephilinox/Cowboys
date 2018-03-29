@@ -21,6 +21,76 @@ Unit::Unit(GameData* game_data) :
 	idle_sprite_left = game_data->getRenderer()->createUniqueSprite();
 }
 
+void Unit::onSpawn()
+{
+	//randomly position unit, test move packet
+	if (isOwner())
+	{
+		std::cout << "owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
+		setPosition(game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowWidth()), game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowHeight()));
+		serializePacketType = PacketType::MOVE;
+		sendPacket();
+	}
+	else
+	{
+		std::cout << "not owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
+	}
+}
+
+void Unit::serialize(Packet& p)
+{
+	p << serializePacketType;
+
+	switch (serializePacketType)
+	{
+		case PacketType::MOVE:
+		{
+			std::cout << "serializing position\n";
+			p << x_position << y_position;
+		} break;
+	}
+}
+
+void Unit::deserialize(Packet & p)
+{
+	int packet_type;
+	p >> packet_type;
+
+	switch (packet_type)
+	{
+		case LOAD_JSON:
+		{
+			std::cout << "received LOAD_JSON\n";
+			int unitID;
+			p >> unitID;
+			loadFromJSON(unitID);
+			break;
+		}
+		case MOVE:
+		{
+			std::cout << "received MOVE\n";
+			float pos_x;
+			float pos_y;
+			p >> pos_x >> pos_y;
+
+			setPosition(pos_x, pos_y);
+			//moveToPosition(pos_x, pos_y);
+			break;
+		}
+		case ATTACK:
+		{
+			std::cout << "received ATTACK\n";
+			uint32_t defender;
+			p >> defender;
+
+			//todo: need access to the game state for get entity
+			//Entity* ent_defender = getEntity(defender);
+			//Unit* unit_defender = static_cast<Unit*>(ent_defender);
+			//doAttack(unit_defender);
+			break;
+		}
+	}
+}
 
 void Unit::setFacing(UnitFacing new_facing)
 {
@@ -62,8 +132,6 @@ void Unit::doAttack(Unit* enemy_target)
 		std::cout << "Insufficient Time CHARACTERS. Attack cancelled";
 	}
 }
-
-
 
 void Unit::getAttacked(Unit* attacker, float damage)
 {
@@ -389,46 +457,4 @@ void Unit::updateOverridePositions()
 	forward_walk_sprite.yPos = y_position;
 	backward_walk_sprite.yPos = y_position;
 	horizontal_walk_sprite.yPos = y_position;
-}
-
-void Unit::serialize(Packet& p)
-{
-	p << x_position << y_position;
-}
-
-void Unit::deserialize(Packet & p)
-{
-	int packet_type;
-	p >> packet_type;
-
-	switch(packet_type)
-	{
-		case LOAD_JSON:
-		{
-			int unitID;
-			p >> unitID;
-			loadFromJSON(unitID);
-			break;
-		}
-		case MOVE:
-		{
-			float pos_x;
-			float pos_y;
-			p >> pos_x >> pos_y;
-
-			moveToPosition(pos_x, pos_y);
-			break;
-		}
-		case ATTACK:
-		{
-			uint32_t defender;
-			p >> defender;
-
-			//todo: need access to the game state for get entity
-			//Entity* ent_defender = getEntity(defender);
-			//Unit* unit_defender = static_cast<Unit*>(ent_defender);
-			//doAttack(unit_defender);
-			break;
-		}
-	}
 }
