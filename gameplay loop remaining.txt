@@ -1,0 +1,19 @@
+
+
+
+getNextUnitInInitiativeList(), find highest initiative that hasn't acted,
+
+player moves unit.
+player shoots unit.
+
+player ends turn. (Stretch - automatic if not enough time_units for additional actions?).
+1st player sends packet to notify end of turn.
+2nd player receives, 2nd player takes turn.
+
+Repeat until all units in initiative list "hasActed".
+
+reset initiative list. Re-enable all units.
+Repeat.
+
+Detect all units dead - trigger win/lose.
+detect position held for x turns - trigger win/lose.
