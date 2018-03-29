@@ -185,6 +185,8 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	{
 		ent_man.createEntityRequest<Unit>(game_data);
 	}
+
+	game_data->getMusicPlayer()->play("Piano Loop");
 }
 
 GameState::~GameState()

@@ -24,6 +24,8 @@ StateMenu::StateMenu(GameData* game_data)
 	{
 		game_data->getStateManager()->pop();
 	});
+
+	game_data->getMusicPlayer()->play("FF7");
 }
 
 void StateMenu::update(const ASGE::GameTime&)

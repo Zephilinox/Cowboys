@@ -9,6 +9,7 @@
 #include "Managers/FontManager.hpp"
 #include "Messages/MessageQueue.hpp"
 #include "Managers/NetworkManager.hpp"
+#include "Audio/MusicPlayer.hpp"
 #include "Rng.h"
 
 class GameData
@@ -23,7 +24,8 @@ public:
 	MessageQueue* getMessageQueue() noexcept;
 	NetworkManager* getNetworkManager() noexcept;
 	Rng* getRandomNumberGenerator() noexcept;
-	
+	MusicPlayer* getMusicPlayer() noexcept;
+
 	int getWindowWidth() noexcept;
 	int getWindowHeight() noexcept;
 
@@ -53,6 +55,8 @@ private:
 	Rng random_number_gen;
 
 	NetworkManager network_manager;
+
+	MusicPlayer music_player;
 
 	int window_width;
 	int window_height;

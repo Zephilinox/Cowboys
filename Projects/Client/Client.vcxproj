@@ -137,6 +137,7 @@
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineNone.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioEngineSFML.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp" />
+    <ClInclude Include="..\..\Source\Architecture\Audio\MusicPlayer.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Constants.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Actor.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Dialogues\Dialogue.hpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineNone.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioEngineSFML.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Audio\AudioLocator.cpp" />
+    <ClCompile Include="..\..\Source\Architecture\Audio\MusicPlayer.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\Actor.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\Dialogue.cpp" />
     <ClCompile Include="..\..\Source\Architecture\Dialogues\DialogueTree.cpp" />

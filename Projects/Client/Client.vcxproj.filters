@@ -112,6 +112,9 @@
     <ClCompile Include="..\..\Source\Architecture\Managers\EntityManager.cpp">
       <Filter>Source\Architecture\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Architecture\Audio\MusicPlayer.cpp">
+      <Filter>Source\Architecture\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.h">
@@ -257,6 +260,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\Managers\EntityManager.hpp">
       <Filter>Headers\Architecture\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Audio\MusicPlayer.hpp">
+      <Filter>Headers\Architecture\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

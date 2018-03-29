@@ -64,6 +64,11 @@ Rng* GameData::getRandomNumberGenerator() noexcept
 	return &random_number_gen;
 }
 
+MusicPlayer* GameData::getMusicPlayer() noexcept
+{
+	return &music_player;
+}
+
 NetworkManager* GameData::getNetworkManager() noexcept
 {
 	return &network_manager;
