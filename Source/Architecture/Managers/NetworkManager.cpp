@@ -4,6 +4,9 @@
 #include <iostream>
 #include <chrono>
 
+//LIB
+#include <jsoncons/json.hpp>
+
 //SELF
 #include "../Networking/ServerHost.hpp"
 #include "../Networking/ClientHost.hpp"
@@ -14,6 +17,25 @@ using namespace std::chrono_literals;
 NetworkManager::NetworkManager(GameData* game_data)
 	: game_data(game_data)
 {
+	try
+	{
+		std::ifstream file("../../Resources/settings.json");
+		jsoncons::json settings;
+		file >> settings;
+		auto netSettings = settings["Network"];
+
+		max_clients = netSettings["Maximum Clients"].as_int();
+		channel_count = netSettings["Packet Channels"].as_int();
+		server_ip = netSettings["Server IP"].as_string().c_str();;
+		server_port = netSettings["Server Port"].as_int();
+		networkSendRate = netSettings["Packet Send Rate Per Second"].as_int();
+		networkTickRate = netSettings["Packet Tick Rate Per Second"].as_int();
+	}
+	catch (std::runtime_error& e)
+	{
+		std::cout << "ERROR INFO: " << e.what() << "\n";
+	}
+
 	std::cout << "Initializing global state\n";
 	enetpp::global_state::get().initialize();
 
