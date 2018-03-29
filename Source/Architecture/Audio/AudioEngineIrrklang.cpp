@@ -15,7 +15,10 @@ AudioEngineIrrklang::AudioEngineIrrklang(const std::string& audio_path)
 	assert(audio_engine);
 }
 
-void AudioEngineIrrklang::play(const std::string& name, bool loop)
+std::unique_ptr<Sound> AudioEngineIrrklang::play(const std::string& name, bool loop)
 {
-	audio_engine->play2D(std::string(audio_path + name).c_str(), loop);
+	auto sound = audio_engine->play2D(std::string(audio_path + name).c_str(), loop);
+	auto s = std::make_unique<SoundIrrklang>();
+	s->sound_source = sound;
+	return s;
 }

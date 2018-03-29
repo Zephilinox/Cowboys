@@ -2,6 +2,13 @@
 
 //STD
 #include <string>
+#include <memory>
+
+class Sound
+{
+public:
+	virtual void stop() = 0;
+};
 
 class AudioEngine
 {
@@ -12,7 +19,7 @@ public:
 
 	virtual ~AudioEngine() noexcept = default;
 
-	virtual void play(const std::string& name, bool loop = false) = 0;
+	virtual std::unique_ptr<Sound> play(const std::string& name, bool loop = false) = 0;
 
 	const std::string audio_path;
 };

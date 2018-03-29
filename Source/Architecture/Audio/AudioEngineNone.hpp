@@ -3,11 +3,19 @@
 //SELF
 #include "AudioEngine.hpp"
 
+class SoundNone : public Sound
+{
+public:
+	void stop() final
+	{
+	}
+};
+
 class AudioEngineNone : public AudioEngine
 {
 public:
 	AudioEngineNone(const std::string& audio_path);
 	~AudioEngineNone() noexcept = default;
 
-	void play(const std::string& name, bool loop = false) noexcept override final;
+	std::unique_ptr<Sound> play(const std::string& name, bool loop = false) noexcept override final;
 };

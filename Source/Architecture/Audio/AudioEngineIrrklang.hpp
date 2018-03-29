@@ -14,13 +14,28 @@ namespace irrklang
 	class ISoundEngine;
 }
 
+class SoundIrrklang : public Sound
+{
+public:
+	void stop() final
+	{
+		if (sound_source)
+		{
+			sound_source->drop();
+			sound_source = nullptr;
+		}
+	}
+
+	irrklang::ISound* sound_source;
+};
+
 class AudioEngineIrrklang : public AudioEngine
 {
 public:
 	AudioEngineIrrklang(const std::string& audio_path);
 	~AudioEngineIrrklang() noexcept = default;
 
-	void play(const std::string& name, bool loop = false) override final;
+	std::unique_ptr<Sound> play(const std::string& name, bool loop = false) override final;
 
 private:
 	std::unique_ptr<irrklang::ISoundEngine> audio_engine = nullptr;

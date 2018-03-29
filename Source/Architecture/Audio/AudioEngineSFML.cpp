@@ -8,7 +8,7 @@ AudioEngineSFML::AudioEngineSFML(const std::string& audio_path)
 {
 }
 
-void AudioEngineSFML::play(const std::string& name, bool loop)
+std::unique_ptr<Sound> AudioEngineSFML::play(const std::string& name, bool loop)
 {
 	if (!buffers[name].loadFromFile(audio_path + name))
 	{
@@ -24,4 +24,8 @@ void AudioEngineSFML::play(const std::string& name, bool loop)
 	sounds.push_back(std::make_unique<sf::Sound>(buffers[name]));
 	sounds.back()->setLoop(loop);
 	sounds.back()->play();
+
+	auto s = std::make_unique<SoundSFML>();
+	s->sound = sounds.back().get();
+	return s;
 }
