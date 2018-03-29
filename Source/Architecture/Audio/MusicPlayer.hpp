@@ -14,4 +14,5 @@ public:
 
 private:
 	std::string current_music;
+	std::unique_ptr<Sound> current_music_sound;
 };

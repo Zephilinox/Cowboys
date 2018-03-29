@@ -4,9 +4,14 @@ void MusicPlayer::play(std::string music_name)
 {
 	if (music_name != current_music)
 	{
-		//todo: create interface class for audio files so that we can delete them and stuff latah
-		AudioLocator::set(AudioEngineType::IrrKlang);
-		AudioLocator::get()->play("Music/" + music_name + ".wav", true);
+		current_music = music_name;
+
+		if (current_music_sound)
+		{
+			current_music_sound->stop();
+		}
+
+		current_music_sound = std::move(AudioLocator::get()->play("Music/" + music_name + ".wav", true));
 	}
 }
 

@@ -233,6 +233,7 @@ void GameState::render() const
 
 void GameState::onActive()
 {
+	game_data->getMusicPlayer()->play("Piano Loop");
 }
 
 void GameState::onInactive()

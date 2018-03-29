@@ -40,6 +40,7 @@ void StateMenu::render() const
 
 void StateMenu::onActive()
 {
+	game_data->getMusicPlayer()->play("FF7");
 }
 
 void StateMenu::onInactive()

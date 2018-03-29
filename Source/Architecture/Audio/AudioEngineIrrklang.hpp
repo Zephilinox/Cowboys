@@ -21,6 +21,7 @@ public:
 	{
 		if (sound_source)
 		{
+			sound_source->stop();
 			sound_source->drop();
 			sound_source = nullptr;
 		}
