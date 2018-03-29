@@ -7,8 +7,6 @@
 //LIB
 #include <jsoncons/json.hpp>
 
-class GameData;
-
 class Unit : public Entity
 {
 public:
@@ -29,15 +27,15 @@ public:
 
 	enum PacketType
 	{
+		INVALID,
 		LOAD_JSON,
 		MOVE,
 		ATTACK,
+		SET_POSITION
 	};
 
-	Unit(GameData* game_data);
-	Unit() = default;
+	Unit(GameData* game_data, EntityManager* ent_man);
 	virtual ~Unit() = default;
-
 
 	void onSpawn() final;
 	void serialize(Packet& p) override final;
@@ -146,5 +144,5 @@ protected:
 	std::unique_ptr<ASGE::Sprite> idle_sprite_left;
 
 	bool initialized = false;
-	PacketType serializePacketType;
+	PacketType serializePacketType = PacketType::INVALID;
 };

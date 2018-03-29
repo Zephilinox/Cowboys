@@ -1,18 +1,19 @@
 #include "Unit.h"
-#include <Engine\Renderer.h>
+
+//LIBS
+#include <Engine/Renderer.h>
+
+//SELF
 #include "../Architecture/Rng.h"
 #include "../Architecture/Constants.hpp"
+#include "../Architecture/Managers/EntityManager.hpp"
 
-
-Unit::Unit(GameData* game_data) :
-	Entity(game_data),
-	horizontal_walk_sprite(game_data->getRenderer(), true),
-	forward_walk_sprite(game_data->getRenderer(), true),
-	backward_walk_sprite(game_data->getRenderer(), true)
+Unit::Unit(GameData* game_data, EntityManager* ent_man)
+	: Entity(game_data, ent_man, hash("Unit"))
+	, horizontal_walk_sprite(game_data->getRenderer(), true)
+	, forward_walk_sprite(game_data->getRenderer(), true)
+	, backward_walk_sprite(game_data->getRenderer(), true)
 {
-	//TODO override base stats with ones read in from JSON or unit selection?
-	entity_info.type = hash("Unit");
-
 	idle_sprite_forward = game_data->getRenderer()->createUniqueSprite();
 	idle_sprite_back = game_data->getRenderer()->createUniqueSprite();
 	idle_sprite_left = game_data->getRenderer()->createUniqueSprite();
@@ -25,7 +26,10 @@ void Unit::onSpawn()
 	{
 		std::cout << "owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
 		setPosition(game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowWidth()), game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowHeight()));
-		serializePacketType = PacketType::MOVE;
+		serializePacketType = PacketType::SET_POSITION;
+		sendPacket();
+		
+		serializePacketType = PacketType::ATTACK;
 		sendPacket();
 	}
 	else
@@ -40,15 +44,22 @@ void Unit::serialize(Packet& p)
 
 	switch (serializePacketType)
 	{
-		case PacketType::MOVE:
+		case SET_POSITION:
 		{
-			std::cout << "serializing position\n";
+			std::cout << "sending SET_POSITION\n";
 			p << x_position << y_position;
 		} break;
+		case ATTACK:
+		{
+			std::cout << "sending ATTACK\n";
+			p << 1;
+		}
 	}
+
+	serializePacketType = PacketType::INVALID;
 }
 
-void Unit::deserialize(Packet & p)
+void Unit::deserialize(Packet& p)
 {
 	int packet_type;
 	p >> packet_type;
@@ -70,20 +81,27 @@ void Unit::deserialize(Packet & p)
 			float pos_y;
 			p >> pos_x >> pos_y;
 
-			setPosition(pos_x, pos_y);
-			//moveToPosition(pos_x, pos_y);
+			moveToPosition(pos_x, pos_y);
 			break;
 		}
+		case SET_POSITION:
+		{
+			std::cout << "received SET_POSITION\n";
+			float pos_x;
+			float pos_y;
+			p >> pos_x >> pos_y;
+
+			setPosition(pos_x, pos_y);
+		} break;
 		case ATTACK:
 		{
 			std::cout << "received ATTACK\n";
 			uint32_t defender;
 			p >> defender;
 
-			//todo: need access to the game state for get entity
-			//Entity* ent_defender = getEntity(defender);
-			//Unit* unit_defender = static_cast<Unit*>(ent_defender);
-			//doAttack(unit_defender);
+			Entity* ent_defender = ent_man->getEntity(defender);
+			Unit* unit_defender = static_cast<Unit*>(ent_defender);
+			doAttack(unit_defender);
 			break;
 		}
 	}
@@ -184,7 +202,6 @@ void Unit::moveToPosition(float x, float y)
 	target_x_position = x;
 	target_y_position = y;
 }
-
 
 void Unit::update(float dt)
 {
@@ -406,6 +423,7 @@ void Unit::loadFromJSON(int unit_to_load)
 		initiative = (unitStats[id]["initiative"].as_double());
 		base_move_speed = (unitStats[id]["base_move_speed"].as_double());
 		current_move_speed = base_move_speed;
+
 		//SPRITES
 		horizontal_walk_sprite.addFrame(unitStats[id]["walkLeft1"].as_string(), 0.25f, 0.0f, 0.0f);
 		horizontal_walk_sprite.addFrame(unitStats[id]["idleLeft"].as_string(), 0.25f, 0.0f, 0.0f);

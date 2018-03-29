@@ -9,6 +9,8 @@
 #include "GameData.hpp"
 #include "Networking/Client.hpp"
 
+class EntityManager;
+
 struct EntityInfo
 {
 	uint32_t networkID;
@@ -35,9 +37,12 @@ inline Packet& operator >>(Packet& p, EntityInfo& e)
 class Entity
 {
 public:
-	Entity(GameData* game_data)
+	Entity(GameData* game_data, EntityManager* ent_man, HashedID type = hash("Entity"))
 		: game_data(game_data)
-	{};
+		, ent_man(ent_man)
+	{
+		entity_info.type = type;
+	};
 	
 	virtual void onSpawn() {};
 
@@ -71,4 +76,5 @@ public:
 
 	EntityInfo entity_info;
 	GameData* game_data;
+	EntityManager* ent_man;
 };

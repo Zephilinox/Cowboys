@@ -100,7 +100,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				{
 					case hash("Unit"):
 					{
-						ent_man.createEntityForClient<Unit>(p.senderID, this->game_data);
+						ent_man.createEntityForClient<Unit>(p.senderID);
 					} break;
 				}
 			} break;
@@ -153,7 +153,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				{
 					case hash("Unit"):
 					{
-						ent_man.entities.emplace_back(std::make_unique<Unit>(this->game_data));
+						ent_man.entities.emplace_back(std::make_unique<Unit>(this->game_data, &ent_man));
 						ent_man.entities.back()->entity_info = info;
 						ent_man.entities.back()->onSpawn();
 
@@ -183,7 +183,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	//Create 5 units for our warband
 	for (int i = 0; i < 5; ++i)
 	{
-		ent_man.createEntityRequest<Unit>(game_data);
+		ent_man.createEntityRequest<Unit>();
 	}
 
 	game_data->getMusicPlayer()->play("Piano Loop");

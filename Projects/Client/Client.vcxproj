@@ -172,11 +172,8 @@
     <ClInclude Include="..\..\Source\Client\Networking.h" />
     <ClInclude Include="..\..\Source\Client\States\GameState.h" />
     <ClInclude Include="..\..\Source\Client\States\PauseState.h" />
-    <ClInclude Include="..\..\Source\Client\States\PingPong\Ball.hpp" />
-    <ClInclude Include="..\..\Source\Client\States\PingPong\Paddle.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
-    <ClInclude Include="..\..\Source\Client\States\StatePingPong.hpp" />
     <ClInclude Include="..\..\Source\Client\States\WarbandSelectionState.h" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
     <ClInclude Include="..\..\Source\Client\targetver.h" />
@@ -216,11 +213,8 @@
     <ClCompile Include="..\..\Source\Client\main.cpp" />
     <ClCompile Include="..\..\Source\Client\States\GameState.cpp" />
     <ClCompile Include="..\..\Source\Client\States\PauseState.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\PingPong\Ball.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\PingPong\Paddle.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\StatePingPong.cpp" />
     <ClCompile Include="..\..\Source\Client\States\WarbandSelectionState.cpp" />
     <ClCompile Include="..\..\Source\Client\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
