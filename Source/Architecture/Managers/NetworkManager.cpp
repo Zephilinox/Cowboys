@@ -31,12 +31,12 @@ NetworkManager::NetworkManager(GameData* game_data)
 		networkSendRate = netSettings["Packet Send Rate Per Second"].as_int();
 		networkTickRate = netSettings["Packet Tick Rate Per Second"].as_int();
 
-		std::cout << "Max Clients" << max_clients << "\n";
-		std::cout << "Max Channels" << channel_count << "\n";
-		std::cout << "Server IP" << server_ip << "\n";
-		std::cout << "Server Port" << server_port << "\n";
-		std::cout << "Network Send Rate" << networkSendRate << "\n";
-		std::cout << "Network Tick Rate" << networkTickRate << "\n";
+		std::cout << "Max Clients: " << max_clients << "\n";
+		std::cout << "Max Channels: " << std::to_string(channel_count) << "\n";
+		std::cout << "Server IP: " << server_ip << "\n";
+		std::cout << "Server Port: " << server_port << "\n";
+		std::cout << "Network Send Rate: " << networkSendRate << "\n";
+		std::cout << "Network Tick Rate: " << networkTickRate << "\n";
 	}
 	catch (std::runtime_error& e)
 	{
