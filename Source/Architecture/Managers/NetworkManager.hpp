@@ -45,7 +45,7 @@ public:
 
 	inline const char* getServerIP()
 	{
-		return server_ip;
+		return server_ip.c_str();
 	}
 
 	inline uint32_t getServerPort()
@@ -64,7 +64,7 @@ private:
 
 	uint32_t max_clients = 2;
 	uint8_t channel_count = 1;
-	const char* server_ip = "localhost";
+	std::string server_ip = "localhost";
 	uint32_t server_port = 22222;
 
 	Timer networkSendTimer;
