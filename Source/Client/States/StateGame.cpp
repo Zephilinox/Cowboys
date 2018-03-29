@@ -66,29 +66,6 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				});*/
 			} break;
 
-			case hash("Entity"):
-			{
-				EntityInfo info;
-				p >> info;
-				Entity* ent = ent_man.getEntity(info.networkID);
-
-				//Make sure the entity packet is all valid, then send it to the other client.
-				if (ent && //exists
-					ent->entity_info.ownerID == info.ownerID && //owners match
-					ent->entity_info.type == info.type && //types match
-					info.ownerID == p.senderID) //client owns it
-				{
-					this->game_data->getNetworkManager()->server->sendPacketToSomeClients(0, &p, ENET_PACKET_FLAG_RELIABLE, [senderID = p.senderID](const ClientInfo& ci)
-					{
-						return ci.id != senderID;
-					});
-				}
-				else
-				{
-					std::cout << "uhoh... server received invalid Entitypacketfrom client " + p.senderID << "\n";
-				}
-			} break;
-
 			case hash("CreateEntity"):
 			{
 				//Call createEntity based on the type
@@ -111,30 +88,6 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	{
 		switch (p.getID())
 		{
-			case hash("Entity"):
-			{
-				//Find the entity and give them the packet to deserialize
-				EntityInfo info;
-				p >> info;
-				Entity* ent = ent_man.getEntity(info.networkID);
-
-				if (ent)
-				{
-					if (!ent->isOwner())
-					{
-						ent->receivePacket(Packet(p));
-					}
-					else
-					{
-						std::cout << "huh... received EntityPacket for an entity that we own?\n";
-					}
-				}
-				else
-				{
-					std::cout << "uhoh, received EntityPacket for an entity that doesn't exist?\n";
-				}
-			} break;
-
 			case hash("CreateEntity"):
 			{
 				//Server told us to create an entity, so we do.
@@ -153,11 +106,9 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				{
 					case hash("Unit"):
 					{
-						ent_man.entities.emplace_back(std::make_unique<Unit>(this->game_data, &ent_man));
-						ent_man.entities.back()->entity_info = info;
-						ent_man.entities.back()->onSpawn();
+						auto ent = ent_man.spawnEntity<Unit>(info);
 
-						if (ent_man.entities.back()->isOwner())
+						if (ent->isOwner())
 						{
 							our_warband.addToNetworkIDs(info.networkID);
 							our_warband.checkReady(ent_man);
@@ -173,11 +124,11 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 		}
 	};
 
-	managed_slot_1 = this->game_data->getNetworkManager()->client->on_packet_received.connect(clientPacketReceive);
+	managed_slot_1 = this->game_data->getNetworkManager()->client->on_packet_received.connect(std::move(clientPacketReceive));
 
 	if (game_data->getNetworkManager()->server)
 	{
-		managed_slot_2 = this->game_data->getNetworkManager()->server->on_packet_received.connect(serverPacketReceive);
+		managed_slot_2 = this->game_data->getNetworkManager()->server->on_packet_received.connect((serverPacketReceive));
 	}
 
 	//Create 5 units for our warband
@@ -193,7 +144,6 @@ StateGame::~StateGame()
 {
 	game_data->getNetworkManager()->stopServer();
 	game_data->getNetworkManager()->stopClient();
-	ent_man.entities.clear();
 }
 
 void StateGame::update(const ASGE::GameTime& gt)
@@ -205,10 +155,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 	{
 		const float dt = (float)gt.delta_time.count() / 1000.0f;
 
-		for (auto& ent : ent_man.entities)
-		{
-			ent->update(dt);
-		}
+		ent_man.update(dt);
 	}
 
 	if (game_data->getInputManager()->isActionPressed(hash("Escape")))
@@ -219,15 +166,11 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 void StateGame::render() const
 {
-	auto renderer = game_data->getRenderer();
 	auto client = game_data->getNetworkManager()->client.get();
 
 	if (client && client->isConnecting())
 	{
-		for (const auto& ent : ent_man.entities)
-		{
-			ent->render(renderer);
-		}
+		ent_man.render();
 	}
 }
 

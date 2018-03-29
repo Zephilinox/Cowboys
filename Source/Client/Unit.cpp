@@ -102,7 +102,8 @@ void Unit::deserialize(Packet& p)
 
 			Entity* ent_defender = ent_man->getEntity(defender);
 			Unit* unit_defender = static_cast<Unit*>(ent_defender);
-			doAttack(unit_defender);
+			//causes infinite loop
+			//doAttack(unit_defender);
 			break;
 		}
 	}

@@ -12,11 +12,17 @@ class EntityManager
 public:
 	EntityManager(GameData* game_data);
 
+	void update(float dt);
+	void render() const;
+
 	template <class T>
 	void createEntityRequest();
 
 	template <class T>
 	void createEntityForClient(uint32_t ownerID);
+
+	template <class T>
+	Entity* spawnEntity(EntityInfo info);
 
 	Entity* getEntity(uint32_t networkID);
 
@@ -26,6 +32,9 @@ public:
 private:
 	GameData* game_data;
 	uint32_t next_network_id = 1;
+
+	ManagedConnection mc1;
+	ManagedConnection mc2;
 };
 
 template <class T>
@@ -63,4 +72,19 @@ void EntityManager::createEntityForClient(uint32_t ownerID)
 	p << info;
 
 	game_data->getNetworkManager()->server->sendPacketToAllClients(0, &p);
+}
+
+template <class T>
+Entity* EntityManager::spawnEntity(EntityInfo info)
+{
+	assert(game_data->getNetworkManager()->client);
+
+	std::cout << "spawning entity\n";
+
+	entities.emplace_back(std::make_unique<Unit>(this->game_data, this));
+	auto ent = entities.back().get();
+	ent->entity_info = info;
+	ent->onSpawn();
+
+	return ent;
 }
