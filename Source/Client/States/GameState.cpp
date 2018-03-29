@@ -149,14 +149,14 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					return;
 				}
 
-				ent_man.entities.emplace_back(std::make_unique<Unit>(this->game_data));
-				ent_man.entities.back()->entity_info = info;
-				ent_man.entities.back()->onSpawn();
-
 				switch (info.type)
 				{
 					case hash("Unit"):
 					{
+						ent_man.entities.emplace_back(std::make_unique<Unit>(this->game_data));
+						ent_man.entities.back()->entity_info = info;
+						ent_man.entities.back()->onSpawn();
+
 						if (ent_man.entities.back()->isOwner())
 						{
 							our_warband.addToNetworkIDs(info.networkID);
