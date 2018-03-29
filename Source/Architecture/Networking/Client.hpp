@@ -36,7 +36,7 @@ public:
 		if (packetsTimer.getElapsedTime() > 10)
 		{
 			packetsTimer.restart();
-			std::cout << "client received " << packetsReceived / 10.0f << " packets per second\n";
+			std::cout << "client received " << packetsReceived << " packets in the last 10 seconds\n";
 			packetsReceived = 0;
 		}
 
