@@ -83,6 +83,10 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 						return ci.id != senderID;
 					});
 				}
+				else
+				{
+					std::cout << "uhoh... server received invalid Entitypacketfrom client " + p.senderID << "\n";
+				}
 			} break;
 
 			case hash("CreateEntity"):
@@ -94,10 +98,10 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 				switch (info.type)
 				{
-				case hash("Unit"):
-				{
-					ent_man.createEntityForClient<Unit>(p.senderID, this->game_data);
-				} break;
+					case hash("Unit"):
+					{
+						ent_man.createEntityForClient<Unit>(p.senderID, this->game_data);
+					} break;
 				}
 			} break;
 		}

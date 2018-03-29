@@ -44,10 +44,10 @@ public:
 	{
 		packetsReceived += packets.size();
 
-		if (packetsTimer.getElapsedTime() > 5)
+		if (packetsTimer.getElapsedTime() > 10)
 		{
 			packetsTimer.restart();
-			std::cout << "server received " << packetsReceived / 5 << " packets per second\n";
+			std::cout << "server received " << packetsReceived / 10.0f << " packets per second\n";
 			packetsReceived = 0;
 		}
 		

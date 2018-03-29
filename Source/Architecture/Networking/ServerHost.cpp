@@ -67,31 +67,35 @@ void ServerHost::processPackets()
 
 void ServerHost::sendPacketToOneClient(uint32_t client_id, enet_uint8 channel_id, Packet* p, enet_uint32 flags)
 {
-	if (client_id == 1)
+	std::cout << "server sending packet to client " << client_id << "\n";
+	if (client_id != 1)
 	{
-		p->resetSerializePosition();
-		game_data->getNetworkManager()->client->on_packet_received.emit(*p);
+		server.send_packet_to(client_id, channel_id, p->buffer.data(), p->buffer.size(), flags);
 	}
 	else
 	{
-		server.send_packet_to(client_id, channel_id, p->buffer.data(), p->buffer.size(), flags);
+		p->resetSerializePosition();
+		game_data->getNetworkManager()->client->on_packet_received.emit(*p);
 	}
 }
 
 void ServerHost::sendPacketToAllClients(enet_uint8 channel_id, Packet* p, enet_uint32 flags)
 {
+	std::cout << "server sending packet to all clients\n";
+	server.send_packet_to_all_if(channel_id, p->buffer.data(), p->buffer.size(), flags, [](const ClientInfo& client) {return true; });
+
 	p->resetSerializePosition();
 	game_data->getNetworkManager()->client->on_packet_received.emit(*p);
-	server.send_packet_to_all_if(channel_id, p->buffer.data(), p->buffer.size(), flags, [](const ClientInfo& client) {return true; });
 }
 
 void ServerHost::sendPacketToSomeClients(enet_uint8 channel_id, Packet* p, enet_uint32 flags, std::function<bool(const ClientInfo& client)> predicate)
 {
+	std::cout << "server sending packet to some clients\n";
+	server.send_packet_to_all_if(channel_id, p->buffer.data(), p->buffer.size(), flags, predicate);
+
 	if (predicate({ 1 }))
 	{
 		p->resetSerializePosition();
 		game_data->getNetworkManager()->client->on_packet_received.emit(*p);
 	}
-
-	server.send_packet_to_all_if(channel_id, p->buffer.data(), p->buffer.size(), flags, predicate);
 }

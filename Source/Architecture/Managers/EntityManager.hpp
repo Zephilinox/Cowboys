@@ -16,7 +16,7 @@ public:
 	void createEntityRequest(Args... args)
 	{
 		assert(game_data->getNetworkManager()->client);
-
+		std::cout << "createEntityRequest\n";
 		//Ask server to create our entity
 		T ent(std::forward<Args>(args)...);
 		ent.entity_info.ownerID = game_data->getNetworkManager()->client->getID();
@@ -33,7 +33,7 @@ public:
 	void createEntityForClient(uint32_t ownerID, Args... args)
 	{
 		assert(game_data->getNetworkManager()->server);
-
+		std::cout << "createEntityForClient " << ownerID << "\n";
 		T ent(std::forward<Args>(args)...);
 		EntityInfo info = ent.entity_info;
 		info.networkID = next_network_id;
