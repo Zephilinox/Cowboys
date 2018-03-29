@@ -203,7 +203,7 @@ void GameState::update(const ASGE::GameTime& gt)
 
 	if (client && client->isConnecting())
 	{
-		const float dt = gt.delta_time.count() / 1000.0f;
+		const float dt = (float)gt.delta_time.count() / 1000.0f;
 
 		for (auto& ent : ent_man.entities)
 		{

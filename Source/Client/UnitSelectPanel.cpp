@@ -80,7 +80,7 @@ void UnitSelectPanel::render(ASGE::Renderer* rend) const
 
 void UnitSelectPanel::renderStatsText(ASGE::Renderer* rend) const
 {
-	float x_pos = panel_image->xPos() + 25;
+	int x_pos = (int)panel_image->xPos() + 25;
 
 	const int baseHeight = 250;
 	rend->renderText(title, x_pos, baseHeight, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);

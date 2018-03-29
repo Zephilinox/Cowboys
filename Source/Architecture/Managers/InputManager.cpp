@@ -96,7 +96,7 @@ void InputManager::update()
 
 	{
 		std::lock_guard<std::mutex> lock(mouse_mutex);
-		for (int i = 0; i < mouse_buttons_last_frame.size(); ++i)
+		for (size_t i = 0; i < mouse_buttons_last_frame.size(); ++i)
 		{
 			mouse_buttons_last_frame[i] = mouse_buttons[i];
 		}

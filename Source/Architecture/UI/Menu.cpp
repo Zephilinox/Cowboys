@@ -72,8 +72,8 @@ void Menu::render(int z_order) const
 
 		if (b.isSelected() && selection_image)
 		{
-			selection_image->xPos(b.getPosX() - 8 - selection_image->width());
-			selection_image->yPos(b.getPosY() + 2 - selection_image->height());
+			selection_image->xPos(b.getPosX() - 8.0f - selection_image->width());
+			selection_image->yPos(b.getPosY() + 2.0f - selection_image->height());
 			game_data->getRenderer()->renderSprite(*selection_image, z_order);
 		}
 	}
@@ -85,7 +85,7 @@ void Menu::reset()
 	selected_button_id = 0;
 }
 
-int Menu::addButton(int x, int y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour)
+int Menu::addButton(float x, float y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour)
 {
 	Button b;
 	b.setPos(x, y);

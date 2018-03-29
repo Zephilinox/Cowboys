@@ -10,7 +10,7 @@ constexpr float ANGLE_UP = 0;
 constexpr float ANGLE_RIGHT = PI / 2;
 constexpr float ANGLE_DOWN = PI;
 constexpr float ANGLE_LEFT = -PI / 2;
-constexpr float dark[3] = { 0.4, 0.349, 0.317 };
+constexpr float dark[3] = { 0.4f, 0.349f, 0.317f};
 
 enum Z_ORDER_LAYER
 {

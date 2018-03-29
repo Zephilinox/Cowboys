@@ -22,7 +22,7 @@ public:
 	void render(int z_order = Z_ORDER_LAYER::OVERLAY_TEXT) const;
 	void reset();
 
-	int addButton(int x, int y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour);
+	int addButton(float x, float y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour);
 	Button& getButton(int button_id);
 
 	std::unique_ptr<ASGE::Sprite> selection_image = nullptr;

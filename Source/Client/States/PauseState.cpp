@@ -22,12 +22,12 @@ PauseState::PauseState(GameData* game_data, std::string current_music_path)
 		throw "Failed to load Pause.png";
 	}
 
-	const float c[3] = { 0.817, 0.668, 0.515 };
-	menu.addButton(game_data->getWindowWidth() / 2 - 40, game_data->getWindowHeight() / 2 - 60, "CONTINUE", c, ASGE::COLOURS::ANTIQUEWHITE);
+	const float c[3] = { 0.817f, 0.668f, 0.515f };
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 40.0f, game_data->getWindowHeight() / 2.0f - 60.0f, "CONTINUE", c, ASGE::COLOURS::ANTIQUEWHITE);
 	//menu.addButton(game_data->getWindowWidth() / 2 - 33, game_data->getWindowHeight() / 2 - 20, "RESTART", c, ASGE::COLOURS::ANTIQUEWHITE);
 	//menu.addButton(game_data->getWindowWidth() / 2 - 60, game_data->getWindowHeight() / 2 + 20, "TOGGLE AUDIO", c, ASGE::COLOURS::ANTIQUEWHITE);
-	menu.addButton(game_data->getWindowWidth() / 2 - 90, game_data->getWindowHeight() / 2 + 60, "TOGGLE FULLSCREEN", c, ASGE::COLOURS::ANTIQUEWHITE);
-	menu.addButton(game_data->getWindowWidth() / 2 - 20, game_data->getWindowHeight() / 2 + 100, "EXIT", c, ASGE::COLOURS::ANTIQUEWHITE);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 90.0f, game_data->getWindowHeight() / 2.0f + 60.0f, "TOGGLE FULLSCREEN", c, ASGE::COLOURS::ANTIQUEWHITE);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 20.0f, game_data->getWindowHeight() / 2.0f + 100.0f, "EXIT", c, ASGE::COLOURS::ANTIQUEWHITE);
 
 	menu.getButton(0).on_click.connect([gd = game_data]()
 	{

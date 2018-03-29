@@ -22,10 +22,10 @@ public:
 	bool isSelected() const noexcept;
 	void setSelected(bool selected) noexcept;
 
-	int getPosX() const noexcept;
-	int getPosY() const noexcept;
+	float getPosX() const noexcept;
+	float getPosY() const noexcept;
 
-	void setPos(int x, int y) noexcept;
+	void setPos(float x, float y) noexcept;
 	void setName(std::string name);
 	void setColour(ASGE::Colour colour) noexcept;
 	void setSelectedColour(ASGE::Colour colour) noexcept;
@@ -35,8 +35,8 @@ public:
 private:
 	bool selected = false;
 	
-	int pos_x = 0;
-	int pos_y = 0;
+	float pos_x = 0;
+	float pos_y = 0;
 	std::string name = "Default";
 	ASGE::Colour colour = ASGE::COLOURS::RED;
 	ASGE::Colour selected_colour = ASGE::COLOURS::BLUE;
