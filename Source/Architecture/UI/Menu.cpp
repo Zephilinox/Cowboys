@@ -15,13 +15,13 @@ Menu::Menu(GameData* game_data, bool vertical)
 
 	if (vertical)
 	{
-		next_selection_string = "down";
-		prev_selection_string = "up";
+		next_selection_action = hash("Down");
+		prev_selection_action = hash("Up");
 	}
 	else
 	{
-		next_selection_string = "right";
-		prev_selection_string = "left";
+		next_selection_action = hash("Right");
+		prev_selection_action = hash("Left");
 	}
 }
 
@@ -29,7 +29,7 @@ void Menu::update()
 {
 	if (buttons.empty()) return;
 
-	if (game_data->getInputManager()->isActionPressed(next_selection_string))
+	if (game_data->getInputManager()->isActionPressed(next_selection_action))
 	{
 		if (selected_button_id == buttons.size() - 1)
 		{
@@ -41,7 +41,7 @@ void Menu::update()
 		}
 	}
 	
-	if (game_data->getInputManager()->isActionPressed(prev_selection_string))
+	if (game_data->getInputManager()->isActionPressed(prev_selection_action))
 	{
 		if (selected_button_id == 0)
 		{
@@ -53,7 +53,7 @@ void Menu::update()
 		}
 	}
 
-	if (game_data->getInputManager()->isActionPressed("enter"))
+	if (game_data->getInputManager()->isActionPressed(hash("Enter")))
 	{
 		AudioLocator::get()->play("button_click.wav");
 

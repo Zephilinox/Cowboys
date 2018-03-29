@@ -41,26 +41,26 @@ bool MyNetGame::init()
 
 	game_data = std::make_unique<GameData>(renderer.get(), inputs.get(), game_width, game_height);
 
-	game_data->getInputManager()->addAction("enter", ASGE::KEYS::KEY_ENTER);
-	game_data->getInputManager()->addAction("enter", game_data->getInputManager()->gamepad_button_enter);
+	game_data->getInputManager()->addAction(hash("Enter"), ASGE::KEYS::KEY_ENTER);
+	game_data->getInputManager()->addAction(hash("Enter"), game_data->getInputManager()->gamepad_button_enter);
 
-	game_data->getInputManager()->addAction("escape", ASGE::KEYS::KEY_ESCAPE);
-	game_data->getInputManager()->addAction("escape", game_data->getInputManager()->gamepad_button_escape);
+	game_data->getInputManager()->addAction(hash("Escape"), ASGE::KEYS::KEY_ESCAPE);
+	game_data->getInputManager()->addAction(hash("Escape"), game_data->getInputManager()->gamepad_button_escape);
 
-	game_data->getInputManager()->addAction("up", ASGE::KEYS::KEY_UP);
-	game_data->getInputManager()->addAction("up", ASGE::KEYS::KEY_W);
-	game_data->getInputManager()->addAction("up", game_data->getInputManager()->gamepad_button_up);
+	game_data->getInputManager()->addAction(hash("Up"), ASGE::KEYS::KEY_UP);
+	game_data->getInputManager()->addAction(hash("Up"), ASGE::KEYS::KEY_W);
+	game_data->getInputManager()->addAction(hash("Up"), game_data->getInputManager()->gamepad_button_up);
 
-	game_data->getInputManager()->addAction("down", ASGE::KEYS::KEY_DOWN);
-	game_data->getInputManager()->addAction("down", ASGE::KEYS::KEY_S);
-	game_data->getInputManager()->addAction("down", game_data->getInputManager()->gamepad_button_down);
+	game_data->getInputManager()->addAction(hash("Down"), ASGE::KEYS::KEY_DOWN);
+	game_data->getInputManager()->addAction(hash("Down"), ASGE::KEYS::KEY_S);
+	game_data->getInputManager()->addAction(hash("Down"), game_data->getInputManager()->gamepad_button_down);
 
-	game_data->getInputManager()->addAction("right", ASGE::KEYS::KEY_RIGHT);
-	game_data->getInputManager()->addAction("right", ASGE::KEYS::KEY_D);
+	game_data->getInputManager()->addAction(hash("Right"), ASGE::KEYS::KEY_RIGHT);
+	game_data->getInputManager()->addAction(hash("Right"), ASGE::KEYS::KEY_D);
 	//game_data->getInputManager()->addAction("right", game_data->getInputManager()->gamepad_button_right;
 
-	game_data->getInputManager()->addAction("left", ASGE::KEYS::KEY_LEFT);
-	game_data->getInputManager()->addAction("left", ASGE::KEYS::KEY_A);
+	game_data->getInputManager()->addAction(hash("Left"), ASGE::KEYS::KEY_LEFT);
+	game_data->getInputManager()->addAction(hash("Left"), ASGE::KEYS::KEY_A);
 	//game_data->getInputManager()->addAction("left", game_data->getInputManager()->gamepad_button_left);
 
 	game_data->getFontManager()->addFont("../../Resources/Fonts/Zorque.ttf", "Default", 24);

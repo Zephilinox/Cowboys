@@ -34,6 +34,6 @@ private:
 	std::vector<Button> buttons;
 
 	unsigned selected_button_id;
-	std::string next_selection_string;
-	std::string prev_selection_string;
+	HashedID next_selection_action;
+	HashedID prev_selection_action;
 };

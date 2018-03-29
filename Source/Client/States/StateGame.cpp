@@ -211,7 +211,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 		}
 	}
 
-	if (game_data->getInputManager()->isActionPressed("escape"))
+	if (game_data->getInputManager()->isActionPressed(hash("Escape")))
 	{
 		game_data->getStateManager()->pop();
 	}

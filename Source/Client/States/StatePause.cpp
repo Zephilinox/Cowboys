@@ -76,7 +76,7 @@ void StatePause::update(const ASGE::GameTime &)
 {
 	menu.update();
 
-	if(game_data->getInputManager()->isActionPressed("escape"))
+	if(game_data->getInputManager()->isActionPressed(hash("Escape")))
 	{
 		game_data->getStateManager()->pop();
 	}

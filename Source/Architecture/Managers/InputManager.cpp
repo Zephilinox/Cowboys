@@ -121,12 +121,12 @@ void InputManager::handleInput(int key, int state)
 	}
 }
 
-void InputManager::addAction(std::string action, unsigned id)
+void InputManager::addAction(HashedID action, unsigned id)
 {
 	actions.insert({ action, id });
 }
 
-bool InputManager::removeAction(std::string action, unsigned id)
+bool InputManager::removeAction(HashedID action, unsigned id)
 {
 	bool removed = false;
 
@@ -144,7 +144,7 @@ bool InputManager::removeAction(std::string action, unsigned id)
 	return removed;
 }
 
-bool InputManager::isActionPressed(std::string action)
+bool InputManager::isActionPressed(HashedID action)
 {
 	auto range = actions.equal_range(action);
 
@@ -165,7 +165,7 @@ bool InputManager::isActionPressed(std::string action)
 	return pressed;
 }
 
-bool InputManager::isActionDown(std::string action)
+bool InputManager::isActionDown(HashedID action)
 {
 	auto range = actions.equal_range(action);
 

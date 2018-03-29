@@ -11,6 +11,9 @@
 #include <Engine/Keys.h>
 #include <Engine/Input.h>
 
+//SELF
+#include "../Messages/Message.hpp"
+
 namespace ASGE
 {
 	namespace KEYS
@@ -41,11 +44,11 @@ public:
 	void update();
 	void handleInput(int key, int state);
 
-	void addAction(std::string action, unsigned id);
-	bool removeAction(std::string action, unsigned id);
+	void addAction(HashedID action, unsigned id);
+	bool removeAction(HashedID action, unsigned id);
 
-	bool isActionPressed(std::string action);
-	bool isActionDown(std::string action);
+	bool isActionPressed(HashedID action);
+	bool isActionDown(HashedID action);
 
 	bool isKeyPressed(int key);
 	bool isKeyDown(int key) noexcept;
@@ -79,7 +82,7 @@ private:
 	std::mutex keys_mutex;
 	std::mutex mouse_mutex;
 	
-	std::multimap<std::string, int> actions;
+	std::multimap<HashedID, int> actions;
 
 	std::array<int, ASGE::KEYS::KEY_LAST> toggle_keys;
 	std::array<int, ASGE::KEYS::KEY_LAST> keys;
