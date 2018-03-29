@@ -1,7 +1,7 @@
-#include "Warband.h"
+#include "Warband.hpp"
 #include "../Architecture/Networking/Packet.hpp"
 #include "../Architecture/Entity.hpp"
-#include "Unit.h"
+#include "Unit.hpp"
 #include <algorithm>
 
 Warband::Warband(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID)
@@ -28,7 +28,7 @@ void Warband::sendJSONPackets()
 		//make a packet
 		Packet p;
 		p.setID(hash("Entity"));
-		//set up manual info as cannot pass gamestate into warband class
+		//set up manual info as cannot pass StateGame into warband class
 		EntityInfo info;
 		info.networkID = unit_network_IDs[i];
 		info.ownerID = game_data->getNetworkManager()->client->getID();
@@ -75,13 +75,15 @@ void Warband::checkReady(EntityManager & ent_man)
 
 uint32_t Warband::getNextUnitInInitiativeList()
 {
-	for(auto& tracker : initiativeTracker)
+	for (auto& tracker : initiativeTracker)
 	{
-		if(!tracker.hasActed)
+		if (!tracker.hasActed)
 		{
 			return tracker.net_ID;
 		}
 	}
+
+	return 0;
 }
 
 
@@ -93,7 +95,7 @@ void Warband::sendMoveCommand(uint32_t unit_network_ID, int target_grid_x, int t
 	//make a packet
 	Packet p;
 	p.setID(hash("Entity"));
-	//set up manual info as cannot pass gamestate into warband class
+	//set up manual info as cannot pass StateGame into warband class
 	EntityInfo info;
 	info.networkID = unit_network_ID;
 	info.ownerID = game_data->getNetworkManager()->client->getID();
@@ -116,7 +118,7 @@ void Warband::sendAttackCommand(uint32_t attacking_unit_network_ID, uint32_t def
 	//make a packet
 	Packet p;
 	p.setID(hash("Entity"));
-	//set up manual info as cannot pass gamestate into warband class
+	//set up manual info as cannot pass StateGame into warband class
 	EntityInfo info;
 	info.networkID = attacking_unit_network_ID;
 	info.ownerID = game_data->getNetworkManager()->client->getID();

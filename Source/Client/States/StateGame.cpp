@@ -1,4 +1,4 @@
-#include "../States/GameState.h"
+#include "../States/StateGame.hpp"
 
 //SELF
 #include "../../Architecture/GameData.hpp"
@@ -16,7 +16,7 @@
 //TODO - receive packet allUnitsActed
 
 
-GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID)
+StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID)
 	: State(game_data)
 	, menu(game_data)
 	, our_warband(game_data, unit1ID, unit2ID, unit3ID, unit4ID, unit5ID)
@@ -46,7 +46,7 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 			{
 				//TODO ensure entities created use JSON to read in, active sends packets to recover state.
 				//TODO ensure positions and facings are also updated
-				//once a client has started their game (pushed GameState), send them all existing entities.
+				//once a client has started their game (pushed StateGame), send them all existing entities.
 				for (const auto& ent : ent_man.entities)
 				{
 					p.reset();
@@ -189,14 +189,14 @@ GameState::GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	game_data->getMusicPlayer()->play("Piano Loop");
 }
 
-GameState::~GameState()
+StateGame::~StateGame()
 {
 	game_data->getNetworkManager()->stopServer();
 	game_data->getNetworkManager()->stopClient();
 	ent_man.entities.clear();
 }
 
-void GameState::update(const ASGE::GameTime& gt)
+void StateGame::update(const ASGE::GameTime& gt)
 {
 	auto client = game_data->getNetworkManager()->client.get();
 	auto server = game_data->getNetworkManager()->server.get();
@@ -217,7 +217,7 @@ void GameState::update(const ASGE::GameTime& gt)
 	}
 }
 
-void GameState::render() const
+void StateGame::render() const
 {
 	auto renderer = game_data->getRenderer();
 	auto client = game_data->getNetworkManager()->client.get();
@@ -231,16 +231,16 @@ void GameState::render() const
 	}
 }
 
-void GameState::onActive()
+void StateGame::onActive()
 {
 	game_data->getMusicPlayer()->play("Piano Loop");
 }
 
-void GameState::onInactive()
+void StateGame::onInactive()
 {
 }
 
-void GameState::endTurn()
+void StateGame::endTurn()
 {
 	//set active player's warband.endTurn(networkID)
 	if(our_warband.getAllUnitsActed() && their_warband.getAllUnitsActed())
@@ -249,7 +249,7 @@ void GameState::endTurn()
 	}
 }
 
-void GameState::endRound()
+void StateGame::endRound()
 {
 	our_warband.resetAllActed();
 	their_warband.resetAllActed();

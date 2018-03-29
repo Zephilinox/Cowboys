@@ -10,7 +10,7 @@
 #include "Messages/MessageQueue.hpp"
 #include "Managers/NetworkManager.hpp"
 #include "Audio/MusicPlayer.hpp"
-#include "Rng.h"
+#include "Rng.hpp"
 
 class GameData
 {

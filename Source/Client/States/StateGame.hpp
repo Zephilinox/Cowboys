@@ -14,17 +14,17 @@
 #include "../../Architecture/AnimatedSprite.hpp"
 #include "../../Architecture/UI/Menu.hpp"
 
-#include "../Unit.h"
-#include "../Warband.h"
+#include "../Unit.hpp"
+#include "../Warband.hpp"
 #include "../../Architecture/Managers/EntityManager.hpp"
 
 class GameData;
 
-class GameState : public State
+class StateGame : public State
 {
 public:
-	GameState(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID);
-	~GameState();
+	StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID);
+	~StateGame();
 
 	void update(const ASGE::GameTime&) override final;
 	void render() const override final;

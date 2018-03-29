@@ -1,4 +1,4 @@
-#include "MyNetGame.h"
+#include "MyNetGame.hpp"
 
 //LIB
 #include <Engine\InputEvents.h>

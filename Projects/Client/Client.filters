@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Client\BirdmanTheGame.h">
+    <ClInclude Include="..\..\Source\Client\BirdmanTheGame.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Client\targetver.h">
+    <ClInclude Include="..\..\Source\Client\targetver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Client\GameFont.h">
+    <ClInclude Include="..\..\Source\Client\GameFont.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "MyNetGame.h"
+#include "MyNetGame.hpp"
 
 //int WINAPI WinMain(
 //	HINSTANCE hInstance, HINSTANCE hPrevInstance, 

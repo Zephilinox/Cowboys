@@ -88,36 +88,42 @@
     <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp">
       <Filter>Source\States</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Client\Warband.cpp" />
-    <ClCompile Include="..\..\Source\Client\Unit.cpp" />
-    <ClCompile Include="..\..\Source\Client\UnitSelectPanel.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\GameState.cpp">
-      <Filter>Source\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Client\States\PauseState.cpp">
-      <Filter>Source\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Client\States\WarbandSelectionState.cpp">
-      <Filter>Source\States</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Architecture\Managers\EntityManager.cpp">
       <Filter>Source\Architecture\Managers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Architecture\Audio\MusicPlayer.cpp">
       <Filter>Source\Architecture\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StatePause.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StateWarbandSelection.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StateGame.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\Unit.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\UnitSelectPanel.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Client\Warband.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Client\MyNetGame.h">
+    <ClInclude Include="..\..\Source\Client\MyNetGame.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Client\Networking.h">
+    <ClInclude Include="..\..\Source\Client\Networking.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\stdafx.h">
       <Filter>Headers\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Client\targetver.h">
+    <ClInclude Include="..\..\Source\Client\targetver.hpp">
       <Filter>Headers\Platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\AnimatedSprite.hpp">
@@ -195,7 +201,7 @@
     <ClInclude Include="..\..\Source\Architecture\Audio\AudioLocator.hpp">
       <Filter>Headers\Architecture\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Architecture\Rng.h">
+    <ClInclude Include="..\..\Source\Architecture\Rng.hpp">
       <Filter>Headers\Architecture</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp">
@@ -225,26 +231,38 @@
     <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp">
       <Filter>Headers\States</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Client\Warband.h" />
-    <ClInclude Include="SpritePaths.h" />
-    <ClInclude Include="..\..\Source\Client\Unit.h" />
-    <ClInclude Include="..\..\Source\Client\ListOfNames.h" />
-    <ClInclude Include="..\..\Source\Architecture\Constants.hpp" />
-    <ClInclude Include="..\..\Source\Client\UnitSelectPanel.h" />
-    <ClInclude Include="..\..\Source\Client\States\GameState.h">
-      <Filter>Headers\States</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Client\States\PauseState.h">
-      <Filter>Headers\States</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Client\States\WarbandSelectionState.h">
-      <Filter>Headers\States</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\Managers\EntityManager.hpp">
       <Filter>Headers\Architecture\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Architecture\Audio\MusicPlayer.hpp">
       <Filter>Headers\Architecture\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StateGame.hpp">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StatePause.hpp">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StateWarbandSelection.hpp">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\Warband.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Architecture\Constants.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\ListOfNames.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpritePaths.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\Unit.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\UnitSelectPanel.hpp">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@
 #include "../../Architecture/State.hpp"
 #include "../../Architecture/UI/Menu.hpp"
 #include "../../Architecture/Dialogues/DialogueTree.hpp"
-#include "../UnitSelectPanel.h"
+#include "../UnitSelectPanel.hpp"
 
 class GameData;
 

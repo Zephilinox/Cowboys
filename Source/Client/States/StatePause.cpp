@@ -1,11 +1,11 @@
-#include "PauseState.h"
+#include "StatePause.hpp"
 
 //SELF
 #include "../../Architecture/State.hpp"
 #include "../../Architecture/Timer.hpp"
 #include "../../Architecture/Constants.hpp"
 
-PauseState::PauseState(GameData* game_data, std::string current_music_path)
+StatePause::StatePause(GameData* game_data, std::string current_music_path)
 	: State(game_data, true)
 	, menu(game_data)
 	, dim_background(game_data->getRenderer()->createRawSprite())
@@ -37,7 +37,7 @@ PauseState::PauseState(GameData* game_data, std::string current_music_path)
 	menu.getButton(1).on_click.connect([game_data]()
 	{
 		game_data->getStateManager()->pop();
-		//game_data->getStateManager()->push<GameState>();
+		//game_data->getStateManager()->push<StateGame>();
 	});
 
 	//menu.getButton(2).on_click.connect([this, game_data]()
@@ -72,7 +72,7 @@ PauseState::PauseState(GameData* game_data, std::string current_music_path)
 	});
 }
 
-void PauseState::update(const ASGE::GameTime &)
+void StatePause::update(const ASGE::GameTime &)
 {
 	menu.update();
 
@@ -82,7 +82,7 @@ void PauseState::update(const ASGE::GameTime &)
 	}
 }
 
-void PauseState::render() const
+void StatePause::render() const
 {
 	menu.render(Z_ORDER_LAYER::OVERLAY_TEXT);
 	game_data->getRenderer()->renderSprite(*dim_background, Z_ORDER_LAYER::OVERLAY);
@@ -90,10 +90,10 @@ void PauseState::render() const
 
 }
 
-void PauseState::onActive()
+void StatePause::onActive()
 {
 }
 
-void PauseState::onInactive()
+void StatePause::onInactive()
 {
 }

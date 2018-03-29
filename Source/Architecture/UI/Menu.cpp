@@ -74,7 +74,7 @@ void Menu::render(int z_order) const
 		{
 			selection_image->xPos(b.getPosX() - 8.0f - selection_image->width());
 			selection_image->yPos(b.getPosY() + 2.0f - selection_image->height());
-			game_data->getRenderer()->renderSprite(*selection_image, z_order);
+			game_data->getRenderer()->renderSprite(*selection_image, (float)z_order);
 		}
 	}
 }

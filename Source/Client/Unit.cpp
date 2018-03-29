@@ -1,10 +1,10 @@
-#include "Unit.h"
+#include "Unit.hpp"
 
 //LIBS
 #include <Engine/Renderer.h>
 
 //SELF
-#include "../Architecture/Rng.h"
+#include "../Architecture/Rng.hpp"
 #include "../Architecture/Constants.hpp"
 #include "../Architecture/Managers/EntityManager.hpp"
 
@@ -25,7 +25,8 @@ void Unit::onSpawn()
 	if (isOwner())
 	{
 		std::cout << "owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
-		setPosition(game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowWidth()), game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowHeight()));
+		setPosition((float)game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowWidth()),
+			(float)game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowHeight()));
 		serializePacketType = PacketType::SET_POSITION;
 		sendPacket();
 		
@@ -412,16 +413,16 @@ void Unit::loadFromJSON(int unit_to_load)
 	try
 	{
 		//STATS
-		health = (unitStats[id]["HP"].as_double());
-		view_distance = (unitStats[id]["viewDistance"].as_double());
-		time_units = (unitStats[id]["timeUnits"].as_double());
-		stamina = (unitStats[id]["stamina"].as_double());
-		bravery = (unitStats[id]["bravery"].as_double());
-		reactions = (unitStats[id]["reactions"].as_double());
-		firing_accuracy = (unitStats[id]["firing_accuracy"].as_double());
-		strength = (unitStats[id]["strength"].as_double());
-		initiative = (unitStats[id]["initiative"].as_double());
-		base_move_speed = (unitStats[id]["base_move_speed"].as_double());
+		health = (float)(unitStats[id]["HP"].as_double());
+		view_distance = (float)(unitStats[id]["viewDistance"].as_double());
+		time_units = (float)(unitStats[id]["timeUnits"].as_double());
+		stamina = (float)(unitStats[id]["stamina"].as_double());
+		bravery = (float)(unitStats[id]["bravery"].as_double());
+		reactions = (float)(unitStats[id]["reactions"].as_double());
+		firing_accuracy = (float)(unitStats[id]["firing_accuracy"].as_double());
+		strength = (float)(unitStats[id]["strength"].as_double());
+		initiative = (float)(unitStats[id]["initiative"].as_double());
+		base_move_speed = (float)(unitStats[id]["base_move_speed"].as_double());
 		current_move_speed = base_move_speed;
 
 		//SPRITES

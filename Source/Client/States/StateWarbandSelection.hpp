@@ -2,7 +2,7 @@
 
 //SELF
 #include "../../Architecture/State.hpp"
-#include "../UnitSelectPanel.h"
+#include "../UnitSelectPanel.hpp"
 #include "../../Architecture/UI/Menu.hpp"
 
 class GameData;
@@ -10,10 +10,10 @@ class GameData;
 /**
 *  See State for overriden functions
 */
-class WarbandSelectionState : public State
+class StateWarbandSelection : public State
 {
 public:
-	WarbandSelectionState(GameData* game_data);
+	StateWarbandSelection(GameData* game_data);
 
 	void update(const ASGE::GameTime&) override final;
 	void render() const override final;

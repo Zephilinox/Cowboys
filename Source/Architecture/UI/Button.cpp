@@ -15,11 +15,11 @@ void Button::render(GameData* game_data, int z_order) const
 
 	if (selected)
 	{
-		game_data->getRenderer()->renderText(name.c_str(), pos_x, pos_y, 1.0f, selected_colour, z_order);
+		game_data->getRenderer()->renderText(name.c_str(), (int)pos_x, (int)pos_y, 1.0f, selected_colour, (float)z_order);
 	}
 	else
 	{
-		game_data->getRenderer()->renderText(name.c_str(), pos_x, pos_y, 1.0f, colour, z_order);
+		game_data->getRenderer()->renderText(name.c_str(), (int)pos_x, (int)pos_y, 1.0f, colour, (float)z_order);
 	}
 }
 

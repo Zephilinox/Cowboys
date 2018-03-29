@@ -1,5 +1,5 @@
-#include "UnitSelectPanel.h"
-#include "../Client/States/WarbandSelectionState.h"
+#include "UnitSelectPanel.hpp"
+#include "../Client/States/StateWarbandSelection.hpp"
 //LIB
 #include <jsoncons/json.hpp>
 

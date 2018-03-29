@@ -12,10 +12,10 @@ class GameData;
 /**
 *  See State for overriden functions
 */
-class PauseState : public State
+class StatePause : public State
 {
 public:
-	PauseState(GameData* game_data, std::string current_music_path);
+	StatePause(GameData* game_data, std::string current_music_path);
 
 	void update(const ASGE::GameTime&) override final;
 	void render() const override final;

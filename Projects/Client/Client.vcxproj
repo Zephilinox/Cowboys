@@ -158,7 +158,7 @@
     <ClInclude Include="..\..\Source\Architecture\Networking\Packet.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Networking\Server.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Networking\ServerHost.hpp" />
-    <ClInclude Include="..\..\Source\Architecture\Rng.h" />
+    <ClInclude Include="..\..\Source\Architecture\Rng.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Signals\Connection.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Signals\Disconnector.hpp" />
     <ClInclude Include="..\..\Source\Architecture\Signals\Signal.hpp" />
@@ -167,20 +167,20 @@
     <ClInclude Include="..\..\Source\Architecture\Timer.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Button.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
-    <ClInclude Include="..\..\Source\Client\ListOfNames.h" />
-    <ClInclude Include="..\..\Source\Client\MyNetGame.h" />
-    <ClInclude Include="..\..\Source\Client\Networking.h" />
-    <ClInclude Include="..\..\Source\Client\States\GameState.h" />
-    <ClInclude Include="..\..\Source\Client\States\PauseState.h" />
+    <ClInclude Include="..\..\Source\Client\ListOfNames.hpp" />
+    <ClInclude Include="..\..\Source\Client\MyNetGame.hpp" />
+    <ClInclude Include="..\..\Source\Client\Networking.hpp" />
+    <ClInclude Include="..\..\Source\Client\States\StateGame.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
-    <ClInclude Include="..\..\Source\Client\States\WarbandSelectionState.h" />
+    <ClInclude Include="..\..\Source\Client\States\StatePause.hpp" />
+    <ClInclude Include="..\..\Source\Client\States\StateWarbandSelection.hpp" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
-    <ClInclude Include="..\..\Source\Client\targetver.h" />
-    <ClInclude Include="..\..\Source\Client\Unit.h" />
-    <ClInclude Include="..\..\Source\Client\UnitSelectPanel.h" />
-    <ClInclude Include="..\..\Source\Client\Warband.h" />
-    <ClInclude Include="SpritePaths.h" />
+    <ClInclude Include="..\..\Source\Client\targetver.hpp" />
+    <ClInclude Include="..\..\Source\Client\Unit.hpp" />
+    <ClInclude Include="..\..\Source\Client\UnitSelectPanel.hpp" />
+    <ClInclude Include="..\..\Source\Client\Warband.hpp" />
+    <ClInclude Include="SpritePaths.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Architecture\AnimatedSprite.cpp" />
@@ -211,11 +211,11 @@
     <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\GameState.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\PauseState.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\StateGame.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\WarbandSelectionState.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\StatePause.cpp" />
+    <ClCompile Include="..\..\Source\Client\States\StateWarbandSelection.cpp" />
     <ClCompile Include="..\..\Source\Client\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">Create</PrecompiledHeader>

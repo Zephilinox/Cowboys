@@ -1,12 +1,12 @@
-#include "../States/WarbandSelectionState.h"
+#include "../States/StateWarbandSelection.hpp"
 
 //SELF
 #include "../../Architecture/GameData.hpp"
 #include "../../Architecture/Constants.hpp"
-#include "GameState.h"
+#include "StateGame.hpp"
 
 
-WarbandSelectionState::WarbandSelectionState(GameData* game_data)
+StateWarbandSelection::StateWarbandSelection(GameData* game_data)
 	: State(game_data),
 	panel1(game_data, 0.0f),
 	panel2(game_data, 256.0f),
@@ -18,7 +18,7 @@ WarbandSelectionState::WarbandSelectionState(GameData* game_data)
 	initMenu();
 }
 
-void WarbandSelectionState::update(const ASGE::GameTime&)
+void StateWarbandSelection::update(const ASGE::GameTime&)
 {
 	panel1.update();
 	panel2.update();
@@ -28,7 +28,7 @@ void WarbandSelectionState::update(const ASGE::GameTime&)
 	menu.update();
 }
 
-void WarbandSelectionState::render() const
+void StateWarbandSelection::render() const
 {
 	panel1.render(game_data->getRenderer());
 	panel2.render(game_data->getRenderer());
@@ -38,15 +38,15 @@ void WarbandSelectionState::render() const
 	menu.render();
 }
 
-void WarbandSelectionState::onActive()
+void StateWarbandSelection::onActive()
 {
 }
 
-void WarbandSelectionState::onInactive()
+void StateWarbandSelection::onInactive()
 {
 }
 
-void WarbandSelectionState::initMenu()
+void StateWarbandSelection::initMenu()
 {
 	menu.addButton(0.0f + 25, 640, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
 	menu.addButton(0.0f + 175, 640, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
@@ -63,13 +63,13 @@ void WarbandSelectionState::initMenu()
 	menu.addButton(1024.0f + 25, 640, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
 	menu.addButton(1024.0f + 175, 640, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
 
-	menu.addButton(game_data->getWindowWidth() - 130, game_data->getWindowHeight() * 0.8f, "DONE!", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	menu.addButton(game_data->getWindowWidth() - 130.0f, game_data->getWindowHeight() * 0.8f, "DONE!", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
 
 	menu.getButton(10).on_click.connect([this]()
 	{
 		game_data->getStateManager()->pop();
 
-		game_data->getStateManager()->push<GameState>
+		game_data->getStateManager()->push<StateGame>
 			(panel1.getSelectedUnitID(),
 			panel2.getSelectedUnitID(),
 			panel3.getSelectedUnitID(),
