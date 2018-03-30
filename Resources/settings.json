@@ -11,8 +11,8 @@
 	"Network": {
 		"Maximum Clients" : 2,
 		"Packet Channels" : 1,
-		"Server IP" : "localhost",
-		"Server Port" : 22222,
+		"Server IP" : "80.234.252.236",
+		"Server Port" : 11111,
 		"Packet Send Rate Per Second" : 10,
 		"Packet Tick Rate Per Second" : 60
 	}

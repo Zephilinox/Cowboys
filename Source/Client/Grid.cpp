@@ -44,9 +44,26 @@ void Grid::generateCharGrid(int seed)
 	}
 }
 
-float Grid::GetF()
+float Grid::getTileXPosAtArrayPos(int x, int y)
 {
-	return G + H;
+	return map[x][y].getTerrainSprite()->xPos();
+}
+
+float Grid::getTileYPosAtArrayPos(int x, int y)
+{
+	return map[x][y].getTerrainSprite()->yPos();
+}
+
+void Grid::applyOffset(float new_x, float new_y)
+{
+	for(int x = 0; x < mapWidth; x++)
+	{
+		for(int y = 0; y < mapHeight; y++)
+		{
+			map[x][y].getTerrainSprite()->xPos(map[x][y].getTerrainSprite()->xPos() + new_x);
+			map[x][y].getTerrainSprite()->yPos(map[x][y].getTerrainSprite()->yPos() + new_y);
+		}
+	}
 }
 
 void Grid::render() const

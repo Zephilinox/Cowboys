@@ -154,16 +154,50 @@ void StateGame::update(const ASGE::GameTime& gt)
 	auto client = game_data->getNetworkManager()->client.get();
 	auto server = game_data->getNetworkManager()->server.get();
 
+	double mouseX;
+	double mouseY;
+	game_data->getInputManager()->getMousePosition(mouseX, mouseY);
+
+	screenScroll(mouseX, mouseY);
+
 	if (client && client->isConnecting())
 	{
 		const float dt = (float)gt.delta_time.count() / 1000.0f;
-
 		ent_man.update(dt);
 	}
 
 	if (game_data->getInputManager()->isActionPressed(hash("Escape")))
 	{
 		game_data->getStateManager()->pop();
+	}
+}
+
+void StateGame::screenScroll(double mouseX, double mouseY)
+{
+	double screenEdgeThreshold = 30.0;
+	int maxRightTile = (mapWidth - 32);
+	int maxDownTile = (mapHeight - 18);
+
+	if(mouseX <= screenEdgeThreshold && testGrid.getTileXPosAtArrayPos(0,0) < 0.0f)
+	{
+		//scroll left
+		testGrid.applyOffset(5.0f, 0.0f);
+	}
+
+	if(mouseX >= (double)(game_data->getWindowWidth() - screenEdgeThreshold) && testGrid.getTileXPosAtArrayPos(maxRightTile, 0) > 0.0f)
+	{
+		//scroll right
+		testGrid.applyOffset(-5.0f, 0.0f);
+	}
+	if(mouseY <= screenEdgeThreshold && testGrid.getTileYPosAtArrayPos(0, 0) < 0.0f)
+	{
+		//scroll up
+		testGrid.applyOffset(0.0f, 5.0f);
+	}
+	if(mouseY >= (double)(game_data->getWindowHeight() - screenEdgeThreshold) && testGrid.getTileYPosAtArrayPos(0, maxDownTile) > 0.0f)
+	{
+		//scroll down
+		testGrid.applyOffset(0.0f, -5.0f);
 	}
 }
 
