@@ -6,8 +6,8 @@
 //LIB
 #include <jsoncons/json.hpp>
 
-constexpr int mapWidth = 96;
-constexpr int mapHeight = 54;
+constexpr int mapWidth = 40;
+constexpr int mapHeight = 24;
 
 class Grid
 {
