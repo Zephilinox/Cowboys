@@ -2,12 +2,24 @@
 
 
 
-int Rng::getRandomInt(int lower_bound, int upper_bound)
+int Rng::getRandomInt(int lower_bound, int upper_bound, bool seeded)
 {
-	std::mt19937 mt(rd());
-	std::uniform_int_distribution<int> random(lower_bound, upper_bound);
+	if(seeded)
+	{
+		std::mt19937 mt(seed);
+		seed++;
+		std::uniform_int_distribution<int> random(lower_bound, upper_bound);
 
-	return random(mt);
+		return random(mt);
+	}
+	else
+	{
+		std::mt19937 mt(rd());
+		std::uniform_int_distribution<int> random(lower_bound, upper_bound);
+
+		return random(mt);
+	}
+
 }
 
 
@@ -25,4 +37,9 @@ float Rng::getRandomFloat(float lower_bound, float upper_bound)
 		return_val = float(random(mt));
 	}
 	return return_val;
+}
+
+void Rng::setSeed(int new_seed)
+{
+	seed = new_seed;
 }

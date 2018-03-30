@@ -21,9 +21,13 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	, menu(game_data)
 	, our_warband(game_data, unit1ID, unit2ID, unit3ID, unit4ID, unit5ID)
 	, their_warband(game_data)
-	, ent_man(game_data)
+	, ent_man(game_data),
+	testGrid(game_data)
 {
 	//TODO create map
+	testGrid.randomiseCharGrid(10);
+	testGrid.loadHardCodedMap();
+
 
 	//This is lobby-related, leave it for now until I have a closer look at it
 	Packet p;
@@ -172,6 +176,8 @@ void StateGame::render() const
 	{
 		ent_man.render();
 	}
+
+	testGrid.render();
 }
 
 void StateGame::onActive()

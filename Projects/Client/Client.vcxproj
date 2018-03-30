@@ -167,9 +167,11 @@
     <ClInclude Include="..\..\Source\Architecture\Timer.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Button.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
+    <ClInclude Include="..\..\Source\Client\Grid.h" />
     <ClInclude Include="..\..\Source\Client\ListOfNames.hpp" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.hpp" />
     <ClInclude Include="..\..\Source\Client\Networking.hpp" />
+    <ClInclude Include="..\..\Source\Client\SearchCell.h" />
     <ClInclude Include="..\..\Source\Client\States\StateGame.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
@@ -177,6 +179,7 @@
     <ClInclude Include="..\..\Source\Client\States\StateWarbandSelection.hpp" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
     <ClInclude Include="..\..\Source\Client\targetver.hpp" />
+    <ClInclude Include="..\..\Source\Client\TerrainTile.h" />
     <ClInclude Include="..\..\Source\Client\Unit.hpp" />
     <ClInclude Include="..\..\Source\Client\UnitSelectPanel.hpp" />
     <ClInclude Include="..\..\Source\Client\Warband.hpp" />
@@ -209,6 +212,7 @@
     <ClCompile Include="..\..\Source\Architecture\Timer.cpp" />
     <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp" />
     <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
+    <ClCompile Include="..\..\Source\Client\Grid.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateGame.cpp" />
@@ -221,6 +225,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Client\TerrainTile.cpp" />
     <ClCompile Include="..\..\Source\Client\Unit.cpp" />
     <ClCompile Include="..\..\Source\Client\UnitSelectPanel.cpp" />
     <ClCompile Include="..\..\Source\Client\Warband.cpp" />

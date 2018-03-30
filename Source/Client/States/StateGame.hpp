@@ -18,6 +18,9 @@
 #include "../Warband.hpp"
 #include "../../Architecture/Managers/EntityManager.hpp"
 
+//Map
+#include "../Grid.h"
+
 class GameData;
 
 class StateGame : public State
@@ -43,6 +46,9 @@ private:
 
 	Warband our_warband;
 	Warband their_warband;
+
+	//TODO refactor as final grid
+	Grid testGrid;
 
 	EntityManager ent_man;
 };
