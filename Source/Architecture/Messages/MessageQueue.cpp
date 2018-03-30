@@ -31,9 +31,18 @@ void MessageQueue::processMessages(Timer::nanoseconds_float max_processing_time)
 	int processedMessages = 0;
 	while (!message_queue.empty() && timer.getChronoElapsedTime() < max_processing_time)
 	{
-		processedMessages++;
-		messenger.emit(message_queue.front().get());
-		message_queue.pop();
+		//do 100 messages at a time as getChronoElapsedTime() is super expensive
+		for (int i = 0; i < 100; ++i)
+		{
+			processedMessages++;
+			messenger.emit(message_queue.front().get());
+			message_queue.pop();
+
+			if (message_queue.empty())
+			{
+				break;
+			}
+		}
 	}
 
 	if (timer.getChronoElapsedTime() > max_processing_time)

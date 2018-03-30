@@ -91,8 +91,7 @@ private:
 	std::array<int, ASGE::KEYS::KEY_LAST + ASGE::KEYS::KEY_LAST> gamepad_buttons_last_frame;
 	std::array<int, ASGE::KEYS::KEY_LAST + ASGE::KEYS::KEY_LAST> gamepad_buttons;
 
-	//just do 512, work it out latah
-	std::array<int, 512> mouse_buttons_last_frame;
-	std::array<int, 512> mouse_buttons;
-	std::array<int, 512> mouse_buttons_this_frame;
+	std::array<int, 64> mouse_buttons_last_frame;
+	std::array<int, 64> mouse_buttons;
+	std::array<int, 64> mouse_buttons_this_frame;
 };
