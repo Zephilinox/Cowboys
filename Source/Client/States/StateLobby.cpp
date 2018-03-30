@@ -18,9 +18,9 @@ StateLobby::StateLobby(GameData* game_data)
 	, panel4(game_data, 768.0f)
 	, panel5(game_data, 1024.0f)
 {
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "SERVER", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "CLIENT", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f + 40.0f, "BACK", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "SERVER", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 70.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "CLIENT", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 70.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f + 40.0f, "BACK", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 70.0f, 20.0f);
 
 	auto server_lam = [this](Packet p)
 	{
@@ -91,16 +91,14 @@ StateLobby::StateLobby(GameData* game_data)
 		this->game_data->getStateManager()->pop();
 	});
 
-	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f - 80.0f, game_data->getWindowHeight() * 0.8f, "START", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
-	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() * 0.8f, "TOGGLE READY", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE, 130.0f, 20.0f);
-	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f + 180.0f, game_data->getWindowHeight() * 0.8f, "BACK", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f - 80.0f, game_data->getWindowHeight() * 0.8f, "START", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() * 0.8f, "TOGGLE READY", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 140.0f, 20.0f);
+	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f + 180.0f, game_data->getWindowHeight() * 0.8f, "BACK", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
 	
 	lobby.getButton(0).on_click.connect([this]()
 	{
-		std::cout << "hmm\n";
 		if (this->game_data->getNetworkManager()->server)
 		{
-			std::cout << "hmm\n";
 			Packet p;
 			p.setID(hash("GameStart"));
 			this->game_data->getNetworkManager()->server->sendPacketToAllClients(0, &p);

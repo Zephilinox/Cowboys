@@ -85,8 +85,8 @@ void Menu::update()
 				sprite_y < mouse_y &&
 				sprite_y + sprite_height > mouse_y)
 			{
-				std::cout << "click " << i << "\n";
-				selected_button_id = i;
+				//std::cout << "click " << i << "\n";
+				selectButton(i);
 				AudioLocator::get()->play("button_click.wav");
 				buttons[selected_button_id].on_click.emit();
 				break;

@@ -48,8 +48,8 @@ void Button::loadTexture(std::string texture)
 		throw;
 	}
 
-	sprite->xPos(pos_x);
-	sprite->yPos(pos_y - 15.0f);
+	sprite->xPos(pos_x - 1.0f);
+	sprite->yPos(pos_y - 16.0f);
 }
 
 bool Button::isSelected() const noexcept
@@ -84,8 +84,8 @@ void Button::setPos(float x, float y) noexcept
 
 	if (sprite)
 	{
-		sprite->xPos(pos_x);
-		sprite->yPos(pos_y - 15.0f);
+		sprite->xPos(pos_x - 1.0f);
+		sprite->yPos(pos_y - 16.0f);
 	}
 }
 

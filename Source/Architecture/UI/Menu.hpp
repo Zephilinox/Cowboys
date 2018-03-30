@@ -23,7 +23,7 @@ public:
 	void reset();
 
 	int addButton(float x, float y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour);
-	int addButton(float x, float y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour, float width, float height, std::string texture = "white pixel");
+	int addButton(float x, float y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour, float width, float height, std::string texture = "red pixel");
 
 	Button& getButton(int button_id);
 
