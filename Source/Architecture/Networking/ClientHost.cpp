@@ -7,7 +7,8 @@ void ClientHost::initialize()
 {
 	initialized = true;
 	std::cout << "Client Initialized\n";
-	on_packet_received.connect([](Packet p)
+	
+	mc1 = on_packet_received.connect([](Packet p)
 	{
 		if (p.getID() == hash("Entity"))
 		{

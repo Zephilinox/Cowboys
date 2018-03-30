@@ -14,7 +14,7 @@ void ClientStandard::initialize()
 		.set_channel_count(game_data->getNetworkManager()->getChannelCount())
 		.set_server_host_name_and_port(game_data->getNetworkManager()->getServerIP(), game_data->getNetworkManager()->getServerPort()));
 
-	on_packet_received.connect([](Packet p)
+	mc1 = on_packet_received.connect([](Packet p)
 	{
 		std::cout << "Received Packet " << p.getID() << "\n";
 
