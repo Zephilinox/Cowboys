@@ -59,6 +59,8 @@ namespace ASGE
 		int button	= -1; /**< Mouse button. The mouse button clicked. */
 		int action	= -1; /**< Button action. Has it been pressed or released? */
 		int mods	= -1; /**< Modifiers. Any modifiers applied i.e. ctrl, shift etc. */
+		double xpos =  0; /**< X. The current mouse position on the X axis. */
+		double ypos =  0; /**< Y. The current mouse position on the Y axis. */
 	};
 
 	/**
