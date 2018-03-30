@@ -14,10 +14,7 @@ StateMenu::StateMenu(GameData* game_data)
 	//this is rough and just for prototyping, might need something nicer for the actual game
 	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "PLAY", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
 	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "EXIT", ASGE::COLOURS::DIMGRAY, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
-
-	auto[w, h] = menu.getButton(0).getSize();
-	std::cout << w << ", " << h << "\n";
-
+	
 	menu.getButton(0).on_click.connect([game_data]()
 	{
 		game_data->getStateManager()->push<StateLobby>();

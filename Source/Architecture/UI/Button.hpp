@@ -28,6 +28,7 @@ public:
 
 	float getPosX() const noexcept;
 	float getPosY() const noexcept;
+	ASGE::Sprite* getSprite();
 
 	void setPos(float x, float y) noexcept;
 	void setName(std::string name);

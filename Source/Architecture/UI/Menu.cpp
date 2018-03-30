@@ -56,22 +56,39 @@ void Menu::update()
 		}
 	}
 
-	if (game_data->getInputManager()->isMouseButtonPressed(0))
+	if (buttons.size() && game_data->getInputManager()->isMouseButtonPressed(0))
 	{
 		double mouse_x, mouse_y;
 		game_data->getInputManager()->getMousePosition(mouse_x, mouse_y);
 
 		for (size_t i = 0; i < buttons.size(); ++i)
 		{
-			auto& button = buttons[i];
-			auto[width, height] = button.getSize();
-
-			if (button.getPosX() < mouse_x &&
-				button.getPosX() + width > mouse_x &&
-				button.getPosY() < mouse_y &&
-				button.getPosY() + height > mouse_y)
+			//std::cout << "button " << i << "\n";
+			auto button_sprite = buttons[i].getSprite();
+			if (!button_sprite)
 			{
+				continue;
+			}
+
+			float sprite_x = button_sprite->xPos();
+			float sprite_y = button_sprite->yPos();
+			float sprite_width = button_sprite->width();
+			float sprite_height = button_sprite->height();
+
+			/*std::cout << sprite_x << " < " << mouse_x << " &&\n"
+				<< sprite_x + sprite_width << " > " << mouse_x << " &&\n"
+				<< sprite_y << " < " << mouse_y << " &&\n"
+				<< sprite_y + sprite_height << " > " << mouse_y << "\n";*/
+
+			if (sprite_x < mouse_x &&
+				sprite_x + sprite_width > mouse_x &&
+				sprite_y < mouse_y &&
+				sprite_y + sprite_height > mouse_y)
+			{
+				std::cout << "click " << i << "\n";
 				selected_button_id = i;
+				AudioLocator::get()->play("button_click.wav");
+				buttons[selected_button_id].on_click.emit();
 				break;
 			}
 		}
@@ -79,10 +96,9 @@ void Menu::update()
 
 	if (game_data->getInputManager()->isActionPressed(hash("Enter")))
 	{
-		AudioLocator::get()->play("button_click.wav");
-
 		if (buttons.size())
 		{
+			AudioLocator::get()->play("button_click.wav");
 			buttons[selected_button_id].on_click.emit();
 		}
 	}

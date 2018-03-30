@@ -19,13 +19,14 @@ Button::Button(Button&& button) noexcept
 	name = std::move(button.name);
 	colour = button.colour;
 	selected_colour = button.selected_colour;
+	on_click = std::move(button.on_click);
 }
 
 void Button::render(GameData* game_data, int z_order) const
 {
-	if (sprite)
+	if (sprite->getTexture())
 	{
-		game_data->getRenderer()->renderSprite(*sprite);
+		game_data->getRenderer()->renderSprite(*sprite, (float)z_order - 1);
 	}
 
 	game_data->getFontManager()->setFont("Dialogue");
@@ -69,6 +70,11 @@ float Button::getPosX() const noexcept
 float Button::getPosY() const noexcept
 {
 	return pos_y;
+}
+
+ASGE::Sprite* Button::getSprite()
+{
+	return sprite.get();
 }
 
 void Button::setPos(float x, float y) noexcept

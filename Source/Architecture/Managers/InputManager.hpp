@@ -94,4 +94,5 @@ private:
 	//just do 512, work it out latah
 	std::array<int, 512> mouse_buttons_last_frame;
 	std::array<int, 512> mouse_buttons;
+	std::array<int, 512> mouse_buttons_this_frame;
 };
