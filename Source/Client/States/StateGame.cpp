@@ -3,6 +3,7 @@
 //SELF
 #include "../../Architecture/GameData.hpp"
 #include "../States/StateMenu.hpp"
+#include "../States/StatePause.hpp"
 #include "../../Architecture/Constants.hpp"
 #include "../../Architecture/Networking/Client.hpp"
 #include "../../Architecture/Networking/Server.hpp"
@@ -163,7 +164,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 	if (game_data->getInputManager()->isActionPressed(hash("Escape")))
 	{
-		game_data->getStateManager()->pop();
+		game_data->getStateManager()->push<StatePause>();
 	}
 }
 

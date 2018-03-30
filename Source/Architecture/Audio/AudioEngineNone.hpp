@@ -9,6 +9,10 @@ public:
 	void stop() final
 	{
 	}
+
+	void setMuted(bool mute) final
+	{
+	}
 };
 
 class AudioEngineNone : public AudioEngine

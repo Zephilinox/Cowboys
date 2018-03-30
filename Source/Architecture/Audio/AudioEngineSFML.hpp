@@ -23,6 +23,21 @@ public:
 		}
 	}
 
+	void setMuted(bool mute) final
+	{
+		if (sound)
+		{
+			if (mute)
+			{
+				sound->pause();
+			}
+			else
+			{
+				sound->play();
+			}
+		}
+	}
+
 	sf::Sound* sound;
 };
 

@@ -27,6 +27,14 @@ public:
 		}
 	}
 
+	void setMuted(bool mute) final
+	{
+		if (sound_source)
+		{
+			sound_source->setIsPaused(mute);
+		}
+	}
+
 	irrklang::ISound* sound_source;
 };
 

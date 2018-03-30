@@ -15,7 +15,7 @@ class GameData;
 class StatePause : public State
 {
 public:
-	StatePause(GameData* game_data, std::string current_music_path);
+	StatePause(GameData* game_data);
 
 	void update(const ASGE::GameTime&) override final;
 	void render() const override final;
