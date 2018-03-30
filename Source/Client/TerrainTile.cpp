@@ -2,7 +2,20 @@
 #include "TerrainTile.h"
 #include "../Architecture/Constants.hpp"
 
-
+//TODO entity info pointer - updated when unit moves to the position, made null when unit leaves.
+//On click -
+/*
+if entity info != null
+	get unit hit
+		if friendly, select unit
+			if enemy, attempt attack
+			
+else
+	get tile position
+	if unit selected
+		pathfind
+		trigger move to list
+*/
 
 ASGE::Sprite * TerrainTile::getTerrainSprite()
 {

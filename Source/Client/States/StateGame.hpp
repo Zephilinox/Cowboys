@@ -34,6 +34,8 @@ public:
 	void onActive() override final;
 	void onInactive() override final;
 
+	void screenScroll(double mouseX, double mouseY);
+
 	void endTurn();
 
 	void endRound();

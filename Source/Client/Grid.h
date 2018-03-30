@@ -6,8 +6,8 @@
 //LIB
 #include <jsoncons/json.hpp>
 
-constexpr int mapWidth = 31;
-constexpr int mapHeight = 17;
+constexpr int mapWidth = 96;
+constexpr int mapHeight = 54;
 
 class Grid
 {
@@ -15,22 +15,18 @@ public:
 
 	Grid(GameData* data);
 	~Grid() = default;
-	float GetF();
 
 	void render() const;
 
 	void loadHardCodedMap();
 	void generateCharGrid(int seed);
 
+	float getTileXPosAtArrayPos(int x, int y);
+	float getTileYPosAtArrayPos(int x, int y);
+
+	void applyOffset(float x, float y);
+
 private:
-	int xCoord;
-	int yCoord;
-
-//	int id;
-
-	float G;
-	float H;
-
 
 	char grid[mapWidth][mapHeight];
 

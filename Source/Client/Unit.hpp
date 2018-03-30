@@ -10,6 +10,13 @@
 class Unit : public Entity
 {
 public:
+
+	struct Positions
+	{
+		float x = 0;
+		float y = 0;
+	};
+
 	enum UnitFacing
 	{
 		NORTH = 0,
@@ -91,6 +98,8 @@ public:
 
 	void loadFromJSON(int unit_to_load);
 
+	void addPosToList (float x, float y);
+
 protected:
 	void commonUpdate(float dt);
 	ASGE::Sprite* getCurrentSprite() const;
@@ -152,4 +161,8 @@ protected:
 	PacketType serializePacketType = PacketType::INVALID;
 
 	bool selected;
+
+	std::vector<Positions> movement_pos_list;
+	int movement_pos_list_counter = 0;
+
 };

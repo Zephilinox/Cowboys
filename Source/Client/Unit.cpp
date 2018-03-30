@@ -96,7 +96,6 @@ void Unit::render(ASGE::Renderer* renderer) const
 	{
 		return;
 	}
-
 	renderer->renderSprite(*getCurrentSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 
 	if (selected)
@@ -266,14 +265,18 @@ void Unit::setPosition(float x, float y)
 	y_position = y;
 }
 
+// TODO make sure this is called AFTER positions list has been populated
 void Unit::moveToPosition(float x, float y)
 {
+
 	char_state = UnitState::WALKING;
 	horizontal_walk_sprite.play();
 	backward_walk_sprite.play();
 	forward_walk_sprite.play();
 	target_x_position = x;
 	target_y_position = y;
+
+
 }
 
 std::string Unit::getFullName()
@@ -337,6 +340,14 @@ void Unit::loadFromJSON(int unit_to_load)
 	}
 }
 
+void Unit::addPosToList(float x, float y)
+{
+	Positions new_pos;
+	new_pos.x = x;
+	new_pos.y = y;
+	movement_pos_list.push_back(std::move(new_pos));
+}
+
 void Unit::commonUpdate(float dt)
 {
 	updateOverridePositions();
@@ -385,6 +396,29 @@ void Unit::commonUpdate(float dt)
 
 		if (yPosMatched && xPosMatched)
 		{
+			//TODO - uncomment section when PATHFINDING complete
+			/*
+			movement_pos_list_counter++;
+			if (movement_pos_list_counter == movement_pos_list.size() )
+			{
+				movement_pos_list_counter = 0;
+				movement_pos_list.clear();
+				char_state = UnitState::IDLE;
+
+				horizontal_walk_sprite.restart();
+				horizontal_walk_sprite.pause();
+				backward_walk_sprite.restart();
+				backward_walk_sprite.pause();
+				forward_walk_sprite.restart();
+				forward_walk_sprite.pause();
+			}
+			else
+			{
+				target_x_position = movement_pos_list[movement_pos_list_counter].x;
+				target_y_position = movement_pos_list[movement_pos_list_counter].y;
+			}
+			*/
+			
 			char_state = UnitState::IDLE;
 
 			horizontal_walk_sprite.restart();
