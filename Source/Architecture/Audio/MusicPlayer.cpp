@@ -23,12 +23,6 @@ MusicPlayer::MusicPlayer()
 
 void MusicPlayer::play(std::string music_name)
 {
-	//todo: improve this so we can mute midgame
-	if (muted)
-	{
-		return;
-	}
-
 	if (music_name != current_music)
 	{
 		current_music = music_name;
@@ -39,10 +33,17 @@ void MusicPlayer::play(std::string music_name)
 		}
 
 		current_music_sound = std::move(AudioLocator::get()->play("Music/" + music_name + ".wav", true));
+		current_music_sound->setMuted(muted);
 	}
 }
 
 std::string MusicPlayer::getCurrentMusicName()
 {
 	return current_music;
+}
+
+void MusicPlayer::toggleMuted()
+{
+	muted = !muted;
+	current_music_sound->setMuted(muted);
 }
