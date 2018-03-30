@@ -53,7 +53,7 @@ void TerrainTile::initialise(char type, ASGE::Renderer* rend)
 		}
 		case 'g':
 		{
-			ground_sprite->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
+			ground_sprite->loadTexture("../../Resources/Textures/Tiles/dirtTile.png");
 			move_difficulty_modifier = 300.0f;
 			isBlocked = false;
 			break;
