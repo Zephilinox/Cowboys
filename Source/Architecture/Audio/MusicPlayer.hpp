@@ -9,10 +9,14 @@
 class MusicPlayer
 {
 public:
+	MusicPlayer();
+
 	void play(std::string music_name);
 	std::string getCurrentMusicName();
 
 private:
 	std::string current_music;
 	std::unique_ptr<Sound> current_music_sound;
+
+	bool muted;
 };

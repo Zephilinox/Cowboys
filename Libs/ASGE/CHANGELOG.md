@@ -1,4 +1,13 @@
 # Changelog:
+## 0.1.5 - 14/03/2018
+
+**Bug Fixes:**
+- Mouse co-ordinates will now always be unprojected back into orthogonal space
+- Fixed issue with subpixel positions causing texel offsets by rounding up vertex positions
+
+**Enchancements:**
+- Added mouse button constants. See ASGE::MOUSE
+
 ## 0.1.4 - 07/03/2018
 
 **Bug Fixes:**

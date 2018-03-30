@@ -25,8 +25,8 @@ GameData::GameData(ASGE::Renderer* renderer, ASGE::Input* input, int width, int 
 		std::ifstream file("../../Resources/settings.json");
 		jsoncons::json settings;
 		file >> settings;
-		AudioLocator::set(settings["AudioEngine"].as_int());
-		std::cout << "AudioEngine: " << settings["AudioEngine"].as_int() << "\n";
+		AudioLocator::set(settings["Audio"]["Engine"].as_int());
+		std::cout << "Audio Engine: " << settings["Audio"]["Engine"].as_int() << "\n";
 	}
 	catch (std::runtime_error& e)
 	{
