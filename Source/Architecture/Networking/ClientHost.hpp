@@ -36,4 +36,7 @@ public:
 	{
 		return true;
 	}
+
+private:
+	ManagedConnection mc1;
 };
