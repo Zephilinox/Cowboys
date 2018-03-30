@@ -105,12 +105,12 @@ void Unit::serialize(Packet& p)
 		{
 			std::cout << "sending ATTACK\n";
 			p << 1;
-		}
+		} break;
 		case MOVE:
 		{
 			std::cout << "sending MOVE\n";
 			p << target_x_position << target_y_position;
-		}
+		} break;
 	}
 
 	serializePacketType = PacketType::INVALID;
