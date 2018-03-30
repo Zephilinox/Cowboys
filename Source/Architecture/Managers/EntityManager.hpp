@@ -26,6 +26,8 @@ public:
 
 	Entity* getEntity(uint32_t networkID);
 
+	void applyOffsetToUnits(float x, float y);
+
 	//refactor stuff so that this can stay private
 	std::vector<std::unique_ptr<Entity>> entities;
 

@@ -183,22 +183,26 @@ void StateGame::screenScroll(double mouseX, double mouseY)
 	{
 		//scroll left
 		testGrid.applyOffset(5.0f, 0.0f);
+		ent_man.applyOffsetToUnits(5.0f, 0.0f);
 	}
 
 	if(mouseX >= (double)(game_data->getWindowWidth() - screenEdgeThreshold) && testGrid.getTileXPosAtArrayPos(maxRightTile, 0) > 0.0f)
 	{
 		//scroll right
 		testGrid.applyOffset(-5.0f, 0.0f);
+		ent_man.applyOffsetToUnits(-5.0f, 0.0f);
 	}
 	if(mouseY <= screenEdgeThreshold && testGrid.getTileYPosAtArrayPos(0, 0) < 0.0f)
 	{
 		//scroll up
 		testGrid.applyOffset(0.0f, 5.0f);
+		ent_man.applyOffsetToUnits(0.0f, 5.0f);
 	}
 	if(mouseY >= (double)(game_data->getWindowHeight() - screenEdgeThreshold) && testGrid.getTileYPosAtArrayPos(0, maxDownTile) > 0.0f)
 	{
 		//scroll down
 		testGrid.applyOffset(0.0f, -5.0f);
+		ent_man.applyOffsetToUnits(0.0f, -5.0f);
 	}
 }
 

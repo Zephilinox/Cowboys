@@ -6,6 +6,7 @@
 //SELF
 #include "../GameData.hpp"
 #include "../Networking/Server.hpp"
+#include "../../Client/Unit.hpp"
 
 EntityManager::EntityManager(GameData* game_data)
 	: game_data(game_data)
@@ -106,4 +107,17 @@ Entity* EntityManager::getEntity(uint32_t networkID)
 	}
 
 	return nullptr;
+}
+
+//TODO RICARDO - not the best place for this but couldn't think of anywhere else to put
+void EntityManager::applyOffsetToUnits(float x, float y)
+{
+	for(auto& ent : entities)
+	{
+		if(ent->entity_info.type == (hash("Unit")) )
+		{
+			Unit* un = static_cast<Unit*>(ent.get());
+			un->setPosition(un->getXPosition() + x, un->getYPosition() + y);
+		}
+	}
 }
