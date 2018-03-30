@@ -94,6 +94,11 @@ void MyNetGame::update(const ASGE::GameTime& gt)
 		);
 	}
 
+	game_data->getMessageQueue()->processMessages(3ms);
+	game_data->getNetworkManager()->update();
+	game_data->getInputManager()->update();
+	game_data->getStateManager()->update(gt);
+
 	if (game_data->getInputManager()->isMouseButtonPressed(0) ||
 		game_data->getInputManager()->isMouseButtonDown(1))
 	{
@@ -101,11 +106,6 @@ void MyNetGame::update(const ASGE::GameTime& gt)
 		game_data->getInputManager()->getMousePosition(xpos, ypos);
 		std::cout << "(" << xpos << "), (" << ypos << ")\n";
 	}
-
-	game_data->getMessageQueue()->processMessages(3ms);
-	game_data->getNetworkManager()->update();
-	game_data->getInputManager()->update();
-	game_data->getStateManager()->update(gt);
 
 	if (game_data->getInputManager()->isKeyPressed(ASGE::KEYS::KEY_F1))
 	{

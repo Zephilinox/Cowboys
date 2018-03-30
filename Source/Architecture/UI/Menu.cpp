@@ -1,5 +1,8 @@
 #include "Menu.hpp"
 
+//STD
+#include <iostream>
+
 //SELF
 #include "../GameData.hpp"
 #include "../Managers/InputManager.hpp"
@@ -53,6 +56,27 @@ void Menu::update()
 		}
 	}
 
+	if (game_data->getInputManager()->isMouseButtonPressed(0))
+	{
+		double mouse_x, mouse_y;
+		game_data->getInputManager()->getMousePosition(mouse_x, mouse_y);
+
+		for (size_t i = 0; i < buttons.size(); ++i)
+		{
+			auto& button = buttons[i];
+			auto[width, height] = button.getSize();
+
+			if (button.getPosX() < mouse_x &&
+				button.getPosX() + width > mouse_x &&
+				button.getPosY() < mouse_y &&
+				button.getPosY() + height > mouse_y)
+			{
+				selected_button_id = i;
+				break;
+			}
+		}
+	}
+
 	if (game_data->getInputManager()->isActionPressed(hash("Enter")))
 	{
 		AudioLocator::get()->play("button_click.wav");
@@ -62,6 +86,7 @@ void Menu::update()
 			buttons[selected_button_id].on_click.emit();
 		}
 	}
+
 }
 
 void Menu::render(int z_order) const
@@ -87,12 +112,12 @@ void Menu::reset()
 
 int Menu::addButton(float x, float y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour)
 {
-	Button b;
+	Button b(game_data->getRenderer());
 	b.setPos(x, y);
 	b.setName(name);
 	b.setColour(colour);
 	b.setSelectedColour(selected_colour);
-	buttons.push_back(b);
+	buttons.push_back(std::move(b));
 
 	if (buttons.size() == 1)
 	{
@@ -100,6 +125,16 @@ int Menu::addButton(float x, float y, std::string name, ASGE::Colour colour, ASG
 	}
 
 	return buttons.size() - 1;
+}
+
+int Menu::addButton(float x, float y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour, float width, float height, std::string texture)
+{
+	auto id = addButton(x, y, name, colour, selected_colour);
+	auto& button = getButton(id);
+	button.loadTexture("../../Resources/Textures/" + texture + ".png");
+	button.setSize(width, height);
+
+	return id;
 }
 
 Button& Menu::getButton(int button_id)

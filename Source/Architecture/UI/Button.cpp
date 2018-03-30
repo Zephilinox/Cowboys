@@ -5,12 +5,29 @@
 #include "../Managers/FontManager.hpp"
 #include "../Constants.hpp"
 
-Button::Button() noexcept
+Button::Button(ASGE::Renderer* renderer) noexcept
+	: sprite(renderer->createUniqueSprite())
 {
+}
+
+Button::Button(Button&& button) noexcept
+	: sprite(std::move(button.sprite))
+{
+	selected = button.selected;
+	pos_x = button.pos_x;
+	pos_y = button.pos_y;
+	name = std::move(button.name);
+	colour = button.colour;
+	selected_colour = button.selected_colour;
 }
 
 void Button::render(GameData* game_data, int z_order) const
 {
+	if (sprite)
+	{
+		game_data->getRenderer()->renderSprite(*sprite);
+	}
+
 	game_data->getFontManager()->setFont("Dialogue");
 
 	if (selected)
@@ -21,6 +38,17 @@ void Button::render(GameData* game_data, int z_order) const
 	{
 		game_data->getRenderer()->renderText(name.c_str(), (int)pos_x, (int)pos_y, 1.0f, colour, (float)z_order);
 	}
+}
+
+void Button::loadTexture(std::string texture)
+{
+	if (!sprite->loadTexture(texture))
+	{
+		throw;
+	}
+
+	sprite->xPos(pos_x);
+	sprite->yPos(pos_y - 15.0f);
 }
 
 bool Button::isSelected() const noexcept
@@ -47,6 +75,12 @@ void Button::setPos(float x, float y) noexcept
 {
 	pos_x = x;
 	pos_y = y;
+
+	if (sprite)
+	{
+		sprite->xPos(pos_x);
+		sprite->yPos(pos_y - 15.0f);
+	}
 }
 
 void Button::setName(std::string n)
@@ -62,4 +96,22 @@ void Button::setColour(ASGE::Colour c) noexcept
 void Button::setSelectedColour(ASGE::Colour c) noexcept
 {
 	selected_colour = c;
+}
+
+void Button::setSize(float width, float height)
+{
+	sprite->width(width);
+	sprite->height(height);
+}
+
+void Button::setSize(std::tuple<float, float> size)
+{
+	auto[w, h] = size;
+	sprite->width(w);
+	sprite->height(h);
+}
+
+std::tuple<float, float> Button::getSize()
+{
+	return std::tuple<float, float>(sprite->width(), sprite->height());
 }

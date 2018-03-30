@@ -6,6 +6,7 @@
 
 //LIB
 #include <Engine/Colours.h>
+#include <Engine/Sprite.h>
 
 //SELF
 #include "../GameData.hpp"
@@ -15,9 +16,12 @@
 class Button
 {
 public:
-	Button() noexcept;
+	Button(ASGE::Renderer* renderer) noexcept;
+	Button(Button&& button) noexcept;
 
 	void render(GameData* game_data, int z_order = Z_ORDER_LAYER::OVERLAY_TEXT) const;
+
+	void loadTexture(std::string texture);
 
 	bool isSelected() const noexcept;
 	void setSelected(bool selected) noexcept;
@@ -29,6 +33,9 @@ public:
 	void setName(std::string name);
 	void setColour(ASGE::Colour colour) noexcept;
 	void setSelectedColour(ASGE::Colour colour) noexcept;
+	void setSize(float width, float height);
+	void setSize(std::tuple<float, float>);
+	std::tuple<float, float> getSize();
 
 	Signal<> on_click;
 
@@ -40,4 +47,5 @@ private:
 	std::string name = "Default";
 	ASGE::Colour colour = ASGE::COLOURS::RED;
 	ASGE::Colour selected_colour = ASGE::COLOURS::BLUE;
+	std::unique_ptr<ASGE::Sprite> sprite;
 };
