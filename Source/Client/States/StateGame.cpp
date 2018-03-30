@@ -25,9 +25,8 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	testGrid(game_data)
 {
 	//TODO create map
-	testGrid.randomiseCharGrid(10);
+	testGrid.generateCharGrid(10);
 	testGrid.loadHardCodedMap();
-
 
 	//This is lobby-related, leave it for now until I have a closer look at it
 	Packet p;

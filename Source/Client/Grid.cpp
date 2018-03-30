@@ -6,7 +6,7 @@ Grid::Grid(GameData* data) : game_data(data)
 {
 }
 
-void Grid::randomiseCharGrid(int seed)
+void Grid::generateCharGrid(int seed)
 {
 	game_data->getRandomNumberGenerator()->setSeed(seed);
 	
@@ -15,29 +15,29 @@ void Grid::randomiseCharGrid(int seed)
 		for(int y = 0; y < mapHeight; y++)
 		{
 			char new_char;
-			int val = game_data->getRandomNumberGenerator()->getRandomInt(0, 3, true);
+			int val = game_data->getRandomNumberGenerator()->getRandomInt(0, 9, true);
+
 			switch(val)
 			{
-			case 0:
-			{
-				new_char = 'g';
-				break;
-			}
-			case 1:
-			{
-				new_char = 'r';
-				break;
-			}
-			case 2:
-			{
-				new_char = 'w';
-				break;
-			}
-			case 3:
-			{
-				new_char = 'f';
-				break;
-			}
+				case 0:
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				{
+					new_char = 'g';
+					break;
+				}
+				case 9:
+				{
+					new_char = 'r';
+					break;
+				}
+
 			}
 			grid[x][y] = new_char;
 		}
@@ -60,25 +60,6 @@ void Grid::render() const
 	}
 }
 
-void Grid::loadFromJSON(int map_to_load)
-{
-	std::string id = "map" + map_to_load;
-	std::ifstream file("../../Resources/maps.json");
-	jsoncons::json maps;
-	file >> maps;
-
-	try
-	{
-		//load in map
-
-		//create tiles cased on chars
-
-	}
-	catch(std::runtime_error& e)
-	{
-		std::cout << "ERROR INFO: " << e.what() << "\n";
-	}
-}
 
 void Grid::loadHardCodedMap()
 {
