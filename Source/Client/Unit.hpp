@@ -146,6 +146,8 @@ protected:
 	std::unique_ptr<ASGE::Sprite> idle_sprite_back;
 	std::unique_ptr<ASGE::Sprite> idle_sprite_left;
 
+	std::unique_ptr<ASGE::Sprite> selected_sprite;
+
 	bool initialized = false;
 	PacketType serializePacketType = PacketType::INVALID;
 

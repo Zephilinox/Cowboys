@@ -17,6 +17,12 @@ Unit::Unit(GameData* game_data, EntityManager* ent_man)
 	idle_sprite_forward = game_data->getRenderer()->createUniqueSprite();
 	idle_sprite_back = game_data->getRenderer()->createUniqueSprite();
 	idle_sprite_left = game_data->getRenderer()->createUniqueSprite();
+	selected_sprite = game_data->getRenderer()->createUniqueSprite();
+
+	if (!selected_sprite->loadTexture("../../Resources/Textures/UI/Selected.png"))
+	{
+		throw;
+	}
 }
 
 void Unit::onSpawn()
@@ -78,6 +84,10 @@ void Unit::update(float dt)
 	}
 
 	commonUpdate(dt);
+
+	//todo: align this to the match the tile position when the unit is idle
+	selected_sprite->xPos(getCurrentSprite()->xPos());
+	selected_sprite->yPos(getCurrentSprite()->yPos());
 }
 
 void Unit::render(ASGE::Renderer* renderer) const
@@ -88,6 +98,11 @@ void Unit::render(ASGE::Renderer* renderer) const
 	}
 
 	renderer->renderSprite(*getCurrentSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
+
+	if (selected)
+	{
+		renderer->renderSprite(*selected_sprite, Z_ORDER_LAYER::UNITS + 1000.0f + this->y_position);
+	}
 }
 
 void Unit::serialize(Packet& p)
