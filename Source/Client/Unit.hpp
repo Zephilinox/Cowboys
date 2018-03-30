@@ -38,6 +38,10 @@ public:
 	virtual ~Unit() = default;
 
 	void onSpawn() final;
+
+	void update(float dt);
+	void render(ASGE::Renderer* renderer) const;
+
 	void serialize(Packet& p) override final;
 	void deserialize(Packet& p) override final;
 
@@ -58,9 +62,6 @@ public:
 	void endRound();
 
 	void moveToPosition(float x, float y);
-
-	void update(float dt);
-	void render(ASGE::Renderer* renderer) const;
 
 	float getViewDistance() const { return view_distance; }
 	float getTimeUnits() const { return time_units; }
@@ -91,6 +92,8 @@ public:
 	void loadFromJSON(int unit_to_load);
 
 protected:
+	void commonUpdate(float dt);
+	ASGE::Sprite* getCurrentSprite() const;
 
 	//DISPLAY / UI
 	std::string first_name;
@@ -145,4 +148,6 @@ protected:
 
 	bool initialized = false;
 	PacketType serializePacketType = PacketType::INVALID;
+
+	bool selected;
 };

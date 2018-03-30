@@ -33,10 +33,61 @@ void Unit::onSpawn()
 		serializePacketType = PacketType::ATTACK;
 		sendPacket();
 	}
-	else
+}
+
+void Unit::update(float dt)
+{
+	if (!initialized)
 	{
-		std::cout << "not owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
+		return;
 	}
+
+	if (isOwner())
+	{
+		double mouse_x, mouse_y;
+		game_data->getInputManager()->getMousePosition(mouse_x, mouse_y);
+
+		if (game_data->getInputManager()->isMouseButtonPressed(0))
+		{
+			if (auto sprite = getCurrentSprite())
+			{
+				float sprite_x = sprite->xPos();
+				float sprite_y = sprite->yPos();
+				float sprite_width = sprite->width();
+				float sprite_height = sprite->height();
+
+				if (sprite_x < mouse_x &&
+					sprite_x + sprite_width > mouse_x &&
+					sprite_y < mouse_y &&
+					sprite_y + sprite_height > mouse_y)
+				{
+					std::cout << "unit selected\n";
+					selected = true;
+				}
+				else if (selected)
+				{
+					//todo: pos is world based not screen based
+					std::cout << "unit deselected" << mouse_x << ", " << mouse_y << "\n";
+					moveToPosition(mouse_x, mouse_y);
+					serializePacketType = PacketType::MOVE;
+					sendPacket();
+					selected = false;
+				}
+			}
+		}
+	}
+
+	commonUpdate(dt);
+}
+
+void Unit::render(ASGE::Renderer* renderer) const
+{
+	if (!initialized)
+	{
+		return;
+	}
+
+	renderer->renderSprite(*getCurrentSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 }
 
 void Unit::serialize(Packet& p)
@@ -54,6 +105,11 @@ void Unit::serialize(Packet& p)
 		{
 			std::cout << "sending ATTACK\n";
 			p << 1;
+		}
+		case MOVE:
+		{
+			std::cout << "sending MOVE\n";
+			p << target_x_position << target_y_position;
 		}
 	}
 
@@ -205,194 +261,6 @@ void Unit::moveToPosition(float x, float y)
 	target_y_position = y;
 }
 
-void Unit::update(float dt)
-{
-	if (!initialized)
-	{
-		return;
-	}
-
-	updateOverridePositions();
-
-	switch(char_state)
-	{
-	case IDLE:
-	{
-		break;
-	}
-
-	case WALKING:
-	{
-
-		forward_walk_sprite.update(dt);
-		backward_walk_sprite.update(dt);
-		horizontal_walk_sprite.update(dt);
-
-		bool xPosMatched = false;
-		bool yPosMatched = false;
-
-		if((target_x_position - x_position) >= 0.1f)
-		{
-			x_position += base_move_speed * dt;
-		}
-		else if((x_position - target_x_position) >= 0.1f)
-		{
-			x_position -= base_move_speed * dt;
-		}
-		else
-		{
-			xPosMatched = true;
-		}
-
-		if((target_y_position - y_position) >= 0.1f)
-		{
-			y_position += base_move_speed * dt;
-		}
-		else if((y_position - target_y_position) >= 0.1f)
-		{
-			y_position -= base_move_speed * dt;
-		}
-		else
-		{
-			yPosMatched = true;
-		}
-
-		if(yPosMatched && xPosMatched)
-		{
-			char_state = UnitState::IDLE;
-
-			horizontal_walk_sprite.restart();
-			horizontal_walk_sprite.pause();
-			backward_walk_sprite.restart();
-			backward_walk_sprite.pause();
-			forward_walk_sprite.restart();
-			forward_walk_sprite.pause();
-		}
-
-		break;
-	}
-	case SHOOTING:
-	{
-		break;
-	}
-	default:
-	{
-		break;
-	}
-	}
-}
-
-void Unit::render(ASGE::Renderer* renderer) const
-{
-	if (!initialized)
-	{
-		return;
-	}
-
-	switch(char_state)
-	{
-	case IDLE:
-	{
-		//render idle sprite in current facing
-		switch(char_facing)
-		{
-		case NORTH:
-		{
-			renderer->renderSprite(*idle_sprite_back, Z_ORDER_LAYER::UNITS + this->y_position);
-			break;
-		}
-		case EAST:
-		{
-			if(!idle_sprite_left->isFlippedOnX())
-			{
-				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
-			}
-			renderer->renderSprite(*idle_sprite_left, Z_ORDER_LAYER::UNITS + this->y_position);
-			break;
-		}
-		case SOUTH:
-		{
-			renderer->renderSprite(*idle_sprite_forward, Z_ORDER_LAYER::UNITS + this->y_position);
-			break;
-		}
-		case WEST:
-		{
-			renderer->renderSprite(*idle_sprite_left, Z_ORDER_LAYER::UNITS + this->y_position);
-			break;
-		}
-		}
-		break;
-	}
-
-	case WALKING:
-	{
-		switch(char_facing)
-		{
-		case NORTH:
-		{
-			renderer->renderSprite(*backward_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
-			break;
-		}
-		case EAST:
-		{
-			if(!horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
-			{
-				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
-			}
-			renderer->renderSprite(*horizontal_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
-			break;
-		}
-		case SOUTH:
-		{
-			renderer->renderSprite(*forward_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
-			break;
-		}
-		case WEST:
-		{
-			if(horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
-			{
-				horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
-			}
-			renderer->renderSprite(*horizontal_walk_sprite.getCurrentFrameSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
-			break;
-		}
-		}
-		break;
-	}
-	case SHOOTING:
-	{
-		switch(char_facing)
-		{
-		case NORTH:
-		{
-			
-			break;
-		}
-		case EAST:
-		{
-			break;
-		}
-		case SOUTH:
-		{
-			break;
-		}
-		case WEST:
-		{
-			break;
-		}
-		default:
-		{
-			break;
-		}
-		}
-	}
-	default:
-	{
-		break;
-	}
-	}
-}
-
 std::string Unit::getFullName()
 {
 	std::string name = first_name + " '" + nick_name + "' " + last_name;
@@ -451,6 +319,174 @@ void Unit::loadFromJSON(int unit_to_load)
 	catch(std::runtime_error& e)
 	{
 		std::cout << "ERROR INFO: " << e.what() << "\n";
+	}
+}
+
+void Unit::commonUpdate(float dt)
+{
+	updateOverridePositions();
+
+	switch (char_state)
+	{
+	case IDLE:
+	{
+		break;
+	}
+
+	case WALKING:
+	{
+		forward_walk_sprite.update(dt);
+		backward_walk_sprite.update(dt);
+		horizontal_walk_sprite.update(dt);
+
+		bool xPosMatched = false;
+		bool yPosMatched = false;
+
+		if ((target_x_position - x_position) >= 0.1f)
+		{
+			x_position += base_move_speed * dt;
+		}
+		else if ((x_position - target_x_position) >= 0.1f)
+		{
+			x_position -= base_move_speed * dt;
+		}
+		else
+		{
+			xPosMatched = true;
+		}
+
+		if ((target_y_position - y_position) >= 0.1f)
+		{
+			y_position += base_move_speed * dt;
+		}
+		else if ((y_position - target_y_position) >= 0.1f)
+		{
+			y_position -= base_move_speed * dt;
+		}
+		else
+		{
+			yPosMatched = true;
+		}
+
+		if (yPosMatched && xPosMatched)
+		{
+			char_state = UnitState::IDLE;
+
+			horizontal_walk_sprite.restart();
+			horizontal_walk_sprite.pause();
+			backward_walk_sprite.restart();
+			backward_walk_sprite.pause();
+			forward_walk_sprite.restart();
+			forward_walk_sprite.pause();
+		}
+
+		break;
+	}
+	case SHOOTING:
+	{
+		break;
+	}
+	default:
+	{
+		break;
+	}
+	}
+}
+
+ASGE::Sprite* Unit::getCurrentSprite() const
+{
+	switch (char_state)
+	{
+		case IDLE:
+		{
+			//render idle sprite in current facing
+			switch (char_facing)
+			{
+				case NORTH:
+				{
+					return idle_sprite_back.get();
+				}
+				case EAST:
+				{
+					if (!idle_sprite_left->isFlippedOnX())
+					{
+						idle_sprite_left->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
+					}
+
+					return idle_sprite_left.get();
+				}
+				case SOUTH:
+				{
+					return idle_sprite_forward.get();
+				}
+				case WEST:
+				{
+					return idle_sprite_left.get();
+				}
+			}
+		}
+		case WALKING:
+		{
+			switch (char_facing)
+			{
+				case NORTH:
+				{
+					return backward_walk_sprite.getCurrentFrameSprite();
+				}
+				case EAST:
+				{
+					if (!horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
+					{
+						horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
+					}
+
+					return horizontal_walk_sprite.getCurrentFrameSprite();
+				}
+				case SOUTH:
+				{
+					return forward_walk_sprite.getCurrentFrameSprite();
+				}
+				case WEST:
+				{
+					if (horizontal_walk_sprite.getCurrentFrameSprite()->isFlippedOnX())
+					{
+						horizontal_walk_sprite.getCurrentFrameSprite()->setFlipFlags(ASGE::Sprite::FlipFlags::NORMAL);
+					}
+
+					return horizontal_walk_sprite.getCurrentFrameSprite();
+				}
+			}
+		}
+		case SHOOTING:
+		{
+			switch (char_facing)
+				{
+				case NORTH:
+				{
+					return nullptr;
+				}
+				case EAST:
+				{
+					return nullptr;
+				}
+				case SOUTH:
+				{
+					return nullptr;
+				}
+				case WEST:
+				{
+					return nullptr;
+				}
+				default:
+				{
+					return nullptr;
+				}
+			}
+		}
+		default:
+		{
+			return nullptr;
+		}
 	}
 }
 
