@@ -9,6 +9,15 @@
 constexpr int mapWidth = 150;
 constexpr int mapHeight = 150;
 
+struct Building
+{
+	int buildingWidth = 0;
+	int buildingHeight = 0;
+	int arrayPosX = 0;
+	int arrayPosY = 0;
+	std::string buildingTextureSource;
+};
+
 class Grid
 {
 public:
@@ -24,6 +33,9 @@ public:
 	float getTileYPosAtArrayPos(int x, int y) const;
 
 	void applyOffset(float x, float y);
+	void addBuildingToMap(Building & building);
+
+	void loadJSONBuildings(int seed);
 
 private:
 	bool withinView(ASGE::Sprite* sprite) const;
@@ -35,5 +47,7 @@ private:
 	TerrainTile map[mapWidth][mapHeight];
 
 	float offset_x;
-	float offset_y;
+	float offset_y;				
+
+	std::vector<Building> buildings;
 };

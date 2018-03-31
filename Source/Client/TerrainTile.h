@@ -22,6 +22,7 @@ public:
 	ASGE::Sprite* getTerrainSprite() const;
 	float getMoveDifficultyModifier() const;
 	bool getIsBlocked() const;
+	void setIsBlocked(bool new_val);
 
 	void initialise(char type, ASGE::Renderer* rend);
 

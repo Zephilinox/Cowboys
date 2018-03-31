@@ -32,6 +32,11 @@ bool TerrainTile::getIsBlocked() const
 	return isBlocked;
 }
 
+void TerrainTile::setIsBlocked(bool new_val)
+{
+	isBlocked = new_val;
+}
+
 void TerrainTile::render(ASGE::Renderer* rend) const
 {
 	rend->renderSprite(*ground_sprite, Z_ORDER_LAYER::BACK_GROUND);
