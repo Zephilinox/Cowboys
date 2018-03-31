@@ -7,7 +7,7 @@ Grid::Grid(GameData* data)
 
 void Grid::generateCharGrid(int seed)
 {
-	game_data->getRandomNumberGenerator()->setSeed(seed);
+	rng_generator.setSeed(seed);
 	
 	//use seed to load JSON into buildings container
 	loadJSONBuildings(seed);
@@ -19,7 +19,7 @@ void Grid::generateCharGrid(int seed)
 		for (int y = 0; y < mapHeight; y++)
 		{
 			char new_char = 'g';
-			float val = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			float val = rng_generator.getRandomFloat(0, 1);
 
 			if (val < 0.02f)
 			{
@@ -35,7 +35,7 @@ void Grid::generateCharGrid(int seed)
 
 	for (auto rock_pos : rocks)
 	{
-		float rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+		float rand = rng_generator.getRandomFloat(0, 1);
 
 		if (rand < 0.1f)
 		{
@@ -46,21 +46,21 @@ void Grid::generateCharGrid(int seed)
 
 		if (x < mapWidth - 1 && y < mapHeight - 1)
 		{
-			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			rand = rng_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x + 1][y] = 'r';
 				rocks2.push_back(std::make_pair(x + 1, y));
 			}
 
-			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			rand = rng_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x][y + 1] = 'r';
 				rocks2.push_back(std::make_pair(x, y + 1));
 			}
 
-			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			rand = rng_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x + 1][y + 1] = 'r';
@@ -71,7 +71,7 @@ void Grid::generateCharGrid(int seed)
 	
 	for (auto rock_pos : rocks2)
 	{
-		float rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+		float rand = rng_generator.getRandomFloat(0, 1);
 
 		if (rand < 0.1f)
 		{
@@ -82,19 +82,19 @@ void Grid::generateCharGrid(int seed)
 
 		if (x < mapWidth - 1 && y < mapHeight - 1)
 		{
-			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			rand = rng_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x + 1][y] = 'r';
 			}
 
-			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			rand = rng_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x][y + 1] = 'r';
 			}
 
-			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			rand = rng_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x + 1][y + 1] = 'r';

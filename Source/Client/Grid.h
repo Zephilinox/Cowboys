@@ -52,4 +52,6 @@ private:
 	float offset_y;				
 
 	std::vector<Building> buildings;
+
+	Rng rng_generator;
 };

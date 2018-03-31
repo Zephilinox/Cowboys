@@ -36,8 +36,8 @@ void Unit::onSpawn()
 		serializePacketType = PacketType::SET_POSITION;
 		sendPacket();
 		
-		serializePacketType = PacketType::ATTACK;
-		sendPacket();
+		//serializePacketType = PacketType::ATTACK;
+		//sendPacket();
 	}
 }
 
@@ -262,20 +262,19 @@ void Unit::setPosition(float x, float y)
 {
 	x_position = x;
 	y_position = y;
+	std::cout << "UNIT POS SET TO " << x << ", " << y << "\n";
 }
 
 // TODO make sure this is called AFTER positions list has been populated
 void Unit::moveToPosition(float x, float y)
 {
-
 	char_state = UnitState::WALKING;
 	horizontal_walk_sprite.play();
 	backward_walk_sprite.play();
 	forward_walk_sprite.play();
+
 	target_x_position = x;
 	target_y_position = y;
-
-
 }
 
 std::string Unit::getFullName()
