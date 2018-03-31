@@ -287,7 +287,7 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 		{
 			std::cout << "path found!";
 			//function to put nodes list into gamesState so the player can traverse the list in order
-			return true;
+			break;
 		}
 
 		//get neighbours of current node
@@ -425,7 +425,7 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 				{
 					//	set f_cost of neighbour
 					//	set parent of neighbour to current
-					neighbour->setDistanceFromStart(currentPathingNode->dist_from_start + 10);
+					neighbour->setDistanceFromStart(getManhattanDistance(neighbour, startTile));
 					neighbour->setDistanceToGoal(getManhattanDistance(neighbour, endTile) );
 					neighbour->setParent(currentPathingNode);
 					//	if neighbour is not in Open list
@@ -446,11 +446,13 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 			std::cout << "no path found";
 			return false;
 		}
-	} while(pathFound = false);
+	} while(pathFound == false);
 
 	while(currentPathingNode->parent != nullptr)
 	{
 		currentPathingNode->getTerrainSprite()->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
 		currentPathingNode = currentPathingNode->parent;
+		
 	}
+	return true;
 }
