@@ -25,8 +25,8 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	, ent_man(game_data),
 	testGrid(game_data)
 {
-	//TODO create map
-	testGrid.generateCharGrid(10);
+	//TODO replace 1 with seed from map selection screen
+	testGrid.generateCharGrid(1);
 	testGrid.loadHardCodedMap();
 
 	//This is lobby-related, leave it for now until I have a closer look at it
