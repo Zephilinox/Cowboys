@@ -18,8 +18,9 @@ int Rng::getRandomInt(int lower_bound, int upper_bound)
 
 float Rng::getRandomFloat(float lower_bound, float upper_bound)
 {
-	std::uniform_real_distribution<float> random(lower_bound, upper_bound);
-	return random(mt);
+	std::uniform_real_distribution<> random(lower_bound, upper_bound);
+	float rand = random(mt);
+	return rand;
 }
 
 void Rng::setSeed(int seed)

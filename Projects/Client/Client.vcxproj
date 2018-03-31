@@ -170,7 +170,6 @@
     <ClInclude Include="..\..\Source\Client\Grid.h" />
     <ClInclude Include="..\..\Source\Client\ListOfNames.hpp" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.hpp" />
-    <ClInclude Include="..\..\Source\Client\Networking.hpp" />
     <ClInclude Include="..\..\Source\Client\SearchCell.h" />
     <ClInclude Include="..\..\Source\Client\States\StateGame.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp" />

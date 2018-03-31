@@ -123,9 +123,6 @@
     <ClInclude Include="..\..\Source\Client\MyNetGame.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Client\Networking.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Client\stdafx.h">
       <Filter>Headers\Platform</Filter>
     </ClInclude>
