@@ -29,8 +29,9 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	testGrid.generateCharGrid(1);
 	testGrid.loadHardCodedMap();
 
+	//TODO - remove, TESTING purposes
+	testGrid.findPathFromTo(&testGrid.map[1][1], &testGrid.map[30][30]);
 
-	testGrid.findPathFromTo(&testGrid.map[1][1], &testGrid.map[3][5]);
 	//This is lobby-related, leave it for now until I have a closer look at it
 	Packet p;
 	p.setID(hash("GameJoined"));

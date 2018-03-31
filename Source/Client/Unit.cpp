@@ -394,6 +394,8 @@ void Unit::commonUpdate(float dt)
 
 		if (yPosMatched && xPosMatched)
 		{
+			//RICARDO - here for movement popping through the vector, will require minor adjustment
+
 			//TODO - uncomment section when PATHFINDING complete
 			/*
 			movement_pos_list_counter++;
