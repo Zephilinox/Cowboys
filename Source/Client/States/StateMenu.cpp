@@ -11,7 +11,7 @@ StateMenu::StateMenu(GameData* game_data)
 	, menu(game_data)
 	, grid(game_data)
 {
-	grid.generateCharGrid(game_data->getRandomNumberGenerator()->getRandomInt(-2000000000, 2000000000));
+	grid.generateCharGrid(game_data->getRandomNumberGenerator()->getRandomInt(1, 2));
 	grid.loadHardCodedMap();
 	dir_x = game_data->getRandomNumberGenerator()->getRandomFloat(-1, 1);
 	dir_y = game_data->getRandomNumberGenerator()->getRandomFloat(-1, 1);
