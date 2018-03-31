@@ -74,13 +74,11 @@ void StateMenu::update(const ASGE::GameTime& gt)
 
 		if (offset_x < map_left)
 		{
-			std::cout << ":o1\n";
 			offset_x = map_left;
 			dir_x = -dir_x;
 		}
 		else if (offset_x > map_right)
 		{
-			std::cout << ":o2\n";
 			offset_x = map_right;
 			dir_x = -dir_x;
 		}
@@ -92,13 +90,11 @@ void StateMenu::update(const ASGE::GameTime& gt)
 
 		if (offset_y < map_top)
 		{
-			std::cout << ":o3\n";
 			offset_y = map_top;
 			dir_y = -dir_y;
 		}
 		else if (offset_y > map_bottom)
 		{
-			std::cout << ":o4\n";
 			offset_y = map_bottom;
 			dir_y = -dir_y;
 		}
@@ -132,8 +128,10 @@ void StateMenu::randomiseCameraMovement()
 {
 	auto val = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
 
-	dir_x = game_data->getRandomNumberGenerator()->getRandomFloat(-1, 1);
-	dir_y = game_data->getRandomNumberGenerator()->getRandomFloat(-1, 1);
+	auto angle = game_data->getRandomNumberGenerator()->getRandomFloat(-PI, PI);
+
+	dir_x = std::cos(angle);
+	dir_y = std::sin(angle);
 
 	if (val < 0.5f)
 	{
