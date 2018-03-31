@@ -26,15 +26,22 @@ public:
 
 	Entity* getEntity(uint32_t networkID);
 
+	void applyOffset(float x, float y);
+
 	//refactor stuff so that this can stay private
 	std::vector<std::unique_ptr<Entity>> entities;
 
 private:
+	bool withinView(ASGE::Sprite* sprite) const;
+
 	GameData* game_data;
 	uint32_t next_network_id = 1;
 
 	ManagedConnection mc1;
 	ManagedConnection mc2;
+
+	float offset_x = 0;
+	float offset_y = 0;
 };
 
 template <class T>

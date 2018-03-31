@@ -59,7 +59,7 @@ void Menu::update()
 	if (buttons.size() && game_data->getInputManager()->isMouseButtonPressed(0))
 	{
 		double mouse_x, mouse_y;
-		game_data->getInputManager()->getMousePosition(mouse_x, mouse_y);
+		game_data->getInputManager()->getMouseScreenPosition(mouse_x, mouse_y);
 
 		for (size_t i = 0; i < buttons.size(); ++i)
 		{

@@ -60,7 +60,10 @@ public:
 	bool isMouseButtonReleased(int button);
 	bool isMouseButtonDown(int button);
 
-	void getMousePosition(double& xpos, double& ypos);
+	void getMouseScreenPosition(double& xpos, double& ypos);
+	void getMouseWorldPosition(double& xpos, double& ypos);
+
+	void applyOffset(float x, float y);
 
 	GamePadData getGamePad();
 
@@ -94,4 +97,7 @@ private:
 	std::array<int, 64> mouse_buttons_last_frame;
 	std::array<int, 64> mouse_buttons;
 	std::array<int, 64> mouse_buttons_this_frame;
+
+	float offset_x = 0;
+	float offset_y = 0;
 };

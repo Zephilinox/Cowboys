@@ -6,6 +6,7 @@
 //SELF
 #include "../GameData.hpp"
 #include "../Networking/Server.hpp"
+#include "../../Client/Unit.hpp"
 
 EntityManager::EntityManager(GameData* game_data)
 	: game_data(game_data)
@@ -89,7 +90,27 @@ void EntityManager::render() const
 {
 	for (const auto& ent : entities)
 	{
-		ent->render(game_data->getRenderer());
+		if (ent->entity_info.type == hash("Unit"))
+		{
+			Unit* unit = static_cast<Unit*>(ent.get());
+			ASGE::Sprite* unit_sprite = unit->getCurrentSprite();
+			if (!withinView(unit_sprite))
+			{
+				continue;
+			}
+
+			unit_sprite->xPos(unit->getXPosition() - offset_x);
+			unit_sprite->yPos(unit->getYPosition() - offset_y);
+
+			ent->render(game_data->getRenderer());
+
+			unit_sprite->xPos(unit->getXPosition() + offset_x);
+			unit_sprite->yPos(unit->getYPosition() + offset_y);
+		}
+		else
+		{
+			ent->render(game_data->getRenderer());
+		}
 	}
 }
 
@@ -106,4 +127,26 @@ Entity* EntityManager::getEntity(uint32_t networkID)
 	}
 
 	return nullptr;
+}
+
+void EntityManager::applyOffset(float x, float y)
+{
+	offset_x = x;
+	offset_y = y;
+}
+
+bool EntityManager::withinView(ASGE::Sprite* sprite) const
+{
+	float x = sprite->xPos() - offset_x;
+	float y = sprite->yPos() - offset_y;
+
+	if (x + sprite->width()> 0 &&
+		x < game_data->getWindowWidth() &&
+		y + sprite->height() > 0 &&
+		y < game_data->getWindowHeight())
+	{
+		return true;
+	}
+
+	return false;
 }

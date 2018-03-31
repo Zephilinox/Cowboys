@@ -1,7 +1,5 @@
 #include "Grid.h"
 
-
-
 Grid::Grid(GameData* data) : game_data(data)
 {
 }
@@ -44,39 +42,40 @@ void Grid::generateCharGrid(int seed)
 	}
 }
 
-float Grid::getTileXPosAtArrayPos(int x, int y)
+float Grid::getTileXPosAtArrayPos(int x, int y) const
 {
 	return map[x][y].getTerrainSprite()->xPos();
 }
 
-float Grid::getTileYPosAtArrayPos(int x, int y)
+float Grid::getTileYPosAtArrayPos(int x, int y) const
 {
 	return map[x][y].getTerrainSprite()->yPos();
 }
 
-void Grid::applyOffset(float new_x, float new_y)
+void Grid::applyOffset(float x, float y)
 {
-	for(int x = 0; x < mapWidth; x++)
-	{
-		for(int y = 0; y < mapHeight; y++)
-		{
-			map[x][y].getTerrainSprite()->xPos(map[x][y].getTerrainSprite()->xPos() + new_x);
-			map[x][y].getTerrainSprite()->yPos(map[x][y].getTerrainSprite()->yPos() + new_y);
-		}
-	}
+	offset_x = x;
+	offset_y = y;
 }
 
 void Grid::render() const
 {
-	for(int x = 0; x < mapWidth; x++)
+	for (int x = 0; x < mapWidth; x++)
 	{
-		for(int y = 0; y < mapHeight; y++)
+		for (int y = 0; y < mapHeight; y++)
 		{
-			map[x][y].render(game_data->getRenderer());
+			auto* sprite = map[x][y].getTerrainSprite();
+			if (withinView(sprite))
+			{
+				sprite->xPos(sprite->xPos() - offset_x);
+				sprite->yPos(sprite->yPos() - offset_y);
+				map[x][y].render(game_data->getRenderer());
+				sprite->xPos(sprite->xPos() + offset_x);
+				sprite->yPos(sprite->yPos() + offset_y);
+			}
 		}
 	}
 }
-
 
 void Grid::loadHardCodedMap()
 {
@@ -89,4 +88,20 @@ void Grid::loadHardCodedMap()
 			map[x][y].getTerrainSprite()->yPos(y * map[x][y].getTerrainSprite()->height());
 		}
 	}
+}
+
+bool Grid::withinView(ASGE::Sprite* sprite) const
+{
+	float x = sprite->xPos() - offset_x;
+	float y = sprite->yPos() - offset_y;
+
+	if (x + sprite->width() > 0 &&
+		x  < game_data->getWindowWidth() &&
+		y + sprite->height() > 0 &&
+		y < game_data->getWindowHeight())
+	{
+		return true;
+	}
+
+	return false;
 }

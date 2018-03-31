@@ -34,10 +34,9 @@ public:
 	void onActive() override final;
 	void onInactive() override final;
 
-	void screenScroll(double mouseX, double mouseY);
+	void screenScroll(float dt, double mouseX, double mouseY);
 
 	void endTurn();
-
 	void endRound();
 
 private:
@@ -53,4 +52,7 @@ private:
 	Grid testGrid;
 
 	EntityManager ent_man;
+
+	float offset_x = 0.0f;
+	float offset_y = 0.0f;
 };

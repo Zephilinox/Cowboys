@@ -157,13 +157,14 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 	double mouseX;
 	double mouseY;
-	game_data->getInputManager()->getMousePosition(mouseX, mouseY);
+	game_data->getInputManager()->getMouseScreenPosition(mouseX, mouseY);
 
-	screenScroll(mouseX, mouseY);
+	const float dt = (float)gt.delta_time.count() / 1000.0f;
+
+	screenScroll(dt, mouseX, mouseY);
 
 	if (client && client->isConnecting())
 	{
-		const float dt = (float)gt.delta_time.count() / 1000.0f;
 		ent_man.update(dt);
 	}
 
@@ -173,33 +174,76 @@ void StateGame::update(const ASGE::GameTime& gt)
 	}
 }
 
-void StateGame::screenScroll(double mouseX, double mouseY)
+void StateGame::screenScroll(float dt, double mouseX, double mouseY)
 {
-	double screenEdgeThreshold = 30.0;
-	int maxRightTile = (mapWidth - 32);
-	int maxDownTile = (mapHeight - 18);
+	double screen_edge_threshold = 30.0;
+	int max_right_tile = (mapWidth - 32);
+	int max_downtile = (mapHeight - 18);
 
-	if(mouseX <= screenEdgeThreshold && testGrid.getTileXPosAtArrayPos(0,0) < 0.0f)
+	auto map_left = testGrid.getTileXPosAtArrayPos(0, 0);
+	auto map_right = testGrid.getTileXPosAtArrayPos(max_right_tile, 0);
+	auto map_top = testGrid.getTileYPosAtArrayPos(0, 0);
+	auto map_bottom = testGrid.getTileYPosAtArrayPos(0, max_downtile);
+	
+	//left
+	if (mouseX <= screen_edge_threshold || game_data->getInputManager()->isActionDown(hash("Left")))
 	{
-		//scroll left
-		testGrid.applyOffset(5.0f, 0.0f);
+		if (offset_x > map_left)
+		{
+			offset_x -= 500.0f * dt;
+
+			if (offset_x < map_left)
+			{
+				offset_x = map_left;
+			}
+		}
 	}
 
-	if(mouseX >= (double)(game_data->getWindowWidth() - screenEdgeThreshold) && testGrid.getTileXPosAtArrayPos(maxRightTile, 0) > 0.0f)
+	//right
+	if (mouseX >= (double)(game_data->getWindowWidth() - screen_edge_threshold) || game_data->getInputManager()->isActionDown(hash("Right")))
 	{
-		//scroll right
-		testGrid.applyOffset(-5.0f, 0.0f);
+		if (offset_x < map_right)
+		{
+			offset_x += 500.0f * dt;
+
+			if (offset_x > map_right)
+			{
+				offset_x = map_right;
+			}
+		}
 	}
-	if(mouseY <= screenEdgeThreshold && testGrid.getTileYPosAtArrayPos(0, 0) < 0.0f)
+
+	//up
+	if (mouseY <= screen_edge_threshold || game_data->getInputManager()->isActionDown(hash("Up")))
 	{
-		//scroll up
-		testGrid.applyOffset(0.0f, 5.0f);
+		if (offset_y > map_top)
+		{
+			offset_y -= 500.0f * dt;
+
+			if (offset_y < map_top)
+			{
+				offset_y = map_top;
+			}
+		}
 	}
-	if(mouseY >= (double)(game_data->getWindowHeight() - screenEdgeThreshold) && testGrid.getTileYPosAtArrayPos(0, maxDownTile) > 0.0f)
+
+	//down
+	if (mouseY >= (double)(game_data->getWindowHeight() - screen_edge_threshold) || game_data->getInputManager()->isActionDown(hash("Down")))
 	{
-		//scroll down
-		testGrid.applyOffset(0.0f, -5.0f);
+		if (offset_y < map_bottom)
+		{
+			offset_y += 500.0f * dt;
+
+			if (offset_y > map_bottom)
+			{
+				offset_y = map_bottom;
+			}
+		}
 	}
+
+	testGrid.applyOffset(offset_x, offset_y);
+	ent_man.applyOffset(offset_x, offset_y);
+	game_data->getInputManager()->applyOffset(offset_x, offset_y);
 }
 
 void StateGame::render() const

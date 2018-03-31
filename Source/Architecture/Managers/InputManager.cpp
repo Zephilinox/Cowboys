@@ -247,9 +247,22 @@ bool InputManager::isMouseButtonDown(int button)
 	return mouse_buttons[button] == ASGE::KEYS::KEY_PRESSED;
 }
 
-void InputManager::getMousePosition(double& xpos, double& ypos)
+void InputManager::getMouseScreenPosition(double& xpos, double& ypos)
 {
 	input->getCursorPos(xpos, ypos);
+}
+
+void InputManager::getMouseWorldPosition(double & xpos, double & ypos)
+{
+	input->getCursorPos(xpos, ypos);
+	xpos += offset_x;
+	ypos += offset_y;
+}
+
+void InputManager::applyOffset(float x, float y)
+{
+	offset_x = x;
+	offset_y = y;
 }
 
 GamePadData InputManager::getGamePad()

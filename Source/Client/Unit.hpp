@@ -79,6 +79,7 @@ public:
 	float getFiringAccuracy() const { return firing_accuracy; }
 	float getStrength() const { return strength; }
 	float getInitiative() const { return initiative; }
+	ASGE::Sprite* getCurrentSprite() const;
 
 	std::string getFullName();
 
@@ -102,7 +103,6 @@ public:
 
 protected:
 	void commonUpdate(float dt);
-	ASGE::Sprite* getCurrentSprite() const;
 
 	//DISPLAY / UI
 	std::string first_name;

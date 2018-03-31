@@ -1,7 +1,7 @@
 {	
 	"Audio": {
 		"Engine": 1,
-		"Music Muted": false
+		"Music Muted": true
 	},
 	
 	"GamePad": {

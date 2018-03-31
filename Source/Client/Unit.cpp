@@ -48,14 +48,16 @@ void Unit::update(float dt)
 		return;
 	}
 
+	commonUpdate(dt);
+
 	if (isOwner())
 	{
 		double mouse_x, mouse_y;
-		game_data->getInputManager()->getMousePosition(mouse_x, mouse_y);
+		game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
 
 		if (game_data->getInputManager()->isMouseButtonPressed(0))
 		{
-			if (auto sprite = getCurrentSprite())
+			if (auto* sprite = getCurrentSprite())
 			{
 				float sprite_x = sprite->xPos();
 				float sprite_y = sprite->yPos();
@@ -72,7 +74,6 @@ void Unit::update(float dt)
 				}
 				else if (selected)
 				{
-					//todo: pos is world based not screen based
 					std::cout << "unit deselected" << mouse_x << ", " << mouse_y << "\n";
 					moveToPosition(mouse_x, mouse_y);
 					serializePacketType = PacketType::MOVE;
@@ -82,12 +83,6 @@ void Unit::update(float dt)
 			}
 		}
 	}
-
-	commonUpdate(dt);
-
-	//todo: align this to the match the tile position when the unit is idle
-	selected_sprite->xPos(getCurrentSprite()->xPos());
-	selected_sprite->yPos(getCurrentSprite()->yPos());
 }
 
 void Unit::render(ASGE::Renderer* renderer) const
@@ -96,10 +91,14 @@ void Unit::render(ASGE::Renderer* renderer) const
 	{
 		return;
 	}
+
 	renderer->renderSprite(*getCurrentSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 
 	if (selected)
 	{
+		//todo: align this to the match the tile position when the unit is idle
+		selected_sprite->xPos(getCurrentSprite()->xPos());
+		selected_sprite->yPos(getCurrentSprite()->yPos());
 		renderer->renderSprite(*selected_sprite, Z_ORDER_LAYER::UNITS + 1000.0f + this->y_position);
 	}
 }

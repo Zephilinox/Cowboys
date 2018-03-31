@@ -19,9 +19,9 @@ public:
 
 	void render(ASGE::Renderer* rend) const;
 
-	ASGE::Sprite* getTerrainSprite();
-	float getMoveDifficultyModifier();
-	bool getIsBlocked();
+	ASGE::Sprite* getTerrainSprite() const;
+	float getMoveDifficultyModifier() const;
+	bool getIsBlocked() const;
 
 	void initialise(char type, ASGE::Renderer* rend);
 

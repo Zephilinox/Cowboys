@@ -17,17 +17,17 @@ else
 		trigger move to list
 */
 
-ASGE::Sprite * TerrainTile::getTerrainSprite()
+ASGE::Sprite* TerrainTile::getTerrainSprite() const
 {
 	return ground_sprite.get();
 }
 
-float TerrainTile::getMoveDifficultyModifier()
+float TerrainTile::getMoveDifficultyModifier() const
 {
 	return move_difficulty_modifier;
 }
 
-bool TerrainTile::getIsBlocked()
+bool TerrainTile::getIsBlocked() const
 {
 	return isBlocked;
 }
