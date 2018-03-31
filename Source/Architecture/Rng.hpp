@@ -4,15 +4,14 @@
 class Rng
 {
 public:
-	Rng() = default;
-	~Rng() = default;
+	Rng();
 
-
-	int getRandomInt(int lower_bound, int upper_bound, bool seeded);
+	int getRandomInt(int lower_bound, int upper_bound);
 	float getRandomFloat(float lower_bound, float upper_bound);
-	void setSeed(int new_seed);
+	void setSeed(int seed);
 
 private:
 	std::random_device rd;
-	int seed;
+	std::mt19937 mt;
+	int last_seed;
 };

@@ -31,8 +31,8 @@ void Unit::onSpawn()
 	if (isOwner())
 	{
 		std::cout << "owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
-		setPosition((float)game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowWidth(), false),
-			(float)game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowHeight(), false));
+		setPosition((float)game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowWidth()),
+			(float)game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowHeight()));
 		serializePacketType = PacketType::SET_POSITION;
 		sendPacket();
 		
