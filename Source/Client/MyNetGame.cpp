@@ -114,7 +114,7 @@ void MyNetGame::update(const ASGE::GameTime& gt)
 	{
 		if (renderer->getWindowMode() == ASGE::Renderer::WindowMode::WINDOWED)
 		{
-			renderer->setWindowedMode(ASGE::Renderer::WindowMode::FULLSCREEN);
+			renderer->setWindowedMode(ASGE::Renderer::WindowMode::BORDERLESS);
 		}
 		else
 		{

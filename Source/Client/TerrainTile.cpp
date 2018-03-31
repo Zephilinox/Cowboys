@@ -40,7 +40,7 @@ void TerrainTile::render(ASGE::Renderer* rend) const
 
 void TerrainTile::initialise(char type, ASGE::Renderer* rend)
 {
-	ground_sprite = rend->createUniqueSprite();
+	ground_sprite = std::move(rend->createUniqueSprite());
 
 	switch(type)
 	{

@@ -75,7 +75,7 @@ void Unit::update(float dt)
 				else if (selected)
 				{
 					std::cout << "unit deselected" << mouse_x << ", " << mouse_y << "\n";
-					moveToPosition(mouse_x, mouse_y);
+					moveToPosition((float)mouse_x, (float)mouse_y);
 					serializePacketType = PacketType::MOVE;
 					sendPacket();
 					selected = false;

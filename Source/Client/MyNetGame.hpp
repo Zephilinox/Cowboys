@@ -18,8 +18,7 @@ namespace ASGE {
 *  fuss. The game logic responsible for updating and
 *  rendering the game starts here.
 */
-class MyNetGame 
-	: public ASGE::OGLGame
+class MyNetGame : public ASGE::OGLGame
 {
 public:
 	
@@ -81,6 +80,6 @@ private:
 	std::unique_ptr<GameData> game_data;
 
 	int key_handler_id = -1;
-	bool capFPS = true;
+	bool capFPS = false;
 };
 

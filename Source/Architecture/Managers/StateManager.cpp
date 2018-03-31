@@ -19,7 +19,20 @@ void StateManager::update(const ASGE::GameTime& gt)
 		return;
 	}
 
-	states.back()->update(gt);
+	size_t firstUpdateState = 0;
+	for (int i = states.size() - 1; i >= 0; --i)
+	{
+		if (!states[i]->shouldUpdatePreviousState())
+		{
+			firstUpdateState = i;
+			break;
+		}
+	}
+
+	for (size_t i = firstUpdateState; i < states.size(); ++i)
+	{
+		states[i]->update(gt);
+	}
 }
 
 void StateManager::render() const

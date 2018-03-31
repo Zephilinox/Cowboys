@@ -47,14 +47,21 @@ public:
 	{
 		return render_previous_state;
 	}
+	
+	bool shouldUpdatePreviousState() noexcept
+	{
+		return update_previous_state;
+	}
 
 protected:
-	State(GameData* game_data, bool render_previous_state = false)
+	State(GameData* game_data, bool render_previous_state = false, bool update_previous_state = false)
 		: game_data(game_data)
 		, render_previous_state(render_previous_state)
+		, update_previous_state(update_previous_state)
 	{}
 
 	GameData* game_data;
 
 	bool render_previous_state = false;
+	bool update_previous_state = false;
 };
