@@ -8,36 +8,55 @@ void Grid::generateCharGrid(int seed)
 {
 	game_data->getRandomNumberGenerator()->setSeed(seed);
 	
-	for(int x = 0; x < mapWidth; x++)
+	std::vector<std::pair<int, int>> rocks;
+
+	for (int x = 0; x < mapWidth; x++)
 	{
-		for(int y = 0; y < mapHeight; y++)
+		for (int y = 0; y < mapHeight; y++)
 		{
-			char new_char;
-			int val = game_data->getRandomNumberGenerator()->getRandomInt(0, 9, true);
+			char new_char = 'g';
+			float val = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
 
-			switch(val)
+			if (val < 0.05f)
 			{
-				case 0:
-				case 1:
-				case 2:
-				case 3:
-				case 4:
-				case 5:
-				case 6:
-				case 7:
-				case 8:
-				{
-					new_char = 'g';
-					break;
-				}
-				case 9:
-				{
-					new_char = 'r';
-					break;
-				}
-
+				new_char = 'r';
+				rocks.push_back(std::make_pair(x, y));
 			}
+
 			grid[x][y] = new_char;
+		}
+	}
+
+	for (auto rock_pos : rocks)
+	{
+		float rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+
+		if (rand < 0.3f)
+		{
+			continue;
+		}
+
+		auto[x, y] = rock_pos;
+
+		if (x < mapWidth - 1 && y < mapHeight - 1)
+		{
+			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			if (rand < 0.8f)
+			{
+				grid[x + 1][y] = 'r';
+			}
+
+			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			if (rand < 0.8f)
+			{
+				grid[x][y + 1] = 'r';
+			}
+
+			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			if (rand < 0.8f)
+			{
+				grid[x + 1][y + 1] = 'r';
+			}
 		}
 	}
 }
