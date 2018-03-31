@@ -25,6 +25,7 @@ InputManager::InputManager(ASGE::Input* input) noexcept
 
 	callback_id = input->addCallbackFnc(ASGE::EventType::E_GAMEPAD_STATUS, &InputManager::gamepadHandler, this);
 	callback_id2 = input->addCallbackFnc(ASGE::EventType::E_MOUSE_CLICK, &InputManager::mouseHandler, this);
+	callback_id3 = input->addCallbackFnc(ASGE::EventType::E_KEY, &InputManager::keyHandler, this);
 
 	try
 	{
@@ -83,15 +84,6 @@ void InputManager::update()
 		{
 			gamepad_buttons_last_frame[i] = gamepad_buttons[i];
 			gamepad_buttons[i] = game_pad.buttons[i - ASGE::KEYS::KEY_LAST];
-		}
-	}
-
-	//todo remove, only for testing
-	for (int i = ASGE::KEYS::KEY_LAST; i < game_pad.no_of_buttons + ASGE::KEYS::KEY_LAST; ++i)
-	{
-		if (isGamePadButtonPressed(i))
-		{
-			std::cout << "GamePad Button Pressed: ID " << i - ASGE::KEYS::KEY_LAST << "\n";
 		}
 	}
 
@@ -267,18 +259,7 @@ void InputManager::applyOffset(float x, float y)
 
 GamePadData InputManager::getGamePad()
 {
-	//?
-	for (int i = 0; i < 4; ++i)
-	{
-		auto gamepad = input->getGamePad(i);
-		if (gamepad.is_connected)
-		{
-			return gamepad;
-		}
-	}
-
-	GamePadData gamepad(input->getGamePad(0));
-	return gamepad;
+	return input->getGamePad(0);
 }
 
 void InputManager::gamepadHandler(const ASGE::SharedEventData data)
@@ -294,4 +275,10 @@ void InputManager::mouseHandler(const ASGE::SharedEventData data)
 	const auto mouse_event = static_cast<const ASGE::ClickEvent*>(data.get());
 	std::lock_guard<std::mutex> guard(mouse_mutex);
 	mouse_buttons[mouse_event->button] = mouse_event->action;
+}
+
+void InputManager::keyHandler(const ASGE::SharedEventData data)
+{
+	const ASGE::KeyEvent* key_event = static_cast<const ASGE::KeyEvent*>(data.get());
+	handleInput(key_event->key, key_event->action);
 }

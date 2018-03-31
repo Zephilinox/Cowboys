@@ -26,14 +26,6 @@ public:
 	*  Default constructor for game.
 	*/
 	MyNetGame() = default;
-	
-	/**
-	*  Destructor for game.
-	*  Make sure to clean up any dynamically allocated
-	*  memory inside the game's destructor. For example
-	*  game fonts need to be deallocated.
-	*/ 
-	~MyNetGame();
 
 	/**
 	*  The initialisation of the game.
@@ -65,21 +57,9 @@ private:
 	*/
 	virtual void render(const ASGE::GameTime& gt) override;
 
-	/**
-	*  The key handling function for the game.
-	*  Key inputs will be delivered and handled within this function.
-	*  Make a decision whether to process the input immediately
-	*  or whether to generate a queue of actions that are then
-	*  processed at the beginning of the game update loop.
-	*  @param data They key event and its related data.
-	*  @see SharedEventData
-	*/
-	void keyHandler(const ASGE::SharedEventData data);
-
 private:
 	std::unique_ptr<GameData> game_data;
 
-	int key_handler_id = -1;
 	bool capFPS = false;
 };
 

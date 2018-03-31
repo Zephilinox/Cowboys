@@ -29,6 +29,8 @@ public:
 	int getWindowWidth() noexcept;
 	int getWindowHeight() noexcept;
 
+	void toggleFullscreen() noexcept;
+
 	bool exit = false;
 
 private:

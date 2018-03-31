@@ -83,3 +83,15 @@ int GameData::getWindowHeight() noexcept
 {
 	return window_height;
 }
+
+void GameData::toggleFullscreen() noexcept
+{
+	if (renderer->getWindowMode() == ASGE::Renderer::WindowMode::WINDOWED)
+	{
+		renderer->setWindowedMode(ASGE::Renderer::WindowMode::FULLSCREEN);
+	}
+	else
+	{
+		renderer->setWindowedMode(ASGE::Renderer::WindowMode::WINDOWED);
+	}
+}

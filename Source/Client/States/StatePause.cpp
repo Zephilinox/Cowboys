@@ -27,9 +27,9 @@ StatePause::StatePause(GameData* game_data)
 	menu.addButton(game_data->getWindowWidth() / 2.0f - 90.0f, game_data->getWindowHeight() / 2.0f + 60.0f, "TOGGLE FULLSCREEN", c, ASGE::COLOURS::ANTIQUEWHITE, 200.0f, 20.0f);
 	menu.addButton(game_data->getWindowWidth() / 2.0f - 20.0f, game_data->getWindowHeight() / 2.0f + 100.0f, "EXIT", c, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
 
-	menu.getButton(0).on_click.connect([gd = game_data]()
+	menu.getButton(0).on_click.connect([game_data]()
 	{
-		gd->getStateManager()->pop();
+		game_data->getStateManager()->pop();
 	});
 
 	menu.getButton(1).on_click.connect([this, game_data]()
@@ -39,19 +39,13 @@ StatePause::StatePause(GameData* game_data)
 
 	menu.getButton(2).on_click.connect([game_data]()
 	{
-		if(game_data->getRenderer()->getWindowMode() == ASGE::Renderer::WindowMode::WINDOWED)
-		{
-			game_data->getRenderer()->setWindowedMode(ASGE::Renderer::WindowMode::FULLSCREEN);
-		}
-		else
-		{
-			game_data->getRenderer()->setWindowedMode(ASGE::Renderer::WindowMode::WINDOWED);
-		}
+		game_data->toggleFullscreen();
 	});
 
 	menu.getButton(3).on_click.connect([game_data]()
 	{
-		game_data->exit = true;
+		game_data->getStateManager()->pop();
+		game_data->getStateManager()->pop();
 	});
 }
 

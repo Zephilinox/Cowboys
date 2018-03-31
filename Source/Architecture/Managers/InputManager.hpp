@@ -75,11 +75,13 @@ public:
 private:
 	void gamepadHandler(const ASGE::SharedEventData data);
 	void mouseHandler(const ASGE::SharedEventData data);
+	void keyHandler(const ASGE::SharedEventData data);
 
 	int gamepad_id;
 	bool gamepad_connected = false;
 	int callback_id;
 	int callback_id2;
+	int callback_id3;
 
 	ASGE::Input* input;
 	std::mutex keys_mutex;
@@ -94,9 +96,9 @@ private:
 	std::array<int, ASGE::KEYS::KEY_LAST + ASGE::KEYS::KEY_LAST> gamepad_buttons_last_frame;
 	std::array<int, ASGE::KEYS::KEY_LAST + ASGE::KEYS::KEY_LAST> gamepad_buttons;
 
-	std::array<int, 64> mouse_buttons_last_frame;
-	std::array<int, 64> mouse_buttons;
-	std::array<int, 64> mouse_buttons_this_frame;
+	std::array<int, 512> mouse_buttons_last_frame;
+	std::array<int, 512> mouse_buttons;
+	std::array<int, 512> mouse_buttons_this_frame;
 
 	float offset_x = 0;
 	float offset_y = 0;
