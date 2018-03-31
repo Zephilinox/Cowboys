@@ -1,6 +1,7 @@
 #include "Grid.h"
 
-Grid::Grid(GameData* data) : game_data(data)
+Grid::Grid(GameData* data)
+	: game_data(data)
 {
 }
 
@@ -20,7 +21,7 @@ void Grid::generateCharGrid(int seed)
 			char new_char = 'g';
 			float val = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
 
-			if (val < 0.05f)
+			if (val < 0.02f)
 			{
 				new_char = 'r';
 				rocks.push_back(std::make_pair(x, y));
@@ -30,11 +31,13 @@ void Grid::generateCharGrid(int seed)
 		}
 	}
 
+	std::vector<std::pair<int, int>> rocks2;
+
 	for (auto rock_pos : rocks)
 	{
 		float rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
 
-		if (rand < 0.3f)
+		if (rand < 0.1f)
 		{
 			continue;
 		}
@@ -44,19 +47,55 @@ void Grid::generateCharGrid(int seed)
 		if (x < mapWidth - 1 && y < mapHeight - 1)
 		{
 			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
-			if (rand < 0.8f)
+			if (rand < 0.6f)
+			{
+				grid[x + 1][y] = 'r';
+				rocks2.push_back(std::make_pair(x + 1, y));
+			}
+
+			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			if (rand < 0.6f)
+			{
+				grid[x][y + 1] = 'r';
+				rocks2.push_back(std::make_pair(x, y + 1));
+			}
+
+			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			if (rand < 0.6f)
+			{
+				grid[x + 1][y + 1] = 'r';
+				rocks2.push_back(std::make_pair(x + 1, y + 1));
+			}
+		}
+	}
+	
+	for (auto rock_pos : rocks2)
+	{
+		float rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+
+		if (rand < 0.1f)
+		{
+			continue;
+		}
+
+		auto[x, y] = rock_pos;
+
+		if (x < mapWidth - 1 && y < mapHeight - 1)
+		{
+			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
+			if (rand < 0.6f)
 			{
 				grid[x + 1][y] = 'r';
 			}
 
 			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
-			if (rand < 0.8f)
+			if (rand < 0.6f)
 			{
 				grid[x][y + 1] = 'r';
 			}
 
 			rand = game_data->getRandomNumberGenerator()->getRandomFloat(0, 1);
-			if (rand < 0.8f)
+			if (rand < 0.6f)
 			{
 				grid[x + 1][y + 1] = 'r';
 			}

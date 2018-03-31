@@ -33,17 +33,19 @@ public:
 	float getTileYPosAtArrayPos(int x, int y) const;
 
 	void applyOffset(float x, float y);
-	void addBuildingToMap(Building & building);
+	void addBuildingToMap(Building& building);
 
 	void loadJSONBuildings(int seed);
 
 private:
 	bool withinView(ASGE::Sprite* sprite) const;
 
+	//todo: use std::array so we can pass in runtime values
 	char grid[mapWidth][mapHeight];
 
 	GameData* game_data = nullptr;
 
+	//todo: use std::array so we can pass in runtime values
 	TerrainTile map[mapWidth][mapHeight];
 
 	float offset_x;
