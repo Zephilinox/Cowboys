@@ -13,6 +13,7 @@ StateMenu::StateMenu(GameData* game_data)
 {
 	grid.generateCharGrid(game_data->getRandomNumberGenerator()->getRandomInt(1, 2));
 	grid.loadHardCodedMap();
+
 	dir_x = game_data->getRandomNumberGenerator()->getRandomFloat(-1, 1);
 	dir_y = game_data->getRandomNumberGenerator()->getRandomFloat(-1, 1);
 	speed = game_data->getRandomNumberGenerator()->getRandomFloat(100, 300);
@@ -47,7 +48,11 @@ StateMenu::StateMenu(GameData* game_data)
 
 void StateMenu::update(const ASGE::GameTime& gt)
 {
-	menu.update();
+	if (active)
+	{
+		menu.update();
+	}
+
 	if (randomiseTimer.getElapsedTime() > delay)
 	{
 		delay = game_data->getRandomNumberGenerator()->getRandomFloat(2.0f, 4.0f);
@@ -105,16 +110,22 @@ void StateMenu::update(const ASGE::GameTime& gt)
 void StateMenu::render() const
 {
 	grid.render();
-	menu.render();
+
+	if (active)
+	{
+		menu.render();
+	}
 }
 
 void StateMenu::onActive()
 {
+	active = true;
 	game_data->getMusicPlayer()->play("FF7");
 }
 
 void StateMenu::onInactive()
 {
+	active = false;
 }
 
 void StateMenu::randomiseCameraMovement()

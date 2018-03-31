@@ -9,7 +9,7 @@
 #include "StateGame.hpp"
 
 StateLobby::StateLobby(GameData* game_data)
-	: State(game_data)
+	: State(game_data, true, true)
 	, menu(game_data)
 	, lobby(game_data, false)
 	, panel1(game_data, 0.0f)

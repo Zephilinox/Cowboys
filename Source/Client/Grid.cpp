@@ -103,7 +103,6 @@ void Grid::addBuildingToMap(Building& building)
 
 void Grid::loadJSONBuildings(int seed)
 {
-
 	std::ifstream file("../../Resources/mapBuildings.json");
 	jsoncons::json layout_JSON_obj;
 	file >> layout_JSON_obj;
@@ -135,7 +134,6 @@ void Grid::loadJSONBuildings(int seed)
 
 		counter++;
 	}
-
 }
 
 

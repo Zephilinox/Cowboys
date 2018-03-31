@@ -37,4 +37,5 @@ private:
 
 	Timer randomiseTimer;
 	float delay;
+	bool active = true;
 };
