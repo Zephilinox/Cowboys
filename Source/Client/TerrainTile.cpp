@@ -24,7 +24,7 @@ ASGE::Sprite* TerrainTile::getTerrainSprite() const
 
 float TerrainTile::getMoveDifficultyModifier() const
 {
-	return move_difficulty_modifier;
+	return time_units_cost;
 }
 
 bool TerrainTile::getIsBlocked() const
@@ -43,30 +43,33 @@ void TerrainTile::render(ASGE::Renderer* rend) const
 	//rend->renderSprite(*overlay_sprite);
 }
 
-void TerrainTile::initialise(char type, ASGE::Renderer* rend)
+void TerrainTile::initialise(char type, ASGE::Renderer* rend, float xCo, float yCo)
 {
 	ground_sprite = std::move(rend->createUniqueSprite());
+
+	xCoord = xCo;
+	yCoord = yCo;
 
 	switch(type)
 	{
 		case 'w':
 		{
 			ground_sprite->loadTexture("../../Resources/Textures/Tiles/waterTile.png");
-			move_difficulty_modifier = 300.0f;
+			time_units_cost = 300.0f;
 			isBlocked = true;
 			break;
 		}
 		case 'g':
 		{
 			ground_sprite->loadTexture("../../Resources/Textures/Tiles/dirtTile.png");
-			move_difficulty_modifier = 300.0f;
+			time_units_cost = 300.0f;
 			isBlocked = false;
 			break;
 		}
 		case 'f':
 		{
 			ground_sprite->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
-			move_difficulty_modifier = 300.0f;
+			time_units_cost = 300.0f;
 			isBlocked = true;
 			break;
 		}
@@ -74,7 +77,7 @@ void TerrainTile::initialise(char type, ASGE::Renderer* rend)
 		{
 			ground_sprite->loadTexture("../../Resources/Textures/Tiles/rockTile.png");
 			//overlay_sprite->loadTexture("../Resources/Textures/rockTile.png");
-			move_difficulty_modifier = 300.0f;
+			time_units_cost = 300.0f;
 			isBlocked = true;
 			break;
 		}
@@ -82,9 +85,14 @@ void TerrainTile::initialise(char type, ASGE::Renderer* rend)
 		{
 			ground_sprite->loadTexture("../../Resources/Textures/Tiles/rockTile.png");
 			//overlay_sprite->loadTexture("../Resources/Textures/rockTile.png");
-			move_difficulty_modifier = 300.0f;
+			time_units_cost = 300.0f;
 			isBlocked = true;
 			break;
 		}
 	}
+}
+
+float TerrainTile::getCombinedCost()
+{
+	return dist_from_start + dist_to_goal + time_units_cost;
 }

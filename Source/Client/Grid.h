@@ -37,8 +37,13 @@ public:
 
 	void loadJSONBuildings(int seed);
 
+	bool findPathFromTo(TerrainTile * startTile, TerrainTile * endTile);
+	TerrainTile map[mapWidth][mapHeight];
+
 private:
 	bool withinView(ASGE::Sprite* sprite) const;
+
+	float getManhattanDistance(TerrainTile * startNode, TerrainTile * endNode);
 
 	//todo: use std::array so we can pass in runtime values
 	char grid[mapWidth][mapHeight];
@@ -46,7 +51,7 @@ private:
 	GameData* game_data = nullptr;
 
 	//todo: use std::array so we can pass in runtime values
-	TerrainTile map[mapWidth][mapHeight];
+
 
 	float offset_x;
 	float offset_y;				
@@ -54,4 +59,11 @@ private:
 	std::vector<Building> buildings;
 
 	Rng rng_generator;
+
+	//Pathfinding
+	std::vector<TerrainTile*> openList;
+	std::vector<TerrainTile*> closedList;
+	std::vector<std::pair<int, int>> pathToGoal;
+	std::vector<TerrainTile*> neighbours;
+	TerrainTile* currentPathingNode;
 };

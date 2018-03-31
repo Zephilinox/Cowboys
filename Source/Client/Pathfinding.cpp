@@ -25,13 +25,13 @@ void Pathfinding::FindPath(int currentPosX, int currentPosY, int targetPosX, int
 			delete visitedList[i];
 		}
 		visitedList.clear();
-		for (int i = 0; i < pathToGoal.size(); i++)
-		{
-			delete pathToGoal[i];
-		}
-		pathToGoal.clear();
+		//for (int i = 0; i < pathToGoal.size(); i++)
+		//{
+		//	delete pathToGoal[i];
+		//}
+		//pathToGoal.clear();
 
-		SearchCell start;
+		/*SearchCell start;
 		start.xCoord = currentPosX;
 		start.yCoord = currentPosY;
 
@@ -39,7 +39,7 @@ void Pathfinding::FindPath(int currentPosX, int currentPosY, int targetPosX, int
 		goal.xCoord = targetPosX;
 		goal.yCoord = targetPosY;
 
-		SetStartAndGoal(start, goal);
+		setStartAndGoal(start, goal);*/
 		initialisedStartGoal = true;
 
 		if (initialisedStartGoal)
@@ -49,13 +49,13 @@ void Pathfinding::FindPath(int currentPosX, int currentPosY, int targetPosX, int
 	}
 	
 }
-void Pathfinding::SetStartAndGoal(SearchCell start, SearchCell goal)
+void Pathfinding::setStartAndGoal(SearchCell start, SearchCell goal)
 {
 	startCell = new SearchCell(start.xCoord, start.yCoord, NULL);
 	goalCell = new SearchCell(goal.xCoord, goal.yCoord, &goal);
 
-	startCell->G = 0;
-	startCell->H = startCell->ManHattanDistance(goalCell);
+	startCell->dist_from_start = 0;
+	startCell->dist_from_goal = startCell->ManHattanDistance(goalCell);
 	startCell->parent = 0;
 
 	openList.push_back(startCell);
@@ -69,9 +69,9 @@ SearchCell* Pathfinding::GetNextCell()
 	SearchCell* nextCell = NULL;
 	for (int i = 0; i < openList.size(); i++)
 	{
-		if (openList[i]->GetF() < bestF)
+		if (openList[i]->getCombinedCost() < bestF)
 		{
-			bestF = openList[i]->GetF();
+			bestF = openList[i]->getCombinedCost();
 			cellIndex = i;
 		}
 
@@ -84,13 +84,12 @@ SearchCell* Pathfinding::GetNextCell()
 		}
 		return nextCell;
 	}
-
 }
 
 void Pathfinding::PathOpened(int x, int y, float newCost, SearchCell *parent)
 {
 	
-	int id = y * GRID_SIZE + x;
+	int id = y * 5 + x;
 
 	for (int i = 0; i < visitedList.size(); i++)
 	{
@@ -100,19 +99,19 @@ void Pathfinding::PathOpened(int x, int y, float newCost, SearchCell *parent)
 		}
 	}
 	SearchCell* newChild = new SearchCell(x, y, parent);
-	newChild->G = newCost;
-	newChild->H = parent->ManHattanDistance(goalCell);
+	newChild->dist_from_start = newCost;
+	newChild->dist_from_goal = parent->ManHattanDistance(goalCell);
 
 	for (int i = 0; i < openList.size(); i++)
 	{
 		if (id == openList[i]->id)
 		{
-			float newF = newChild->G = newCost + openList[i]->H;
+			float newF = newChild->dist_from_start = newCost + openList[i]->dist_from_goal;
 
-			if (openList[i]->GetF() > newF)
+			if (openList[i]->getCombinedCost() > newF)
 			{
-				openList[i]->G = newChild->G + newCost;
-				openList[1]->parent = newChild;
+				openList[i]->dist_from_start = newChild->dist_from_start + newCost;
+				openList[i]->parent = newChild;
 			}
 			else
 			{
@@ -125,22 +124,28 @@ void Pathfinding::PathOpened(int x, int y, float newCost, SearchCell *parent)
 	openList.push_back(newChild);
 
 }
+
 void Pathfinding::ContinuePath()
 {
 	if (openList.empty())
 	{
 		return;
 	}
-	SearchCell* currentCell = GetNextCell();
 
 	if (currentCell->id == goalCell->id)
 	{
 		goalCell->parent = currentCell->parent;
 		SearchCell* getPath;
+		
 
-		for (getPath = goalCell; getPath != NULL; getPath = getPath->parent)
-		{
 
-		}
 	}
+
+	currentCell = GetNextCell();
+
 }
+
+
+
+
+

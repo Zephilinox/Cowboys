@@ -170,6 +170,7 @@
     <ClInclude Include="..\..\Source\Client\Grid.h" />
     <ClInclude Include="..\..\Source\Client\ListOfNames.hpp" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.hpp" />
+    <ClInclude Include="..\..\Source\Client\Pathfinding.h" />
     <ClInclude Include="..\..\Source\Client\SearchCell.h" />
     <ClInclude Include="..\..\Source\Client\States\StateGame.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp" />
@@ -214,6 +215,7 @@
     <ClCompile Include="..\..\Source\Client\Grid.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
+    <ClCompile Include="..\..\Source\Client\Pathfinding.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateGame.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />
