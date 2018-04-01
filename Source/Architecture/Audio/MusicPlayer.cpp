@@ -13,8 +13,7 @@ MusicPlayer::MusicPlayer()
 		std::ifstream file("../../Resources/settings.json");
 		jsoncons::json settings;
 		file >> settings;
-		//muted = settings["Audio"]["Music Muted"].as_bool();
-		muted = false;
+		muted = settings["Audio"]["Music Muted"].as_bool();
 	}
 	catch (std::runtime_error& e)
 	{
