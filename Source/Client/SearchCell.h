@@ -1,7 +1,7 @@
 #pragma once
 #include <cmath>
 
-#define GRID_SIZE 100
+constexpr int grid_size = 100;
 
 struct SearchCell
 {
@@ -16,7 +16,7 @@ public:
 	float G;
 	float H;
 
-	SearchCell(int x, int y, SearchCell *_parent = 0) : xCoord(x), yCoord(y), id(y * GRID_SIZE + y), G(0), H(0) {};
+	SearchCell(int x, int y, SearchCell *_parent = 0) : xCoord(x), yCoord(y), id(y * grid_size + y), G(0), H(0) {};
 
 	float GetF() { return G + H; };
 
@@ -29,5 +29,4 @@ public:
 	}
 
 	
-}
-
+};
