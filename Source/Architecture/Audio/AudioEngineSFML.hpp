@@ -38,6 +38,16 @@ public:
 		}
 	}
 
+	bool isPlaying() final
+	{
+		if (sound)
+		{
+			return sound->getStatus() != sf::Sound::Status::Stopped;
+		}
+
+		return false;
+	}
+
 	sf::Sound* sound;
 };
 

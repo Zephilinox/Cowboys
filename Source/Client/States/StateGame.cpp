@@ -141,7 +141,9 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 		ent_man.createEntityRequest<Unit>();
 	}
 
-	game_data->getMusicPlayer()->play("Piano Loop");
+	game_data->getMusicPlayer()->addMusicToPlaylist("game", "Piano Loop");
+	game_data->getMusicPlayer()->addMusicToPlaylist("game", "FF7");
+	game_data->getMusicPlayer()->startPlaylist("game");
 }
 
 StateGame::~StateGame()
@@ -260,7 +262,7 @@ void StateGame::render() const
 
 void StateGame::onActive()
 {
-	game_data->getMusicPlayer()->play("Piano Loop");
+
 }
 
 void StateGame::onInactive()

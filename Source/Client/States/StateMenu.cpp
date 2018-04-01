@@ -43,7 +43,9 @@ StateMenu::StateMenu(GameData* game_data)
 		game_data->getStateManager()->pop();
 	});
 
-	game_data->getMusicPlayer()->play("FF7");
+	//todo: fix container so that songs must be unique
+	game_data->getMusicPlayer()->addMusicToPlaylist("menu", "FF7");
+	game_data->getMusicPlayer()->startPlaylist("menu");
 }
 
 void StateMenu::update(const ASGE::GameTime& gt)
@@ -116,7 +118,7 @@ void StateMenu::render() const
 void StateMenu::onActive()
 {
 	active = true;
-	game_data->getMusicPlayer()->play("FF7");
+	game_data->getMusicPlayer()->startPlaylist("menu");
 }
 
 void StateMenu::onInactive()

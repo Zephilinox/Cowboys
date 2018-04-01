@@ -35,6 +35,16 @@ public:
 		}
 	}
 
+	bool isPlaying() final
+	{
+		if (sound_source)
+		{
+			return !sound_source->isFinished();
+		}
+
+		return false;
+	}
+
 	irrklang::ISound* sound_source;
 };
 

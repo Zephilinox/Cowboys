@@ -9,6 +9,7 @@ class Sound
 public:
 	virtual void stop() = 0;
 	virtual void setMuted(bool mute) = 0;
+	virtual bool isPlaying() = 0;
 };
 
 class AudioEngine
