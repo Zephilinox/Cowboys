@@ -41,9 +41,9 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 			case hash("Connected"):
 			{
 				//If a client connects to us when the game has started, tell them to start their game too.
-				p.reset();
-				p.setID(hash("GameStart"));
-				this->game_data->getNetworkManager()->server->sendPacketToOneClient(p.senderID, 0, &p);
+				//p.reset();
+				//p.setID(hash("GameStart"));
+				//this->game_data->getNetworkManager()->server->sendPacketToOneClient(p.senderID, 0, &p);
 			} break;
 
 			case hash("GameJoined"):
@@ -68,6 +68,7 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				{
 				return entity->entity_info.ownerID == p.senderID;
 				});*/
+				this->game_data->getStateManager()->pop();
 			} break;
 
 			case hash("CreateEntity"):
@@ -92,6 +93,10 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	{
 		switch (p.getID())
 		{
+			case hash("Disconnected"):
+			{
+				this->game_data->getStateManager()->pop();
+			} break;
 			case hash("CreateEntity"):
 			{
 				//Server told us to create an entity, so we do.
