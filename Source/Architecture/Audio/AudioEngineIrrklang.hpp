@@ -54,7 +54,7 @@ public:
 	AudioEngineIrrklang(const std::string& audio_path);
 	~AudioEngineIrrklang() noexcept = default;
 
-	std::unique_ptr<Sound> play(const std::string& name, bool loop = false) override final;
+	std::unique_ptr<Sound> play(const std::string& name, bool loop = false) final;
 
 private:
 	std::unique_ptr<irrklang::ISoundEngine> audio_engine = nullptr;

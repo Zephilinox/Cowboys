@@ -39,6 +39,11 @@ public:
 	}
 
 private:
+	uint32_t getNextUID();
+
 	enetpp::server<ClientInfo> server;
 	uint32_t next_uid = 2;
+	std::queue<uint32_t> free_ids;
+
+	ManagedConnection mc1;
 };

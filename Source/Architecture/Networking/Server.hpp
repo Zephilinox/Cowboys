@@ -12,7 +12,6 @@
 class ClientInfo
 {
 public:
-
 	uint32_t id;
 	uint32_t get_id() const noexcept
 	{

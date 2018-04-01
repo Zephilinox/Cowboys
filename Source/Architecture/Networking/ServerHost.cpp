@@ -7,10 +7,7 @@ void ServerHost::initialize()
 
 	auto client_init = [&](ClientInfo& client, const char* ip)
 	{
-		client.id = next_uid;
-		//next_uid++; //We only have two players so don't worry about this right now k? kkkkkkkkkkkkkkkk?????
-		//honestly though, todo: free up previous id from disconnection and use it rather than increment next id
-		//also todo: will then need to update ownership of old entities to the new player
+		client.id = getNextUID();
 
 		//Tell the client what its ID is
 		Packet p;
@@ -19,6 +16,15 @@ void ServerHost::initialize()
 		std::cout << "Client " << client.id << " initialized. IP = " << ip << "\n";
 		sendPacketToOneClient(client.id, 0, &p);
 	};
+
+	mc1 = on_packet_received.connect([this](Packet p)
+	{
+		if (p.getID() == hash("Disconnected"))
+		{
+			free_ids.push(p.senderID);
+			std::cout << "ServerHost:\tpushed new free id " << p.senderID << "\n";
+		}
+	});
 
 	server.start_listening(enetpp::server_listen_params<ClientInfo>()
 		.set_max_client_count(game_data->getNetworkManager()->getMaxClients())
@@ -97,5 +103,21 @@ void ServerHost::sendPacketToSomeClients(enet_uint8 channel_id, Packet* p, enet_
 	{
 		p->resetSerializePosition();
 		game_data->getNetworkManager()->client->on_packet_received.emit(*p);
+	}
+}
+
+uint32_t ServerHost::getNextUID()
+{
+	if (free_ids.empty())
+	{
+		std::cout << "ServerHost:\tno free ids, giving " << next_uid << "\n";
+		return next_uid++;
+	}
+	else
+	{
+		auto id = free_ids.front();
+		std::cout << "ServerHost:\tooh free ids, giving " << id << "\n";
+		free_ids.pop();
+		return id;
 	}
 }
