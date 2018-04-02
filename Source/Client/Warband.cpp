@@ -86,6 +86,11 @@ uint32_t Warband::getNextUnitInInitiativeList()
 	return 0;
 }
 
+std::vector<uint32_t> Warband::getUnitNetworkIDs()
+{
+	return unit_network_IDs;
+}
+
 
 //RICARDO check pls
 //this is fine, but it might be better to make these functions on the unit itself.

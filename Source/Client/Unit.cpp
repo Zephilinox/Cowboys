@@ -32,7 +32,7 @@ void Unit::onSpawn()
 	{
 		std::cout << "owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
 		//TODO change this to be read in from JSON
-		setPosition(entity_info.networkID * 2,entity_info.networkID * 2);
+		setPosition(entity_info.networkID * 40.0f, entity_info.networkID * 40.0f);
 		serializePacketType = PacketType::SET_POSITION;
 		sendPacket();
 		
@@ -182,8 +182,8 @@ void Unit::doAttack(Unit* enemy_target)
 	if(time_units >= time_unit_attack_cost)
 	{
 		//RNG shit to roll d100 against the aim stat?
-		enemy_target->getAttacked(this, weapon_damage);
 		time_units -= time_unit_attack_cost;
+		enemy_target->getAttacked(this, weapon_damage);
 	}
 	else
 	{
@@ -204,8 +204,8 @@ void Unit::getAttacked(Unit* attacker, float damage)
 		&& !hasReactiveFired
 		&& time_units >= time_unit_attack_cost)
 	{
-		doAttack(attacker);
 		hasReactiveFired = true;
+		doAttack(attacker);
 	}
 }
 
@@ -375,7 +375,7 @@ void Unit::commonUpdate(float dt)
 		if (yPosMatched && xPosMatched)
 		{			
 			
-			if (movement_pos_list_counter == movement_pos_list.size() - 1 )
+			if (movement_pos_list_counter >= movement_pos_list.size() - 1 )
 			{
 				movement_pos_list_counter = 0;
 				movement_pos_list.clear();
@@ -387,6 +387,9 @@ void Unit::commonUpdate(float dt)
 				backward_walk_sprite.pause();
 				forward_walk_sprite.restart();
 				forward_walk_sprite.pause();
+
+
+
 			}
 			else
 			{

@@ -1,0 +1,90 @@
+{
+	"layout1": {
+				"numberOfBuildings": 3,
+
+		"spawnPositions1": {
+			"positionx1": 1,
+			"positiony1": 2,
+			"positionx2": 1,
+			"positiony2": 3,
+			"positionx3": 1,
+			"positiony3": 4,
+			"positionx4": 1,
+			"positiony4": 5,
+			"positionx5": 1,
+			"positiony5": 6,
+			"positionx6": 1,
+			"positiony6": 7,
+			"positionx7": 1,
+			"positiony7": 8,
+			"positionx8": 1,
+			"positiony8": 9,
+			"positionx9": 1,
+			"positiony9": 10,
+			"positionx10": 1,
+			"positiony10": 11
+		},
+		"spawnPositions2": {
+			"positionx1": 10,
+			"positiony1": 2,
+			"positionx2": 10,
+			"positiony2": 3,
+			"positionx3": 10,
+			"positiony3": 4,
+			"positionx4": 10,
+			"positiony4": 5,
+			"positionx5": 10,
+			"positiony5": 6,
+			"positionx6": 10,
+			"positiony6": 7,
+			"positionx7": 10,
+			"positiony7": 8,
+			"positionx8": 10,
+			"positiony8": 9,
+			"positionx9": 10,
+			"positiony9": 10,
+			"positionx10": 10,
+			"positiony10": 11
+		},
+
+		"building1": {
+			"height": 5,
+			"width": 4,
+			"texture": "../../Resources/Textures/Tiles/Prison.png",
+			"arrayX": 8,
+			"arrayY": 4
+		},
+		"building2": {
+			"height": 7,
+			"width": 6,
+			"texture": "../../Resources/Textures/Tiles/Tavern.png",
+			"arrayX": 15,
+			"arrayY": 6
+		},
+		"building3": {
+			"height": 8,
+			"width": 6,
+			"texture": "../../Resources/Textures/Tiles/Barn.png",
+			"arrayX": 10,
+			"arrayY": 14
+		}
+	},
+	"layout2": {
+		"numberOfBuildings": 2,
+		"building1": {
+				"height" : 5,
+				"width" : 4,
+				"texture" : "../../Resources/Textures/Tiles/Prison.png",
+				"arrayX" : 8,
+				"arrayY" : 4
+			      },
+		"building2": {
+				"height" : 7,
+				"width" : 6,
+				"texture" : "../../Resources/Textures/Tiles/Tavern.png",
+				"arrayX" : 15,
+				"arrayY" : 6
+			      }
+		}
+	
+}

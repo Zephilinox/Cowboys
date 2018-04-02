@@ -112,15 +112,16 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					{
 						auto ent = ent_man.spawnEntity<Unit>(info);
 
+
+
 						if (ent->isOwner())
 						{
 							our_warband.addToNetworkIDs(info.networkID);
 							our_warband.checkReady(ent_man);
-
-							Unit* unit = dynamic_cast<Unit*>(ent);
+							Unit* unit = static_cast<Unit*>(ent);
 							unit->setPosition(unit->entity_info.networkID * 40.0f, unit->entity_info.networkID * 40.0f);
 							unit->setCurrentTile(testGrid.getTile(unit->entity_info.networkID, unit->entity_info.networkID));
-
+							unit->getCurrentTile()->setIsBlocked(true);
 						}
 						else
 						{
@@ -174,36 +175,70 @@ void StateGame::update(const ASGE::GameTime& gt)
 	double mouse_x, mouse_y;
 	game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
 
-		if(game_data->getInputManager()->isMouseButtonPressed(0))
+	
+	if(game_data->getInputManager()->isMouseButtonPressed(0))
+	{
+		for(auto& ent : our_warband.getUnitNetworkIDs())
 		{
-			for(auto& ent : ent_man.entities)
+			//TODO - stretch, show unit stats when left clicked on.
+			Entity* ent_ptr = ent_man.getEntity(ent);
+			Unit* unit = static_cast<Unit*>(ent_ptr);
+			unit->setSelected(false);
+			if(ASGE::Sprite* sprite = unit->getCurrentSprite())
 			{
-				Entity* ent_ptr = ent.get();
-				Unit* unit = dynamic_cast<Unit*>(ent_ptr);
-				if(unit != nullptr)
-				{
-					if(ASGE::Sprite* sprite = unit->getCurrentSprite())
-					{
-						float sprite_x = sprite->xPos();
-						float sprite_y = sprite->yPos();
-						float sprite_width = sprite->width();
-						float sprite_height = sprite->height();
+				float sprite_x = sprite->xPos();
+				float sprite_y = sprite->yPos();
+				float sprite_width = sprite->width();
+				float sprite_height = sprite->height();
 
-						if(sprite_x < mouse_x &&
-							sprite_x + sprite_width > mouse_x &&
-							sprite_y < mouse_y &&
-							sprite_y + sprite_height > mouse_y)
-						{
-							std::cout << "unit selected\n";
-							unit->setSelected(true);
-						}
+				if(sprite_x < mouse_x &&
+					sprite_x + sprite_width > mouse_x &&
+					sprite_y < mouse_y &&
+					sprite_y + sprite_height > mouse_y)
+				{
+					std::cout << "unit selected\n";
+					if(unit->getState() == Unit::UnitState::IDLE)
+					{
+						unit->setSelected(true);
+						selected_unit_netID = unit->entity_info.networkID;
 					}
-				}	
+				}
 			}
+		}
 	}
 
-	if(game_data->getInputManager()->isMouseButtonPressed(1))
+	if(game_data->getInputManager()->isMouseButtonPressed(1) && (selected_unit_netID != 0))
 	{
+		for(auto& ent : their_warband.getUnitNetworkIDs())
+		{
+			//TODO - stretch, show unit stats when left clicked on.
+			Entity* ent_ptr = ent_man.getEntity(ent);
+			Unit* unit = static_cast<Unit*>(ent_ptr);
+			if(ASGE::Sprite* sprite = unit->getCurrentSprite())
+			{
+				float sprite_x = sprite->xPos();
+				float sprite_y = sprite->yPos();
+				float sprite_width = sprite->width();
+				float sprite_height = sprite->height();
+
+				if(sprite_x < mouse_x &&
+					sprite_x + sprite_width > mouse_x &&
+					sprite_y < mouse_y &&
+					sprite_y + sprite_height > mouse_y)
+				{
+					std::cout << "unit ATTACCCCKED\n";
+					Entity* ent_attacker = ent_man.getEntity(selected_unit_netID);
+					Unit* attacker = static_cast<Unit*>(ent_attacker);
+					attacker->doAttack(unit);
+					unit->setSelected(false);
+					selected_unit_netID = 0;
+					//TODO send attack packet
+					break;
+				}
+			}
+
+		}
+
 		TerrainTile* temp = nullptr;
 		TerrainTile* selected = nullptr;
 		ASGE::Sprite* spr = nullptr;
@@ -212,29 +247,31 @@ void StateGame::update(const ASGE::GameTime& gt)
 			for(int y = 0; y < mapHeight; y++)
 			{
 				temp = testGrid.getTile(x, y);
-				spr = temp->getTerrainSprite();
-				float sprite_x = spr->xPos();
-				float sprite_y = spr->yPos();
-				float sprite_width = spr->width();
-				float sprite_height = spr->height();
-
-				if(sprite_x < mouse_x &&
-					sprite_x + sprite_width > mouse_x &&
-					sprite_y < mouse_y &&
-					sprite_y + sprite_height > mouse_y)
+				if(temp != nullptr)
 				{
-					std::cout << "tile selected\n";
-					spr->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
-					if(!temp->getIsBlocked())
+					spr = temp->getTerrainSprite();
+					float sprite_x = spr->xPos();
+					float sprite_y = spr->yPos();
+					float sprite_width = spr->width();
+					float sprite_height = spr->height();
+
+					if(sprite_x < mouse_x &&
+						sprite_x + sprite_width > mouse_x &&
+						sprite_y < mouse_y &&
+						sprite_y + sprite_height > mouse_y)
 					{
-						selected = temp;
-						break;
-					}
-					else
-					{
-						break;
-					}
-					
+						std::cout << "tile selected\n";
+						//	spr->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
+						if(!temp->getIsBlocked())
+						{
+							selected = temp;
+							break;
+						}
+						else
+						{
+							break;
+						}
+					}	
 				}
 			}
 		}
@@ -244,17 +281,23 @@ void StateGame::update(const ASGE::GameTime& gt)
 			Unit* unit = dynamic_cast<Unit*>(ent_ptr);
 			if(unit != nullptr)
 			{
-				if(unit->getSelected())
+				if(unit->getSelected() && selected != nullptr)
 				{
 					//TODO find path from to needs target sprite
-					testGrid.findPathFromTo(unit->getCurrentTile(), selected);
-					unit->setPathToGoal(testGrid.getPathToGoal());
-					std::cout << "unit moving\n";
-					unit->move();
-					unit->setSerializedPacketType(Unit::PacketType::MOVE);
-					unit->sendPacket();
-					unit->setSelected(false);
-					testGrid.clearMoveData();
+					if (testGrid.findPathFromTo(unit->getCurrentTile(), selected))
+					{
+						unit->setPathToGoal(testGrid.getPathToGoal());
+						std::cout << "unit moving\n";
+						unit->move();
+						unit->getCurrentTile()->setIsBlocked(false);
+						unit->setSerializedPacketType(Unit::PacketType::MOVE);
+						unit->sendPacket();
+						unit->setSelected(false);
+						selected_unit_netID = 0;
+						unit->setCurrentTile(selected);
+						unit->getCurrentTile()->setIsBlocked(true);
+						testGrid.clearMoveData();
+					}
 				}
 			}
 		}

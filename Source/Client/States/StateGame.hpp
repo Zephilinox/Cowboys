@@ -52,6 +52,7 @@ private:
 	Grid testGrid;
 
 	EntityManager ent_man;
+	uint32_t selected_unit_netID;
 
 	float offset_x = 0.0f;
 	float offset_y = 0.0f;

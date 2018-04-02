@@ -139,20 +139,21 @@ void Grid::addBuildingToMap(Building& building)
 	
 	//block access to all tiles EXCEPT right in front of the building
 	//TODO confirm this loop doesn't need to be buildingHeight - 1?
-	for(int x = buildingStartPosX; x < buildingHeight; x++)
+	for(int x = buildingStartPosX; x < buildingStartPosX + buildingWidth; x++)
 	{
-		for(int y = buildingStartPosY; y < buildingWidth; y++)
+		for(int y = buildingStartPosY; y < buildingStartPosY + buildingHeight; y++)
 		{
 			map[x][y].setIsBlocked(true);
 		}
 	}
 
 	map[buildingStartPosX][buildingStartPosY].getTerrainSprite()->loadTexture(texture_source);
+	map[buildingStartPosX][buildingStartPosY].setIsBlocked(true);
 }
 
 void Grid::loadJSONBuildings(int seed)
 {
-	std::ifstream file("../../Resources/mapBuildings.json");
+	std::ifstream file("../../Resources/mapData.json");
 	jsoncons::json layout_JSON_obj;
 	file >> layout_JSON_obj;
 
@@ -533,6 +534,8 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 		if(openList.empty())
 		{
 			std::cout << "no path found";
+			closedList.clear();
+			openList.clear();
 			return false;
 		}
 	} while(pathFound == false);
@@ -548,7 +551,17 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 
 		currentPathingNode->getTerrainSprite()->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
 		currentPathingNode = currentPathingNode->parent;
-		
 	}
+	openList.clear();
+	closedList.clear();
+
+	for (int x = 0; x < mapWidth; x++)
+	{
+		for(int y = 0; y < mapHeight; y++)
+		{
+			map[x][y].parent = nullptr;
+		}
+	}
+
 	return true;
 }
