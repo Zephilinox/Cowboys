@@ -243,7 +243,6 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 	screenScroll(dt, mouseX, mouseY);
 
-
 	double mouse_x, mouse_y;
 	game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
 
@@ -409,7 +408,7 @@ void StateGame::screenScroll(float dt, double mouseX, double mouseY)
 	auto map_bottom = testGrid.getTileYPosAtArrayPos(0, max_downtile);
 	
 	//left
-	if (mouseX <= screen_edge_threshold || game_data->getInputManager()->isActionDown(hash("Left")))
+	if ((mouseX <= screen_edge_threshold && mouseX > 0) || game_data->getInputManager()->isActionDown(hash("Left")))
 	{
 		if (offset_x > map_left)
 		{
@@ -423,7 +422,8 @@ void StateGame::screenScroll(float dt, double mouseX, double mouseY)
 	}
 
 	//right
-	if (mouseX >= (double)(game_data->getWindowWidth() - screen_edge_threshold) || game_data->getInputManager()->isActionDown(hash("Right")))
+	if ((mouseX >= (double)(game_data->getWindowWidth() - screen_edge_threshold) && mouseX < (double)(game_data->getWindowWidth()))
+		|| game_data->getInputManager()->isActionDown(hash("Right")))
 	{
 		if (offset_x < map_right)
 		{
@@ -437,7 +437,8 @@ void StateGame::screenScroll(float dt, double mouseX, double mouseY)
 	}
 
 	//up
-	if (mouseY <= screen_edge_threshold || game_data->getInputManager()->isActionDown(hash("Up")))
+	if ((mouseY <= screen_edge_threshold && mouseY > 0)
+		|| game_data->getInputManager()->isActionDown(hash("Up")))
 	{
 		if (offset_y > map_top)
 		{
@@ -451,7 +452,8 @@ void StateGame::screenScroll(float dt, double mouseX, double mouseY)
 	}
 
 	//down
-	if (mouseY >= (double)(game_data->getWindowHeight() - screen_edge_threshold) || game_data->getInputManager()->isActionDown(hash("Down")))
+	if ((mouseY >= (double)(game_data->getWindowHeight() - screen_edge_threshold) && mouseY < (double)(game_data->getWindowHeight()))
+		|| game_data->getInputManager()->isActionDown(hash("Down")))
 	{
 		if (offset_y < map_bottom)
 		{

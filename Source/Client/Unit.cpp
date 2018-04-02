@@ -294,7 +294,7 @@ void Unit::loadFromJSON(int unit_to_load)
 		firing_accuracy = (float)(unitStats[id]["firing_accuracy"].as_double());
 		strength = (float)(unitStats[id]["strength"].as_double());
 		initiative = (float)(unitStats[id]["initiative"].as_double());
-		base_move_speed = (float)(unitStats[id]["base_move_speed"].as_double());
+		base_move_speed = (float)(unitStats[id]["base_move_speed"].as_double()) * 10.0f;
 		current_move_speed = base_move_speed;
 
 		//SPRITES
@@ -345,35 +345,36 @@ void Unit::commonUpdate(float dt)
 		bool xPosMatched = false;
 		bool yPosMatched = false;
 
-		if ((target_x_position - x_position) >= 0.1f)
+		if ((target_x_position - x_position) >= 5.0f)
 		{
 			x_position += base_move_speed * dt;
 		}
-		else if ((x_position - target_x_position) >= 0.1f)
+		else if ((x_position - target_x_position) >= 5.0f)
 		{
 			x_position -= base_move_speed * dt;
 		}
 		else
 		{
 			xPosMatched = true;
+			x_position = target_x_position;
 		}
 
-		if ((target_y_position - y_position) >= 0.1f)
+		if ((target_y_position - y_position) >= 5.0f)
 		{
 			y_position += base_move_speed * dt;
 		}
-		else if ((y_position - target_y_position) >= 0.1f)
+		else if ((y_position - target_y_position) >= 5.0f)
 		{
 			y_position -= base_move_speed * dt;
 		}
 		else
 		{
 			yPosMatched = true;
+			y_position = target_y_position;
 		}
 
 		if (yPosMatched && xPosMatched)
 		{			
-			
 			if (movement_pos_list_counter >= movement_pos_list.size() - 1 )
 			{
 				movement_pos_list_counter = 0;
@@ -386,9 +387,6 @@ void Unit::commonUpdate(float dt)
 				backward_walk_sprite.pause();
 				forward_walk_sprite.restart();
 				forward_walk_sprite.pause();
-
-
-
 			}
 			else
 			{

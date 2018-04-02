@@ -130,7 +130,7 @@ protected:
 	bool hasReactiveFired = false;
 
 	bool isAlive = true;
-	float base_move_speed = 30.0f;
+	float base_move_speed = 300.0f;
 	float current_move_speed = 0.0f;
 	void updateOverridePositions();
 
