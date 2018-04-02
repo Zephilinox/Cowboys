@@ -19,6 +19,8 @@ Unit::Unit(GameData* game_data, EntityManager* ent_man)
 	idle_sprite_left = game_data->getRenderer()->createUniqueSprite();
 	selected_sprite = game_data->getRenderer()->createUniqueSprite();
 
+	portrait = game_data->getRenderer()->createUniqueSprite();
+
 	if (!selected_sprite->loadTexture("../../Resources/Textures/UI/Selected.png"))
 	{
 		throw;
@@ -236,7 +238,6 @@ void Unit::setPosition(float x, float y)
 	std::cout << "UNIT POS SET TO " << x << ", " << y << "\n";
 }
 
-// TODO make sure this is called AFTER positions list has been populated
 void Unit::move()
 {
 	char_state = UnitState::WALKING;
@@ -247,6 +248,8 @@ void Unit::move()
 	//SET TO PATH TO FOLLOW VECTOR POs 0
 	target_x_position = movement_pos_list.front().x;
 	target_y_position = movement_pos_list.front().y;
+	time_units -= movement_pos_list.front().time_units;
+
 }
 
 void Unit::setSelected(bool new_val)
@@ -317,6 +320,9 @@ void Unit::loadFromJSON(int unit_to_load)
 		idle_sprite_back->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleBack"].as_string() + ".png").c_str()));
 		idle_sprite_left->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleLeft"].as_string() + ".png").c_str()));
 
+		portrait->loadTexture(unitStats[id]["PortraitSource"].as_string());
+		portrait->scale(0.5f);
+
 		initialized = true;
 	}
 	catch(std::runtime_error& e)
@@ -377,22 +383,21 @@ void Unit::commonUpdate(float dt)
 		{			
 			if (movement_pos_list_counter >= movement_pos_list.size() - 1 )
 			{
-				movement_pos_list_counter = 0;
-				movement_pos_list.clear();
-				char_state = UnitState::IDLE;
-
-				horizontal_walk_sprite.restart();
-				horizontal_walk_sprite.pause();
-				backward_walk_sprite.restart();
-				backward_walk_sprite.pause();
-				forward_walk_sprite.restart();
-				forward_walk_sprite.pause();
+				endMove();
 			}
 			else
 			{
 				movement_pos_list_counter++;
 				target_x_position = movement_pos_list[movement_pos_list_counter].x;
 				target_y_position = movement_pos_list[movement_pos_list_counter].y;
+				if(movement_pos_list[movement_pos_list_counter].time_units >= time_units)
+				{
+					time_units -= movement_pos_list[movement_pos_list_counter].time_units;
+				}
+				else
+				{
+					endMove();
+				}
 			}
 		}
 
@@ -506,6 +511,11 @@ ASGE::Sprite* Unit::getCurrentSprite() const
 	}
 }
 
+ASGE::Sprite * Unit::getPortraitSprite()
+{
+	return portrait.get();
+}
+
 void Unit::updateOverridePositions()
 {
 	//update all sprites positions to the same values
@@ -526,6 +536,20 @@ void Unit::updateOverridePositions()
 	forward_walk_sprite.yPos = y_position;
 	backward_walk_sprite.yPos = y_position;
 	horizontal_walk_sprite.yPos = y_position;
+}
+
+void Unit::endMove()
+{
+	movement_pos_list_counter = 0;
+	movement_pos_list.clear();
+	char_state = UnitState::IDLE;
+
+	horizontal_walk_sprite.restart();
+	horizontal_walk_sprite.pause();
+	backward_walk_sprite.restart();
+	backward_walk_sprite.pause();
+	forward_walk_sprite.restart();
+	forward_walk_sprite.pause();
 }
 
 void Unit::setPathToGoal(std::vector<MoveData> path)

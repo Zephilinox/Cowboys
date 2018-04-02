@@ -81,6 +81,7 @@ public:
 	float getStrength() const { return strength; }
 	float getInitiative() const { return initiative; }
 	ASGE::Sprite* getCurrentSprite() const;
+	ASGE::Sprite* getPortraitSprite();
 
 	std::string getFullName();
 
@@ -159,11 +160,14 @@ protected:
 
 	std::unique_ptr<ASGE::Sprite> selected_sprite;
 
+	std::unique_ptr<ASGE::Sprite> portrait;
+
 	bool initialized = false;
 	PacketType serializePacketType = PacketType::INVALID;
 
 	bool selected;
 
+	void endMove();
 
 	std::vector<MoveData> movement_pos_list;
 	int movement_pos_list_counter = 0;

@@ -29,6 +29,12 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	testGrid.generateCharGrid(1);
 	testGrid.loadHardCodedMap();
 
+	//Init UI panel
+	UI_panel_sprite = game_data->getRenderer()->createUniqueSprite();
+	UI_panel_sprite->loadTexture("../../Resources/Textures/UI/UnitStats.png");
+	UI_panel_sprite->xPos(0.0f);
+	UI_panel_sprite->yPos(game_data->getWindowHeight() - UI_panel_sprite->height());
+
 	//This is lobby-related, leave it for now until I have a closer look at it
 	Packet p;
 	p.setID(hash("GameJoined"));
@@ -188,18 +194,7 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	menu.addButton(game_data->getWindowWidth() - 100, game_data->getWindowHeight() - 100, "End Turn", ASGE::COLOURS::GREEN, ASGE::COLOURS::GREENYELLOW, 80.0f, 20.0f);
 	menu.getButton(0).on_click.connect([this]()
 	{
-		active_turn_warband->endTurn(ent_man, active_turn_unit);
-		//Swap active warband
-		if(active_turn_warband == &our_warband)
-		{
-			active_turn_warband = &their_warband;
-		}
-		else
-		{
-			active_turn_warband = &our_warband;
-		}
-
-		active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
+		endTurn();
 		
 		//send packet to trigger same function on other client here
 	});
@@ -222,16 +217,15 @@ void StateGame::update(const ASGE::GameTime& gt)
 		gameReady = true;
 
 		//Check which warband has the highest starting initiative.
-		if(game_data->getNetworkManager()->client->getID() <= 1)
+		if(our_warband.getNextUnitInInitiativeList() > their_warband.getNextUnitInInitiativeList())
 		{
 			active_turn_warband = &our_warband;
-			active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
 		}
 		else
 		{
-			active_turn_warband = &their_warband;
+			active_turn_warband = &their_warband;	
 		}
-
+		active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
 	}
 
 	auto client = game_data->getNetworkManager()->client.get();
@@ -258,11 +252,10 @@ void StateGame::update(const ASGE::GameTime& gt)
 	{
 		if(game_data->getInputManager()->isMouseButtonPressed(0))
 		{
-			for(auto& ent : our_warband.getUnitNetworkIDs())
+			for(auto& ent : ent_man.entities)
 			{
-				//TODO -  show unit stats when left clicked on.
-				Entity* ent_ptr = ent_man.getEntity(ent);
-				Unit* unit = static_cast<Unit*>(ent_ptr);
+				//TODO -  highligh unit stats when left clicked on.
+				Unit* unit = static_cast<Unit*>(ent.get());
 				unit->setSelected(false);
 				if(ASGE::Sprite* sprite = unit->getCurrentSprite())
 				{
@@ -317,80 +310,87 @@ void StateGame::update(const ASGE::GameTime& gt)
 						break;
 					}
 				}
+			}
 
+			//Detect terrain selection
+			TerrainTile* temp = nullptr;
+			TerrainTile* selected = nullptr;
+			ASGE::Sprite* spr = nullptr;
+			int packetStartX = 0;
+			int packetStartY = 0;
+			int packetEndX = 0;
+			int packetEndY = 0;
 
-				//Detect terrain selection
-				TerrainTile* temp = nullptr;
-				TerrainTile* selected = nullptr;
-				ASGE::Sprite* spr = nullptr;
-				int packetStartX = 0;
-				int packetStartY = 0;
-				int packetEndX = 0;
-				int packetEndY = 0;
-
-				//TERRAIN TILE SELECTION
-				for(int x = 0; x < mapWidth; x++)
+			//TERRAIN TILE SELECTION
+			for(int x = 0; x < mapWidth; x++)
+			{
+				for(int y = 0; y < mapHeight; y++)
 				{
-					for(int y = 0; y < mapHeight; y++)
+					temp = testGrid.getTile(x, y);
+					if(temp != nullptr)
 					{
-						temp = testGrid.getTile(x, y);
-						if(temp != nullptr)
-						{
-							spr = temp->getTerrainSprite();
-							float sprite_x = spr->xPos();
-							float sprite_y = spr->yPos();
-							float sprite_width = spr->width();
-							float sprite_height = spr->height();
+						spr = temp->getTerrainSprite();
+						float sprite_x = spr->xPos();
+						float sprite_y = spr->yPos();
+						float sprite_width = spr->width();
+						float sprite_height = spr->height();
 
-							if(sprite_x < mouse_x &&
-								sprite_x + sprite_width > mouse_x &&
-								sprite_y < mouse_y &&
-								sprite_y + sprite_height > mouse_y)
+						if(sprite_x < mouse_x &&
+							sprite_x + sprite_width > mouse_x &&
+							sprite_y < mouse_y &&
+							sprite_y + sprite_height > mouse_y)
+						{
+							std::cout << "tile selected\n";
+							//	spr->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
+							if(!temp->getIsBlocked())
 							{
-								std::cout << "tile selected\n";
-								//	spr->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
-								if(!temp->getIsBlocked())
-								{
-									selected = temp;
-									break;
-								}
-								else
-								{
-									break;
-								}
+								selected = temp;
+								break;
+							}
+							else
+							{
+								break;
 							}
 						}
 					}
 				}
-				//change this to, active unit selected ONLY, so other's cannot act without being their turn
+			}
+			//change this to, active unit selected ONLY, so other's cannot act without being their turn
+			Unit* active_unit = static_cast<Unit*>(ent_man.getEntity(active_turn_unit));
 
-						if(selected != nullptr && ent_man.getEntity(active_turn_unit)->isOwner())
-						{
-							//TODO find path from to needs target sprite
-							if(testGrid.findPathFromTo(unit->getCurrentTile(), selected))
-							{
-								unit->setPathToGoal(testGrid.getPathToGoal());
-								std::cout << "unit moving\n";
-								unit->move();
-								unit->getCurrentTile()->setIsBlocked(false);
+			if(selected != nullptr && ent_man.getEntity(active_turn_unit)->isOwner()
+				&& active_unit->getSelected())
+			{
+				if(testGrid.findPathFromTo(active_unit->getCurrentTile(), selected))
+				{
+					active_unit->setPathToGoal(testGrid.getPathToGoal());
+					std::cout << "unit move attempted";
+					if(active_unit->getTimeUnits() >= 10.0f)
+					{
+						active_unit->move();
+						active_unit->getCurrentTile()->setIsBlocked(false);
 
-								packetStartX = unit->getCurrentTile()->xCoord;
-								packetStartY = unit->getCurrentTile()->yCoord;
-								packetEndX = selected->xCoord;
-								packetEndY = selected->yCoord;
+						packetStartX = active_unit->getCurrentTile()->xCoord;
+						packetStartY = active_unit->getCurrentTile()->yCoord;
+						packetEndX = selected->xCoord;
+						packetEndY = selected->yCoord;
 
-								Packet lol;
-								lol.setID(hash("UnitMove"));
-								lol << packetStartX << packetStartY << packetEndX << packetEndY << unit->entity_info.networkID;
-								game_data->getNetworkManager()->client->sendPacket(0, &lol);
-								unit->setCurrentTile(selected);
-								unit->getCurrentTile()->setIsBlocked(true);
-								testGrid.clearMoveData();
-								//TODO update possible movement slots
-							}
-						}
+						Packet lol;
+						lol.setID(hash("UnitMove"));
+						lol << packetStartX << packetStartY << packetEndX << packetEndY << active_unit->entity_info.networkID;
+						game_data->getNetworkManager()->client->sendPacket(0, &lol);
+						active_unit->setCurrentTile(selected);
+						active_unit->getCurrentTile()->setIsBlocked(true);
 					}
-			}			
+					else
+					{
+						std::cout << "Insufficient Time units";
+					}
+
+					testGrid.clearMoveData();
+				}
+			}
+		}			
 	}
 	if (game_data->getInputManager()->isActionPressed(hash("Escape")))
 	{
@@ -482,8 +482,10 @@ void StateGame::render() const
 		ent_man.render();
 	}
 
+	game_data->getRenderer()->renderSprite(*UI_panel_sprite, Z_ORDER_LAYER::OVERLAY);
 	testGrid.render();
 	menu.render(Z_ORDER_LAYER::OVERLAY);
+	renderUnitStatsToPanel();
 }
 
 void StateGame::onActive()
@@ -497,17 +499,68 @@ void StateGame::onInactive()
 
 void StateGame::endTurn()
 {
+	active_turn_warband->endTurn(ent_man, active_turn_unit);
+	//Swap active warband
+	if(active_turn_warband == &our_warband)
+	{
+		//TODO play ENDTURN animation
+		active_turn_warband = &their_warband;
+	}
+	else
+	{
+		//TODO play YOURTURN animation
+		active_turn_warband = &our_warband;
+	}
+
 	//set active player's warband.endTurn(networkID)
 	if(our_warband.getAllUnitsActed() && their_warband.getAllUnitsActed())
 	{
 		endRound();
-		//Entity* ent_ptr = ent_man.getEntity();
-		//Unit* unit = static_cast<Unit*>(ent_ptr);
+		//TODO Play ROUNDEND animation
 	}
+
+	if(our_warband.getNextUnitInInitiativeList() > their_warband.getNextUnitInInitiativeList())
+	{
+		active_turn_warband = &our_warband;
+	}
+	else
+	{
+		active_turn_warband = &their_warband;
+	}
+	active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
 }
 
 void StateGame::endRound()
 {
 	our_warband.resetAllActed();
 	their_warband.resetAllActed();
+}
+
+void StateGame::renderUnitStatsToPanel() const
+{
+	int x_pos = 10;
+	for(auto& ent : ent_man.entities)
+	{
+		if(ent->isOwner())
+		{
+			Unit* unit = static_cast<Unit*>(ent.get());
+
+			std::setprecision(2);
+
+			const int baseHeight = 600;
+			//game_data->getRenderer()->renderText(unit->getNickName(), x_pos, baseHeight, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+			game_data->getRenderer()->renderText("Health: " + std::to_string((int)unit->getHealth()), x_pos, baseHeight + 15, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+			game_data->getRenderer()->renderText("T. Units: " + std::to_string((int)unit->getTimeUnits()), x_pos, baseHeight + 30, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+			game_data->getRenderer()->renderText("Stamina: " + std::to_string((int)unit->getStamina()), x_pos, baseHeight + 45, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+			game_data->getRenderer()->renderText("Bravery: " + std::to_string((int)unit->getBravery()), x_pos, baseHeight + 60, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+			game_data->getRenderer()->renderText("Accuracy: " + std::to_string((int)unit->getFiringAccuracy()), x_pos, baseHeight + 75, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+			game_data->getRenderer()->renderText("Strength: " + std::to_string((int)unit->getStrength()), x_pos, baseHeight + 90, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+			game_data->getRenderer()->renderText("Initiative: " + std::to_string((int)unit->getInitiative()), x_pos, baseHeight + 105, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+			unit->getPortraitSprite()->xPos(x_pos + 136);
+			unit->getPortraitSprite()->yPos(baseHeight - 71);
+			game_data->getRenderer()->renderSprite(*unit->getPortraitSprite(),Z_ORDER_LAYER::OVERLAY_TEXT + 2);
+			x_pos += 256.0f;
+		}
+
+	}
 }

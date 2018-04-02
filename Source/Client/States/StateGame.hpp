@@ -43,6 +43,8 @@ private:
 	ManagedConnection managed_slot_1;
 	ManagedConnection managed_slot_2;
 
+	void renderUnitStatsToPanel() const;
+
 	Menu menu;
 
 	Warband our_warband;
@@ -58,6 +60,8 @@ private:
 	std::unique_ptr<ASGE::Sprite> yourTurnSprite;
 	std::unique_ptr<ASGE::Sprite> endTurnSprite;
 	std::unique_ptr<ASGE::Sprite> endRoundSprite;
+	std::unique_ptr<ASGE::Sprite> UI_panel_sprite;
+
 
 	EntityManager ent_man;
 
