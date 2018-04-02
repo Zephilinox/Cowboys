@@ -200,7 +200,8 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 		}
 
 		active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
-
+		
+		//send packet to trigger same function on other client here
 	});
 
 	game_data->getMusicPlayer()->play("Piano Loop");
@@ -215,12 +216,13 @@ StateGame::~StateGame()
 void StateGame::update(const ASGE::GameTime& gt)
 {
 
-	if(our_warband.getUnitNetworkIDsSize() == 5 && their_warband.getUnitNetworkIDsSize())
+	if(our_warband.getUnitNetworkIDsSize() == 5 && their_warband.getUnitNetworkIDsSize() == 5
+		&& gameReady == false)
 	{
 		gameReady = true;
 
 		//Check which warband has the highest starting initiative.
-		if(our_warband.getNextUnitInInitiativeList() > their_warband.getNextUnitInInitiativeList())
+		if(game_data->getNetworkManager()->client->getID() <= 1)
 		{
 			active_turn_warband = &our_warband;
 			active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
@@ -362,7 +364,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 				}
 				//change this to, active unit selected ONLY, so other's cannot act without being their turn
 
-						if(static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->getSelected() && selected != nullptr)
+						if(selected != nullptr && ent_man.getEntity(active_turn_unit)->isOwner())
 						{
 							//TODO find path from to needs target sprite
 							if(testGrid.findPathFromTo(unit->getCurrentTile(), selected))
