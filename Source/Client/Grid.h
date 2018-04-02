@@ -2,12 +2,13 @@
 #include <cmath>
 #include "TerrainTile.h"
 #include "../Architecture/GameData.hpp"
+#include "../Architecture/Constants.hpp"
 
 //LIB
 #include <jsoncons/json.hpp>
 
-constexpr int mapWidth = 150;
-constexpr int mapHeight = 150;
+constexpr int mapWidth = 50;
+constexpr int mapHeight = 50;
 
 struct Building
 {
@@ -29,8 +30,14 @@ public:
 	void loadHardCodedMap();
 	void generateCharGrid(int seed);
 
+	TerrainTile* getTile(int arrayPosX, int arrayPosY);
+
+	//CHRIS - SPAWN IN VALS, USE ARRAY POSES IN JSON
 	float getTileXPosAtArrayPos(int x, int y) const;
 	float getTileYPosAtArrayPos(int x, int y) const;
+
+	std::vector<MoveData>& getPathToGoal() { return pathToGoal; }
+	void clearMoveData();
 
 	void applyOffset(float x, float y);
 	void addBuildingToMap(Building& building);
@@ -63,7 +70,7 @@ private:
 	//Pathfinding
 	std::vector<TerrainTile*> openList;
 	std::vector<TerrainTile*> closedList;
-	std::vector<std::pair<int, int>> pathToGoal;
+	std::vector<MoveData> pathToGoal;
 	std::vector<TerrainTile*> neighbours;
 	TerrainTile* currentPathingNode;
 };

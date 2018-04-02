@@ -29,9 +29,6 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	testGrid.generateCharGrid(1);
 	testGrid.loadHardCodedMap();
 
-	//TODO - remove, TESTING purposes
-	testGrid.findPathFromTo(&testGrid.map[1][1], &testGrid.map[30][30]);
-
 	//This is lobby-related, leave it for now until I have a closer look at it
 	Packet p;
 	p.setID(hash("GameJoined"));
@@ -119,12 +116,19 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 						{
 							our_warband.addToNetworkIDs(info.networkID);
 							our_warband.checkReady(ent_man);
+
+							Unit* unit = dynamic_cast<Unit*>(ent);
+							unit->setPosition(unit->entity_info.networkID * 40.0f, unit->entity_info.networkID * 40.0f);
+							unit->setCurrentTile(testGrid.getTile(unit->entity_info.networkID, unit->entity_info.networkID));
+
 						}
 						else
 						{
 							//for convenience, keep track of their unit network id's
 							their_warband.addToNetworkIDs(info.networkID);
 						}
+
+
 					} break;
 				}
 			} break;
@@ -165,6 +169,96 @@ void StateGame::update(const ASGE::GameTime& gt)
 	const float dt = (float)gt.delta_time.count() / 1000.0f;
 
 	screenScroll(dt, mouseX, mouseY);
+
+
+	double mouse_x, mouse_y;
+	game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
+
+		if(game_data->getInputManager()->isMouseButtonPressed(0))
+		{
+			for(auto& ent : ent_man.entities)
+			{
+				Entity* ent_ptr = ent.get();
+				Unit* unit = dynamic_cast<Unit*>(ent_ptr);
+				if(unit != nullptr)
+				{
+					if(ASGE::Sprite* sprite = unit->getCurrentSprite())
+					{
+						float sprite_x = sprite->xPos();
+						float sprite_y = sprite->yPos();
+						float sprite_width = sprite->width();
+						float sprite_height = sprite->height();
+
+						if(sprite_x < mouse_x &&
+							sprite_x + sprite_width > mouse_x &&
+							sprite_y < mouse_y &&
+							sprite_y + sprite_height > mouse_y)
+						{
+							std::cout << "unit selected\n";
+							unit->setSelected(true);
+						}
+					}
+				}	
+			}
+	}
+
+	if(game_data->getInputManager()->isMouseButtonPressed(1))
+	{
+		TerrainTile* temp = nullptr;
+		TerrainTile* selected = nullptr;
+		ASGE::Sprite* spr = nullptr;
+		for(int x = 0; x < mapWidth; x++)
+		{
+			for(int y = 0; y < mapHeight; y++)
+			{
+				temp = testGrid.getTile(x, y);
+				spr = temp->getTerrainSprite();
+				float sprite_x = spr->xPos();
+				float sprite_y = spr->yPos();
+				float sprite_width = spr->width();
+				float sprite_height = spr->height();
+
+				if(sprite_x < mouse_x &&
+					sprite_x + sprite_width > mouse_x &&
+					sprite_y < mouse_y &&
+					sprite_y + sprite_height > mouse_y)
+				{
+					std::cout << "tile selected\n";
+					spr->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
+					if(!temp->getIsBlocked())
+					{
+						selected = temp;
+						break;
+					}
+					else
+					{
+						break;
+					}
+					
+				}
+			}
+		}
+		for(auto& ent : ent_man.entities)
+		{
+			Entity* ent_ptr = ent.get();
+			Unit* unit = dynamic_cast<Unit*>(ent_ptr);
+			if(unit != nullptr)
+			{
+				if(unit->getSelected())
+				{
+					//TODO find path from to needs target sprite
+					testGrid.findPathFromTo(unit->getCurrentTile(), selected);
+					unit->setPathToGoal(testGrid.getPathToGoal());
+					std::cout << "unit moving\n";
+					unit->move();
+					unit->setSerializedPacketType(Unit::PacketType::MOVE);
+					unit->sendPacket();
+					unit->setSelected(false);
+					testGrid.clearMoveData();
+				}
+			}
+		}
+	}
 
 	if (client && client->isConnecting())
 	{

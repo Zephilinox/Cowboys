@@ -21,3 +21,10 @@ enum Z_ORDER_LAYER
 	OVERLAY = 5000,
 	OVERLAY_TEXT = 6000
 };
+
+struct MoveData
+{
+	float x = 0;
+	float y = 0;
+	float time_units = 0;
+};

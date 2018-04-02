@@ -3,19 +3,15 @@
 #include "..\Architecture\AnimatedSprite.hpp"
 #include "..\Architecture\GameData.hpp"
 #include "../Architecture/Entity.hpp"
-
+#include "../Architecture/Constants.hpp"
 //LIB
 #include <jsoncons/json.hpp>
+
+class TerrainTile;
 
 class Unit : public Entity
 {
 public:
-
-	struct Positions
-	{
-		float x = 0;
-		float y = 0;
-	};
 
 	enum UnitFacing
 	{
@@ -45,6 +41,8 @@ public:
 	virtual ~Unit() = default;
 
 	void onSpawn() final;
+	void setCurrentTile(TerrainTile* new_tile);
+	TerrainTile* getCurrentTile() { return current_tile; }
 
 	void update(float dt);
 	void render(ASGE::Renderer* renderer) const;
@@ -68,7 +66,10 @@ public:
 	void endTurn();
 	void endRound();
 
-	void moveToPosition(float x, float y);
+	void move();
+	void setSelected(bool new_val);
+	bool getSelected();
+	void setSerializedPacketType(PacketType new_type);
 
 	float getViewDistance() const { return view_distance; }
 	float getTimeUnits() const { return time_units; }
@@ -99,7 +100,8 @@ public:
 
 	void loadFromJSON(int unit_to_load);
 
-	void addPosToList (float x, float y);
+
+	void setPathToGoal(std::vector<MoveData> path);
 
 protected:
 	void commonUpdate(float dt);
@@ -162,7 +164,10 @@ protected:
 
 	bool selected;
 
-	std::vector<Positions> movement_pos_list;
+
+	std::vector<MoveData> movement_pos_list;
 	int movement_pos_list_counter = 0;
+
+	TerrainTile* current_tile = nullptr;
 
 };

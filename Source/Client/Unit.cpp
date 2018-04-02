@@ -31,14 +31,19 @@ void Unit::onSpawn()
 	if (isOwner())
 	{
 		std::cout << "owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
-		setPosition((float)game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowWidth()),
-			(float)game_data->getRandomNumberGenerator()->getRandomInt(0, game_data->getWindowHeight()));
+		//TODO change this to be read in from JSON
+		setPosition(entity_info.networkID * 2,entity_info.networkID * 2);
 		serializePacketType = PacketType::SET_POSITION;
 		sendPacket();
 		
 		//serializePacketType = PacketType::ATTACK;
 		//sendPacket();
 	}
+}
+
+void Unit::setCurrentTile(TerrainTile * new_tile)
+{
+	current_tile = new_tile;
 }
 
 void Unit::update(float dt)
@@ -49,40 +54,6 @@ void Unit::update(float dt)
 	}
 
 	commonUpdate(dt);
-
-	if (isOwner())
-	{
-		double mouse_x, mouse_y;
-		game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
-
-		if (game_data->getInputManager()->isMouseButtonPressed(0))
-		{
-			if (auto* sprite = getCurrentSprite())
-			{
-				float sprite_x = sprite->xPos();
-				float sprite_y = sprite->yPos();
-				float sprite_width = sprite->width();
-				float sprite_height = sprite->height();
-
-				if (sprite_x < mouse_x &&
-					sprite_x + sprite_width > mouse_x &&
-					sprite_y < mouse_y &&
-					sprite_y + sprite_height > mouse_y)
-				{
-					std::cout << "unit selected\n";
-					selected = true;
-				}
-				else if (selected)
-				{
-					std::cout << "unit deselected" << mouse_x << ", " << mouse_y << "\n";
-					moveToPosition((float)mouse_x, (float)mouse_y);
-					serializePacketType = PacketType::MOVE;
-					sendPacket();
-					selected = false;
-				}
-			}
-		}
-	}
 }
 
 void Unit::render(ASGE::Renderer* renderer) const
@@ -146,12 +117,13 @@ void Unit::deserialize(Packet& p)
 		}
 		case MOVE:
 		{
+			//TODO change the way this works
 			std::cout << "received MOVE\n";
 			float pos_x;
 			float pos_y;
 			p >> pos_x >> pos_y;
 
-			moveToPosition(pos_x, pos_y);
+			move();
 			break;
 		}
 		case SET_POSITION:
@@ -266,15 +238,31 @@ void Unit::setPosition(float x, float y)
 }
 
 // TODO make sure this is called AFTER positions list has been populated
-void Unit::moveToPosition(float x, float y)
+void Unit::move()
 {
 	char_state = UnitState::WALKING;
 	horizontal_walk_sprite.play();
 	backward_walk_sprite.play();
 	forward_walk_sprite.play();
 
-	target_x_position = x;
-	target_y_position = y;
+	//SET TO PATH TO FOLLOW VECTOR POs 0
+	target_x_position = movement_pos_list.front().x;
+	target_y_position = movement_pos_list.front().y;
+}
+
+void Unit::setSelected(bool new_val)
+{
+	selected = new_val;
+}
+
+bool Unit::getSelected()
+{
+	return selected;
+}
+
+void Unit::setSerializedPacketType(PacketType new_type)
+{
+	serializePacketType = new_type;
 }
 
 std::string Unit::getFullName()
@@ -338,14 +326,6 @@ void Unit::loadFromJSON(int unit_to_load)
 	}
 }
 
-void Unit::addPosToList(float x, float y)
-{
-	Positions new_pos;
-	new_pos.x = x;
-	new_pos.y = y;
-	movement_pos_list.push_back(std::move(new_pos));
-}
-
 void Unit::commonUpdate(float dt)
 {
 	updateOverridePositions();
@@ -393,13 +373,9 @@ void Unit::commonUpdate(float dt)
 		}
 
 		if (yPosMatched && xPosMatched)
-		{
-			//RICARDO - here for movement popping through the vector, will require minor adjustment
-
-			//TODO - uncomment section when PATHFINDING complete
-			/*
-			movement_pos_list_counter++;
-			if (movement_pos_list_counter == movement_pos_list.size() )
+		{			
+			
+			if (movement_pos_list_counter == movement_pos_list.size() - 1 )
 			{
 				movement_pos_list_counter = 0;
 				movement_pos_list.clear();
@@ -414,19 +390,10 @@ void Unit::commonUpdate(float dt)
 			}
 			else
 			{
+				movement_pos_list_counter++;
 				target_x_position = movement_pos_list[movement_pos_list_counter].x;
 				target_y_position = movement_pos_list[movement_pos_list_counter].y;
 			}
-			*/
-			
-			char_state = UnitState::IDLE;
-
-			horizontal_walk_sprite.restart();
-			horizontal_walk_sprite.pause();
-			backward_walk_sprite.restart();
-			backward_walk_sprite.pause();
-			forward_walk_sprite.restart();
-			forward_walk_sprite.pause();
 		}
 
 		break;
@@ -559,4 +526,16 @@ void Unit::updateOverridePositions()
 	forward_walk_sprite.yPos = y_position;
 	backward_walk_sprite.yPos = y_position;
 	horizontal_walk_sprite.yPos = y_position;
+}
+
+void Unit::setPathToGoal(std::vector<MoveData> path)
+{
+	for(int i = path.size() - 1; i >= 0; i--)
+	{
+		MoveData move_data;
+		move_data.x = path[i].x;
+		move_data.y = path[i].y;
+		move_data.time_units = path[i].time_units;
+		movement_pos_list.push_back(std::move(move_data));
+	}
 }
