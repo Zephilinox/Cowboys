@@ -32,9 +32,9 @@ void Unit::onSpawn()
 	{
 		std::cout << "owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
 		//TODO change this to be read in from JSON
-		setPosition(entity_info.networkID * 40.0f, entity_info.networkID * 40.0f);
-		serializePacketType = PacketType::SET_POSITION;
-		sendPacket();
+		//setPosition(entity_info.networkID * 40.0f, entity_info.networkID * 40.0f);
+		//serializePacketType = PacketType::SET_POSITION;
+		//sendPacket();
 		
 		//serializePacketType = PacketType::ATTACK;
 		//sendPacket();

@@ -157,6 +157,8 @@ void Grid::loadJSONBuildings(int seed)
 	jsoncons::json layout_JSON_obj;
 	file >> layout_JSON_obj;
 
+	seed_used = seed;
+
 	std::string layoutStr = "layout" + std::to_string(seed);
 
 	int buildingsCount = layout_JSON_obj[layoutStr]["numberOfBuildings"].as_int();
@@ -204,6 +206,56 @@ void Grid::render() const
 			}
 		}
 	}
+}
+
+int Grid::getJsonXPos(uint32_t owner, uint32_t netID)
+{
+
+	//TODO convert getJSONXPos into 1 function that returns a pair, which can the be put into the function call to set position
+	std::ifstream file("../../Resources/mapData.json");
+	jsoncons::json positions_JSON_obj;
+	file >> positions_JSON_obj;
+
+	std::string layoutStr = "layout" + std::to_string(seed_used);
+	std::string spawnPos = "spawnPositions" + std::to_string(owner);
+	std::string posXStr = "positionX" + std::to_string(netID);
+	int xPos = -1;
+
+		try
+		{
+			//STATS
+			xPos = positions_JSON_obj[layoutStr][spawnPos][posXStr].as_int();
+		}
+		catch(std::runtime_error& e)
+		{
+			std::cout << "ERROR INFO: " << e.what() << "\n";
+		}
+
+		return xPos;
+}
+
+int Grid::getJsonYPos(uint32_t owner, uint32_t netID)
+{
+	std::ifstream file("../../Resources/mapData.json");
+	jsoncons::json positions_JSON_obj;
+	file >> positions_JSON_obj;
+
+	std::string layoutStr = "layout" + std::to_string(seed_used);
+	std::string spawnPos = "spawnPositions" + std::to_string(owner);
+	std::string posYStr = "positionY" + std::to_string(netID);
+	int yPos = -1;
+
+	try
+	{
+		//STATS
+		yPos = positions_JSON_obj[layoutStr][spawnPos][posYStr].as_int();
+	}
+	catch(std::runtime_error& e)
+	{
+		std::cout << "ERROR INFO: " << e.what() << "\n";
+	}
+
+	return yPos;
 }
 
 void Grid::loadHardCodedMap()

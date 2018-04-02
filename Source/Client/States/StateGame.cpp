@@ -119,14 +119,20 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					case hash("Unit"):
 					{
 						auto ent = ent_man.spawnEntity<Unit>(info);
+
+						//RICARDO - help me duuuude xD
+						int x_start_pos = testGrid.getJsonXPos(ent->entity_info.ownerID, ent->entity_info.networkID);
+						int y_start_pos = testGrid.getJsonYPos(ent->entity_info.ownerID, ent->entity_info.networkID);
+
+						Unit* unit = static_cast<Unit*>(ent);
+						unit->setCurrentTile(testGrid.getTile(x_start_pos, y_start_pos));
+						unit->setPosition(unit->getCurrentTile()->getTerrainSprite()->xPos(), unit->getCurrentTile()->getTerrainSprite()->yPos());
+						unit->getCurrentTile()->setIsBlocked(true);
+
 						if (ent->isOwner())
 						{
 							our_warband.addToNetworkIDs(info.networkID);
 							our_warband.checkReady(ent_man);
-							Unit* unit = static_cast<Unit*>(ent);
-							unit->setPosition(unit->entity_info.networkID * 40.0f, unit->entity_info.networkID * 40.0f);
-							unit->setCurrentTile(testGrid.getTile(unit->entity_info.networkID, unit->entity_info.networkID));
-							unit->getCurrentTile()->setIsBlocked(true);
 						}
 						else
 						{

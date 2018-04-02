@@ -36,6 +36,9 @@ public:
 	float getTileXPosAtArrayPos(int x, int y) const;
 	float getTileYPosAtArrayPos(int x, int y) const;
 
+	int getJsonXPos(uint32_t owner, uint32_t netID);
+	int getJsonYPos(uint32_t owner, uint32_t netID);
+
 	std::vector<MoveData>& getPathToGoal() { return pathToGoal; }
 	void clearMoveData();
 
@@ -59,6 +62,8 @@ private:
 
 	//todo: use std::array so we can pass in runtime values
 
+	int seed_used = 0;
+	int posJSONCounter = 0;
 
 	float offset_x;
 	float offset_y;				
