@@ -31,7 +31,7 @@ void Unit::onSpawn()
 	if (isOwner())
 	{
 		std::cout << "owner on spawn for " << entity_info.networkID << ", " << entity_info.ownerID << "\n";
-		//TODO change this to be read in from JSON
+		//KEEP COMMENTED - here for legacy only
 		//setPosition(entity_info.networkID * 40.0f, entity_info.networkID * 40.0f);
 		//serializePacketType = PacketType::SET_POSITION;
 		//sendPacket();
@@ -117,11 +117,10 @@ void Unit::deserialize(Packet& p)
 		}
 		case MOVE:
 		{
-			//TODO change the way this works
 			std::cout << "received MOVE\n";
-			float pos_x;
-			float pos_y;
-			p >> pos_x >> pos_y;
+			//float pos_x;
+			//float pos_y;
+			//p >> pos_x >> pos_y;
 
 			move();
 			break;

@@ -47,12 +47,19 @@ private:
 
 	Warband our_warband;
 	Warband their_warband;
+	Warband* active_turn_warband;
+	uint32_t active_turn_unit;
 
 	//TODO refactor as final grid
 	Grid testGrid;
 
+	bool gameReady = false;
+
+	std::unique_ptr<ASGE::Sprite> yourTurnSprite;
+	std::unique_ptr<ASGE::Sprite> endTurnSprite;
+	std::unique_ptr<ASGE::Sprite> endRoundSprite;
+
 	EntityManager ent_man;
-	uint32_t selected_unit_netID;
 
 	float offset_x = 0.0f;
 	float offset_y = 0.0f;

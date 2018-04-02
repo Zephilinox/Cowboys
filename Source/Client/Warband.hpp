@@ -14,7 +14,7 @@ struct isLowerFunctor
 {
 	bool operator()(const InitiativeTrack& x, const InitiativeTrack& y) const
 	{
-		return x.initiative < y.initiative;
+		return y.initiative < x.initiative;
 	}
 };
 
@@ -32,12 +32,9 @@ public:
 	//bool compareByInitiative(const InitiativeTrack & a, const InitiativeTrack & b);
 
 	uint32_t getNextUnitInInitiativeList();
-
 	std::vector<uint32_t> getUnitNetworkIDs();
-
 	unsigned int getUnitNetworkIDsSize();
-	void sendMoveCommand(uint32_t unit_network_ID, int grid_x, int grid_y);
-	void sendAttackCommand(uint32_t attacking_unit_network_ID, uint32_t defending_unit_network_ID);
+	void unitActed(uint32_t netID, bool new_val);
 
 	bool getAllUnitsActed();
 	void resetAllActed();

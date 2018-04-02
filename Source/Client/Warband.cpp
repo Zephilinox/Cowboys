@@ -92,52 +92,6 @@ std::vector<uint32_t> Warband::getUnitNetworkIDs()
 }
 
 
-//RICARDO check pls
-//this is fine, but it might be better to make these functions on the unit itself.
-//I'll take a look at improving some of the base entity stuff so this is easier
-void Warband::sendMoveCommand(uint32_t unit_network_ID, int target_grid_x, int target_grid_y )
-{
-	//make a packet
-	Packet p;
-	p.setID(hash("Entity"));
-	//set up manual info as cannot pass StateGame into warband class
-	EntityInfo info;
-	info.networkID = unit_network_ID;
-	info.ownerID = game_data->getNetworkManager()->client->getID();
-	info.type = (hash("UnitMove"));
-
-	//put info, packet type and the unitID into the packet
-	p << info;
-	p << Unit::PacketType::MOVE;
-	p << target_grid_x << target_grid_y;
-	//Send the packet
-	game_data->getNetworkManager()->client->sendPacket(0, &p);
-}
-
-void Warband::sendAttackCommand(uint32_t attacking_unit_network_ID, uint32_t defending_unit_network_ID)
-{
-	//make packet
-	//get damage caused (unit function)
-	//send packet containing attacker ID, defender ID and damage dealt
-
-	//make a packet
-	Packet p;
-	p.setID(hash("Entity"));
-	//set up manual info as cannot pass StateGame into warband class
-	EntityInfo info;
-	info.networkID = attacking_unit_network_ID;
-	info.ownerID = game_data->getNetworkManager()->client->getID();
-	info.type = (hash("UnitAttack"));
-
-	//put info, packet type and the unitID into the packet
-	p << info;
-	p << Unit::PacketType::ATTACK;
-	p << attacking_unit_network_ID << defending_unit_network_ID;
-
-	//Send the packet
-	game_data->getNetworkManager()->client->sendPacket(0, &p);
-}
-
 bool Warband::getAllUnitsActed()
 {
 	return allUnitsActed;
@@ -156,12 +110,24 @@ void Warband::endTurn(EntityManager & ent_man, uint32_t netID)
 	Entity* ent = ent_man.getEntity(netID);
 	Unit* unit = static_cast<Unit*>(ent);
 	unit->endTurn();
+	unitActed(netID, true);
 }
 
 
 unsigned int Warband::getUnitNetworkIDsSize()
 {
 	return unit_network_IDs.size();
+}
+
+void Warband::unitActed(uint32_t netID, bool new_val)
+{
+	for(auto& tracker : initiativeTracker)
+	{
+		if(tracker.net_ID == netID)
+		{
+			tracker.hasActed = new_val;
+		}
+	}
 }
 
 uint32_t Warband::getUnitNetworkIDAt(int index)
