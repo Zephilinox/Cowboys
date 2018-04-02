@@ -60,6 +60,14 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				}
 			} break;
 
+			case hash("UnitMove"):
+			{
+				this->game_data->getNetworkManager()->server->sendPacketToSomeClients(0, &p, ENET_PACKET_FLAG_RELIABLE, [senderID = p.senderID](const ClientInfo& ci)
+				{
+					return ci.id != senderID;
+				});
+			}
+
 			case hash("Disconnected"):
 			{
 				//When a client disconnects, keep their entities rather than delete them.
@@ -111,9 +119,6 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					case hash("Unit"):
 					{
 						auto ent = ent_man.spawnEntity<Unit>(info);
-
-
-
 						if (ent->isOwner())
 						{
 							our_warband.addToNetworkIDs(info.networkID);
@@ -133,6 +138,34 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					} break;
 				}
 			} break;
+
+			case hash("UnitMove"):
+			{
+				int packetStartX = 0;
+				int packetStartY = 0;
+				int packetEndX = 0;
+				int packetEndY = 0;
+				uint32_t netId = 0;
+
+				p >> packetStartX >> packetStartY >> packetEndX >> packetEndY >> netId;
+
+				Entity* ent_ptr = ent_man.getEntity(netId);
+				Unit* unit = static_cast<Unit*>(ent_ptr);
+
+				if(testGrid.findPathFromTo(&testGrid.map[packetStartX][packetStartY], &testGrid.map[packetEndX][packetEndY]))
+				{
+					unit->setPathToGoal(testGrid.getPathToGoal());
+					std::cout << "unit moving\n";
+					unit->move();
+					unit->setCurrentTile(&testGrid.map[packetStartX][packetStartY]);
+					unit->getCurrentTile()->setIsBlocked(false);
+					unit->setCurrentTile(&testGrid.map[packetEndX][packetEndY]);
+					unit->getCurrentTile()->setIsBlocked(true);
+					testGrid.clearMoveData();
+				}
+
+				break;
+			}
 		}
 	};
 
@@ -175,7 +208,12 @@ void StateGame::update(const ASGE::GameTime& gt)
 	double mouse_x, mouse_y;
 	game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
 
-	
+
+	if (client && client->isConnecting())
+	{
+		ent_man.update(dt);
+	}
+
 	if(game_data->getInputManager()->isMouseButtonPressed(0))
 	{
 		for(auto& ent : our_warband.getUnitNetworkIDs())
@@ -242,6 +280,11 @@ void StateGame::update(const ASGE::GameTime& gt)
 		TerrainTile* temp = nullptr;
 		TerrainTile* selected = nullptr;
 		ASGE::Sprite* spr = nullptr;
+		int packetStartX = 0;
+		int packetStartY = 0;
+		int packetEndX = 0;
+		int packetEndY = 0;
+
 		for(int x = 0; x < mapWidth; x++)
 		{
 			for(int y = 0; y < mapHeight; y++)
@@ -271,7 +314,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 						{
 							break;
 						}
-					}	
+					}
 				}
 			}
 		}
@@ -284,14 +327,23 @@ void StateGame::update(const ASGE::GameTime& gt)
 				if(unit->getSelected() && selected != nullptr)
 				{
 					//TODO find path from to needs target sprite
-					if (testGrid.findPathFromTo(unit->getCurrentTile(), selected))
+					if(testGrid.findPathFromTo(unit->getCurrentTile(), selected))
 					{
 						unit->setPathToGoal(testGrid.getPathToGoal());
 						std::cout << "unit moving\n";
 						unit->move();
 						unit->getCurrentTile()->setIsBlocked(false);
-						unit->setSerializedPacketType(Unit::PacketType::MOVE);
-						unit->sendPacket();
+
+						packetStartX = unit->getCurrentTile()->xCoord;
+						packetStartY = unit->getCurrentTile()->yCoord;
+						packetEndX = selected->xCoord;
+						packetEndY = selected->yCoord;
+
+						Packet lol;
+						lol.setID(hash("UnitMove"));
+						lol << packetStartX << packetStartY << packetEndX << packetEndY << unit->entity_info.networkID;
+						game_data->getNetworkManager()->client->sendPacket(0, &lol);
+
 						unit->setSelected(false);
 						selected_unit_netID = 0;
 						unit->setCurrentTile(selected);
@@ -303,10 +355,6 @@ void StateGame::update(const ASGE::GameTime& gt)
 		}
 	}
 
-	if (client && client->isConnecting())
-	{
-		ent_man.update(dt);
-	}
 
 	if (game_data->getInputManager()->isActionPressed(hash("Escape")))
 	{
