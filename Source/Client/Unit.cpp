@@ -20,8 +20,14 @@ Unit::Unit(GameData* game_data, EntityManager* ent_man)
 	selected_sprite = game_data->getRenderer()->createUniqueSprite();
 
 	portrait = game_data->getRenderer()->createUniqueSprite();
+	marker_sprite = game_data->getRenderer()->createUniqueSprite();
 
 	if (!selected_sprite->loadTexture("../../Resources/Textures/UI/Selected.png"))
+	{
+		throw;
+	}
+
+	if(!marker_sprite->loadTexture("../../Resources/Textures/Units/Marker.png"))
 	{
 		throw;
 	}
@@ -74,6 +80,16 @@ void Unit::render(ASGE::Renderer* renderer) const
 		selected_sprite->yPos(getCurrentSprite()->yPos());
 		renderer->renderSprite(*selected_sprite, Z_ORDER_LAYER::UNITS + 1000.0f + this->y_position);
 	}
+	if(active_turn)
+	{
+		marker_sprite->xPos(getCurrentSprite()->xPos() + 4.0f);
+		marker_sprite->yPos(getCurrentSprite()->yPos() - 32.0f);
+		renderer->renderSprite(*marker_sprite, Z_ORDER_LAYER::UNITS + 1000.0f + this->y_position);
+	}
+
+
+
+
 }
 
 void Unit::serialize(Packet& p)
@@ -536,6 +552,9 @@ void Unit::updateOverridePositions()
 	forward_walk_sprite.yPos = y_position;
 	backward_walk_sprite.yPos = y_position;
 	horizontal_walk_sprite.yPos = y_position;
+
+	marker_sprite->xPos(x_position + 4.0f);
+	marker_sprite->yPos(y_position - 32.0f);
 }
 
 void Unit::endMove()

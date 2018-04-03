@@ -66,6 +66,9 @@ public:
 	void endTurn();
 	void endRound();
 
+
+	void setActiveTurn(bool new_val) { active_turn = new_val; }
+	bool getActiveTurn() { return active_turn; }
 	void move();
 	void setSelected(bool new_val);
 	bool getSelected();
@@ -84,6 +87,8 @@ public:
 	ASGE::Sprite* getPortraitSprite();
 
 	std::string getFullName();
+
+	bool getInitialised() { return initialized; }
 
 	void setViewDistance(float new_val) { view_distance = new_val; }
 	void setTimeUnits(float new_val) { time_units = new_val; }
@@ -159,13 +164,14 @@ protected:
 	std::unique_ptr<ASGE::Sprite> idle_sprite_left;
 
 	std::unique_ptr<ASGE::Sprite> selected_sprite;
-
+	std::unique_ptr<ASGE::Sprite> marker_sprite;
 	std::unique_ptr<ASGE::Sprite> portrait;
 
 	bool initialized = false;
 	PacketType serializePacketType = PacketType::INVALID;
 
-	bool selected;
+	bool selected = false;
+	bool active_turn = false;
 
 	void endMove();
 

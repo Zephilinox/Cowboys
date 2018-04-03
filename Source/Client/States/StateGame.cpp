@@ -191,7 +191,7 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 		ent_man.createEntityRequest<Unit>();
 	}
 
-	menu.addButton(game_data->getWindowWidth() - 100, game_data->getWindowHeight() - 100, "End Turn", ASGE::COLOURS::GREEN, ASGE::COLOURS::GREENYELLOW, 80.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() - 100, game_data->getWindowHeight() - 300, "End Turn", ASGE::COLOURS::GREEN, ASGE::COLOURS::GREENYELLOW, 80.0f, 20.0f);
 	menu.getButton(0).on_click.connect([this]()
 	{
 		endTurn();
@@ -226,6 +226,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 			active_turn_warband = &their_warband;	
 		}
 		active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
+		static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->setActiveTurn(true);
 	}
 
 	auto client = game_data->getNetworkManager()->client.get();
@@ -528,6 +529,7 @@ void StateGame::endTurn()
 		active_turn_warband = &their_warband;
 	}
 	active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
+	static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->setActiveTurn(true);
 }
 
 void StateGame::endRound()
@@ -545,21 +547,22 @@ void StateGame::renderUnitStatsToPanel() const
 		{
 			Unit* unit = static_cast<Unit*>(ent.get());
 
-			std::setprecision(2);
-
-			const int baseHeight = 600;
-			//game_data->getRenderer()->renderText(unit->getNickName(), x_pos, baseHeight, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-			game_data->getRenderer()->renderText("Health: " + std::to_string((int)unit->getHealth()), x_pos, baseHeight + 15, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-			game_data->getRenderer()->renderText("T. Units: " + std::to_string((int)unit->getTimeUnits()), x_pos, baseHeight + 30, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-			game_data->getRenderer()->renderText("Stamina: " + std::to_string((int)unit->getStamina()), x_pos, baseHeight + 45, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-			game_data->getRenderer()->renderText("Bravery: " + std::to_string((int)unit->getBravery()), x_pos, baseHeight + 60, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-			game_data->getRenderer()->renderText("Accuracy: " + std::to_string((int)unit->getFiringAccuracy()), x_pos, baseHeight + 75, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-			game_data->getRenderer()->renderText("Strength: " + std::to_string((int)unit->getStrength()), x_pos, baseHeight + 90, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-			game_data->getRenderer()->renderText("Initiative: " + std::to_string((int)unit->getInitiative()), x_pos, baseHeight + 105, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
-			unit->getPortraitSprite()->xPos(x_pos + 136);
-			unit->getPortraitSprite()->yPos(baseHeight - 71);
-			game_data->getRenderer()->renderSprite(*unit->getPortraitSprite(),Z_ORDER_LAYER::OVERLAY_TEXT + 2);
-			x_pos += 256.0f;
+			if(unit->getInitialised())
+			{
+				const int baseHeight = 600;
+				//game_data->getRenderer()->renderText(unit->getNickName(), x_pos, baseHeight, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+				game_data->getRenderer()->renderText("Health: " + std::to_string((int)unit->getHealth()), x_pos, baseHeight + 15, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+				game_data->getRenderer()->renderText("T. Units: " + std::to_string((int)unit->getTimeUnits()), x_pos, baseHeight + 30, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+				game_data->getRenderer()->renderText("Stamina: " + std::to_string((int)unit->getStamina()), x_pos, baseHeight + 45, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+				game_data->getRenderer()->renderText("Bravery: " + std::to_string((int)unit->getBravery()), x_pos, baseHeight + 60, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+				game_data->getRenderer()->renderText("Accuracy: " + std::to_string((int)unit->getFiringAccuracy()), x_pos, baseHeight + 75, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+				game_data->getRenderer()->renderText("Strength: " + std::to_string((int)unit->getStrength()), x_pos, baseHeight + 90, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+				game_data->getRenderer()->renderText("Initiative: " + std::to_string((int)unit->getInitiative()), x_pos, baseHeight + 105, 1.0f, ASGE::COLOURS::CRIMSON, Z_ORDER_LAYER::OVERLAY_TEXT + 1);
+				unit->getPortraitSprite()->xPos(x_pos + 136);
+				unit->getPortraitSprite()->yPos(baseHeight - 71);
+				game_data->getRenderer()->renderSprite(*unit->getPortraitSprite(), Z_ORDER_LAYER::OVERLAY_TEXT + 2);
+				x_pos += 256.0f;
+			}
 		}
 
 	}

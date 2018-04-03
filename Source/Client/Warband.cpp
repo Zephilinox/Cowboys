@@ -110,6 +110,7 @@ void Warband::endTurn(EntityManager & ent_man, uint32_t netID)
 	Entity* ent = ent_man.getEntity(netID);
 	Unit* unit = static_cast<Unit*>(ent);
 	unit->endTurn();
+	unit->setActiveTurn(false);
 	unitActed(netID, true);
 }
 
