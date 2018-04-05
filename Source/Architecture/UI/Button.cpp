@@ -62,6 +62,16 @@ void Button::setSelected(bool s) noexcept
 	selected = s;
 }
 
+bool Button::isEnabled() const
+{
+	return enabled;
+}
+
+void Button::setEnabled(bool new_enabled)
+{
+	enabled = new_enabled;
+}
+
 float Button::getPosX() const noexcept
 {
 	return pos_x;

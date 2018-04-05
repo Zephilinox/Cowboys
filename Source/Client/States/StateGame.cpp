@@ -35,6 +35,22 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	UI_panel_sprite->xPos(0.0f);
 	UI_panel_sprite->yPos(game_data->getWindowHeight() - UI_panel_sprite->height());
 
+	portrait_highlight = game_data->getRenderer()->createUniqueSprite();
+	portrait_highlight->loadTexture("../../Resources/Textures/UI/SelectedPortrait.png");
+
+	yourTurnSprite = game_data->getRenderer()->createUniqueSprite();
+	yourTurnSprite->loadTexture("../../Resources/Textures/Turns/yourTurn.png");
+	yourTurnSprite->yPos(game_data->getWindowHeight() * 0.15f);
+	yourTurnSprite->xPos(game_data->getWindowWidth() * 0.3f);
+	endTurnSprite = game_data->getRenderer()->createUniqueSprite();
+	endTurnSprite->loadTexture("../../Resources/Textures/Turns/endTurn.png");
+	endTurnSprite->yPos(game_data->getWindowHeight() * 0.15f);
+	endTurnSprite->xPos(game_data->getWindowWidth() * 0.3f);
+	endRoundSprite = game_data->getRenderer()->createUniqueSprite();
+	endRoundSprite->loadTexture("../../Resources/Textures/Turns/endRound.png");
+	endRoundSprite->yPos(game_data->getWindowHeight() * 0.15f);
+	endRoundSprite->xPos(game_data->getWindowWidth() * 0.3f);
+
 	//This is lobby-related, leave it for now until I have a closer look at it
 	Packet p;
 	p.setID(hash("GameJoined"));
@@ -72,7 +88,14 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				{
 					return ci.id != senderID;
 				});
+				break;
 			}
+			case hash("EndTurn"):
+			{
+				this->game_data->getNetworkManager()->server->sendPacketToAllClients(0, &p, ENET_PACKET_FLAG_RELIABLE);
+				break;
+			}
+
 
 			case hash("Disconnected"):
 			{
@@ -172,7 +195,11 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					unit->getCurrentTile()->setIsBlocked(true);
 					testGrid.clearMoveData();
 				}
-
+				break;
+			}
+			case hash("EndTurn"):
+			{
+				endTurn();
 				break;
 			}
 		}
@@ -194,9 +221,8 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	menu.addButton(game_data->getWindowWidth() - 100, game_data->getWindowHeight() - 300, "End Turn", ASGE::COLOURS::GREEN, ASGE::COLOURS::GREENYELLOW, 80.0f, 20.0f);
 	menu.getButton(0).on_click.connect([this]()
 	{
-		endTurn();
-		
 		//send packet to trigger same function on other client here
+		sendEndTurnPacket();
 	});
 
 	game_data->getMusicPlayer()->play("Piano Loop");
@@ -210,21 +236,50 @@ StateGame::~StateGame()
 
 void StateGame::update(const ASGE::GameTime& gt)
 {
+	//RICARDO - this won't cause any issue right?
+	if(menu.getButton(0).isEnabled())
+	{
+		menu.update();
+	}
+	
+	if(endRoundTimer > 0.0f)
+	{
+		endRoundTimer -= (float)gt.delta_time.count() / 1000.0f;;
+	}
+	else if(yourTurnTimer > 0.0f)
+	{
+		yourTurnTimer -= (float)gt.delta_time.count() / 1000.0f;;
+	}
+	else if(endTurnTimer > 0.0f)
+	{
+		endTurnTimer -= (float)gt.delta_time.count() / 1000.0f;;
+	}
+
 
 	if(our_warband.getUnitNetworkIDsSize() == 5 && their_warband.getUnitNetworkIDsSize() == 5
 		&& gameReady == false)
 	{
 		gameReady = true;
 
+		//Now both warbands are initialised, init & sort their initiative trackers
+		our_warband.initInitiativeTracker(ent_man);
+		their_warband.initInitiativeTracker(ent_man);
+
+		uint32_t test1 = our_warband.getNextUnitInInitiativeList();
+		uint32_t test2 = their_warband.getNextUnitInInitiativeList();
+
 		//Check which warband has the highest starting initiative.
 		if(our_warband.getNextUnitInInitiativeList() > their_warband.getNextUnitInInitiativeList())
 		{
 			active_turn_warband = &our_warband;
+			menu.getButton(0).setEnabled(true);
 		}
 		else
 		{
-			active_turn_warband = &their_warband;	
+			active_turn_warband = &their_warband;
+			menu.getButton(0).setEnabled(false);
 		}
+
 		active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
 		static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->setActiveTurn(true);
 	}
@@ -359,7 +414,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 			//change this to, active unit selected ONLY, so other's cannot act without being their turn
 			Unit* active_unit = static_cast<Unit*>(ent_man.getEntity(active_turn_unit));
 
-			if(selected != nullptr && ent_man.getEntity(active_turn_unit)->isOwner()
+			if(selected != nullptr && active_turn_warband == &our_warband && ent_man.getEntity(active_turn_unit)->isOwner()
 				&& active_unit->getSelected())
 			{
 				if(testGrid.findPathFromTo(active_unit->getCurrentTile(), selected))
@@ -393,6 +448,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 			}
 		}			
 	}
+
 	if (game_data->getInputManager()->isActionPressed(hash("Escape")))
 	{
 		game_data->getStateManager()->push<StatePause>();
@@ -487,6 +543,21 @@ void StateGame::render() const
 	testGrid.render();
 	menu.render(Z_ORDER_LAYER::OVERLAY);
 	renderUnitStatsToPanel();
+
+	if(endTurnTimer > 0.0f)
+	{
+		game_data->getRenderer()->renderSprite(*endTurnSprite, Z_ORDER_LAYER::OVERLAY_TEXT + 500.0f);
+	}
+
+	if(yourTurnTimer > 0.0f)
+	{
+		game_data->getRenderer()->renderSprite(*yourTurnSprite, Z_ORDER_LAYER::OVERLAY_TEXT + 500.0f);
+	}
+	if(endRoundTimer > 0.0f)
+	{
+		game_data->getRenderer()->renderSprite(*endRoundSprite, Z_ORDER_LAYER::OVERLAY_TEXT + 500.0f);
+	}
+	
 }
 
 void StateGame::onActive()
@@ -498,36 +569,63 @@ void StateGame::onInactive()
 {
 }
 
+void StateGame::sendEndTurnPacket()
+{
+	Packet p;
+	p.setID(hash("EndTurn"));
+	game_data->getNetworkManager()->client->sendPacket(0, &p);
+}
+
 void StateGame::endTurn()
 {
+	bool your_turn_now = false;
+	bool end_of_turn = false;
+	bool end_of_round = false;
+
+
 	active_turn_warband->endTurn(ent_man, active_turn_unit);
 	//Swap active warband
 	if(active_turn_warband == &our_warband)
 	{
+		our_warband.unitActed(active_turn_unit, true);
 		//TODO play ENDTURN animation
+		end_of_turn = true;
 		active_turn_warband = &their_warband;
+		menu.getButton(0).setEnabled(false);
 	}
 	else
 	{
+		their_warband.unitActed(active_turn_unit, true);
 		//TODO play YOURTURN animation
+		your_turn_now = true;
 		active_turn_warband = &our_warband;
+		menu.getButton(0).setEnabled(true);
 	}
+
+	our_warband.checkAllActed();
+	their_warband.checkAllActed();
 
 	//set active player's warband.endTurn(networkID)
 	if(our_warband.getAllUnitsActed() && their_warband.getAllUnitsActed())
 	{
+		end_of_round = true;
 		endRound();
 		//TODO Play ROUNDEND animation
 	}
 
-	if(our_warband.getNextUnitInInitiativeList() > their_warband.getNextUnitInInitiativeList())
+	if(end_of_round)
 	{
-		active_turn_warband = &our_warband;
+		endRoundTimer = 1.5f;
 	}
-	else
+	else if(end_of_turn)
 	{
-		active_turn_warband = &their_warband;
+		endTurnTimer = 1.5f;
 	}
+	else if(your_turn_now)
+	{
+		yourTurnTimer = 1.5f;
+	}
+
 	active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
 	static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->setActiveTurn(true);
 }
@@ -562,6 +660,14 @@ void StateGame::renderUnitStatsToPanel() const
 				unit->getPortraitSprite()->yPos(baseHeight - 71);
 				game_data->getRenderer()->renderSprite(*unit->getPortraitSprite(), Z_ORDER_LAYER::OVERLAY_TEXT + 2);
 				x_pos += 256.0f;
+
+				if(unit->getSelected())
+				{
+					portrait_highlight->xPos(unit->getPortraitSprite()->xPos());
+					portrait_highlight->yPos(unit->getPortraitSprite()->yPos());
+					game_data->getRenderer()->renderSprite(*portrait_highlight, Z_ORDER_LAYER::OVERLAY_TEXT + 3);
+				}
+
 			}
 		}
 

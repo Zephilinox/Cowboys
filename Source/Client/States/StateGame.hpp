@@ -34,6 +34,8 @@ public:
 	void onActive() override final;
 	void onInactive() override final;
 
+	void sendEndTurnPacket();
+
 	void screenScroll(float dt, double mouseX, double mouseY);
 
 	void endTurn();
@@ -44,6 +46,13 @@ private:
 	ManagedConnection managed_slot_2;
 
 	void renderUnitStatsToPanel() const;
+	std::unique_ptr<ASGE::Sprite> portrait_highlight;
+
+
+	float endTurnTimer = 0.0f;
+	float endRoundTimer = 0.0f;
+	float yourTurnTimer = 0.0f;
+
 
 	Menu menu;
 

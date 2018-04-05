@@ -406,7 +406,8 @@ void Unit::commonUpdate(float dt)
 				movement_pos_list_counter++;
 				target_x_position = movement_pos_list[movement_pos_list_counter].x;
 				target_y_position = movement_pos_list[movement_pos_list_counter].y;
-				if(movement_pos_list[movement_pos_list_counter].time_units >= time_units)
+
+				if(movement_pos_list[movement_pos_list_counter].time_units <= time_units)
 				{
 					time_units -= movement_pos_list[movement_pos_list_counter].time_units;
 				}

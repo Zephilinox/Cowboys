@@ -27,7 +27,9 @@ public:
 
 	void addToNetworkIDs(uint32_t new_ID);
 	void sendJSONPackets();
-	void checkReady(EntityManager& ent_man);
+	void checkReady(EntityManager & ent_man);
+	void initInitiativeTracker(EntityManager & ent_man);
+
 
 	//bool compareByInitiative(const InitiativeTrack & a, const InitiativeTrack & b);
 
@@ -37,6 +39,7 @@ public:
 	void unitActed(uint32_t netID, bool new_val);
 
 	bool getAllUnitsActed();
+	void checkAllActed();
 	void resetAllActed();
 	void endTurn(EntityManager & ent_man, uint32_t netID);
 

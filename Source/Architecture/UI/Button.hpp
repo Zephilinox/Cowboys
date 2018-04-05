@@ -25,6 +25,8 @@ public:
 
 	bool isSelected() const noexcept;
 	void setSelected(bool selected) noexcept;
+	bool isEnabled() const;
+	void setEnabled(bool enabled);
 
 	float getPosX() const noexcept;
 	float getPosY() const noexcept;
@@ -42,6 +44,7 @@ public:
 
 private:
 	bool selected = false;
+	bool enabled = true;
 	
 	float pos_x = 0;
 	float pos_y = 0;

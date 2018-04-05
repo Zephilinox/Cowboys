@@ -55,22 +55,30 @@ void Warband::checkReady(EntityManager & ent_man)
 	{
 		already_checked = true;
 		sendJSONPackets();
-
-		for (int i = 0; i < 5; i++)
+		for(int i = 0; i < 5; i++)
 		{
 			Entity* ent = ent_man.getEntity(unit_network_IDs[i]);
 			Unit* unit = static_cast<Unit*>(ent);
 			unit->loadFromJSON(units[i]);
-
-			InitiativeTrack unitTrack;
-			unitTrack.net_ID = unit_network_IDs[i];
-			unitTrack.initiative = unit->getInitiative();
-			unitTrack.hasActed = false;
-			initiativeTracker.push_back(std::move(unitTrack));
 		}
-		//do sort here
-		std::sort(initiativeTracker.begin(), initiativeTracker.end(), isLowerFunctor());
 	}
+}
+
+void Warband::initInitiativeTracker(EntityManager & ent_man)
+{
+	for(int i = 0; i < 5; i++)
+	{
+		Entity* ent = ent_man.getEntity(unit_network_IDs[i]);
+		Unit* unit = static_cast<Unit*>(ent);
+
+		InitiativeTrack unitTrack;
+		unitTrack.net_ID = unit_network_IDs[i];
+		unitTrack.initiative = unit->getInitiative();
+		unitTrack.hasActed = false;
+		initiativeTracker.push_back(std::move(unitTrack));
+	}
+	//do sort here
+	std::sort(initiativeTracker.begin(), initiativeTracker.end(), isLowerFunctor());
 }
 
 uint32_t Warband::getNextUnitInInitiativeList()
@@ -97,6 +105,26 @@ bool Warband::getAllUnitsActed()
 	return allUnitsActed;
 }
 
+void Warband::checkAllActed()
+{
+	int counter = 0;
+	for(auto& tracker : initiativeTracker)
+	{
+		if(tracker.hasActed == true)
+		{
+			counter++;
+		}
+	}
+	if(counter >= 4)
+	{
+		allUnitsActed = true;
+	}
+	else
+	{
+		allUnitsActed = false;
+	}
+}
+
 void Warband::resetAllActed()
 {
 	for(auto& tracker : initiativeTracker)
@@ -111,7 +139,6 @@ void Warband::endTurn(EntityManager & ent_man, uint32_t netID)
 	Unit* unit = static_cast<Unit*>(ent);
 	unit->endTurn();
 	unit->setActiveTurn(false);
-	unitActed(netID, true);
 }
 
 
