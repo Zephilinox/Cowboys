@@ -112,7 +112,8 @@ void Button::setSize(float width, float height)
 
 void Button::setSize(std::tuple<float, float> size)
 {
-	auto[w, h] = size;
+	auto w = std::get<0>(size);
+	auto h = std::get<0>(size);
 	sprite->width(w);
 	sprite->height(h);
 }

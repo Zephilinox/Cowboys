@@ -42,7 +42,8 @@ void Grid::generateCharGrid(int seed)
 			continue;
 		}
 
-		auto[x, y] = rock_pos;
+		auto x = rock_pos.first;
+		auto y = rock_pos.second;
 
 		if (x < mapWidth - 1 && y < mapHeight - 1)
 		{
@@ -78,7 +79,8 @@ void Grid::generateCharGrid(int seed)
 			continue;
 		}
 
-		auto[x, y] = rock_pos;
+		auto x = rock_pos.first;
+		auto y = rock_pos.second;
 
 		if (x < mapWidth - 1 && y < mapHeight - 1)
 		{
