@@ -256,32 +256,63 @@ void StateGame::update(const ASGE::GameTime& gt)
 	}
 
 
+
 	if(our_warband.getUnitNetworkIDsSize() == 5 && their_warband.getUnitNetworkIDsSize() == 5
 		&& gameReady == false)
 	{
 		gameReady = true;
 
-		//Now both warbands are initialised, init & sort their initiative trackers
-		our_warband.initInitiativeTracker(ent_man);
-		their_warband.initInitiativeTracker(ent_man);
-
-		uint32_t test1 = our_warband.getNextUnitInInitiativeList();
-		uint32_t test2 = their_warband.getNextUnitInInitiativeList();
-
-		//Check which warband has the highest starting initiative.
-		if(our_warband.getNextUnitInInitiativeList() > their_warband.getNextUnitInInitiativeList())
+		//check all entities in each warband are fully initialised
+		for(auto& unit : our_warband.getUnitNetworkIDs())
 		{
-			active_turn_warband = &our_warband;
-			menu.getButton(0).setEnabled(true);
+			Unit* un = static_cast<Unit*>(ent_man.getEntity(unit));
+			if(!un->getInitialised())
+			{
+				gameReady = false;
+			}
 		}
-		else
+		for(auto& unit : their_warband.getUnitNetworkIDs())
 		{
-			active_turn_warband = &their_warband;
-			menu.getButton(0).setEnabled(false);
+			Unit* un = static_cast<Unit*>(ent_man.getEntity(unit));
+			if(!un->getInitialised())
+			{
+				gameReady = false;
+			}
 		}
 
-		active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
-		static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->setActiveTurn(true);
+		if(gameReady)
+		{
+			//Now both warbands are initialised, init & sort their initiative trackers
+			our_warband.initInitiativeTracker(ent_man);
+			their_warband.initInitiativeTracker(ent_man);
+
+			uint32_t test1 = our_warband.getNextUnitInInitiativeList();
+			uint32_t test2 = their_warband.getNextUnitInInitiativeList();
+			Unit* first = static_cast<Unit*>(ent_man.getEntity(test1));
+			Unit* second = static_cast<Unit*>(ent_man.getEntity(test2));
+
+
+			//TODO - some kind of check here, if initiatives are the same, add client ID to that unit's initiative?
+			//if(first->getInitiative() == second->getInitiative())
+			//{
+
+			//}
+
+			//Check which warband has the highest starting initiative.
+			if(first->getInitiative() > second->getInitiative())
+			{
+				active_turn_warband = &our_warband;
+				menu.getButton(0).setEnabled(true);
+			}
+			else
+			{
+				active_turn_warband = &their_warband;
+				menu.getButton(0).setEnabled(false);
+			}
+			active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
+			static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->setActiveTurn(true);
+		}
+		
 	}
 
 	auto client = game_data->getNetworkManager()->client.get();
