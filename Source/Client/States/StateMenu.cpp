@@ -78,11 +78,13 @@ void StateMenu::update(const ASGE::GameTime& gt)
 		{
 			offset_x = map_left;
 			dir_x = -dir_x;
+			offset_x += dir_x * speed * (gt.delta_time.count() / 1000.0f);
 		}
 		else if (offset_x > map_right)
 		{
 			offset_x = map_right;
 			dir_x = -dir_x;
+			offset_x += dir_x * speed * (gt.delta_time.count() / 1000.0f);
 		}
 	}
 
@@ -94,11 +96,13 @@ void StateMenu::update(const ASGE::GameTime& gt)
 		{
 			offset_y = map_top;
 			dir_y = -dir_y;
+			offset_y += dir_y * speed * (gt.delta_time.count() / 1000.0f);
 		}
 		else if (offset_y > map_bottom)
 		{
 			offset_y = map_bottom;
 			dir_y = -dir_y;
+			offset_y += dir_y * speed * (gt.delta_time.count() / 1000.0f);
 		}
 	}
 
