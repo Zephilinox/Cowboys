@@ -41,6 +41,7 @@ public:
 
 	std::vector<MoveData>& getPathToGoal() { return pathToGoal; }
 	void clearMoveData();
+	float getManhattanDistance(TerrainTile * startNode, TerrainTile * endNode);
 
 	void applyOffset(float x, float y);
 	void addBuildingToMap(Building& building);
@@ -53,7 +54,7 @@ public:
 private:
 	bool withinView(ASGE::Sprite* sprite) const;
 
-	float getManhattanDistance(TerrainTile * startNode, TerrainTile * endNode);
+
 
 	//todo: use std::array so we can pass in runtime values
 	char grid[mapWidth][mapHeight];

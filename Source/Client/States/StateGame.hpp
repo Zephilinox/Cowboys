@@ -35,6 +35,7 @@ public:
 	void onInactive() override final;
 
 	void sendEndTurnPacket();
+	void sendAttackPacket(uint32_t attacker_ID, uint32_t defender_ID);
 
 	void screenScroll(float dt, double mouseX, double mouseY);
 

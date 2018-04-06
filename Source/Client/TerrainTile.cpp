@@ -55,21 +55,21 @@ void TerrainTile::initialise(char type, ASGE::Renderer* rend, float xCo, float y
 		case 'w':
 		{
 			ground_sprite->loadTexture("../../Resources/Textures/Tiles/waterTile.png");
-			time_units_cost = 300.0f;
+			time_units_cost = 20.0f;
 			isBlocked = true;
 			break;
 		}
 		case 'g':
 		{
 			ground_sprite->loadTexture("../../Resources/Textures/Tiles/dirtTile.png");
-			time_units_cost = 20.0f;
+			time_units_cost = 5.0f;
 			isBlocked = false;
 			break;
 		}
 		case 'f':
 		{
 			ground_sprite->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
-			time_units_cost = 35.0f;
+			time_units_cost = 10.0f;
 			isBlocked = true;
 			break;
 		}

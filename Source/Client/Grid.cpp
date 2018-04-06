@@ -308,7 +308,7 @@ float Grid::getManhattanDistance(TerrainTile* startNode, TerrainTile* endNode)
 bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 {
 
-	if(endTile->getIsBlocked())
+	if(endTile->getIsBlocked() || endTile == nullptr)
 	{
 		std::cout << "You can't path to a blocked object\n";
 		return false;

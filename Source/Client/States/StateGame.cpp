@@ -90,6 +90,12 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				});
 				break;
 			}
+			case hash("UnitAttack"):
+			{
+				this->game_data->getNetworkManager()->server->sendPacketToAllClients(0, &p, ENET_PACKET_FLAG_RELIABLE);
+				std::cout << "attack packet received (server)";
+				break;
+			}
 			case hash("EndTurn"):
 			{
 				this->game_data->getNetworkManager()->server->sendPacketToAllClients(0, &p, ENET_PACKET_FLAG_RELIABLE);
@@ -171,6 +177,22 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				}
 			} break;
 
+			case hash("UnitAttack"):
+			{
+				uint32_t attacker_ID;
+				uint32_t defender_ID;
+
+				p >> attacker_ID >> defender_ID;
+
+				Entity* ent_attacker = ent_man.getEntity(attacker_ID);
+				Unit* attacker = static_cast<Unit*>(ent_attacker);
+				Entity* ent_defender = ent_man.getEntity(defender_ID);
+				Unit* defender = static_cast<Unit*>(ent_defender);
+
+				attacker->doAttack(defender);
+				std::cout << "attack packet received (clent)\n";
+			}
+
 			case hash("UnitMove"):
 			{
 				int packetStartX = 0;
@@ -207,13 +229,13 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 	managed_slot_1 = this->game_data->getNetworkManager()->client->on_packet_received.connect(std::move(clientPacketReceive));
 
-	if (game_data->getNetworkManager()->server)
+	if(game_data->getNetworkManager()->server)
 	{
 		managed_slot_2 = this->game_data->getNetworkManager()->server->on_packet_received.connect((serverPacketReceive));
 	}
 
 	//Create 5 units for our warband
-	for (int i = 0; i < 5; ++i)
+	for(int i = 0; i < 5; ++i)
 	{
 		ent_man.createEntityRequest<Unit>();
 	}
@@ -241,7 +263,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 	{
 		menu.update();
 	}
-	
+
 	if(endRoundTimer > 0.0f)
 	{
 		endRoundTimer -= (float)gt.delta_time.count() / 1000.0f;;
@@ -291,12 +313,18 @@ void StateGame::update(const ASGE::GameTime& gt)
 			Unit* first = static_cast<Unit*>(ent_man.getEntity(test1));
 			Unit* second = static_cast<Unit*>(ent_man.getEntity(test2));
 
-
-			//TODO - some kind of check here, if initiatives are the same, add client ID to that unit's initiative?
-			//if(first->getInitiative() == second->getInitiative())
-			//{
-
-			//}
+			//Prevents units with same initiative breaking the ordering of turns
+			if(first->getInitiative() == second->getInitiative())
+			{
+				if(game_data->getNetworkManager()->client->getID() == 2)
+				{
+					first->setInitiative(first->getInitiative() + 0.2);
+				}
+				else
+				{
+					second->setInitiative(second->getInitiative() + 0.2);
+				}
+			}
 
 			//Check which warband has the highest starting initiative.
 			if(first->getInitiative() > second->getInitiative())
@@ -312,7 +340,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 			active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
 			static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->setActiveTurn(true);
 		}
-		
+
 	}
 
 	auto client = game_data->getNetworkManager()->client.get();
@@ -330,7 +358,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 	game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
 
 
-	if (client && client->isConnecting())
+	if(client && client->isConnecting())
 	{
 		ent_man.update(dt);
 	}
@@ -368,11 +396,13 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 		if(game_data->getInputManager()->isMouseButtonPressed(1))
 		{
+			bool attacking = false;
+
 			for(auto& ent_net_id : their_warband.getUnitNetworkIDs())
 			{
-				//TODO - stretch, show unit stats when left clicked on.
 				Entity* ent_ptr = ent_man.getEntity(ent_net_id);
 				Unit* unit = static_cast<Unit*>(ent_ptr);
+
 
 				//ATTACKING
 				if(ASGE::Sprite* sprite = unit->getCurrentSprite())
@@ -390,102 +420,110 @@ void StateGame::update(const ASGE::GameTime& gt)
 						std::cout << "unit ATTACCCCKED\n";
 						Entity* ent_attacker = ent_man.getEntity(active_turn_unit);
 						Unit* attacker = static_cast<Unit*>(ent_attacker);
-						attacker->doAttack(unit);
-						unit->setSelected(false);
 
-						//TODO send attack packet
+						//TODO STRETCH check manhattan distance from attacker to defender is within ATTACK RANGE rather than view distance?
+						//if(attacker->getViewDistance() > testGrid.getManhattanDistance(attacker->getCurrentTile(), unit->getCurrentTile()))
+						//{
+						//	sendAttackPacket(active_turn_unit, ent_net_id);
+						//}
+
+						//testing
+						sendAttackPacket(active_turn_unit, ent_net_id);
+						attacking = true;
 						break;
 					}
 				}
 			}
 
-			//Detect terrain selection
-			TerrainTile* temp = nullptr;
-			TerrainTile* selected = nullptr;
-			ASGE::Sprite* spr = nullptr;
-			int packetStartX = 0;
-			int packetStartY = 0;
-			int packetEndX = 0;
-			int packetEndY = 0;
-
-			//TERRAIN TILE SELECTION
-			for(int x = 0; x < mapWidth; x++)
+			if(attacking == false)
 			{
-				for(int y = 0; y < mapHeight; y++)
-				{
-					temp = testGrid.getTile(x, y);
-					if(temp != nullptr)
-					{
-						spr = temp->getTerrainSprite();
-						float sprite_x = spr->xPos();
-						float sprite_y = spr->yPos();
-						float sprite_width = spr->width();
-						float sprite_height = spr->height();
+				//Detect terrain selection
+				TerrainTile* temp = nullptr;
+				TerrainTile* selected = nullptr;
+				ASGE::Sprite* spr = nullptr;
+				int packetStartX = 0;
+				int packetStartY = 0;
+				int packetEndX = 0;
+				int packetEndY = 0;
 
-						if(sprite_x < mouse_x &&
-							sprite_x + sprite_width > mouse_x &&
-							sprite_y < mouse_y &&
-							sprite_y + sprite_height > mouse_y)
+				//TERRAIN TILE SELECTION
+				for(int x = 0; x < mapWidth; x++)
+				{
+					for(int y = 0; y < mapHeight; y++)
+					{
+						temp = testGrid.getTile(x, y);
+						if(temp != nullptr)
 						{
-							std::cout << "tile selected\n";
-							//	spr->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
-							if(!temp->getIsBlocked())
+							spr = temp->getTerrainSprite();
+							float sprite_x = spr->xPos();
+							float sprite_y = spr->yPos();
+							float sprite_width = spr->width();
+							float sprite_height = spr->height();
+
+							if(sprite_x < mouse_x &&
+								sprite_x + sprite_width > mouse_x &&
+								sprite_y < mouse_y &&
+								sprite_y + sprite_height > mouse_y)
 							{
-								selected = temp;
-								break;
-							}
-							else
-							{
-								break;
+								std::cout << "tile selected\n";
+								//	spr->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
+								if(!temp->getIsBlocked())
+								{
+									selected = temp;
+									break;
+								}
+								else
+								{
+									break;
+								}
 							}
 						}
 					}
 				}
-			}
-			//change this to, active unit selected ONLY, so other's cannot act without being their turn
-			Unit* active_unit = static_cast<Unit*>(ent_man.getEntity(active_turn_unit));
+				//change this to, active unit selected ONLY, so other's cannot act without being their turn
+				Unit* active_unit = static_cast<Unit*>(ent_man.getEntity(active_turn_unit));
 
-			if(selected != nullptr && active_turn_warband == &our_warband && ent_man.getEntity(active_turn_unit)->isOwner()
-				&& active_unit->getSelected())
-			{
-				if(testGrid.findPathFromTo(active_unit->getCurrentTile(), selected))
+				if(selected != nullptr && active_turn_warband == &our_warband
+					&& active_unit->getSelected())
 				{
-					active_unit->setPathToGoal(testGrid.getPathToGoal());
-					std::cout << "unit move attempted";
-					if(active_unit->getTimeUnits() >= 10.0f)
+					if(testGrid.findPathFromTo(active_unit->getCurrentTile(), selected))
 					{
-						active_unit->move();
-						active_unit->getCurrentTile()->setIsBlocked(false);
+						active_unit->setPathToGoal(testGrid.getPathToGoal());
+						std::cout << "unit move attempted";
+						if(active_unit->getTimeUnits() >= 10.0f)
+						{
+							active_unit->move();
+							active_unit->getCurrentTile()->setIsBlocked(false);
 
-						packetStartX = active_unit->getCurrentTile()->xCoord;
-						packetStartY = active_unit->getCurrentTile()->yCoord;
-						packetEndX = selected->xCoord;
-						packetEndY = selected->yCoord;
+							packetStartX = active_unit->getCurrentTile()->xCoord;
+							packetStartY = active_unit->getCurrentTile()->yCoord;
+							packetEndX = selected->xCoord;
+							packetEndY = selected->yCoord;
 
-						Packet lol;
-						lol.setID(hash("UnitMove"));
-						lol << packetStartX << packetStartY << packetEndX << packetEndY << active_unit->entity_info.networkID;
-						game_data->getNetworkManager()->client->sendPacket(0, &lol);
-						active_unit->setCurrentTile(selected);
-						active_unit->getCurrentTile()->setIsBlocked(true);
+							Packet p;
+							p.setID(hash("UnitMove"));
+							p << packetStartX << packetStartY << packetEndX << packetEndY << active_unit->entity_info.networkID;
+							game_data->getNetworkManager()->client->sendPacket(0, &p);
+							active_unit->setCurrentTile(selected);
+							active_unit->getCurrentTile()->setIsBlocked(true);
+						}
+						else
+						{
+							std::cout << "Insufficient Time units";
+						}
+
+						testGrid.clearMoveData();
 					}
-					else
-					{
-						std::cout << "Insufficient Time units";
-					}
-
-					testGrid.clearMoveData();
 				}
-			}
-		}			
-	}
 
-	if (game_data->getInputManager()->isActionPressed(hash("Escape")))
-	{
-		game_data->getStateManager()->push<StatePause>();
+			}
+		}
+		if(game_data->getInputManager()->isActionPressed(hash("Escape")))
+		{
+			game_data->getStateManager()->push<StatePause>();
+		}
 	}
 }
-
 void StateGame::screenScroll(float dt, double mouseX, double mouseY)
 {
 	double screen_edge_threshold = 30.0;
@@ -604,6 +642,15 @@ void StateGame::sendEndTurnPacket()
 {
 	Packet p;
 	p.setID(hash("EndTurn"));
+	game_data->getNetworkManager()->client->sendPacket(0, &p);
+}
+
+void StateGame::sendAttackPacket(uint32_t attacker_ID, uint32_t defender_ID)
+{
+	Packet p;
+	p.setID(hash("UnitAttack"));
+	p << attacker_ID << defender_ID;
+	std::cout << "attack packet send\n";
 	game_data->getNetworkManager()->client->sendPacket(0, &p);
 }
 

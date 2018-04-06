@@ -204,7 +204,7 @@ void Unit::doAttack(Unit* enemy_target)
 	}
 	else
 	{
-		std::cout << "Insufficient Time CHARACTERS. Attack cancelled";
+		std::cout << "Insufficient Time units. Attack cancelled";
 	}
 }
 
