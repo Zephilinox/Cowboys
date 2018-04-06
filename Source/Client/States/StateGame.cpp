@@ -7,9 +7,9 @@
 #include "../../Architecture/Constants.hpp"
 #include "../../Architecture/Networking/Client.hpp"
 #include "../../Architecture/Networking/Server.hpp"
+#include "../../Architecture/Audio/AudioLocator.hpp"
 
 
-//TODO - send packet to server to request coin flip to determine who goes first!
 //TODO - send packet to declare turn over
 //TODO - send packet allUnitsActed
 //TODO - receive packet to server to request coin flip to determine who goes first!

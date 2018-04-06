@@ -200,6 +200,7 @@ void Unit::doAttack(Unit* enemy_target)
 	{
 		//RNG shit to roll d100 against the aim stat?
 		time_units -= time_unit_attack_cost;
+		AudioLocator::get()->play("gunshot.wav");
 		enemy_target->getAttacked(this, weapon_damage);
 	}
 	else
