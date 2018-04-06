@@ -151,7 +151,6 @@ StateLobby::StateLobby(GameData* game_data)
 	lobby.getButton(4).on_click.connect([this]()
 	{
 		panel1.incrementSelectedUnit();
-
 	});
 
 	lobby.getButton(5).on_click.connect([this]()
@@ -182,7 +181,6 @@ StateLobby::StateLobby(GameData* game_data)
 	lobby.getButton(10).on_click.connect([this]()
 	{
 		panel4.incrementSelectedUnit();
-
 	});
 
 	lobby.getButton(11).on_click.connect([this]()

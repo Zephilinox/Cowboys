@@ -196,7 +196,7 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 				attacker->doAttack(defender);
 				std::cout << "attack packet received (clent)\n";
-			}
+			} break;
 
 			case hash("UnitMove"):
 			{
@@ -224,11 +224,11 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				}
 				break;
 			}
+
 			case hash("EndTurn"):
 			{
 				endTurn();
-				break;
-			}
+			} break;
 		}
 	};
 
