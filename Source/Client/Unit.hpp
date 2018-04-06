@@ -26,6 +26,7 @@ public:
 		IDLE = 0,
 		WALKING,
 		SHOOTING,
+		DEAD
 	};
 
 	enum PacketType
@@ -163,6 +164,7 @@ protected:
 	std::unique_ptr<ASGE::Sprite> idle_sprite_forward;
 	std::unique_ptr<ASGE::Sprite> idle_sprite_back;
 	std::unique_ptr<ASGE::Sprite> idle_sprite_left;
+	std::unique_ptr<ASGE::Sprite> dead;
 
 	std::unique_ptr<ASGE::Sprite> selected_sprite;
 	std::unique_ptr<ASGE::Sprite> marker_sprite;

@@ -21,6 +21,8 @@ Unit::Unit(GameData* game_data, EntityManager* ent_man)
 
 	portrait = game_data->getRenderer()->createUniqueSprite();
 	marker_sprite = game_data->getRenderer()->createUniqueSprite();
+	dead = game_data->getRenderer()->createUniqueSprite();
+	dead->loadTexture("../../Resources/Textures/Units/dead.png");
 
 	if (!selected_sprite->loadTexture("../../Resources/Textures/UI/Selected.png"))
 	{
@@ -71,6 +73,11 @@ void Unit::render(ASGE::Renderer* renderer) const
 		return;
 	}
 
+	if(!isAlive)
+	{
+		renderer->renderSprite(*dead);
+		return;
+	}
 	renderer->renderSprite(*getCurrentSprite(), Z_ORDER_LAYER::UNITS + this->y_position);
 
 	if (selected)
@@ -87,9 +94,6 @@ void Unit::render(ASGE::Renderer* renderer) const
 		renderer->renderSprite(*marker_sprite, Z_ORDER_LAYER::UNITS + 1000.0f + this->y_position);
 	}
 
-
-
-
 }
 
 void Unit::serialize(Packet& p)
@@ -103,11 +107,11 @@ void Unit::serialize(Packet& p)
 			std::cout << "sending SET_POSITION\n";
 			p << x_position << y_position;
 		} break;
-		case ATTACK:
-		{
-			std::cout << "sending ATTACK\n";
-			p << 1;
-		} break;
+		//case ATTACK:
+		//{
+		//	std::cout << "sending ATTACK\n";
+		//	p << 1;
+		//} break;
 		//case MOVE:
 		//{
 		//	std::cout << "sending MOVE\n";
@@ -217,6 +221,13 @@ void Unit::getAttacked(Unit* attacker, float damage)
 	//take the damage
 	//Apply any damage reduction from armour or any of that shit here?
 	health -= damage;
+
+	if(health <= 0.0f)
+	{
+		isAlive = false;
+		char_state = UnitState::DEAD;
+		return;
+	}
 
 	if(reactions >= time_unit_reactive_cost
 		&& !hasReactiveFired
@@ -470,6 +481,11 @@ ASGE::Sprite* Unit::getCurrentSprite() const
 {
 	switch (char_state)
 	{
+		case DEAD:
+		{
+			return dead.get();
+			break;
+		}
 		case IDLE:
 		{
 			//render idle sprite in current facing
@@ -579,6 +595,9 @@ void Unit::updateOverridePositions()
 
 	idle_sprite_left->xPos(x_position);
 	idle_sprite_left->yPos(y_position);
+
+	dead->xPos(x_position);
+	dead->yPos(y_position);
 
 	//update walk anim sprite positions
 	forward_walk_sprite.xPos = x_position;

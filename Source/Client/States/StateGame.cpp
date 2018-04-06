@@ -711,6 +711,8 @@ void StateGame::endTurn()
 	{
 		yourTurnTimer = 1.5f;
 	}
+	
+	//TODO IMPORTANT function to get next LIVING unit in initiative list, if fails, game is over.
 
 	active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
 	static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->setActiveTurn(true);
