@@ -13,7 +13,7 @@ public:
 
 	float dist_from_start;
 	float dist_from_goal;
-	float time_units_cost;
+	int time_units_cost;
 	float combined_cost;
 
 

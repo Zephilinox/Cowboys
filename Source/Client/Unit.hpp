@@ -76,7 +76,7 @@ public:
 	void setSerializedPacketType(PacketType new_type);
 
 	float getViewDistance() const { return view_distance; }
-	float getTimeUnits() const { return time_units; }
+	int getTimeUnits() const { return time_units; }
 	float getStamina() const { return stamina; }
 	float getHealth() const { return  health; }
 	float getBravery() const { return bravery; }
@@ -92,7 +92,7 @@ public:
 	bool getInitialised() { return initialized; }
 
 	void setViewDistance(float new_val) { view_distance = new_val; }
-	void setTimeUnits(float new_val) { time_units = new_val; }
+	void setTimeUnits(int new_val) { time_units = new_val; }
 	void setStamina(float new_val) { stamina = new_val; }
 	void setHealth(float new_val) { health = new_val; }
 	void setBravery(float new_val) { bravery = new_val; }
@@ -125,20 +125,20 @@ protected:
 	UnitState char_state = IDLE;
 
 	//STATS
-	float view_distance = 10.0f;
-	float start_time_units = 0.0f;
-	float time_units = 10.0f;
-	float stamina = 10.0f;
-	float health = 10.0f;
-	float bravery = 10.0f;
-	float reactions = 10.0f;
-	float firing_accuracy = 10.0f;
-	float strength = 10.0f;
-	float initiative = 10.0f;
+	float view_distance = 0.0f;
+	int start_time_units = 0;
+	int time_units = 0;
+	float stamina = 0.0f;
+	float health = 0.0f;
+	float bravery = 0.0f;
+	float reactions = 0.0f;
+	float firing_accuracy = 0.0f;
+	float strength = 0.0f;
+	float initiative = 0.0f;
 	bool hasReactiveFired = false;
 
 	bool isAlive = true;
-	float base_move_speed = 300.0f;
+	float base_move_speed = 0.0f;
 	float current_move_speed = 0.0f;
 	void updateOverridePositions();
 

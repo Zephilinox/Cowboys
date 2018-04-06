@@ -6,40 +6,22 @@ Pathfinding::Pathfinding()
 	foundGoal = false;
 }
 
-Pathfinding::~Pathfinding()
-{
-
-}
-
 void Pathfinding::FindPath(int currentPosX, int currentPosY, int targetPosX, int targetPosY)
 {
 	if (!initialisedStartGoal)
 	{
-		for (int i = 0; i < openList.size(); i++)
+		for (size_t i = 0; i < openList.size(); i++)
 		{
 			delete openList[i];
 		}
 		openList.clear();
-		for (int i = 0; i < visitedList.size(); i++)
+
+		for (size_t i = 0; i < visitedList.size(); i++)
 		{
 			delete visitedList[i];
 		}
 		visitedList.clear();
-		//for (int i = 0; i < pathToGoal.size(); i++)
-		//{
-		//	delete pathToGoal[i];
-		//}
-		//pathToGoal.clear();
 
-		/*SearchCell start;
-		start.xCoord = currentPosX;
-		start.yCoord = currentPosY;
-
-		SearchCell goal;
-		goal.xCoord = targetPosX;
-		goal.yCoord = targetPosY;
-
-		setStartAndGoal(start, goal);*/
 		initialisedStartGoal = true;
 
 		if (initialisedStartGoal)
@@ -47,8 +29,8 @@ void Pathfinding::FindPath(int currentPosX, int currentPosY, int targetPosX, int
 			ContinuePath();
 		}
 	}
-	
 }
+
 void Pathfinding::setStartAndGoal(SearchCell start, SearchCell goal)
 {
 	startCell = new SearchCell(start.xCoord, start.yCoord, NULL);
@@ -91,7 +73,7 @@ void Pathfinding::PathOpened(int x, int y, float newCost, SearchCell *parent)
 	
 	int id = y * 5 + x;
 
-	for (int i = 0; i < visitedList.size(); i++)
+	for (size_t i = 0; i < visitedList.size(); i++)
 	{
 		if (id == visitedList[i]->id)
 		{
@@ -102,7 +84,7 @@ void Pathfinding::PathOpened(int x, int y, float newCost, SearchCell *parent)
 	newChild->dist_from_start = newCost;
 	newChild->dist_from_goal = parent->ManHattanDistance(goalCell);
 
-	for (int i = 0; i < openList.size(); i++)
+	for (size_t i = 0; i < openList.size(); i++)
 	{
 		if (id == openList[i]->id)
 		{
@@ -122,7 +104,6 @@ void Pathfinding::PathOpened(int x, int y, float newCost, SearchCell *parent)
 	}
 
 	openList.push_back(newChild);
-
 }
 
 void Pathfinding::ContinuePath()
@@ -136,13 +117,9 @@ void Pathfinding::ContinuePath()
 	{
 		goalCell->parent = currentCell->parent;
 		SearchCell* getPath;
-		
-
-
 	}
 
 	currentCell = GetNextCell();
-
 }
 
 

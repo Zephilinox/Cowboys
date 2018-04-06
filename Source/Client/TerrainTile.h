@@ -20,7 +20,7 @@ public:
 	void render(ASGE::Renderer* rend) const;
 
 	ASGE::Sprite* getTerrainSprite() const;
-	float getMoveDifficultyModifier() const;
+	int getMoveDifficultyModifier() const;
 	bool getIsBlocked() const;
 	void setIsBlocked(bool new_val);
 
@@ -45,6 +45,6 @@ private:
 	//Use an overlay sprite for fences, can then change direction.
 	std::unique_ptr<ASGE::Sprite> ground_sprite;
 	std::unique_ptr<ASGE::Sprite> overlay_sprite;
-	float time_units_cost = 0.0f;
+	int time_units_cost = 0;
 	bool isBlocked = false;
 };

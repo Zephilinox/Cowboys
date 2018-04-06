@@ -285,8 +285,6 @@ void StateGame::update(const ASGE::GameTime& gt)
 		endTurnTimer -= (float)gt.delta_time.count() / 1000.0f;;
 	}
 
-
-
 	if(our_warband.getUnitNetworkIDsSize() == 5 && their_warband.getUnitNetworkIDsSize() == 5
 		&& gameReady == false)
 	{
@@ -326,11 +324,11 @@ void StateGame::update(const ASGE::GameTime& gt)
 			{
 				if(game_data->getNetworkManager()->client->getID() == 2)
 				{
-					first->setInitiative(first->getInitiative() + 0.2);
+					first->setInitiative(first->getInitiative() + 0.2f);
 				}
 				else
 				{
-					second->setInitiative(second->getInitiative() + 0.2);
+					second->setInitiative(second->getInitiative() + 0.2f);
 				}
 			}
 
@@ -498,7 +496,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 					{
 						active_unit->setPathToGoal(testGrid.getPathToGoal());
 						std::cout << "unit move attempted";
-						if(active_unit->getTimeUnits() >= 10.0f)
+						if (active_unit->getTimeUnits() >= testGrid.getPathToGoal().at(0).time_units)
 						{
 							active_unit->move();
 							active_unit->getCurrentTile()->setIsBlocked(false);

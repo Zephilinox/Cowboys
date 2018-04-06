@@ -9,7 +9,6 @@ class Pathfinding
 {
 public:
 	Pathfinding();
-	~Pathfinding();
 
 	void FindPath(int currentPosX, int currentPosY, int targetPosX, int targetPosY);
 //	float NextPathPosX();

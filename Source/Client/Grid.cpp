@@ -334,7 +334,7 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 
 		float best_cost = 99999.0f;
 		int cellIndex = -1;
-		for(int i = 0; i < openList.size(); i++)
+		for(size_t i = 0; i < openList.size(); i++)
 		{
 			if(openList[i]->getCombinedCost() < best_cost)
 			{

@@ -278,7 +278,6 @@ void Unit::move()
 	target_x_position = movement_pos_list.front().x;
 	target_y_position = movement_pos_list.front().y;
 	time_units -= movement_pos_list.front().time_units;
-
 }
 
 void Unit::setSelected(bool new_val)
@@ -319,7 +318,7 @@ void Unit::loadFromJSON(int unit_to_load)
 		//STATS
 		health = (float)(unitStats[id]["HP"].as_double());
 		view_distance = (float)(unitStats[id]["viewDistance"].as_double());
-		time_units = (float)(unitStats[id]["timeUnits"].as_double());
+		time_units = (unitStats[id]["timeUnits"].as_int());
 		stamina = (float)(unitStats[id]["stamina"].as_double());
 		bravery = (float)(unitStats[id]["bravery"].as_double());
 		reactions = (float)(unitStats[id]["reactions"].as_double());
