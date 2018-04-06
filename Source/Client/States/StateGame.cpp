@@ -620,21 +620,21 @@ void StateGame::render() const
 	testGrid.render();
 	menu.render(Z_ORDER_LAYER::OVERLAY);
 	renderUnitStatsToPanel();
-
-	if(endTurnTimer > 0.0f)
-	{
-		game_data->getRenderer()->renderSprite(*endTurnSprite, Z_ORDER_LAYER::OVERLAY_TEXT + 500.0f);
-	}
-
-	if(yourTurnTimer > 0.0f)
-	{
-		game_data->getRenderer()->renderSprite(*yourTurnSprite, Z_ORDER_LAYER::OVERLAY_TEXT + 500.0f);
-	}
 	if(endRoundTimer > 0.0f)
 	{
 		game_data->getRenderer()->renderSprite(*endRoundSprite, Z_ORDER_LAYER::OVERLAY_TEXT + 500.0f);
 	}
-	
+	else
+	{
+		if(yourTurnTimer > 0.0f)
+		{
+			game_data->getRenderer()->renderSprite(*yourTurnSprite, Z_ORDER_LAYER::OVERLAY_TEXT + 500.0f);
+		}
+		else if(endTurnTimer > 0.0f)
+		{
+			game_data->getRenderer()->renderSprite(*endTurnSprite, Z_ORDER_LAYER::OVERLAY_TEXT + 500.0f);
+		}
+	}	
 }
 
 void StateGame::onActive()

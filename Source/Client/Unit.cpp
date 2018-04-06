@@ -367,6 +367,36 @@ void Unit::commonUpdate(float dt)
 		bool xPosMatched = false;
 		bool yPosMatched = false;
 
+		if((target_x_position - x_position) > (x_position - target_x_position))
+		{
+			//east facing
+			char_facing = UnitFacing::EAST;
+		}
+		else if((target_x_position - x_position) < (x_position - target_x_position))
+		{
+			//west facing
+			char_facing = UnitFacing::WEST;
+		}
+		else 
+		{
+			//Ignore facing
+		}
+
+		if((target_y_position - y_position) > (y_position - target_y_position))
+		{
+			//south facing
+			char_facing = UnitFacing::SOUTH;
+		}
+		else if((target_y_position - y_position) < (y_position - target_y_position))
+		{
+			//north facing
+			char_facing = UnitFacing::NORTH;
+		}
+		else
+		{
+			//Ignore facing
+		}
+
 		if ((target_x_position - x_position) >= 5.0f)
 		{
 			x_position += base_move_speed * dt;
