@@ -13,6 +13,11 @@ public:
 	void setMuted(bool mute) final
 	{
 	}
+
+	bool isPlaying() final
+	{
+		return false;
+	}
 };
 
 class AudioEngineNone : public AudioEngine

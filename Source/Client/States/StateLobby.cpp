@@ -232,39 +232,39 @@ void StateLobby::render() const
 
 	if (server)
 	{
+		renderer->renderText("SERVER", 50, 550, 1.0f, ASGE::COLOURS::BLACK, 10000);
+
 		if (server->isConnected())
 		{
-			renderer->renderText("CONNECTED", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
+			renderer->renderText("CONNECTED", 50, 580, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
 		else
 		{
-			renderer->renderText("DISCONNECTED", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
+			renderer->renderText("DISCONNECTED", 50, 580, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
-
-		renderer->renderText("SERVER", 250, 50, 1.0f, ASGE::COLOURS::BLACK, 10000);
 	}
 	else if (client)
 	{
+		renderer->renderText("CLIENT", 50, 550, 1.0f, ASGE::COLOURS::BLACK, 10000);
+
 		if (client->isConnected())
 		{
-			renderer->renderText("CONNECTED", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
+			renderer->renderText("CONNECTED", 50, 580, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
 		else if (client->isConnecting())
 		{
-			renderer->renderText("CONNECTING", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
+			renderer->renderText("CONNECTING", 50, 580, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
 		else
 		{
-			renderer->renderText("DISCONNECTED", 250, 100, 1.0f, ASGE::COLOURS::BLACK, 10000);
+			renderer->renderText("DISCONNECTED", 50, 580, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		}
-
-		renderer->renderText("CLIENT", 250, 50, 1.0f, ASGE::COLOURS::BLACK, 10000);
 	}
 
 	if (client && client->isConnecting())
 	{
-		renderer->renderText(ready ? "READY" : "NOT READY", 250, 150, 1.0f, ASGE::COLOURS::BLACK, 10000);
-		renderer->renderText(other_ready ? "OTHER PLAYER READY" : "OTHER PLAYER NOT READY", 250, 200, 1.0f, ASGE::COLOURS::BLACK, 10000);
+		renderer->renderText(ready ? "READY" : "NOT READY", 50, 610, 1.0f, ASGE::COLOURS::BLACK, 10000);
+		renderer->renderText(other_ready ? "OTHER PLAYER READY" : "OTHER PLAYER NOT READY", 50, 640, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		lobby.render();
 	}
 	else

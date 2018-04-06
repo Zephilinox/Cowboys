@@ -38,6 +38,16 @@ public:
 		}
 	}
 
+	bool isPlaying() final
+	{
+		if (sound)
+		{
+			return sound->getStatus() != sf::Sound::Status::Stopped;
+		}
+
+		return false;
+	}
+
 	sf::Sound* sound;
 };
 
@@ -47,7 +57,7 @@ public:
 	AudioEngineSFML(const std::string& audio_path);
 	AudioEngineSFML() = default;
 
-	std::unique_ptr<Sound> play(const std::string& name, bool loop = false) override final;
+	std::unique_ptr<Sound> play(const std::string& name, bool loop = false) final;
 	
 private:
 	std::unordered_map<std::string, sf::SoundBuffer> buffers;

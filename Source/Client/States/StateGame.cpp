@@ -63,9 +63,9 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 			case hash("Connected"):
 			{
 				//If a client connects to us when the game has started, tell them to start their game too.
-				p.reset();
-				p.setID(hash("GameStart"));
-				this->game_data->getNetworkManager()->server->sendPacketToOneClient(p.senderID, 0, &p);
+				//p.reset();
+				//p.setID(hash("GameStart"));
+				//this->game_data->getNetworkManager()->server->sendPacketToOneClient(p.senderID, 0, &p);
 			} break;
 
 			case hash("GameJoined"):
@@ -111,6 +111,7 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				{
 				return entity->entity_info.ownerID == p.senderID;
 				});*/
+				this->game_data->getStateManager()->pop();
 			} break;
 
 			case hash("CreateEntity"):
@@ -135,6 +136,10 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	{
 		switch (p.getID())
 		{
+			case hash("Disconnected"):
+			{
+				this->game_data->getStateManager()->pop();
+			} break;
 			case hash("CreateEntity"):
 			{
 				//Server told us to create an entity, so we do.
@@ -229,13 +234,13 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 	managed_slot_1 = this->game_data->getNetworkManager()->client->on_packet_received.connect(std::move(clientPacketReceive));
 
-	if(game_data->getNetworkManager()->server)
+	if (game_data->getNetworkManager()->server)
 	{
 		managed_slot_2 = this->game_data->getNetworkManager()->server->on_packet_received.connect((serverPacketReceive));
 	}
 
 	//Create 5 units for our warband
-	for(int i = 0; i < 5; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
 		ent_man.createEntityRequest<Unit>();
 	}
@@ -247,7 +252,9 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 		sendEndTurnPacket();
 	});
 
-	game_data->getMusicPlayer()->play("Piano Loop");
+	game_data->getMusicPlayer()->addMusicToPlaylist("game", "Piano Loop");
+	game_data->getMusicPlayer()->addMusicToPlaylist("game", "FF7");
+	game_data->getMusicPlayer()->startPlaylist("game");
 }
 
 StateGame::~StateGame()
@@ -259,6 +266,7 @@ StateGame::~StateGame()
 void StateGame::update(const ASGE::GameTime& gt)
 {
 	//RICARDO - this won't cause any issue right?
+	//right
 	if(menu.getButton(0).isEnabled())
 	{
 		menu.update();
@@ -631,7 +639,7 @@ void StateGame::render() const
 
 void StateGame::onActive()
 {
-	game_data->getMusicPlayer()->play("Piano Loop");
+
 }
 
 void StateGame::onInactive()

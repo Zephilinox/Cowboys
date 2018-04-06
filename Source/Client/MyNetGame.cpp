@@ -89,6 +89,7 @@ void MyNetGame::update(const ASGE::GameTime& gt)
 	game_data->getMessageQueue()->processMessages(3ms);
 	game_data->getNetworkManager()->update();
 	game_data->getInputManager()->update();
+	game_data->getMusicPlayer()->update();
 	game_data->getStateManager()->update(gt);
 
 	if (game_data->getInputManager()->isKeyPressed(ASGE::KEYS::KEY_F1))
