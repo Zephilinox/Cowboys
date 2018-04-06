@@ -125,6 +125,7 @@ protected:
 
 	//STATS
 	float view_distance = 10.0f;
+	float start_time_units = 0.0f;
 	float time_units = 10.0f;
 	float stamina = 10.0f;
 	float health = 10.0f;

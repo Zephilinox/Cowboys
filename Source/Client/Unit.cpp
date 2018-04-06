@@ -238,6 +238,7 @@ void Unit::getReactiveAttacked(Unit* attacker, float damage)
 void Unit::endTurn()
 {
 	//TODO - low priority, trigger any visuals to notify user that unit has acted (dim overlay?)
+	time_units = start_time_units;
 
 }
 
@@ -315,6 +316,9 @@ void Unit::loadFromJSON(int unit_to_load)
 		initiative = (float)(unitStats[id]["initiative"].as_double());
 		base_move_speed = (float)(unitStats[id]["base_move_speed"].as_double()) * 10.0f;
 		current_move_speed = base_move_speed;
+
+		//Set here for use in turn ending and resetting time units;
+		start_time_units = time_units;
 
 		//SPRITES
 		horizontal_walk_sprite.addFrame(unitStats[id]["walkLeft1"].as_string(), 0.25f, 0.0f, 0.0f);
