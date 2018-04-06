@@ -22,10 +22,10 @@ StatePause::StatePause(GameData* game_data)
 	}
 
 	const float c[3] = { 0.817f, 0.668f, 0.515f };
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 40.0f, game_data->getWindowHeight() / 2.0f - 60.0f, "CONTINUE", c, ASGE::COLOURS::ANTIQUEWHITE, 100.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 60.0f, game_data->getWindowHeight() / 2.0f + 20.0f, "TOGGLE AUDIO", c, ASGE::COLOURS::ANTIQUEWHITE, 140.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 90.0f, game_data->getWindowHeight() / 2.0f + 60.0f, "TOGGLE FULLSCREEN", c, ASGE::COLOURS::ANTIQUEWHITE, 200.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 20.0f, game_data->getWindowHeight() / 2.0f + 100.0f, "EXIT", c, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 40.0f, game_data->getWindowHeight() / 2.0f - 60.0f, "CONTINUE", c, ASGE::COLOURS::ORANGE, 100.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 60.0f, game_data->getWindowHeight() / 2.0f + 20.0f, "TOGGLE AUDIO", c, ASGE::COLOURS::ORANGE, 140.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 90.0f, game_data->getWindowHeight() / 2.0f + 60.0f, "TOGGLE FULLSCREEN", c, ASGE::COLOURS::ORANGE, 200.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 20.0f, game_data->getWindowHeight() / 2.0f + 100.0f, "EXIT", c, ASGE::COLOURS::ORANGE, 60.0f, 20.0f);
 
 	menu.getButton(0).on_click.connect([game_data]()
 	{

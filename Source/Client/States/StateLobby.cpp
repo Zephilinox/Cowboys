@@ -18,9 +18,9 @@ StateLobby::StateLobby(GameData* game_data)
 	, panel4(game_data, 768.0f)
 	, panel5(game_data, 1024.0f)
 {
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "SERVER", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 70.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "CLIENT", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 70.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f + 40.0f, "BACK", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 70.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "SERVER", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "CLIENT", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f + 40.0f, "BACK", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f);
 
 	auto server_lam = [this](Packet p)
 	{
@@ -91,9 +91,9 @@ StateLobby::StateLobby(GameData* game_data)
 		this->game_data->getStateManager()->pop();
 	});
 
-	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f - 80.0f, game_data->getWindowHeight() * 0.8f, "START", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
-	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() * 0.8f, "TOGGLE READY", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 140.0f, 20.0f);
-	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f + 180.0f, game_data->getWindowHeight() * 0.8f, "BACK", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f - 80.0f, game_data->getWindowHeight() * 0.8f, "START", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 60.0f, 20.0f, "UI/lobbyButton");
+	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() * 0.8f, "TOGGLE READY", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 140.0f, 20.0f, "UI/lobbyButton");
+	lobby.addButton(game_data->getWindowWidth() / 2.0f - 80.0f + 180.0f, game_data->getWindowHeight() * 0.8f, "BACK", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 60.0f, 20.0f, "UI/lobbyButton");
 	
 	lobby.getButton(0).on_click.connect([this]()
 	{
@@ -127,21 +127,21 @@ StateLobby::StateLobby(GameData* game_data)
 	});
 
 	//warband selection
+	float height = 460;
+	lobby.addButton(0.0f + 25, height, "Previous", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 90.0f, 20.0f, "UI/lobbyButton");
+	lobby.addButton(0.0f + 175, height, "Next", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 60.0f, 20.0f, "UI/lobbyButton");
 
-	lobby.addButton(0.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 90.0f, 20.0f);
-	lobby.addButton(0.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	lobby.addButton(256.0f + 25, height, "Previous", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 90.0f, 20.0f, "UI/lobbyButton");
+	lobby.addButton(256.0f + 175, height, "Next", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 60.0f, 20.0f, "UI/lobbyButton");
 
-	lobby.addButton(256.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 90.0f, 20.0f);
-	lobby.addButton(256.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	lobby.addButton(512.0f + 25, height, "Previous", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 90.0f, 20.0f, "UI/lobbyButton");
+	lobby.addButton(512.0f + 175, height, "Next", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 60.0f, 20.0f, "UI/lobbyButton");
 
-	lobby.addButton(512.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 90.0f, 20.0f);
-	lobby.addButton(512.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	lobby.addButton(768.0f + 25, height, "Previous", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 90.0f, 20.0f, "UI/lobbyButton");
+	lobby.addButton(768.0f + 175, height, "Next", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 60.0f, 20.0f, "UI/lobbyButton");
 
-	lobby.addButton(768.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 90.0f, 20.0f);
-	lobby.addButton(768.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
-
-	lobby.addButton(1024.0f + 25, 440, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 90.0f, 20.0f);
-	lobby.addButton(1024.0f + 175, 440, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	lobby.addButton(1024.0f + 25, height, "Previous", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 90.0f, 20.0f, "UI/lobbyButton");
+	lobby.addButton(1024.0f + 175, height, "Next", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 60.0f, 20.0f, "UI/lobbyButton");
 
 	lobby.getButton(3).on_click.connect([this]()
 	{

@@ -48,22 +48,23 @@ void StateWarbandSelection::onInactive()
 
 void StateWarbandSelection::initMenu()
 {
-	menu.addButton(0.0f + 25, 640, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
-	menu.addButton(0.0f + 175, 640, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	float height = 680.0f;
+	menu.addButton(0.0f + 25, height, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
+	menu.addButton(0.0f + 175, height, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
 
-	menu.addButton(256.0f + 25, 640, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
-	menu.addButton(256.0f + 175, 640, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	menu.addButton(256.0f + 25, height, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
+	menu.addButton(256.0f + 175, height, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
 
-	menu.addButton(512.0f + 25, 640, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
-	menu.addButton(512.0f + 175, 640, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	menu.addButton(512.0f + 25, height, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
+	menu.addButton(512.0f + 175, height, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
 
-	menu.addButton(768.0f + 25, 640, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
-	menu.addButton(768.0f + 175, 640, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	menu.addButton(768.0f + 25, height, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
+	menu.addButton(768.0f + 175, height, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
 
-	menu.addButton(1024.0f + 25, 640, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
-	menu.addButton(1024.0f + 175, 640, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	menu.addButton(1024.0f + 25, height, "Previous", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
+	menu.addButton(1024.0f + 175, height, "Next", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
 
-	menu.addButton(game_data->getWindowWidth() - 130.0f, game_data->getWindowHeight() * 0.8f, "DONE!", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE);
+	//menu.addButton(game_data->getWindowWidth() - 130.0f, game_data->getWindowHeight() * 0.8f, "DONE!", ASGE::COLOURS::BLACK, ASGE::COLOURS::ORANGE);
 
 	menu.getButton(10).on_click.connect([this]()
 	{

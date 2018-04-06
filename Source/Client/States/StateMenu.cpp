@@ -30,8 +30,8 @@ StateMenu::StateMenu(GameData* game_data)
 	offset_x = game_data->getRandomNumberGenerator()->getRandomFloat(map_left, map_right);
 	offset_y = game_data->getRandomNumberGenerator()->getRandomFloat(map_top, map_bottom);
 
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "PLAY", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "EXIT", ASGE::COLOURS::BLACK, ASGE::COLOURS::ANTIQUEWHITE, 60.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "PLAY", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 60.0f, 20.0f, "UI/lobbyButton");
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "EXIT", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 60.0f, 20.0f, "UI/lobbyButton");
 	
 	menu.getButton(0).on_click.connect([game_data]()
 	{

@@ -240,7 +240,7 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 		ent_man.createEntityRequest<Unit>();
 	}
 
-	menu.addButton(game_data->getWindowWidth() - 100, game_data->getWindowHeight() - 300, "End Turn", ASGE::COLOURS::GREEN, ASGE::COLOURS::GREENYELLOW, 80.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() - 100, game_data->getWindowHeight() - 300, "End Turn", ASGE::COLOURS::GREEN, ASGE::COLOURS::GREENYELLOW, 110.0f, 20.0f, "UI/lobbyButton");
 	menu.getButton(0).on_click.connect([this]()
 	{
 		//send packet to trigger same function on other client here
