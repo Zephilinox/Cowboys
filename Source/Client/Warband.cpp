@@ -133,12 +133,19 @@ void Warband::resetAllActed()
 	}
 }
 
-void Warband::endTurn(EntityManager & ent_man, uint32_t netID)
+void Warband::endTurn(EntityManager& ent_man, uint32_t netID)
 {
 	Entity* ent = ent_man.getEntity(netID);
-	Unit* unit = static_cast<Unit*>(ent);
-	unit->endTurn();
-	unit->setActiveTurn(false);
+	if (ent)
+	{
+		Unit* unit = static_cast<Unit*>(ent);
+		unit->endTurn();
+		unit->setActiveTurn(false);
+	}
+	else
+	{
+		std::cout << "Tried to end turn of invalid entity, id " << netID << "\n";
+	}
 }
 
 

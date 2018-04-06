@@ -94,7 +94,7 @@ void Button::setPos(float x, float y) noexcept
 
 	if (sprite)
 	{
-		sprite->xPos(pos_x - 1.0f);
+		sprite->xPos(pos_x - 3.0f);
 		sprite->yPos(pos_y - 16.0f);
 	}
 }

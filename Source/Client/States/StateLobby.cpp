@@ -18,9 +18,9 @@ StateLobby::StateLobby(GameData* game_data)
 	, panel4(game_data, 768.0f)
 	, panel5(game_data, 1024.0f)
 {
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "SERVER", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "CLIENT", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f);
-	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f + 40.0f, "BACK", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f);
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "SERVER", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f, "UI/lobbyButton");
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "CLIENT", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f, "UI/lobbyButton");
+	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f + 40.0f, "BACK", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f, "UI/lobbyButton");
 
 	auto server_lam = [this](Packet p)
 	{
@@ -97,7 +97,7 @@ StateLobby::StateLobby(GameData* game_data)
 	
 	lobby.getButton(0).on_click.connect([this]()
 	{
-		if (this->game_data->getNetworkManager()->server)
+		if (this->game_data->getNetworkManager()->server && ready && other_ready)
 		{
 			Packet p;
 			p.setID(hash("GameStart"));
