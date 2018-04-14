@@ -39,6 +39,8 @@ public:
 	int getJsonXPos(uint32_t owner, uint32_t netID);
 	int getJsonYPos(uint32_t owner, uint32_t netID);
 
+	void unseeAllTiles();
+
 	std::vector<MoveData>& getPathToGoal() { return pathToGoal; }
 	void clearMoveData();
 	float getManhattanDistance(TerrainTile * startNode, TerrainTile * endNode);
@@ -62,6 +64,7 @@ private:
 	char grid[mapWidth][mapHeight];
 
 	GameData* game_data = nullptr;
+
 
 	//todo: use std::array so we can pass in runtime values
 

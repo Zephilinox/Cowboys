@@ -7,6 +7,7 @@
 #include "../Architecture/Rng.hpp"
 #include "../Architecture/Constants.hpp"
 #include "../Architecture/Managers/EntityManager.hpp"
+#include "../Client/Grid.h"
 
 Unit::Unit(GameData* game_data, EntityManager* ent_man)
 	: Entity(game_data, ent_man, hash("Unit"))
@@ -189,6 +190,12 @@ void Unit::setState(UnitState new_state)
 Unit::UnitState Unit::getState() const
 {
 	return char_state;
+}
+
+bool Unit::getIsMoving()
+{
+	bool is_moving = (char_state == WALKING ? true : false);
+	return is_moving;
 }
 
 
@@ -383,41 +390,11 @@ void Unit::commonUpdate(float dt)
 		bool xPosMatched = false;
 		bool yPosMatched = false;
 
-		if((target_x_position - x_position) > (x_position - target_x_position))
-		{
-			//east facing
-			char_facing = UnitFacing::EAST;
-		}
-		else if((target_x_position - x_position) < (x_position - target_x_position))
-		{
-			//west facing
-			char_facing = UnitFacing::WEST;
-		}
-		else 
-		{
-			//Ignore facing
-		}
-
-		if((target_y_position - y_position) > (y_position - target_y_position))
-		{
-			//south facing
-			char_facing = UnitFacing::SOUTH;
-		}
-		else if((target_y_position - y_position) < (y_position - target_y_position))
-		{
-			//north facing
-			char_facing = UnitFacing::NORTH;
-		}
-		else
-		{
-			//Ignore facing
-		}
-
-		if ((target_x_position - x_position) >= 5.0f)
+		if((target_x_position - x_position) >= 5.0f)
 		{
 			x_position += base_move_speed * dt;
 		}
-		else if ((x_position - target_x_position) >= 5.0f)
+		else if((x_position - target_x_position) >= 5.0f)
 		{
 			x_position -= base_move_speed * dt;
 		}
@@ -456,12 +433,47 @@ void Unit::commonUpdate(float dt)
 				if(movement_pos_list[movement_pos_list_counter].time_units <= time_units)
 				{
 					time_units -= movement_pos_list[movement_pos_list_counter].time_units;
+					getCurrentTile()->setIsOccupied(false);
+					int x = (int)(movement_pos_list[movement_pos_list_counter].x / 40.0f);
+					int y = (int)(movement_pos_list[movement_pos_list_counter].y / 40.0f);
+					current_tile = game_grid->getTile(x, y);
+					getCurrentTile()->setIsOccupied(true);
 				}
 				else
 				{
 					endMove();
 				}
 			}
+		}
+
+		if((target_x_position - x_position) > (x_position - target_x_position))
+		{
+			//east facing
+			char_facing = UnitFacing::EAST;
+		}
+		else if((target_x_position - x_position) < (x_position - target_x_position))
+		{
+			//west facing
+			char_facing = UnitFacing::WEST;
+		}
+		else
+		{
+			//Ignore facing
+		}
+
+		if((target_y_position - y_position) > (y_position - target_y_position))
+		{
+			//south facing
+			char_facing = UnitFacing::SOUTH;
+		}
+		else if((target_y_position - y_position) < (y_position - target_y_position))
+		{
+			//north facing
+			char_facing = UnitFacing::NORTH;
+		}
+		else
+		{
+			//Ignore facing
 		}
 
 		break;

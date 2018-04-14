@@ -218,8 +218,6 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 					unit->move();
 					unit->setCurrentTile(&game_grid.map[packetStartX][packetStartY]);
 					unit->getCurrentTile()->setIsOccupied(false);
-					unit->setCurrentTile(&game_grid.map[packetEndX][packetEndY]);
-					unit->getCurrentTile()->setIsOccupied(true);
 					game_grid.clearMoveData();
 				}
 				break;
@@ -310,6 +308,13 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 		if(gameReady)
 		{
+			//give all units reference to grid
+			for(auto& ent : ent_man.entities)
+			{
+				//TODO -  highligh unit stats when left clicked on.
+				Unit* unit = static_cast<Unit*>(ent.get());
+				unit->setGrid(game_grid);
+			}
 			//Now both warbands are initialised, init & sort their initiative trackers
 			our_warband.initInitiativeTracker(ent_man);
 			their_warband.initInitiativeTracker(ent_man);
@@ -348,7 +353,6 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 			updateAllFogOfWar();
 		}
-
 	}
 
 	auto client = game_data->getNetworkManager()->client.get();
@@ -366,10 +370,13 @@ void StateGame::update(const ASGE::GameTime& gt)
 	game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
 
 
+
 	if(client && client->isConnecting())
 	{
 		ent_man.update(dt);
 	}
+
+	movingUnitLineOfSight();
 
 	if(gameReady)
 	{
@@ -512,8 +519,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 							p.setID(hash("UnitMove"));
 							p << packetStartX << packetStartY << packetEndX << packetEndY << active_unit->entity_info.networkID;
 							game_data->getNetworkManager()->client->sendPacket(0, &p);
-							active_unit->setCurrentTile(selected);
-							active_unit->getCurrentTile()->setIsOccupied(true);
+							active_unit->getCurrentTile()->setIsOccupied(false);
 						}
 						else
 						{
@@ -532,6 +538,8 @@ void StateGame::update(const ASGE::GameTime& gt)
 		}
 	}
 }
+
+
 void StateGame::screenScroll(float dt, double mouseX, double mouseY)
 {
 	double screen_edge_threshold = 30.0;
@@ -648,28 +656,29 @@ void StateGame::onInactive()
 }
 
 void StateGame::updateAllFogOfWar()
-{//TODO refactor this
+{
+	game_grid.unseeAllTiles();
 	for(auto& ent : ent_man.entities)
 	{
 		if(ent->entity_info.type == hash("Unit") && ent->isOwner())
 		{
 			Unit* unit = static_cast<Unit*>(ent.get());
-			int unit_x = unit->getCurrentTile()->xCoord;
-			int unit_y = unit->getCurrentTile()->yCoord;
-			for(int wid = 0; wid < mapWidth; wid++)
-			{
-				for(int height = 0; height < mapHeight; height++)
-				{
-					game_grid.getFogOfWar(unit->getViewDistance(), unit_x, unit_y, wid, height);
-				}
-			}
+			updateUnitFogOfWar(unit);
 		}
 	}
 }
 
 void StateGame::updateUnitFogOfWar(Unit* unit)
 {
-	
+	int unit_x = unit->getCurrentTile()->xCoord;
+	int unit_y = unit->getCurrentTile()->yCoord;
+	for(int wid = 0; wid < mapWidth; wid++)
+	{
+		for(int height = 0; height < mapHeight; height++)
+		{
+			game_grid.getFogOfWar(unit->getViewDistance(), unit_x, unit_y, wid, height);
+		}
+	}
 }
 
 void StateGame::sendEndTurnPacket()
@@ -686,6 +695,21 @@ void StateGame::sendAttackPacket(uint32_t attacker_ID, uint32_t defender_ID)
 	p << attacker_ID << defender_ID;
 	std::cout << "attack packet send\n";
 	game_data->getNetworkManager()->client->sendPacket(0, &p);
+}
+
+void StateGame::movingUnitLineOfSight()
+{
+	for(auto& ent : ent_man.entities)
+	{
+		if(ent->isOwner())
+		{
+			Unit* unit = static_cast<Unit*>(ent.get());
+			if(unit->getIsMoving())
+			{
+				updateUnitFogOfWar(unit);
+			}
+		}
+	}
 }
 
 void StateGame::endTurn()

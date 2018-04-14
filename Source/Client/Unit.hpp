@@ -8,6 +8,7 @@
 #include <jsoncons/json.hpp>
 
 class TerrainTile;
+class Grid;
 
 class Unit : public Entity
 {
@@ -45,6 +46,8 @@ public:
 	void setCurrentTile(TerrainTile* new_tile);
 	TerrainTile* getCurrentTile() { return current_tile; }
 
+	void setGrid(Grid& grid) { game_grid = &grid; }
+
 	void update(float dt);
 	void render(ASGE::Renderer* renderer) const;
 
@@ -55,6 +58,8 @@ public:
 	virtual UnitFacing getFacing() const;
 	void setState(UnitState new_state);
 	virtual UnitState getState() const;
+
+	bool getIsMoving();
 
 	float getXPosition() const { return x_position; }
 	float getYPosition() const { return y_position; }
@@ -181,6 +186,7 @@ protected:
 	std::vector<MoveData> movement_pos_list;
 	int movement_pos_list_counter = 0;
 
+	Grid* game_grid = nullptr;
 	TerrainTile* current_tile = nullptr;
 
 };

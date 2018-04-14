@@ -265,6 +265,17 @@ int Grid::getJsonYPos(uint32_t owner, uint32_t netID)
 	return yPos;
 }
 
+void Grid::unseeAllTiles()
+{
+	for(int x = 0; x < mapWidth; x++)
+	{
+		for(int y = 0; y < mapHeight; y++)
+		{
+			map[x][y].setIsVisible(false);
+		}
+	}
+}
+
 void Grid::loadHardCodedMap()
 {
 	int new_id = 0;
@@ -645,8 +656,14 @@ void Grid::getFogOfWar(float view_distance, int start_x, int start_y, int end_x,
 		{
 			map[start_x][start_y].setIsVisible(true);
 		}
+		else
+		{
+			map[start_x][start_y].setIsVisible(true);
+			continue;
+		}
 		
 		if(start_x == end_x && start_y == end_y) break;
+
 		e2 = 2 * err;
 		if(e2 >= dy) { err += dy; start_x += sx; } /* e_xy+e_x > 0 */
 		if(e2 <= dx) { err += dx; start_y += sy; } /* e_xy+e_y < 0 */

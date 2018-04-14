@@ -43,6 +43,7 @@ public:
 
 	void screenScroll(float dt, double mouseX, double mouseY);
 
+	void movingUnitLineOfSight();
 	void endTurn();
 	void endRound();
 
