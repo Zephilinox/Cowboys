@@ -7,7 +7,7 @@ Grid::Grid(GameData* data)
 
 void Grid::generateCharGrid(int seed)
 {
-	rng_generator.setSeed(seed);
+	r_n_generator.setSeed(seed);
 	
 	//use seed to load JSON into buildings container
 	loadJSONBuildings(seed);
@@ -19,7 +19,7 @@ void Grid::generateCharGrid(int seed)
 		for (int y = 0; y < mapHeight; y++)
 		{
 			char new_char = 'g';
-			float val = rng_generator.getRandomFloat(0, 1);
+			float val = r_n_generator.getRandomFloat(0, 1);
 
 			if (val < 0.02f)
 			{
@@ -35,7 +35,7 @@ void Grid::generateCharGrid(int seed)
 
 	for (auto rock_pos : rocks)
 	{
-		float rand = rng_generator.getRandomFloat(0, 1);
+		float rand = r_n_generator.getRandomFloat(0, 1);
 
 		if (rand < 0.1f)
 		{
@@ -47,21 +47,21 @@ void Grid::generateCharGrid(int seed)
 
 		if (x < mapWidth - 1 && y < mapHeight - 1)
 		{
-			rand = rng_generator.getRandomFloat(0, 1);
+			rand = r_n_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x + 1][y] = 'r';
 				rocks2.push_back(std::make_pair(x + 1, y));
 			}
 
-			rand = rng_generator.getRandomFloat(0, 1);
+			rand = r_n_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x][y + 1] = 'r';
 				rocks2.push_back(std::make_pair(x, y + 1));
 			}
 
-			rand = rng_generator.getRandomFloat(0, 1);
+			rand = r_n_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x + 1][y + 1] = 'r';
@@ -72,7 +72,7 @@ void Grid::generateCharGrid(int seed)
 	
 	for (auto rock_pos : rocks2)
 	{
-		float rand = rng_generator.getRandomFloat(0, 1);
+		float rand = r_n_generator.getRandomFloat(0, 1);
 
 		if (rand < 0.1f)
 		{
@@ -84,19 +84,19 @@ void Grid::generateCharGrid(int seed)
 
 		if (x < mapWidth - 1 && y < mapHeight - 1)
 		{
-			rand = rng_generator.getRandomFloat(0, 1);
+			rand = r_n_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x + 1][y] = 'r';
 			}
 
-			rand = rng_generator.getRandomFloat(0, 1);
+			rand = r_n_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x][y + 1] = 'r';
 			}
 
-			rand = rng_generator.getRandomFloat(0, 1);
+			rand = r_n_generator.getRandomFloat(0, 1);
 			if (rand < 0.6f)
 			{
 				grid[x + 1][y + 1] = 'r';
@@ -197,14 +197,19 @@ void Grid::render() const
 	{
 		for (int y = 0; y < mapHeight; y++)
 		{
-			auto* sprite = map[x][y].getTerrainSprite();
-			if (withinView(sprite))
+			auto* terrain_sprite = map[x][y].getTerrainSprite();
+			auto* overlay_sprite = map[x][y].getOverlaySprite();
+			if (withinView(terrain_sprite))
 			{
-				sprite->xPos(sprite->xPos() - offset_x);
-				sprite->yPos(sprite->yPos() - offset_y);
+				terrain_sprite->xPos(terrain_sprite->xPos() - offset_x);
+				terrain_sprite->yPos(terrain_sprite->yPos() - offset_y);
+				overlay_sprite->xPos(overlay_sprite->xPos() - offset_x);
+				overlay_sprite->yPos(overlay_sprite->yPos() - offset_y);
 				map[x][y].render(game_data->getRenderer());
-				sprite->xPos(sprite->xPos() + offset_x);
-				sprite->yPos(sprite->yPos() + offset_y);
+				terrain_sprite->xPos(terrain_sprite->xPos() + offset_x);
+				terrain_sprite->yPos(terrain_sprite->yPos() + offset_y);
+				overlay_sprite->xPos(overlay_sprite->xPos() + offset_x);
+				overlay_sprite->yPos(overlay_sprite->yPos() + offset_y);
 			}
 		}
 	}
@@ -270,6 +275,8 @@ void Grid::loadHardCodedMap()
 			map[x][y].initialise(grid[x][y], game_data->getRenderer(), x, y);
 			map[x][y].getTerrainSprite()->xPos(x * map[x][y].getTerrainSprite()->width());
 			map[x][y].getTerrainSprite()->yPos(y * map[x][y].getTerrainSprite()->height());
+			map[x][y].getOverlaySprite()->xPos(x * map[x][y].getTerrainSprite()->width());
+			map[x][y].getOverlaySprite()->yPos(y * map[x][y].getTerrainSprite()->height());
 			map[x][y].id = new_id;
 			new_id++;
 		}
@@ -308,7 +315,7 @@ float Grid::getManhattanDistance(TerrainTile* startNode, TerrainTile* endNode)
 bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 {
 
-	if(endTile->getIsBlocked() || endTile == nullptr)
+	if(endTile->getIsBlocked() || endTile->getIsOccupied() || endTile == nullptr)
 	{
 		std::cout << "You can't path to a blocked object\n";
 		return false;
@@ -369,22 +376,22 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 		{
 			//somewhere in the middle, get all 4 neighbours.
 			//Left
-			if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked())
+			if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord]);
 			}
 			//Right
-			if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked())
+			if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord]);
 			}
 			//Up
-			if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked())
+			if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1]);
 			}
 			//Down
-			if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked())
+			if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1]);
 			}
@@ -398,12 +405,12 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 			{
 				//top left corner, get right and down
 				//Right
-				if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked())
+				if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord]);
 				}
 				//Down
-				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked())
+				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1]);
 				}
@@ -413,12 +420,12 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 			{
 				//bottom left corner, get right and up
 				//Right
-				if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked())
+				if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord]);
 				}
 				//Up
-				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked())
+				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1]);
 				}
@@ -427,17 +434,17 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 			{
 				//on left edge, get up, right and down
 				//Right
-				if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked())
+				if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord]);
 				}
 				//Up
-				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked())
+				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1]);
 				}
 				//Down
-				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked())
+				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1]);
 				}
@@ -450,12 +457,12 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 			{
 				//top right corner, get left and down
 				//Left
-				if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked())
+				if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord]);
 				}
 				//Down
-				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked())
+				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1]);
 				}
@@ -465,12 +472,12 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 			{
 				//bottom right corner, get left and up
 				//Left
-				if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked())
+				if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord]);
 				}
 				//Up
-				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked())
+				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1]);
 				}
@@ -479,17 +486,17 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 			{
 				//on right edge, get up, left and down
 				//Left
-				if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked())
+				if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord]);
 				}
 				//Up
-				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked())
+				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1]);
 				}
 				//Down
-				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked())
+				if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsOccupied())
 				{
 					neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1]);
 				}
@@ -499,17 +506,17 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 		{
 			//On top edge, get left, down and right
 			//Left
-			if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked())
+			if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord]);
 			}
 			//Right
-			if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked())
+			if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord]);
 			}
 			//Down
-			if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked())
+			if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord + 1]);
 			}
@@ -518,17 +525,17 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 		{
 			//on bottom edge, get left, right and up
 			//Left
-			if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked())
+			if(!map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord - 1][currentPathingNode->yCoord]);
 			}
 			//Right
-			if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked())
+			if(!map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsBlocked() || !map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord + 1][currentPathingNode->yCoord]);
 			}
 			//Up
-			if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked())
+			if(!map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsBlocked() || !map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1].getIsOccupied())
 			{
 				neighbours.push_back(&map[currentPathingNode->xCoord][currentPathingNode->yCoord - 1]);
 			}
@@ -618,4 +625,30 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 	}
 
 	return true;
+}
+
+void Grid::getFogOfWar(float view_distance, int start_x, int start_y, int end_x, int end_y)
+{
+
+	//void plotLine(int x0, int y0, int x1, int y1)
+	int dx = abs(end_x - start_x);
+	int sx = start_x < end_x ? 1 : -1;
+	int dy = -abs(end_y - start_y);
+	int sy = start_y < end_y ? 1 : -1;
+	int err = dx + dy;
+	int e2; /* error value e_xy */
+
+	for(int i = 0; i < (int)view_distance; ++i)
+	{  /* loop */
+	//	setPixel(x0, y0);
+		if(!map[start_x][start_y].getIsBlocked())
+		{
+			map[start_x][start_y].setIsVisible(true);
+		}
+		
+		if(start_x == end_x && start_y == end_y) break;
+		e2 = 2 * err;
+		if(e2 >= dy) { err += dy; start_x += sx; } /* e_xy+e_x > 0 */
+		if(e2 <= dx) { err += dx; start_y += sy; } /* e_xy+e_y < 0 */
+	}
 }

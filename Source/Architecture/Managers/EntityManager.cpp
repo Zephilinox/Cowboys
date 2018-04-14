@@ -7,6 +7,7 @@
 #include "../GameData.hpp"
 #include "../Networking/Server.hpp"
 #include "../../Client/Unit.hpp"
+#include "../../Client/TerrainTile.h"
 
 EntityManager::EntityManager(GameData* game_data)
 	: game_data(game_data)
@@ -99,13 +100,16 @@ void EntityManager::render() const
 				continue;
 			}
 
-			unit_sprite->xPos(unit->getXPosition() - offset_x);
-			unit_sprite->yPos(unit->getYPosition() - offset_y);
+			if(unit->getCurrentTile()->getIsVisible())
+			{
+				unit_sprite->xPos(unit->getXPosition() - offset_x);
+				unit_sprite->yPos(unit->getYPosition() - offset_y);
 
-			ent->render(game_data->getRenderer());
+				ent->render(game_data->getRenderer());
 
-			unit_sprite->xPos(unit->getXPosition() + offset_x);
-			unit_sprite->yPos(unit->getYPosition() + offset_y);
+				unit_sprite->xPos(unit->getXPosition() + offset_x);
+				unit_sprite->yPos(unit->getYPosition() + offset_y);
+			}
 		}
 		else
 		{

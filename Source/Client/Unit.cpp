@@ -258,6 +258,7 @@ void Unit::endRound()
 {
 	//TODO - low priority, re-init any temp value changes to default
 	hasReactiveFired = false;
+	time_units = start_time_units;
 }
 
 void Unit::setPosition(float x, float y)

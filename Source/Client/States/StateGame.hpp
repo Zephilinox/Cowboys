@@ -34,6 +34,10 @@ public:
 	void onActive() override final;
 	void onInactive() override final;
 
+	void updateAllFogOfWar();
+	void updateUnitFogOfWar(Unit* unit);
+
+
 	void sendEndTurnPacket();
 	void sendAttackPacket(uint32_t attacker_ID, uint32_t defender_ID);
 
@@ -46,14 +50,9 @@ private:
 	ManagedConnection managed_slot_1;
 	ManagedConnection managed_slot_2;
 
+	EntityManager ent_man;
+
 	void renderUnitStatsToPanel() const;
-	std::unique_ptr<ASGE::Sprite> portrait_highlight;
-
-
-	float endTurnTimer = 0.0f;
-	float endRoundTimer = 0.0f;
-	float yourTurnTimer = 0.0f;
-
 
 	Menu menu;
 
@@ -62,18 +61,18 @@ private:
 	Warband* active_turn_warband;
 	uint32_t active_turn_unit;
 
-	//TODO refactor as final grid
-	Grid testGrid;
-
+	Grid game_grid;
 	bool gameReady = false;
 
-	std::unique_ptr<ASGE::Sprite> yourTurnSprite;
-	std::unique_ptr<ASGE::Sprite> endTurnSprite;
-	std::unique_ptr<ASGE::Sprite> endRoundSprite;
+	std::unique_ptr<ASGE::Sprite> portrait_highlight;
+	std::unique_ptr<ASGE::Sprite> your_turn_sprite;
+	std::unique_ptr<ASGE::Sprite> end_turn_sprite;
+	std::unique_ptr<ASGE::Sprite> end_round_sprite;
 	std::unique_ptr<ASGE::Sprite> UI_panel_sprite;
 
-
-	EntityManager ent_man;
+	float endTurnTimer = 0.0f;
+	float endRoundTimer = 0.0f;
+	float yourTurnTimer = 0.0f;
 
 	float offset_x = 0.0f;
 	float offset_y = 0.0f;

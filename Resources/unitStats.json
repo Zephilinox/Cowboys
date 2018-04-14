@@ -6,7 +6,7 @@
 	"unit0": {
 		"Title" : "Gunslinger",
 		"HP": 10.0,
-		"viewDistance": 10.0,
+		"viewDistance": 5.0,
 		"timeUnits": 60,
 		"stamina": 10.0,
 		"bravery": 10.0,
@@ -29,7 +29,7 @@
 	"unit1": {
 		"Title" : "Cowboy",
 		"HP": 1.0,
-		"viewDistance": 10.0,
+		"viewDistance": 5.0,
 		"timeUnits": 60,
 		"stamina": 10.0,
 		"bravery": 10.0,
@@ -52,7 +52,7 @@
 	"unit2": {
 		"Title" : "Ranger",
 		"HP": 100.0,
-		"viewDistance": 10.0,
+		"viewDistance": 6.0,
 		"timeUnits": 60,
 		"stamina": 10.0,
 		"bravery": 10.0,
@@ -75,7 +75,7 @@
 	"unit3": {
 		"Title" : "Outlaw",
 		"HP": 10.0,
-		"viewDistance": 10.0,
+		"viewDistance": 5.0,
 		"timeUnits": 60,
 		"stamina": 10.0,
 		"bravery": 10.0,

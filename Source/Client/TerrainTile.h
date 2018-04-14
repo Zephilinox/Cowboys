@@ -20,9 +20,12 @@ public:
 	void render(ASGE::Renderer* rend) const;
 
 	ASGE::Sprite* getTerrainSprite() const;
+	ASGE::Sprite* getOverlaySprite() const;
 	int getMoveDifficultyModifier() const;
 	bool getIsBlocked() const;
 	void setIsBlocked(bool new_val);
+	bool getIsOccupied() const;
+	void setIsOccupied(bool new_val);
 
 	void initialise(char type, ASGE::Renderer* rend, float xCo, float yCo);
 
@@ -38,6 +41,8 @@ public:
 	float dist_from_start;
 	float dist_to_goal;
 
+	void setIsVisible(bool new_val) { is_visible = new_val; }
+	bool getIsVisible() { return is_visible; }
 	int xCoord = 0;
 	int yCoord = 0;
 
@@ -46,5 +51,7 @@ private:
 	std::unique_ptr<ASGE::Sprite> ground_sprite;
 	std::unique_ptr<ASGE::Sprite> overlay_sprite;
 	int time_units_cost = 0;
-	bool isBlocked = false;
+	bool is_blocked = false;
+	bool is_occupied = false;
+	bool is_visible = false;
 };

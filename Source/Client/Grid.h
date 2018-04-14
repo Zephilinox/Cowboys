@@ -49,11 +49,13 @@ public:
 	void loadJSONBuildings(int seed);
 
 	bool findPathFromTo(TerrainTile * startTile, TerrainTile * endTile);
+
+	void getFogOfWar(float view_distance, int start_x, int start_y, int end_x, int end_y);
+
 	TerrainTile map[mapWidth][mapHeight];
 
 private:
 	bool withinView(ASGE::Sprite* sprite) const;
-
 
 
 	//todo: use std::array so we can pass in runtime values
@@ -71,7 +73,7 @@ private:
 
 	std::vector<Building> buildings;
 
-	Rng rng_generator;
+	Rng r_n_generator;
 
 	//Pathfinding
 	std::vector<TerrainTile*> openList;
