@@ -25,6 +25,8 @@ public:
 	int addButton(float x, float y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour);
 	int addButton(float x, float y, std::string name, ASGE::Colour colour, ASGE::Colour selected_colour, float width, float height, std::string texture = "red pixel");
 
+	void enableKeyboardInput(bool enable);
+
 	Button& getButton(int button_id);
 
 	std::unique_ptr<ASGE::Sprite> selection_image = nullptr;
@@ -38,4 +40,6 @@ private:
 	unsigned selected_button_id;
 	HashedID next_selection_action;
 	HashedID prev_selection_action;
+
+	bool keyboard_input;
 };

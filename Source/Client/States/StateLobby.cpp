@@ -18,6 +18,8 @@ StateLobby::StateLobby(GameData* game_data)
 	, panel4(game_data, 768.0f)
 	, panel5(game_data, 1024.0f)
 {
+	lobby.enableKeyboardInput(false);
+
 	callback = game_data->getInput()->addCallbackFnc(ASGE::EventType::E_KEY, &StateLobby::keyHandler, this);
 
 	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "SERVER", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f, "UI/lobbyButton");
@@ -49,10 +51,7 @@ StateLobby::StateLobby(GameData* game_data)
 		
 		if (p.getID() == hash("ChatMessage"))
 		{
-			this->game_data->getNetworkManager()->server->sendPacketToSomeClients(0, &p, ENET_PACKET_FLAG_RELIABLE, [p](const ClientInfo& info)
-			{
-				return p.senderID != info.id;
-			});
+			this->game_data->getNetworkManager()->server->sendPacketToAllClients(0, &p);
 		}
 	};
 
@@ -88,14 +87,9 @@ StateLobby::StateLobby(GameData* game_data)
 			p >> string;
 			chatlog.push_back(string);
 
-			while (chatlog.size() > 5)
+			while (chatlog.size() > 7)
 			{
 				chatlog.pop_front();
-			}
-
-			for (auto message : chatlog)
-			{
-				std::cout << message << "\n";
 			}
 		}
 	};
@@ -236,11 +230,12 @@ void StateLobby::update(const ASGE::GameTime&)
 		
 		if (game_data->getInputManager()->isKeyPressed(ASGE::KEYS::KEY_ENTER))
 		{
+			std::string username("Client " + std::to_string(game_data->getNetworkManager()->client->getID()) + std::string(": "));
 			Packet p;
 			p.setID(hash("ChatMessage"));
-			p << input;
+			p << std::string(username + input);
 			this->game_data->getNetworkManager()->client->sendPacket(0, &p);
-			std::cout << "entered " << input << "\n";
+			std::cout << std::string(username + input) << "\n";
 			input.clear();
 		}
 	}
@@ -300,6 +295,17 @@ void StateLobby::render() const
 	{
 		renderer->renderText(ready ? "READY" : "NOT READY", 50, 610, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		renderer->renderText(other_ready ? "OTHER PLAYER READY" : "OTHER PLAYER NOT READY", 50, 640, 1.0f, ASGE::COLOURS::BLACK, 10000);
+
+		const float c[3] = { 0.2f, 0.2f, 0.2f };
+		auto y = 550;
+		for (const auto& msg : chatlog)
+		{
+			renderer->renderText(msg, 850, y, 1.0f, c, 10000);
+			y += 20;
+		}
+
+		renderer->renderText(input, 850, 690, 1.0f, ASGE::COLOURS::BLACK, 10000);
+
 		lobby.render();
 	}
 	else
