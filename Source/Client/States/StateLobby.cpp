@@ -304,7 +304,7 @@ void StateLobby::render() const
 			y += 20;
 		}
 
-		renderer->renderText(input, 850, 690, 1.0f, ASGE::COLOURS::BLACK, 10000);
+		renderer->renderText(std::string("Message: ") + input, 850, 690, 1.0f, ASGE::COLOURS::BLACK, 10000);
 
 		lobby.render();
 	}
