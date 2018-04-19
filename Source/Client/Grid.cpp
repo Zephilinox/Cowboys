@@ -140,7 +140,6 @@ void Grid::addBuildingToMap(Building& building)
 	std::string texture_source = building.buildingTextureSource;
 	
 	//block access to all tiles EXCEPT right in front of the building
-	//TODO confirm this loop doesn't need to be buildingHeight - 1?
 	for(int x = buildingStartPosX; x < buildingStartPosX + buildingWidth; x++)
 	{
 		for(int y = buildingStartPosY; y < buildingStartPosY + buildingHeight; y++)
