@@ -17,7 +17,7 @@ class StateMenu : public State
 {
 public:
 	StateMenu(GameData* game_data);
-
+	
 	void update(const ASGE::GameTime&) override final;
 	void render() const override final;
 	void onActive() override final;

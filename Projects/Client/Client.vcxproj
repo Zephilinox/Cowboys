@@ -169,11 +169,10 @@
     <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
     <ClInclude Include="..\..\Source\Client\Action.h" />
     <ClInclude Include="..\..\Source\Client\ActionQueue.h" />
+    <ClInclude Include="..\..\Source\Client\EnemyPanel.h" />
     <ClInclude Include="..\..\Source\Client\Grid.h" />
     <ClInclude Include="..\..\Source\Client\ListOfNames.hpp" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.hpp" />
-    <ClInclude Include="..\..\Source\Client\Pathfinding.h" />
-    <ClInclude Include="..\..\Source\Client\SearchCell.h" />
     <ClInclude Include="..\..\Source\Client\States\StateGameOver.h" />
     <ClInclude Include="..\..\Source\Client\States\StateGame.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp" />
@@ -185,7 +184,6 @@
     <ClInclude Include="..\..\Source\Client\Unit.hpp" />
     <ClInclude Include="..\..\Source\Client\UnitSelectPanel.hpp" />
     <ClInclude Include="..\..\Source\Client\Warband.hpp" />
-    <ClInclude Include="SpritePaths.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Architecture\AnimatedSprite.cpp" />
@@ -215,6 +213,7 @@
     <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp" />
     <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
     <ClCompile Include="..\..\Source\Client\ActionQueue.cpp" />
+    <ClCompile Include="..\..\Source\Client\EnemyPanel.cpp" />
     <ClCompile Include="..\..\Source\Client\Grid.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />
