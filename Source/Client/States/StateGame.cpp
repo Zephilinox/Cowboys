@@ -24,8 +24,9 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 	, menu(game_data)
 	, our_warband(game_data, unit1ID, unit2ID, unit3ID, unit4ID, unit5ID)
 	, their_warband(game_data)
-	, ent_man(game_data),
-	game_grid(game_data)
+	, ent_man(game_data)
+	, game_grid(game_data)
+	, enemy_panel(game_data)
 {
 	//TODO replace 1 with seed from map selection screen
 	game_grid.generateCharGrid(1);
@@ -423,6 +424,8 @@ void StateGame::update(const ASGE::GameTime& gt)
 		menu.update();
 	}
 
+	enemy_panel.update();
+
 	if(endRoundTimer > 0.0f)
 	{
 		endRoundTimer -= (float)gt.delta_time.count() / 1000.0f;;
@@ -547,9 +550,11 @@ void StateGame::update(const ASGE::GameTime& gt)
 	{
 		if(game_data->getInputManager()->isMouseButtonPressed(0))
 		{
+			enemy_panel.setIsActive(false);
+
 			for(auto& ent : ent_man.entities)
 			{
-				//TODO -  highligh unit stats when left clicked on.
+				//TODO -  highlight enemy unit stats when left clicked on.
 				Unit* unit = static_cast<Unit*>(ent.get());
 				unit->setSelected(false);
 				if(ASGE::Sprite* sprite = unit->getCurrentSprite())
@@ -569,9 +574,15 @@ void StateGame::update(const ASGE::GameTime& gt)
 						{
 							unit->setSelected(true);
 						}
+						if(!unit->isOwner())
+						{
+							enemy_panel.setIsActive(true);
+							continue;
+						}
 					}
 				}
 			}
+
 		}
 
 		if(game_data->getInputManager()->isMouseButtonPressed(1))
@@ -583,43 +594,39 @@ void StateGame::update(const ASGE::GameTime& gt)
 				Entity* ent_ptr = ent_man.getEntity(ent_net_id);
 				Unit* unit = static_cast<Unit*>(ent_ptr);
 
-
-				//ATTACKING
-				if(ASGE::Sprite* sprite = unit->getCurrentSprite())
+				if(unit->getCurrentTile()->getIsVisible())
 				{
-					float sprite_x = sprite->xPos();
-					float sprite_y = sprite->yPos();
-					float sprite_width = sprite->width();
-					float sprite_height = sprite->height();
-
-					if(sprite_x < mouse_x &&
-						sprite_x + sprite_width > mouse_x &&
-						sprite_y < mouse_y &&
-						sprite_y + sprite_height > mouse_y)
+					//ATTACKING input detection
+					if(ASGE::Sprite* sprite = unit->getCurrentSprite())
 					{
-						std::cout << "unit ATTACCCCKED\n";
-						Entity* ent_attacker = ent_man.getEntity(active_turn_unit);
-						Unit* attacker = static_cast<Unit*>(ent_attacker);
+						float sprite_x = sprite->xPos();
+						float sprite_y = sprite->yPos();
+						float sprite_width = sprite->width();
+						float sprite_height = sprite->height();
 
-						//TODO STRETCH check manhattan distance from attacker to defender is within ATTACK RANGE rather than view distance?
-						//if(attacker->getViewDistance() > testGrid.getManhattanDistance(attacker->getCurrentTile(), unit->getCurrentTile()))
-						//{
-						//	sendAttackPacket(active_turn_unit, ent_net_id);
-						//}
+						if(sprite_x < mouse_x &&
+							sprite_x + sprite_width > mouse_x &&
+							sprite_y < mouse_y &&
+							sprite_y + sprite_height > mouse_y)
+						{
+							std::cout << "unit ATTACCCCKED\n";
+							Entity* ent_attacker = ent_man.getEntity(active_turn_unit);
+							Unit* attacker = static_cast<Unit*>(ent_attacker);
 
-						//testing
-					//	TODO - Accuracy check here
-						
-						bool attack_hit = attackAccuracyCheck(attacker->getFiringAccuracy());
-						bool reactive_hit = attackAccuracyCheck(unit->getFiringAccuracy());
+							bool attack_hit = attackAccuracyCheck(attacker->getFiringAccuracy());
+							bool reactive_hit = attackAccuracyCheck(unit->getFiringAccuracy());
 
-						sendAttackPacket(active_turn_unit, ent_net_id, attack_hit, false, reactive_hit);
-						attacking = true;
-						break;
+							sendAttackPacket(active_turn_unit, ent_net_id, attack_hit, false, reactive_hit);
+							attacking = true;
+							break;
+						}
 					}
 				}
+				
 			}
 
+
+			//MOVING input detection
 			if(attacking == false)
 			{
 				//Detect terrain selection
@@ -652,7 +659,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 							{
 								std::cout << "tile selected\n";
 								//	spr->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
-								if(!temp->getIsBlocked())
+								if(!temp->getIsBlocked() && temp->getIsVisible())
 								{
 									selected = temp;
 									break;
@@ -668,7 +675,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 				Unit* active_unit = static_cast<Unit*>(ent_man.getEntity(active_turn_unit));
 				if(selected != nullptr && active_turn_warband == &our_warband
-					&& active_unit->getSelected())
+					&& active_unit->getSelected() )
 				{
 					if(game_grid.findPathFromTo(active_unit->getCurrentTile(), selected))
 					{
@@ -789,6 +796,8 @@ void StateGame::render() const
 	{
 		ent_man.render();
 	}
+
+	enemy_panel.render();
 
 	game_data->getRenderer()->renderSprite(*UI_panel_sprite, Z_ORDER_LAYER::OVERLAY);
 	game_grid.render();
@@ -945,6 +954,12 @@ void StateGame::endTurn()
 	}
 	
 }
+
+//TODO needed?
+//void StateGame::updateEnemyPanel()
+//{
+//
+//}
 
 void StateGame::endRound()
 {

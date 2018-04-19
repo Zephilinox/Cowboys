@@ -20,6 +20,7 @@
 
 #include "../ActionQueue.h"
 #include "../../Architecture/Rng.hpp"
+#include "../EnemyPanel.h"
 
 //Map
 #include "../Grid.h"
@@ -37,62 +38,67 @@ public:
 	void onActive() override final;
 	void onInactive() override final;
 
+	//Fog of war
 	void updateAllFogOfWar();
 	void updateUnitFogOfWar(Unit* unit);
+	void movingUnitLineOfSight();
 
-
+	//Packet senders
 	void sendEndTurnPacket();
 	void sendAttackPacket(uint32_t attacker_ID, uint32_t defender_ID, bool isHit, bool isReactive, bool reactive_hit);
 
-	void screenScroll(float dt, double mouseX, double mouseY);
-
+	//ActionQueue
 	void nextAction();
-
-	bool attackAccuracyCheck(float unit_accuracy);
-
-	void movingUnitLineOfSight();
 	void endTurn();
 	void endRound();
+
+	//Utility
+	bool attackAccuracyCheck(float unit_accuracy);
+	void screenScroll(float dt, double mouseX, double mouseY);
 
 private:
 	ManagedConnection managed_slot_1;
 	ManagedConnection managed_slot_2;
 
-	EntityManager ent_man;
+	//Display timers
+	float endTurnTimer = 0.0f;
+	float endRoundTimer = 0.0f;
+	float yourTurnTimer = 0.0f;
 
+	//Stats panels
+	EnemyPanel enemy_panel;
 	void renderUnitStatsToPanel() const;
 
+	//Menu
 	Menu menu;
 
+	//ActionQueue
+	ActionQueue action_queue;
 	const float default_queue_timer = 0.5f;
 	float queue_timer = 0.5f;
 
-	ActionQueue action_queue;
-
+	//Warbands
 	Warband our_warband;
 	Warband their_warband;
 	Warband* active_turn_warband;
 	uint32_t active_turn_unit;
 
+	//Grid
 	Grid game_grid;
-	bool gameReady = false;
 
+
+	//Utility
 	Rng rand_no_generator;
+	bool gameReady = false;
+	EntityManager ent_man;
+	float offset_x = 0.0f;
+	float offset_y = 0.0f;
+	void checkWinCondition();
 
+	//Sprites
 	std::unique_ptr<ASGE::Sprite> portrait_highlight;
 	std::unique_ptr<ASGE::Sprite> your_turn_sprite;
 	std::unique_ptr<ASGE::Sprite> end_turn_sprite;
 	std::unique_ptr<ASGE::Sprite> end_round_sprite;
 	std::unique_ptr<ASGE::Sprite> UI_panel_sprite;
-
-	float endTurnTimer = 0.0f;
-	float endRoundTimer = 0.0f;
-	float yourTurnTimer = 0.0f;
-
-	float offset_x = 0.0f;
-	float offset_y = 0.0f;
-
-
-	void checkWinCondition();
-
 };
