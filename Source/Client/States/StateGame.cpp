@@ -284,7 +284,17 @@ StateGame::~StateGame()
 
 void StateGame::nextAction()
 {
-	if(action_queue.getSize() > 0)
+	bool a_unit_is_moving = false;
+	for(auto& ent : ent_man.entities)
+	{
+		Unit* unit = static_cast<Unit*>(ent.get());
+		if(unit->getState() == Unit::UnitState::WALKING)
+		{
+			a_unit_is_moving = true;
+		}
+	}
+
+	if(action_queue.getSize() > 0 && !a_unit_is_moving)
 	{
 		std::cout << "Queue size: " << action_queue.getSize() << std::endl;
 		Action action = action_queue.getNextAction();
@@ -819,7 +829,10 @@ void StateGame::updateAllFogOfWar()
 		if(ent->entity_info.type == hash("Unit") && ent->isOwner())
 		{
 			Unit* unit = static_cast<Unit*>(ent.get());
-			updateUnitFogOfWar(unit);
+			if(unit->getIsAlive())
+			{
+				updateUnitFogOfWar(unit);
+			}
 		}
 	}
 }

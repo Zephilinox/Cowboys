@@ -11,7 +11,7 @@
 		"stamina": 10.0,
 		"bravery": 10.0,
 		"reactions": 10.0,
-		"firing_accuracy": 10.0,
+		"firing_accuracy": 2.0,
 		"strength": 10.0,
 		"initiative": 1.0,
 		"base_move_speed": 30.0,
