@@ -276,6 +276,17 @@ void Grid::unseeAllTiles()
 	}
 }
 
+void Grid::seeAllTiles()
+{
+	for(int x = 0; x < mapWidth; x++)
+	{
+		for(int y = 0; y < mapHeight; y++)
+		{
+			map[x][y].setIsVisible(true);
+		}
+	}
+}
+
 void Grid::loadHardCodedMap()
 {
 	int new_id = 0;

@@ -40,6 +40,7 @@ public:
 	int getJsonYPos(uint32_t owner, uint32_t netID);
 
 	void unseeAllTiles();
+	void seeAllTiles();
 
 	std::vector<MoveData>& getPathToGoal() { return pathToGoal; }
 	void clearMoveData();

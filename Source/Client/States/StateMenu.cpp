@@ -14,6 +14,8 @@ StateMenu::StateMenu(GameData* game_data)
 	grid.generateCharGrid(game_data->getRandomNumberGenerator()->getRandomInt(1, 2));
 	grid.loadHardCodedMap();
 
+	grid.seeAllTiles();
+
 	dir_x = game_data->getRandomNumberGenerator()->getRandomFloat(-1, 1);
 	dir_y = game_data->getRandomNumberGenerator()->getRandomFloat(-1, 1);
 	speed = game_data->getRandomNumberGenerator()->getRandomFloat(100, 300);
