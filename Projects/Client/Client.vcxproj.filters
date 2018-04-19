@@ -124,6 +124,9 @@
     <ClCompile Include="..\..\Source\Client\ActionQueue.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Client\States\StateGameOver.cpp">
+      <Filter>Source\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Client\MyNetGame.hpp">
@@ -290,6 +293,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\Action.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Client\States\StateGameOver.h">
+      <Filter>Headers\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

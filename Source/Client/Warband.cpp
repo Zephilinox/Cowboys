@@ -75,6 +75,7 @@ void Warband::initInitiativeTracker(EntityManager & ent_man)
 		unitTrack.net_ID = unit_network_IDs[i];
 		unitTrack.initiative = unit->getInitiative();
 		unitTrack.hasActed = false;
+		unitTrack.isAlive = true;
 		initiativeTracker.push_back(std::move(unitTrack));
 	}
 	//do sort here
@@ -85,7 +86,7 @@ uint32_t Warband::getNextUnitInInitiativeList()
 {
 	for (auto& tracker : initiativeTracker)
 	{
-		if (!tracker.hasActed)
+		if (!tracker.hasActed && tracker.isAlive)
 		{
 			return tracker.net_ID;
 		}
@@ -115,7 +116,7 @@ void Warband::checkAllActed()
 			counter++;
 		}
 	}
-	if(counter >= 4)
+	if(counter >= 5)
 	{
 		allUnitsActed = true;
 	}
@@ -161,6 +162,29 @@ void Warband::unitActed(uint32_t netID, bool new_val)
 		if(tracker.net_ID == netID)
 		{
 			tracker.hasActed = new_val;
+		}
+	}
+}
+
+bool Warband::getIsAlive(uint32_t netID)
+{
+	for(auto& tracker : initiativeTracker)
+	{
+		if(tracker.net_ID == netID)
+		{
+			return tracker.isAlive;
+		}
+	}
+	return false;
+}
+
+void Warband::setIsAlive(uint32_t netID, bool new_val)
+{
+	for(auto& tracker : initiativeTracker)
+	{
+		if(tracker.net_ID == netID)
+		{
+			tracker.isAlive = new_val;
 		}
 	}
 }

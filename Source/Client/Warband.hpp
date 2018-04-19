@@ -8,6 +8,7 @@ struct InitiativeTrack
 	uint32_t net_ID;
 	float initiative;
 	bool hasActed;
+	bool isAlive;
 };
 
 struct isLowerFunctor
@@ -37,6 +38,8 @@ public:
 	std::vector<uint32_t> getUnitNetworkIDs();
 	unsigned int getUnitNetworkIDsSize();
 	void unitActed(uint32_t netID, bool new_val);
+	bool getIsAlive(uint32_t netID);
+	void setIsAlive(uint32_t netID, bool new_val);
 
 	bool getAllUnitsActed();
 	void checkAllActed();

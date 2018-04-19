@@ -4,6 +4,7 @@
 #include "../../Architecture/GameData.hpp"
 #include "../States/StateMenu.hpp"
 #include "../States/StatePause.hpp"
+#include "../States/StateGameOver.h"
 #include "../../Architecture/Constants.hpp"
 #include "../../Architecture/Networking/Client.hpp"
 #include "../../Architecture/Networking/Server.hpp"
@@ -294,57 +295,102 @@ void StateGame::nextAction()
 
 		switch(action.action_id)
 		{
-		case ActionID::REACTIVE_ATTACK:
-		{
-			Entity* ent_defender = ent_man.getEntity(action.defender_id);
-			Unit* defender = static_cast<Unit*>(ent_defender);
-
-			if(action.isHit && actor->getIsAlive())
+			case ActionID::REACTIVE_ATTACK:
 			{
-				actor->reactiveAttack(defender);
+				Entity* ent_defender = ent_man.getEntity(action.defender_id);
+				Unit* defender = static_cast<Unit*>(ent_defender);
+
+				if(action.isHit && actor->getIsAlive())
+				{
+					actor->reactiveAttack(defender);
+				}
+				break;
 			}
-			break;
-		}
-		case ActionID::ATTACK:
-		{
-			Entity* ent_defender = ent_man.getEntity(action.defender_id);
-			Unit* defender = static_cast<Unit*>(ent_defender);
-
-			//TODO redo unit attack based on if action.isHit == true
-			actor->doAttack(defender);
-
-			sendAttackPacket(action.defender_id, action.actor_id, action.reactiveHit, true, true);
-
-			break;
-		}
-		case ActionID::MOVE:
-		{
-			if(game_grid.findPathFromTo
-			(&game_grid.map[action.start_pos_x_y.first][action.start_pos_x_y.second],
-				&game_grid.map[action.end_pos_x_y.first][action.end_pos_x_y.second]))
+			case ActionID::ATTACK:
 			{
-				actor->setPathToGoal(game_grid.getPathToGoal());
-				std::cout << "unit moving\n";
-				actor->move();
-				actor->setCurrentTile
-				(&game_grid.map[action.start_pos_x_y.first][action.start_pos_x_y.second]);
-				actor->getCurrentTile()->setIsOccupied(false);
-				game_grid.clearMoveData();
+				Entity* ent_defender = ent_man.getEntity(action.defender_id);
+				Unit* defender = static_cast<Unit*>(ent_defender);
+
+				//TODO redo unit attack based on if action.isHit == true
+				actor->doAttack(defender);
+
+				sendAttackPacket(action.defender_id, action.actor_id, action.reactiveHit, true, true);
+
+				break;
 			}
-			break;
+			case ActionID::MOVE:
+			{
+				if(game_grid.findPathFromTo
+				(&game_grid.map[action.start_pos_x_y.first][action.start_pos_x_y.second],
+					&game_grid.map[action.end_pos_x_y.first][action.end_pos_x_y.second]))
+				{
+					actor->setPathToGoal(game_grid.getPathToGoal());
+					std::cout << "unit moving\n";
+					actor->move();
+					actor->setCurrentTile
+					(&game_grid.map[action.start_pos_x_y.first][action.start_pos_x_y.second]);
+					actor->getCurrentTile()->setIsOccupied(false);
+					game_grid.clearMoveData();
+				}
+				break;
+			}
+			case ActionID::END_TURN:
+			{
+				endTurn();
+				break;
+			}
+			default:
+			{
+				std::cout << "Incorrect action_ID!" << std::endl;
+				break;
+			}
 		}
-		case ActionID::END_TURN:
+
+		checkWinCondition();
+
+	}
+}
+
+void StateGame::checkWinCondition()
+{
+	int enemies_dead = 0;
+	int friendlies_dead = 0;
+
+	for(auto& ent_net_id : their_warband.getUnitNetworkIDs())
+	{
+		Entity* ent = ent_man.getEntity(ent_net_id);
+		Unit* unit = static_cast<Unit*>(ent);
+
+		if(!unit->getIsAlive())
 		{
-			endTurn();
-			break;
-		}
-		default:
-		{
-			std::cout << "Incorrect action_ID!" << std::endl;
-			break;
-		}
+			their_warband.setIsAlive(ent_net_id, false);
+			enemies_dead++;
 		}
 	}
+	for(auto& ent_net_id : our_warband.getUnitNetworkIDs())
+	{
+		Entity* ent = ent_man.getEntity(ent_net_id);
+		Unit* unit = static_cast<Unit*>(ent);
+
+		if(!unit->getIsAlive())
+		{
+			our_warband.setIsAlive(ent_net_id, false);
+			friendlies_dead++;
+		}
+	}
+
+	if(enemies_dead >= 5)
+	{
+		//TODO you win state
+		game_data->getStateManager()->push<StateGameOver>(true);
+	}
+
+	if(friendlies_dead >= 5)
+	{
+		//TODO you lose state
+		game_data->getStateManager()->push<StateGameOver>(false);
+	}
+
 }
 
 bool StateGame::attackAccuracyCheck(float unit_accuracy)
@@ -418,6 +464,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 			uint32_t test1 = our_warband.getNextUnitInInitiativeList();
 			uint32_t test2 = their_warband.getNextUnitInInitiativeList();
+
 			Unit* first = static_cast<Unit*>(ent_man.getEntity(test1));
 			Unit* second = static_cast<Unit*>(ent_man.getEntity(test2));
 
@@ -875,10 +922,15 @@ void StateGame::endTurn()
 	
 	updateAllFogOfWar();
 
-	//TODO IMPORTANT function to get next LIVING unit in initiative list, if fails, game is over.
-
 	active_turn_unit = active_turn_warband->getNextUnitInInitiativeList();
-	static_cast<Unit*>(ent_man.getEntity(active_turn_unit))->setActiveTurn(true);
+
+	Entity* ent_active = ent_man.getEntity(active_turn_unit);
+	if(active_turn_unit != 0)
+	{
+		Unit* un = static_cast<Unit*>(ent_active);
+		un->setActiveTurn(true);
+	}
+	
 }
 
 void StateGame::endRound()
