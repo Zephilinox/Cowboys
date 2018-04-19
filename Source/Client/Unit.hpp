@@ -66,6 +66,7 @@ public:
 	void setPosition(float x, float y);
 
 	void doAttack(Unit* enemy);
+	void reactiveAttack(Unit* enemy);
 	void getAttacked(Unit* attacker, float weapon_damage);
 	void getReactiveAttacked(Unit* attacker, float damage);
 
@@ -95,6 +96,8 @@ public:
 	std::string getFullName();
 
 	bool getInitialised() { return initialized; }
+
+	int getWeaponDamage() { return weapon_damage; }
 
 	void setViewDistance(float new_val) { view_distance = new_val; }
 	void setTimeUnits(int new_val) { time_units = new_val; }

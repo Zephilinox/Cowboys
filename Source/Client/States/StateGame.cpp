@@ -8,6 +8,7 @@
 #include "../../Architecture/Networking/Client.hpp"
 #include "../../Architecture/Networking/Server.hpp"
 #include "../../Architecture/Audio/AudioLocator.hpp"
+#include "../Action.h"
 
 
 //TODO - send packet to declare turn over
@@ -84,10 +85,7 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 			case hash("UnitMove"):
 			{
-				this->game_data->getNetworkManager()->server->sendPacketToSomeClients(0, &p, ENET_PACKET_FLAG_RELIABLE, [senderID = p.senderID](const ClientInfo& ci)
-				{
-					return ci.id != senderID;
-				});
+				this->game_data->getNetworkManager()->server->sendPacketToAllClients(0, &p, ENET_PACKET_FLAG_RELIABLE);
 				break;
 			}
 			case hash("UnitAttack"):
@@ -186,15 +184,34 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 			{
 				uint32_t attacker_ID;
 				uint32_t defender_ID;
+				bool hit;
+				bool is_reactive;
+				bool reactive_hit;
 
-				p >> attacker_ID >> defender_ID;
+				p >> attacker_ID >> defender_ID >> hit >> is_reactive >> reactive_hit;
 
-				Entity* ent_attacker = ent_man.getEntity(attacker_ID);
-				Unit* attacker = static_cast<Unit*>(ent_attacker);
-				Entity* ent_defender = ent_man.getEntity(defender_ID);
-				Unit* defender = static_cast<Unit*>(ent_defender);
+				Entity* ent_ptr = ent_man.getEntity(attacker_ID);
+				Unit* attacker = static_cast<Unit*>(ent_ptr);
 
-				attacker->doAttack(defender);
+				//TODO action queue
+				//Add attack action to action queue.
+				Action new_action;
+				if(is_reactive)
+				{
+					new_action.action_id = ActionID::REACTIVE_ATTACK;
+				}
+				else
+				{
+					new_action.action_id = ActionID::ATTACK;
+				}
+				new_action.actor_id = attacker_ID;
+				new_action.defender_id = defender_ID;
+				new_action.isHit = hit;
+				new_action.isReactive = is_reactive;
+				new_action.damage = attacker->getWeaponDamage();
+				new_action.reactiveHit = reactive_hit;
+				action_queue.addToQueue(new_action);
+
 				std::cout << "attack packet received (clent)\n";
 			} break;
 
@@ -208,24 +225,27 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 
 				p >> packetStartX >> packetStartY >> packetEndX >> packetEndY >> netId;
 
-				Entity* ent_ptr = ent_man.getEntity(netId);
-				Unit* unit = static_cast<Unit*>(ent_ptr);
+				Action new_action;
+				new_action.action_id = ActionID::MOVE;
+				new_action.actor_id = netId;
+				new_action.defender_id = 0;
+				new_action.isHit = false;
+				new_action.damage = 0;
+				new_action.start_pos_x_y = { packetStartX, packetStartY };
+				new_action.end_pos_x_y = { packetEndX, packetEndY };
 
-				if(game_grid.findPathFromTo(&game_grid.map[packetStartX][packetStartY], &game_grid.map[packetEndX][packetEndY]))
-				{
-					unit->setPathToGoal(game_grid.getPathToGoal());
-					std::cout << "unit moving\n";
-					unit->move();
-					unit->setCurrentTile(&game_grid.map[packetStartX][packetStartY]);
-					unit->getCurrentTile()->setIsOccupied(false);
-					game_grid.clearMoveData();
-				}
+				action_queue.addToQueue(new_action);
 				break;
 			}
-
 			case hash("EndTurn"):
 			{
-				endTurn();
+				Action new_action;
+				new_action.action_id = ActionID::END_TURN;
+				new_action.actor_id = 0;
+				new_action.defender_id = 0;
+				new_action.isHit = false;
+				new_action.damage = 0;
+				action_queue.addToQueue(new_action);
 			} break;
 		}
 	};
@@ -259,6 +279,83 @@ StateGame::~StateGame()
 {
 	game_data->getNetworkManager()->stopServer();
 	game_data->getNetworkManager()->stopClient();
+}
+
+void StateGame::nextAction()
+{
+	if(action_queue.getSize() > 0)
+	{
+		std::cout << "Queue size: " << action_queue.getSize() << std::endl;
+		Action action = action_queue.getNextAction();
+		action_queue.removeCurrentAction();
+
+		Entity* ent_ptr = ent_man.getEntity(action.actor_id);
+		Unit* actor = static_cast<Unit*>(ent_ptr);
+
+		switch(action.action_id)
+		{
+		case ActionID::REACTIVE_ATTACK:
+		{
+			Entity* ent_defender = ent_man.getEntity(action.defender_id);
+			Unit* defender = static_cast<Unit*>(ent_defender);
+
+			if(action.isHit && actor->getIsAlive())
+			{
+				actor->reactiveAttack(defender);
+			}
+			break;
+		}
+		case ActionID::ATTACK:
+		{
+			Entity* ent_defender = ent_man.getEntity(action.defender_id);
+			Unit* defender = static_cast<Unit*>(ent_defender);
+
+			//TODO redo unit attack based on if action.isHit == true
+			actor->doAttack(defender);
+
+			sendAttackPacket(action.defender_id, action.actor_id, action.reactiveHit, true, true);
+
+			break;
+		}
+		case ActionID::MOVE:
+		{
+			if(game_grid.findPathFromTo
+			(&game_grid.map[action.start_pos_x_y.first][action.start_pos_x_y.second],
+				&game_grid.map[action.end_pos_x_y.first][action.end_pos_x_y.second]))
+			{
+				actor->setPathToGoal(game_grid.getPathToGoal());
+				std::cout << "unit moving\n";
+				actor->move();
+				actor->setCurrentTile
+				(&game_grid.map[action.start_pos_x_y.first][action.start_pos_x_y.second]);
+				actor->getCurrentTile()->setIsOccupied(false);
+				game_grid.clearMoveData();
+			}
+			break;
+		}
+		case ActionID::END_TURN:
+		{
+			endTurn();
+			break;
+		}
+		default:
+		{
+			std::cout << "Incorrect action_ID!" << std::endl;
+			break;
+		}
+		}
+	}
+}
+
+bool StateGame::attackAccuracyCheck(float unit_accuracy)
+{
+	float result = rand_no_generator.getRandomFloat(0.1f, 10.0f);
+
+	if(result < unit_accuracy)
+	{
+		return true;
+	}
+	return false;
 }
 
 void StateGame::update(const ASGE::GameTime& gt)
@@ -370,6 +467,17 @@ void StateGame::update(const ASGE::GameTime& gt)
 	game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
 
 
+	//TODO Action Queue
+	//go through action queue here with timer between actions as 0.25f seconds?
+	if(queue_timer <= 0.0f)
+	{
+		nextAction();
+		queue_timer = default_queue_timer;
+	}
+	else
+	{
+		queue_timer -= dt;
+	}
 
 	if(client && client->isConnecting())
 	{
@@ -443,7 +551,12 @@ void StateGame::update(const ASGE::GameTime& gt)
 						//}
 
 						//testing
-						sendAttackPacket(active_turn_unit, ent_net_id);
+					//	TODO - Accuracy check here
+						
+						bool attack_hit = attackAccuracyCheck(attacker->getFiringAccuracy());
+						bool reactive_hit = attackAccuracyCheck(unit->getFiringAccuracy());
+
+						sendAttackPacket(active_turn_unit, ent_net_id, attack_hit, false, reactive_hit);
 						attacking = true;
 						break;
 					}
@@ -495,20 +608,17 @@ void StateGame::update(const ASGE::GameTime& gt)
 						}
 					}
 				}
-				//change this to, active unit selected ONLY, so other's cannot act without being their turn
-				Unit* active_unit = static_cast<Unit*>(ent_man.getEntity(active_turn_unit));
 
+				Unit* active_unit = static_cast<Unit*>(ent_man.getEntity(active_turn_unit));
 				if(selected != nullptr && active_turn_warband == &our_warband
 					&& active_unit->getSelected())
 				{
 					if(game_grid.findPathFromTo(active_unit->getCurrentTile(), selected))
 					{
-						active_unit->setPathToGoal(game_grid.getPathToGoal());
+						//active_unit->setPathToGoal(game_grid.getPathToGoal());
 						std::cout << "unit move attempted";
 						if (active_unit->getTimeUnits() >= game_grid.getPathToGoal().at(0).time_units)
 						{
-							active_unit->move();
-							active_unit->getCurrentTile()->setIsOccupied(false);
 
 							packetStartX = active_unit->getCurrentTile()->xCoord;
 							packetStartY = active_unit->getCurrentTile()->yCoord;
@@ -519,7 +629,6 @@ void StateGame::update(const ASGE::GameTime& gt)
 							p.setID(hash("UnitMove"));
 							p << packetStartX << packetStartY << packetEndX << packetEndY << active_unit->entity_info.networkID;
 							game_data->getNetworkManager()->client->sendPacket(0, &p);
-							active_unit->getCurrentTile()->setIsOccupied(false);
 						}
 						else
 						{
@@ -688,11 +797,11 @@ void StateGame::sendEndTurnPacket()
 	game_data->getNetworkManager()->client->sendPacket(0, &p);
 }
 
-void StateGame::sendAttackPacket(uint32_t attacker_ID, uint32_t defender_ID)
+void StateGame::sendAttackPacket(uint32_t attacker_ID, uint32_t defender_ID, bool is_hit, bool is_reactive, bool reactive_hit)
 {
 	Packet p;
 	p.setID(hash("UnitAttack"));
-	p << attacker_ID << defender_ID;
+	p << attacker_ID << defender_ID << is_hit << is_reactive << reactive_hit;
 	std::cout << "attack packet send\n";
 	game_data->getNetworkManager()->client->sendPacket(0, &p);
 }
@@ -718,7 +827,12 @@ void StateGame::endTurn()
 	bool end_of_turn = false;
 	bool end_of_round = false;
 
-
+	//clear the queue
+	for(unsigned int index = 0; index < action_queue.getSize(); index++)
+	{
+		action_queue.removeCurrentAction();
+	}
+	
 	active_turn_warband->endTurn(ent_man, active_turn_unit);
 	//Swap active warband
 	if(active_turn_warband == &our_warband)

@@ -145,7 +145,7 @@ void Unit::deserialize(Packet& p)
 			//float pos_y;
 			//p >> pos_x >> pos_y;
 
-			move();
+		//	move();
 			break;
 		}
 		case SET_POSITION:
@@ -201,15 +201,11 @@ bool Unit::getIsMoving()
 
 void Unit::doAttack(Unit* enemy_target)
 {
-	//Arithmetic in here to make the Unit's facing in the general direction of the enemy.
+	//TODO - Arithmetic in here to make the Unit's facing in the general direction of the enemy.
+	// Difference in X axis vs difference in Y axis, then if pos face one way, if neg face the other?
 
-	//BRENDON
-	//how many time CHARACTERS will it take to shoot? These should be either constexpr in the constants class OR determined by the conditions in the level (foggy weather, rain etc)
-
-	//here you can balance the attack against the enemy etc.
 	if(time_units >= time_unit_attack_cost)
 	{
-		//RNG shit to roll d100 against the aim stat?
 		time_units -= time_unit_attack_cost;
 		AudioLocator::get()->play("gunshot.wav");
 		enemy_target->getAttacked(this, weapon_damage);
@@ -217,6 +213,17 @@ void Unit::doAttack(Unit* enemy_target)
 	else
 	{
 		std::cout << "Insufficient Time units. Attack cancelled";
+	}
+}
+
+void Unit::reactiveAttack(Unit * enemy)
+{
+	if(reactions >= time_unit_reactive_cost
+		&& !hasReactiveFired
+		&& time_units >= time_unit_attack_cost)
+	{
+		hasReactiveFired = true;
+		doAttack(enemy);
 	}
 }
 
@@ -234,14 +241,6 @@ void Unit::getAttacked(Unit* attacker, float damage)
 		isAlive = false;
 		char_state = UnitState::DEAD;
 		return;
-	}
-
-	if(reactions >= time_unit_reactive_cost
-		&& !hasReactiveFired
-		&& time_units >= time_unit_attack_cost)
-	{
-		hasReactiveFired = true;
-		doAttack(attacker);
 	}
 }
 

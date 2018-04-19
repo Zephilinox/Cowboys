@@ -167,6 +167,8 @@
     <ClInclude Include="..\..\Source\Architecture\Timer.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Button.hpp" />
     <ClInclude Include="..\..\Source\Architecture\UI\Menu.hpp" />
+    <ClInclude Include="..\..\Source\Client\Action.h" />
+    <ClInclude Include="..\..\Source\Client\ActionQueue.h" />
     <ClInclude Include="..\..\Source\Client\Grid.h" />
     <ClInclude Include="..\..\Source\Client\ListOfNames.hpp" />
     <ClInclude Include="..\..\Source\Client\MyNetGame.hpp" />
@@ -212,6 +214,7 @@
     <ClCompile Include="..\..\Source\Architecture\Timer.cpp" />
     <ClCompile Include="..\..\Source\Architecture\UI\Button.cpp" />
     <ClCompile Include="..\..\Source\Architecture\UI\Menu.cpp" />
+    <ClCompile Include="..\..\Source\Client\ActionQueue.cpp" />
     <ClCompile Include="..\..\Source\Client\Grid.cpp" />
     <ClCompile Include="..\..\Source\Client\MyNetGame.cpp" />
     <ClCompile Include="..\..\Source\Client\main.cpp" />

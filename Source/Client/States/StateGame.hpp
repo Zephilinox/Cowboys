@@ -18,6 +18,9 @@
 #include "../Warband.hpp"
 #include "../../Architecture/Managers/EntityManager.hpp"
 
+#include "../ActionQueue.h"
+#include "../../Architecture/Rng.hpp"
+
 //Map
 #include "../Grid.h"
 
@@ -39,9 +42,13 @@ public:
 
 
 	void sendEndTurnPacket();
-	void sendAttackPacket(uint32_t attacker_ID, uint32_t defender_ID);
+	void sendAttackPacket(uint32_t attacker_ID, uint32_t defender_ID, bool isHit, bool isReactive, bool reactive_hit);
 
 	void screenScroll(float dt, double mouseX, double mouseY);
+
+	void nextAction();
+
+	bool attackAccuracyCheck(float unit_accuracy);
 
 	void movingUnitLineOfSight();
 	void endTurn();
@@ -57,6 +64,11 @@ private:
 
 	Menu menu;
 
+	const float default_queue_timer = 0.5f;
+	float queue_timer = 0.5f;
+
+	ActionQueue action_queue;
+
 	Warband our_warband;
 	Warband their_warband;
 	Warband* active_turn_warband;
@@ -64,6 +76,8 @@ private:
 
 	Grid game_grid;
 	bool gameReady = false;
+
+	Rng rand_no_generator;
 
 	std::unique_ptr<ASGE::Sprite> portrait_highlight;
 	std::unique_ptr<ASGE::Sprite> your_turn_sprite;
