@@ -22,6 +22,8 @@ public:
 	void onInactive() override final;
 
 private:
+	void keyHandler(const ASGE::SharedEventData data);
+
 	Menu menu;
 	Menu lobby;
 
@@ -42,4 +44,8 @@ private:
 	float panel3_x_pos = 0.0f;
 	float panel4_x_pos = 0.0f;
 	float panel5_x_pos = 0.0f;
+
+	int callback;
+	std::deque<std::string> chatlog;
+	std::string input;
 };

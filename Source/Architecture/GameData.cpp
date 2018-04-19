@@ -11,6 +11,7 @@
 
 GameData::GameData(ASGE::Renderer* renderer, ASGE::Input* input, int width, int height)
 	: renderer(renderer)
+	, input(input)
 	, state_manager(this)
 	, input_manager(input)
 	, font_manager(renderer)
@@ -37,6 +38,11 @@ GameData::GameData(ASGE::Renderer* renderer, ASGE::Input* input, int width, int 
 ASGE::Renderer* GameData::getRenderer() const noexcept
 {
 	return renderer;
+}
+
+ASGE::Input* GameData::getInput() noexcept
+{
+	return input;
 }
 
 InputManager* GameData::getInputManager() noexcept

@@ -18,6 +18,8 @@ StateLobby::StateLobby(GameData* game_data)
 	, panel4(game_data, 768.0f)
 	, panel5(game_data, 1024.0f)
 {
+	callback = game_data->getInput()->addCallbackFnc(ASGE::EventType::E_KEY, &StateLobby::keyHandler, this);
+
 	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "SERVER", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f, "UI/lobbyButton");
 	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f, "CLIENT", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f, "UI/lobbyButton");
 	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f + 40.0f, "BACK", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f, "UI/lobbyButton");
@@ -43,6 +45,14 @@ StateLobby::StateLobby(GameData* game_data)
 		if (p.getID() == hash("Disconnected"))
 		{
 			other_ready = false;
+		}
+		
+		if (p.getID() == hash("ChatMessage"))
+		{
+			this->game_data->getNetworkManager()->server->sendPacketToSomeClients(0, &p, ENET_PACKET_FLAG_RELIABLE, [p](const ClientInfo& info)
+			{
+				return p.senderID != info.id;
+			});
 		}
 	};
 
@@ -70,6 +80,23 @@ StateLobby::StateLobby(GameData* game_data)
 			p.setID(hash("ClientReady"));
 			p << ready;
 			this->game_data->getNetworkManager()->client->sendPacket(0, &p);
+		}
+
+		if (p.getID() == hash("ChatMessage"))
+		{
+			std::string string;
+			p >> string;
+			chatlog.push_back(string);
+
+			while (chatlog.size() > 5)
+			{
+				chatlog.pop_front();
+			}
+
+			for (auto message : chatlog)
+			{
+				std::cout << message << "\n";
+			}
 		}
 	};
 
@@ -206,6 +233,16 @@ void StateLobby::update(const ASGE::GameTime&)
 		panel3.update();
 		panel4.update();
 		panel5.update();
+		
+		if (game_data->getInputManager()->isKeyPressed(ASGE::KEYS::KEY_ENTER))
+		{
+			Packet p;
+			p.setID(hash("ChatMessage"));
+			p << input;
+			this->game_data->getNetworkManager()->client->sendPacket(0, &p);
+			std::cout << "entered " << input << "\n";
+			input.clear();
+		}
 	}
 	else
 	{
@@ -268,6 +305,27 @@ void StateLobby::render() const
 	else
 	{
 		menu.render();
+	}
+}
+
+void StateLobby::keyHandler(const ASGE::SharedEventData data)
+{
+	const ASGE::KeyEvent* key_event = static_cast<const ASGE::KeyEvent*>(data.get());
+	auto action = key_event->action;
+	auto key = key_event->key;
+
+	if (action == ASGE::KEYS::KEY_PRESSED)
+	{
+		if (key == ASGE::KEYS::KEY_DELETE ||
+			key == ASGE::KEYS::KEY_BACKSPACE &&
+			input.size())
+		{
+			input.pop_back();
+		}
+		else if (key != ASGE::KEYS::KEY_ENTER)
+		{
+			input += char(key);
+		}
 	}
 }
 

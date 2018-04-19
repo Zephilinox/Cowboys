@@ -18,6 +18,7 @@ public:
 	GameData(ASGE::Renderer* renderer, ASGE::Input* input, int width, int height);
 
 	ASGE::Renderer* getRenderer() const noexcept;
+	ASGE::Input* getInput() noexcept;
 	StateManager* getStateManager() noexcept;
 	InputManager* getInputManager() noexcept;
 	FontManager* getFontManager() noexcept;
@@ -35,6 +36,7 @@ public:
 
 private:
 	ASGE::Renderer* renderer = nullptr;
+	ASGE::Input* input = nullptr;
 
 	/** Input Manager. A wrapper around key states from callbacks by ASGE::Input. */
 	//This can be removed, just make sure that input is not multithreaded and add new functions to states to handle events.

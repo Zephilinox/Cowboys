@@ -179,7 +179,6 @@
     <ClInclude Include="..\..\Source\Client\States\StateLobby.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StateMenu.hpp" />
     <ClInclude Include="..\..\Source\Client\States\StatePause.hpp" />
-    <ClInclude Include="..\..\Source\Client\States\StateWarbandSelection.hpp" />
     <ClInclude Include="..\..\Source\Client\stdafx.h" />
     <ClInclude Include="..\..\Source\Client\targetver.hpp" />
     <ClInclude Include="..\..\Source\Client\TerrainTile.h" />
@@ -225,7 +224,6 @@
     <ClCompile Include="..\..\Source\Client\States\StateLobby.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StateMenu.cpp" />
     <ClCompile Include="..\..\Source\Client\States\StatePause.cpp" />
-    <ClCompile Include="..\..\Source\Client\States\StateWarbandSelection.cpp" />
     <ClCompile Include="..\..\Source\Client\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">Create</PrecompiledHeader>

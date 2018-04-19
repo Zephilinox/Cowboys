@@ -97,9 +97,6 @@
     <ClCompile Include="..\..\Source\Client\States\StatePause.cpp">
       <Filter>Source\States</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Client\States\StateWarbandSelection.cpp">
-      <Filter>Source\States</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Client\States\StateGame.cpp">
       <Filter>Source\States</Filter>
     </ClCompile>
@@ -253,9 +250,6 @@
       <Filter>Headers\States</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\States\StatePause.hpp">
-      <Filter>Headers\States</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Client\States\StateWarbandSelection.hpp">
       <Filter>Headers\States</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Client\Warband.hpp">
