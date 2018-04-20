@@ -54,14 +54,15 @@ void StateGameOver::update(const ASGE::GameTime &)
 void StateGameOver::render() const
 {
 	menu.render(Z_ORDER_LAYER::OVERLAY_TEXT);
-	game_data->getRenderer()->renderSprite(*dim_background, Z_ORDER_LAYER::OVERLAY_TEXT + 5000);
+
+	game_data->getRenderer()->renderSprite(*dim_background, Z_ORDER_LAYER::OVERLAY + 800);
 	if(hasWon)
 	{
-		game_data->getRenderer()->renderSprite(*win_splash, Z_ORDER_LAYER::OVERLAY + 5000);
+		game_data->getRenderer()->renderSprite(*win_splash, Z_ORDER_LAYER::OVERLAY + 850);
 	}
 	else
 	{
-		game_data->getRenderer()->renderSprite(*lose_splash, Z_ORDER_LAYER::OVERLAY + 5000);
+		game_data->getRenderer()->renderSprite(*lose_splash, Z_ORDER_LAYER::OVERLAY + 850);
 	}
 }
 
