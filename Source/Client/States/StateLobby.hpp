@@ -15,6 +15,7 @@ class StateLobby : public State
 {
 public:
 	StateLobby(GameData* game_data);
+	~StateLobby();
 
 	void update(const ASGE::GameTime&) override final;
 	void render() const override final;

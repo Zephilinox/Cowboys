@@ -233,6 +233,11 @@ StateLobby::StateLobby(GameData* game_data)
 	});
 }
 
+StateLobby::~StateLobby()
+{
+	game_data->getInput()->unregisterCallback(callback);
+}
+
 void StateLobby::update(const ASGE::GameTime&)
 {
 	auto client = game_data->getNetworkManager()->client.get();
