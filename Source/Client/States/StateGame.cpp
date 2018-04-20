@@ -424,7 +424,9 @@ void StateGame::update(const ASGE::GameTime& gt)
 		menu.update();
 	}
 
-	enemy_panel.update();
+	const float dt = (float)gt.delta_time.count() / 1000.0f;
+
+	enemy_panel.update(dt);
 
 	if(endRoundTimer > 0.0f)
 	{
@@ -519,8 +521,6 @@ void StateGame::update(const ASGE::GameTime& gt)
 	double mouseY;
 	game_data->getInputManager()->getMouseScreenPosition(mouseX, mouseY);
 
-	const float dt = (float)gt.delta_time.count() / 1000.0f;
-
 	screenScroll(dt, mouseX, mouseY);
 
 	double mouse_x, mouse_y;
@@ -552,6 +552,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 		{
 			enemy_panel.setIsActive(false);
 
+
 			for(auto& ent : ent_man.entities)
 			{
 				//TODO -  highlight enemy unit stats when left clicked on.
@@ -577,6 +578,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 						if(!unit->isOwner())
 						{
 							enemy_panel.setIsActive(true);
+							enemy_panel.setEnemyInPanel(unit->getPortraitSource(), unit);
 							continue;
 						}
 					}

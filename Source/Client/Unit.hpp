@@ -93,6 +93,8 @@ public:
 	ASGE::Sprite* getCurrentSprite() const;
 	ASGE::Sprite* getPortraitSprite();
 
+	std::string getPortraitSource();
+
 	std::string getFullName();
 
 	bool getInitialised() { return initialized; }
@@ -185,6 +187,8 @@ protected:
 	bool active_turn = false;
 
 	void endMove();
+
+	std::string portrait_source;
 
 	std::vector<MoveData> movement_pos_list;
 	int movement_pos_list_counter = 0;

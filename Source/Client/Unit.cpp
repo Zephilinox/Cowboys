@@ -358,7 +358,8 @@ void Unit::loadFromJSON(int unit_to_load)
 		idle_sprite_back->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleBack"].as_string() + ".png").c_str()));
 		idle_sprite_left->loadTexture((std::string("../../Resources/Textures/" + unitStats[id]["idleLeft"].as_string() + ".png").c_str()));
 
-		portrait->loadTexture(unitStats[id]["PortraitSource"].as_string());
+		portrait_source = (unitStats[id]["PortraitSource"].as_string());
+		portrait->loadTexture(portrait_source);
 		portrait->scale(0.5f);
 
 		initialized = true;
@@ -593,6 +594,11 @@ ASGE::Sprite* Unit::getCurrentSprite() const
 ASGE::Sprite * Unit::getPortraitSprite()
 {
 	return portrait.get();
+}
+
+std::string Unit::getPortraitSource()
+{
+	return portrait_source;
 }
 
 void Unit::updateOverridePositions()
