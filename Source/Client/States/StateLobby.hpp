@@ -48,4 +48,5 @@ private:
 	int callback;
 	std::deque<std::string> chatlog;
 	std::string input;
+	bool capslockOn = false;
 };
