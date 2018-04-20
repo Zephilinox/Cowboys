@@ -610,11 +610,14 @@ void StateGame::update(const ASGE::GameTime& gt)
 							Entity* ent_attacker = ent_man.getEntity(active_turn_unit);
 							Unit* attacker = static_cast<Unit*>(ent_attacker);
 
-							bool attack_hit = attackAccuracyCheck(attacker->getFiringAccuracy());
-							bool reactive_hit = attackAccuracyCheck(unit->getFiringAccuracy());
+							if(unit->getIsAlive())
+							{
+								bool attack_hit = attackAccuracyCheck(attacker->getFiringAccuracy());
+								bool reactive_hit = attackAccuracyCheck(unit->getFiringAccuracy());
 
-							sendAttackPacket(active_turn_unit, ent_net_id, attack_hit, false, reactive_hit);
-							attacking = true;
+								sendAttackPacket(active_turn_unit, ent_net_id, attack_hit, false, reactive_hit);
+								attacking = true;
+							}
 							break;
 						}
 					}
