@@ -32,7 +32,9 @@ F3 - Toggles FPS cap
 \
 Additional Documents
 ------
-The complete class diagram for this project is in the root of the repository /download.
+The complete class diagram for this project is in the Docs folder along with some simple plans we used alongside our Trello Board.
+
+Trello link: https://trello.com/b/QH7kUBM0/llp-network-game-animousagreement
 
 Finally
 ------
