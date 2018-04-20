@@ -319,8 +319,6 @@ void StateLobby::render() const
 
 void StateLobby::keyHandler(const ASGE::SharedEventData data)
 {
-	static std::vector<int> valid_keys = {};
-
 	const ASGE::KeyEvent* key_event = static_cast<const ASGE::KeyEvent*>(data.get());
 	auto action = key_event->action;
 	auto key = key_event->key;
@@ -328,9 +326,7 @@ void StateLobby::keyHandler(const ASGE::SharedEventData data)
 
 	if (action == ASGE::KEYS::KEY_PRESSED)
 	{
-		if (key == ASGE::KEYS::KEY_DELETE ||
-			key == ASGE::KEYS::KEY_BACKSPACE &&
-			input.size())
+		if (key == ASGE::KEYS::KEY_BACKSPACE &&	input.size())
 		{
 			input.pop_back();
 		}
@@ -369,6 +365,21 @@ void StateLobby::keyHandler(const ASGE::SharedEventData data)
 					break;
 				case '7':
 					key = '&';
+					break;
+				case '8':
+					key = '*';
+					break;
+				case '9':
+					key = '(';
+					break;
+				case '0':
+					key = ')';
+					break;
+				case '\'':
+					key = '@';
+					break;
+				case '/':
+					key = '?';
 					break;
 				};
 			}
