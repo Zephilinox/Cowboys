@@ -243,6 +243,9 @@ void StateLobby::update(const ASGE::GameTime&)
 	{
 		menu.update();
 	}
+
+	//uhoh, windows specific shit, sorry
+	capslockOn = (unsigned short(GetKeyState(0x14)) & 0xffff) != 0;
 }
 
 void StateLobby::render() const
@@ -304,7 +307,7 @@ void StateLobby::render() const
 			y += 20;
 		}
 
-		renderer->renderText(std::string("Message: ") + input, 850, 690, 1.0f, ASGE::COLOURS::BLACK, 10000);
+		renderer->renderText(std::string("Chat Message: ") + input, 850, 690, 1.0f, ASGE::COLOURS::BLACK, 10000);
 
 		lobby.render();
 	}
@@ -316,9 +319,12 @@ void StateLobby::render() const
 
 void StateLobby::keyHandler(const ASGE::SharedEventData data)
 {
+	static std::vector<int> valid_keys = {};
+
 	const ASGE::KeyEvent* key_event = static_cast<const ASGE::KeyEvent*>(data.get());
 	auto action = key_event->action;
 	auto key = key_event->key;
+	auto mods = key_event->mods;
 
 	if (action == ASGE::KEYS::KEY_PRESSED)
 	{
@@ -328,9 +334,46 @@ void StateLobby::keyHandler(const ASGE::SharedEventData data)
 		{
 			input.pop_back();
 		}
-		else if (key != ASGE::KEYS::KEY_ENTER)
+		else if (key >= ASGE::KEYS::KEY_SPACE && key <= ASGE::KEYS::KEY_RIGHT_BRACKET)
 		{
-			input += char(key);
+			bool shift = mods & 0x0001;
+			bool capitals = shift;
+			capitals = capslockOn ? !capitals : capitals;
+
+			if (!capitals)
+			{
+				key = tolower(char(key));
+			}
+
+			if (shift)
+			{
+				switch (key)
+				{
+				case '1':
+					key = '!';
+					break;
+				case '2':
+					key = '"';
+					break;
+				case '3':
+					key = '£';
+					break;
+				case '4':
+					key = '$';
+					break;
+				case '5':
+					key = '%';
+					break;
+				case '6':
+					key = '^';
+					break;
+				case '7':
+					key = '&';
+					break;
+				};
+			}
+
+			input.push_back(key);
 		}
 	}
 }
