@@ -916,6 +916,8 @@ void StateGame::endTurn()
 	bool end_of_turn = false;
 	bool end_of_round = false;
 
+	render_move_cost = false;
+
 	//clear the queue
 	for(unsigned int index = 0; index < action_queue.getSize(); index++)
 	{
