@@ -1,0 +1,530 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
+  <Class Name="ActionQueue" Collapsed="true">
+    <Position X="35" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAgAIBAAAAAAAQAAgAAACAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\ActionQueue.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyPanel" Collapsed="true">
+    <Position X="42" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBACAAgJCAAAAAAAAQAAABAJFgADAgEBAAAAACAUAAg=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\EnemyPanel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grid" Collapsed="true">
+    <Position X="38.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAICEiAIAAIAABCBwIACqBACAIAAAAAEQgAAAAuQiRA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Grid.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListOfNames" Collapsed="true">
+    <Position X="43.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAIAAAACAAAAAAAAAAAAQAACAAAAAgADQAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\ListOfNames.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyNetGame" Collapsed="true">
+    <Position X="40.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAQAAAACAAAAAAAAAIAAAAAAAAUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\MyNetGame.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TerrainTile" Collapsed="true">
+    <Position X="40.25" Y="4.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="TerrainTile::TerrainType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\TerrainTile.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ABAAAAAmAECAgQFYAEEAAAQAggCABGAAFACEABFQggA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\TerrainTile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Unit">
+    <Position X="30.5" Y="16" Width="3.75" />
+    <NestedTypes>
+      <Enum Name="Unit::UnitFacing" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Unit.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="Unit::UnitState" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Unit.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="Unit::PacketType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Unit.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>UQIQFcaS1JgQ9R+EYQQEMCAjAXogggArfIACEtFUY14=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Unit.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitSelectPanel" Collapsed="true">
+    <Position X="43.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAAAAgAITBAAEAgCAQgAQEABAEAAAgCgQAADAAG0IEw=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\UnitSelectPanel.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Warband" Collapsed="true">
+    <Position X="35" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCAACQCgAAAgAAAAAgARQAAQAQAADBAGAEEBBAAAg=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Warband.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sf::Clock" Collapsed="true">
+    <Position X="35" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAgAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>z:\Programming\!University\networking-game-animousagreement\Libs\SFML\include\SFML\System\Clock.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnimatedSprite" Collapsed="true">
+    <Position X="38.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="AnimatedSprite::FrameData" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\AnimatedSprite.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAACIAgQAgAAAAAAACACIAAIEAgAYAEoAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\AnimatedSprite.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entity">
+    <Position X="30" Y="11.75" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAIAAAAAAAAAAIAAAACQAgAAAQAAAAAA0EAQ=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Entity.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameData" Collapsed="true">
+    <Position X="36.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAApAAEAABMAAAAAAABAAQAEEBEAABAAgAApgDAIgAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\GameData.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rng" Collapsed="true">
+    <Position X="35" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAABAAAAAAAAACAAAAAAAAAAAAAAAAACAAEAAAABBA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Rng.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="State">
+    <Position X="10" Y="0.5" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAAAgAAAAAAAAAAEAIAACAAAAAAACAABBAUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\State.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Timer" Collapsed="true">
+    <Position X="42" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAACABAAAABAAAAAAAAAAAAEIAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Timer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sound">
+    <Position X="3.75" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAgEAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioEngine.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioEngine">
+    <Position X="5.25" Y="15.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEEAAAAAAAAAAAAAAIACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioEngine.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundIrrklang">
+    <Position X="6.75" Y="11.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAgAAgEAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioEngineIrrklang.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioEngineIrrklang">
+    <Position X="1" Y="18" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAACAAAAAAAAAFAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioEngineIrrklang.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundNone">
+    <Position X="0.75" Y="11.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAgEAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioEngineNone.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioEngineNone">
+    <Position X="5.75" Y="18" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioEngineNone.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundSFML">
+    <Position X="3.75" Y="11.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAkAAgEAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioEngineSFML.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioEngineSFML">
+    <Position X="9.75" Y="18" Width="4" />
+    <TypeIdentifier>
+      <HashCode>IAAAACAAAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioEngineSFML.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioLocator" Collapsed="true">
+    <Position X="40.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQCQAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioLocator.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicPlayer" Collapsed="true">
+    <Position X="38.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAQACAAAEAAAAAAAAAAAAAAACAAAIQAAEAACAEGgQ=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\MusicPlayer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Actor" Collapsed="true">
+    <Position X="36.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQgAAAAAQAoAAAAAAACAAAAQAEABAAAiAAAAAAABQ=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Dialogues\Actor.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dialogue" Collapsed="true">
+    <Position X="36.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAACAAAAAAkAAAIAAAAAAIAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Dialogues\Dialogue.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DialogueTree" Collapsed="true">
+    <Position X="38.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAABAAAEAQAAAIgAAEgABICkAAIBAAIAgBIQAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Dialogues\DialogueTree.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityManager" Collapsed="true">
+    <Position X="43.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICBAAAAAAAAAAAABIggBAAAQBAAQAAAAACAAIUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Managers\EntityManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FontManager" Collapsed="true">
+    <Position X="35" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAMQAAAAAQgAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Managers\FontManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputManager" Collapsed="true">
+    <Position X="40.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKRAJgBCIABIIDEAAICAgBAEBEBAoBFGACBCIOIEECA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Managers\InputManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetworkManager" Collapsed="true">
+    <Position X="42" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAKAAQAAEAAAAAAEEB2AAIAAAAAAoAAAAABBCIEAEI=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Managers\NetworkManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StateManager" Collapsed="true">
+    <Position X="38.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAgAAAIgCAAAAAAAEAAAIAAAUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Managers\StateManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FunctionMessage">
+    <Position X="6.5" Y="24.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAgAEAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Messages\FunctionMessage.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Message">
+    <Position X="7" Y="21.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAACAAAAAAAAAAAAAAAIAAAAgA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Messages\Message.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MessageQueue" Collapsed="true">
+    <Position X="36.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgEAAQEAAAIAAAAAAAAAAgAAAAAAAABAACAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Messages\MessageQueue.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client">
+    <Position X="18.5" Y="15.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAgBAAQACAAAEAQAASAAAAABAEAAAhAAAEMgQ=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Networking\Client.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClientHost">
+    <Position X="15.75" Y="21.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAEAQAACAAAAABAAAAABAIAAEAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Networking\ClientHost.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClientStandard">
+    <Position X="21" Y="21.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>CAAABAAAAAAAACBAAAEAQAACAAAAABAAAAAABAAAEAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Networking\ClientStandard.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClientInfo" Collapsed="true">
+    <Position X="43.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Networking\Server.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Server">
+    <Position X="25.75" Y="0.5" Width="8.25" />
+    <TypeIdentifier>
+      <HashCode>AACCCCAEgBAAQACAAAEAQAASAAAAABAEAAQBAgAEIAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Networking\Server.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ServerHost">
+    <Position X="25.75" Y="6.5" Width="8.25" />
+    <TypeIdentifier>
+      <HashCode>AACADAAEAAAAAAAAAAEQQABCAAAAABAAAAQAAAAAACI=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Networking\ServerHost.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Connection">
+    <Position X="0.75" Y="20.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAEEACAAAAAAAAAAAAAAAAAgAAAUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Signals\Connection.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManagedConnection">
+    <Position X="0.5" Y="24.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>ACAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Signals\Connection.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Disconnector" Collapsed="true">
+    <Position X="40.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Signals\Disconnector.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Signal&lt;...Args&gt;" Collapsed="true">
+    <Position X="36.75" Y="4.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Signal&lt;...Args&gt;::SignalDisconnector&lt;...Args&gt;" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Signals\Signal.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAQkAAAAAAAAAYAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Signals\Signal.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Button" Collapsed="true">
+    <Position X="42" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAABCQBIAAAQgAABCAAAAAABAEgABQAABggkAYIAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\UI\Button.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu" Collapsed="true">
+    <Position X="35" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABCAAAEgAAQAgAAJAAAAAAAAAAJQAAAgAAAAAgUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\UI\Menu.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StateGameOver">
+    <Position X="8.5" Y="4.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAggAAAAACAAAAkAoAAgAAAAAAAAAAEAAUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\States\StateGameOver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StateGame">
+    <Position X="13" Y="4.75" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AQoQAIQBBCAYgAAhAwAQEFuAKYMAqAEACCAAEQMUQBE=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\States\StateGame.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StateLobby">
+    <Position X="20.75" Y="4.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>BABSBAAAAQSAAQAAAJAAEAoAAAAAABAEAAAAAQAUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\States\StateLobby.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StateMenu">
+    <Position X="1.5" Y="4.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAgEBoCAACAAQBAAAAAJAIUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\States\StateMenu.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StatePause">
+    <Position X="5" Y="4.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAIAAAAAACAAAAEAoAAgAAAAAAAAAAEAAUAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\States\StatePause.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASGE::Renderer" Collapsed="true">
+    <Position X="43.75" Y="3.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="ASGE::Renderer::RenderLib" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>z:\Programming\!University\networking-game-animousagreement\Libs\ASGE\Include\Engine\Renderer.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="ASGE::Renderer::WindowMode" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>z:\Programming\!University\networking-game-animousagreement\Libs\ASGE\Include\Engine\Renderer.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EAIgAGAgAAAgCEAEAIAAACBAAAAAgAIAIACgCCBgAAQ=</HashCode>
+      <FileName>z:\Programming\!University\networking-game-animousagreement\Libs\ASGE\Include\Engine\Renderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="irrklang::ISoundEngine" Collapsed="true">
+    <Position X="42" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAIBACBQJggAAwCAAAQJAAAACAKAkACAAAAAIFAkDAA=</HashCode>
+      <FileName>z:\Programming\!University\networking-game-animousagreement\Libs\irrKlang\include\ik_ISoundEngine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="MoveData" Collapsed="true">
+    <Position X="35" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAIAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Constants.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Action" Collapsed="true">
+    <Position X="35" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAQgAAAAAAEAAAAAAAAQAIAARAAAAAAABA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Action.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Building" Collapsed="true">
+    <Position X="36.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAACAAAAAIAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Grid.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="InitiativeTrack" Collapsed="true">
+    <Position X="42" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAQAAAAIAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Warband.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="isLowerFunctor" Collapsed="true">
+    <Position X="43.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Warband.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="EntityInfo" Collapsed="true">
+    <Position X="38.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAgAAAIAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Entity.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Packet" Collapsed="true">
+    <Position X="36.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAACAAACAIgCAAAAAAAAAQABAAAUACCA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Networking\Packet.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Slot&lt;...Args&gt;" Collapsed="true">
+    <Position X="38.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgABAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Signals\Slot.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ASGE::GameTime" Collapsed="true">
+    <Position X="40.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAEAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>z:\Programming\!University\networking-game-animousagreement\Libs\ASGE\Include\Engine\GameTime.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="Z_ORDER_LAYER" Collapsed="true">
+    <Position X="38.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAEAAAAAAARAAAAAAAAEBAAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Constants.hpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ActionID" Collapsed="true">
+    <Position X="35" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAgAAAAAAEAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Client\Action.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AudioEngineType" Collapsed="true">
+    <Position X="36.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAACAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Z:\Programming\!University\networking-game-animousagreement\Source\Architecture\Audio\AudioLocator.hpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
