@@ -17,9 +17,27 @@ StateLobby::StateLobby(GameData* game_data)
 	, panel3(game_data, 512.0f)
 	, panel4(game_data, 768.0f)
 	, panel5(game_data, 1024.0f)
+	, bottom_left_panel(game_data->getRenderer()->createUniqueSprite())
+	, bottom_right_panel(game_data->getRenderer()->createUniqueSprite())
 {
 	lobby.enableKeyboardInput(false);
 
+	if (!bottom_left_panel->loadTexture("../../Resources/Textures/UI/BottomLeftRightPanel.png"))
+	{
+		throw;
+	}
+
+	bottom_left_panel->xPos(0);
+	bottom_left_panel->yPos(504);
+
+	if (!bottom_right_panel->loadTexture("../../Resources/Textures/UI/BottomLeftRightPanel.png"))
+	{
+		throw;
+	}
+
+	bottom_right_panel->xPos(833);
+	bottom_right_panel->yPos(504);
+	
 	callback = game_data->getInput()->addCallbackFnc(ASGE::EventType::E_KEY, &StateLobby::keyHandler, this);
 
 	menu.addButton(game_data->getWindowWidth() / 2.0f - 80.0f, game_data->getWindowHeight() / 2.0f - 40.0f, "SERVER", ASGE::COLOURS::FLORALWHITE, ASGE::COLOURS::ORANGE, 70.0f, 20.0f, "UI/lobbyButton");
@@ -228,7 +246,7 @@ void StateLobby::update(const ASGE::GameTime&)
 		panel4.update();
 		panel5.update();
 		
-		if (game_data->getInputManager()->isKeyPressed(ASGE::KEYS::KEY_ENTER))
+		if (!input.empty() && game_data->getInputManager()->isKeyPressed(ASGE::KEYS::KEY_ENTER))
 		{
 			std::string username("Client " + std::to_string(game_data->getNetworkManager()->client->getID()) + std::string(": "));
 			Packet p;
@@ -256,6 +274,8 @@ void StateLobby::render() const
 
 	if (client && client->isConnecting())
 	{
+		renderer->renderSprite(*bottom_left_panel);
+		renderer->renderSprite(*bottom_right_panel);
 		panel1.render(game_data->getRenderer());
 		panel2.render(game_data->getRenderer());
 		panel3.render(game_data->getRenderer());
@@ -298,13 +318,12 @@ void StateLobby::render() const
 	{
 		renderer->renderText(ready ? "READY" : "NOT READY", 50, 610, 1.0f, ASGE::COLOURS::BLACK, 10000);
 		renderer->renderText(other_ready ? "OTHER PLAYER READY" : "OTHER PLAYER NOT READY", 50, 640, 1.0f, ASGE::COLOURS::BLACK, 10000);
-
 		const float c[3] = { 0.2f, 0.2f, 0.2f };
-		auto y = 550;
+		auto y = 530;
 		for (const auto& msg : chatlog)
 		{
 			renderer->renderText(msg, 850, y, 1.0f, c, 10000);
-			y += 20;
+			y += 22;
 		}
 
 		renderer->renderText(std::string("Chat Message: ") + input, 850, 690, 1.0f, ASGE::COLOURS::BLACK, 10000);
@@ -326,7 +345,7 @@ void StateLobby::keyHandler(const ASGE::SharedEventData data)
 
 	if (action == ASGE::KEYS::KEY_PRESSED)
 	{
-		if (key == ASGE::KEYS::KEY_BACKSPACE &&	input.size())
+		if (key == ASGE::KEYS::KEY_BACKSPACE &&	!input.empty())
 		{
 			input.pop_back();
 		}

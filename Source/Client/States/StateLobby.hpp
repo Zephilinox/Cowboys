@@ -49,4 +49,7 @@ private:
 	std::deque<std::string> chatlog;
 	std::string input;
 	bool capslockOn = false;
+
+	std::unique_ptr<ASGE::Sprite> bottom_left_panel;
+	std::unique_ptr<ASGE::Sprite> bottom_right_panel;
 };
