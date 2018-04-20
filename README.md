@@ -4,6 +4,7 @@
 \
 Setup
 ------
+Download the master branch from this repository.
 
 If playing locally, simply open 2 instances of the client.exe AFTER building the solution in visual studio. One user must select server, the other, client. Next, users choose their warband/gang members. Only the user that is running the server can begin the match. Chat is available in the lobby.
 
