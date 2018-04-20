@@ -12,13 +12,6 @@
 #include "../Action.h"
 
 
-//TODO - send packet to declare turn over
-//TODO - send packet allUnitsActed
-//TODO - receive packet to server to request coin flip to determine who goes first!
-//TODO - receive packet to declare turn over
-//TODO - receive packet allUnitsActed
-
-
 StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID, int unit4ID, int unit5ID)
 	: State(game_data)
 	, menu(game_data)
@@ -195,7 +188,6 @@ StateGame::StateGame(GameData* game_data, int unit1ID, int unit2ID, int unit3ID,
 				Entity* ent_ptr = ent_man.getEntity(attacker_ID);
 				Unit* attacker = static_cast<Unit*>(ent_ptr);
 
-				//TODO action queue
 				//Add attack action to action queue.
 				Action new_action;
 				if(is_reactive)
@@ -321,10 +313,7 @@ void StateGame::nextAction()
 			{
 				Entity* ent_defender = ent_man.getEntity(action.defender_id);
 				Unit* defender = static_cast<Unit*>(ent_defender);
-
-				//TODO redo unit attack based on if action.isHit == true
 				actor->doAttack(defender);
-
 				sendAttackPacket(action.defender_id, action.actor_id, action.reactiveHit, true, true);
 
 				break;
@@ -333,7 +322,7 @@ void StateGame::nextAction()
 			{
 				if(game_grid.findPathFromTo
 				(&game_grid.map[action.start_pos_x_y.first][action.start_pos_x_y.second],
-					&game_grid.map[action.end_pos_x_y.first][action.end_pos_x_y.second]))
+					&game_grid.map[action.end_pos_x_y.first][action.end_pos_x_y.second], move_cost))
 				{
 					actor->setPathToGoal(game_grid.getPathToGoal());
 					std::cout << "unit moving\n";
@@ -341,12 +330,14 @@ void StateGame::nextAction()
 					actor->setCurrentTile
 					(&game_grid.map[action.start_pos_x_y.first][action.start_pos_x_y.second]);
 					actor->getCurrentTile()->setIsOccupied(false);
+					game_grid.resetPathingTiles();
 					game_grid.clearMoveData();
 				}
 				break;
 			}
 			case ActionID::END_TURN:
 			{
+				game_grid.resetPathingTiles();
 				endTurn();
 				break;
 			}
@@ -392,13 +383,13 @@ void StateGame::checkWinCondition()
 
 	if(enemies_dead >= 5)
 	{
-		//TODO you win state
+		//Win
 		game_data->getStateManager()->push<StateGameOver>(true);
 	}
 
 	if(friendlies_dead >= 5)
 	{
-		//TODO you lose state
+		//Lose
 		game_data->getStateManager()->push<StateGameOver>(false);
 	}
 
@@ -417,8 +408,6 @@ bool StateGame::attackAccuracyCheck(float unit_accuracy)
 
 void StateGame::update(const ASGE::GameTime& gt)
 {
-	//RICARDO - this won't cause any issue right?
-	//right
 	if(menu.getButton(0).isEnabled())
 	{
 		menu.update();
@@ -469,7 +458,6 @@ void StateGame::update(const ASGE::GameTime& gt)
 			//give all units reference to grid
 			for(auto& ent : ent_man.entities)
 			{
-				//TODO -  highligh unit stats when left clicked on.
 				Unit* unit = static_cast<Unit*>(ent.get());
 				unit->setGrid(game_grid);
 			}
@@ -527,8 +515,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 	game_data->getInputManager()->getMouseWorldPosition(mouse_x, mouse_y);
 
 
-	//TODO Action Queue
-	//go through action queue here with timer between actions as 0.25f seconds?
+	//Resolve actions with time delay
 	if(queue_timer <= 0.0f)
 	{
 		nextAction();
@@ -551,7 +538,7 @@ void StateGame::update(const ASGE::GameTime& gt)
 		if(game_data->getInputManager()->isMouseButtonPressed(0))
 		{
 			enemy_panel.setIsActive(false);
-
+			selected_tile = nullptr;
 
 			for(auto& ent : ent_man.entities)
 			{
@@ -589,6 +576,14 @@ void StateGame::update(const ASGE::GameTime& gt)
 
 		if(game_data->getInputManager()->isMouseButtonPressed(1))
 		{
+			//Right click enemy unt = attack
+
+			//Right click tile = show path to that tile + COST
+			
+			//Right click same tile as before
+				//Move to that tile
+
+			bool trigger_move = false;
 			bool attacking = false;
 
 			for(auto& ent_net_id : their_warband.getUnitNetworkIDs())
@@ -633,7 +628,6 @@ void StateGame::update(const ASGE::GameTime& gt)
 			{
 				//Detect terrain selection
 				TerrainTile* temp = nullptr;
-				TerrainTile* selected = nullptr;
 				ASGE::Sprite* spr = nullptr;
 				int packetStartX = 0;
 				int packetStartY = 0;
@@ -660,10 +654,14 @@ void StateGame::update(const ASGE::GameTime& gt)
 								sprite_y + sprite_height > mouse_y)
 							{
 								std::cout << "tile selected\n";
-								//	spr->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
+								if(temp == selected_tile)
+								{
+									trigger_move = true;
+									break;
+								}
 								if(!temp->getIsBlocked() && temp->getIsVisible())
 								{
-									selected = temp;
+									selected_tile = temp;
 									break;
 								}
 								else
@@ -676,20 +674,32 @@ void StateGame::update(const ASGE::GameTime& gt)
 				}
 
 				Unit* active_unit = static_cast<Unit*>(ent_man.getEntity(active_turn_unit));
-				if(selected != nullptr && active_turn_warband == &our_warband
-					&& active_unit->getSelected() )
+
+				//Colour the path
+				if(selected_tile != nullptr && active_turn_warband == &our_warband
+					&& active_unit->getSelected())
 				{
-					if(game_grid.findPathFromTo(active_unit->getCurrentTile(), selected))
+					game_grid.resetPathingTiles();
+					if(game_grid.findPathFromTo(active_unit->getCurrentTile(), selected_tile, move_cost))
 					{
-						//active_unit->setPathToGoal(game_grid.getPathToGoal());
+						render_move_cost = true;
+					}
+				}
+
+				//Do the move
+				if(selected_tile != nullptr && active_turn_warband == &our_warband
+					&& active_unit->getSelected() && trigger_move)
+				{
+					if(game_grid.findPathFromTo(active_unit->getCurrentTile(), selected_tile, move_cost))
+					{
 						std::cout << "unit move attempted";
 						if (active_unit->getTimeUnits() >= game_grid.getPathToGoal().at(0).time_units)
 						{
-
+							//trigger move
 							packetStartX = active_unit->getCurrentTile()->xCoord;
 							packetStartY = active_unit->getCurrentTile()->yCoord;
-							packetEndX = selected->xCoord;
-							packetEndY = selected->yCoord;
+							packetEndX = selected_tile->xCoord;
+							packetEndY = selected_tile->yCoord;
 
 							Packet p;
 							p.setID(hash("UnitMove"));
@@ -701,7 +711,9 @@ void StateGame::update(const ASGE::GameTime& gt)
 							std::cout << "Insufficient Time units";
 						}
 
+						render_move_cost = false;
 						game_grid.clearMoveData();
+
 					}
 				}
 
@@ -800,6 +812,12 @@ void StateGame::render() const
 	}
 
 	enemy_panel.render();
+	if(render_move_cost)
+	{
+		int cost = (int)move_cost;
+		game_data->getRenderer()->renderText("Move cost: " + std::to_string(cost),
+			(game_data->getWindowWidth() * 0.5f) - 80.0f, 515.0f, 1.0f, ASGE::COLOURS::BLACK, Z_ORDER_LAYER::OVERLAY_TEXT);
+	}
 
 	game_data->getRenderer()->renderSprite(*UI_panel_sprite, Z_ORDER_LAYER::OVERLAY);
 	game_grid.render();
@@ -956,12 +974,6 @@ void StateGame::endTurn()
 	}
 	
 }
-
-//TODO needed?
-//void StateGame::updateEnemyPanel()
-//{
-//
-//}
 
 void StateGame::endRound()
 {

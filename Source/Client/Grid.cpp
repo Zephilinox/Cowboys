@@ -198,17 +198,22 @@ void Grid::render() const
 		{
 			auto* terrain_sprite = map[x][y].getTerrainSprite();
 			auto* overlay_sprite = map[x][y].getOverlaySprite();
+			auto* pathing_sprite = map[x][y].getPathingSprite();
 			if (withinView(terrain_sprite))
 			{
 				terrain_sprite->xPos(terrain_sprite->xPos() - offset_x);
 				terrain_sprite->yPos(terrain_sprite->yPos() - offset_y);
 				overlay_sprite->xPos(overlay_sprite->xPos() - offset_x);
 				overlay_sprite->yPos(overlay_sprite->yPos() - offset_y);
+				pathing_sprite->xPos(pathing_sprite->xPos() - offset_x);
+				pathing_sprite->yPos(pathing_sprite->yPos() - offset_y);
 				map[x][y].render(game_data->getRenderer());
 				terrain_sprite->xPos(terrain_sprite->xPos() + offset_x);
 				terrain_sprite->yPos(terrain_sprite->yPos() + offset_y);
 				overlay_sprite->xPos(overlay_sprite->xPos() + offset_x);
 				overlay_sprite->yPos(overlay_sprite->yPos() + offset_y);
+				pathing_sprite->xPos(pathing_sprite->xPos() + offset_x);
+				pathing_sprite->yPos(pathing_sprite->yPos() + offset_y);
 			}
 		}
 	}
@@ -286,6 +291,17 @@ void Grid::seeAllTiles()
 	}
 }
 
+void Grid::resetPathingTiles()
+{
+	for(int x = 0; x < mapWidth; x++)
+	{
+		for(int y = 0; y < mapHeight; y++)
+		{
+			map[x][y].setRenderPathing(false);
+		}
+	}
+}
+
 void Grid::loadHardCodedMap()
 {
 	int new_id = 0;
@@ -298,6 +314,8 @@ void Grid::loadHardCodedMap()
 			map[x][y].getTerrainSprite()->yPos(y * map[x][y].getTerrainSprite()->height());
 			map[x][y].getOverlaySprite()->xPos(x * map[x][y].getTerrainSprite()->width());
 			map[x][y].getOverlaySprite()->yPos(y * map[x][y].getTerrainSprite()->height());
+			map[x][y].getPathingSprite()->xPos(x * map[x][y].getTerrainSprite()->width());
+			map[x][y].getPathingSprite()->yPos(y * map[x][y].getTerrainSprite()->height());
 			map[x][y].id = new_id;
 			new_id++;
 		}
@@ -333,7 +351,7 @@ float Grid::getManhattanDistance(TerrainTile* startNode, TerrainTile* endNode)
 	return x + y;
 };
 
-bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
+bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile, float& move_cost)
 {
 
 	if(endTile->getIsBlocked() || endTile->getIsOccupied() || endTile == nullptr)
@@ -622,16 +640,18 @@ bool Grid::findPathFromTo(TerrainTile* startTile, TerrainTile* endTile)
 		}
 	} while(pathFound == false);
 
+	//Set move_cost from gamestate to render the cost on screen
+	move_cost = 0.0f;
 	while(currentPathingNode->parent != nullptr)
 	{
 		MoveData move_data;
 		move_data.x = currentPathingNode->getTerrainSprite()->xPos();
 		move_data.y = currentPathingNode->getTerrainSprite()->yPos();
 		move_data.time_units = currentPathingNode->getMoveDifficultyModifier();
-
+		move_cost += move_data.time_units;
 		pathToGoal.push_back(std::move(move_data));
 
-		currentPathingNode->getTerrainSprite()->loadTexture("../../Resources/Textures/Tiles/grassTile.png");
+		currentPathingNode->setRenderPathing(true);
 		currentPathingNode = currentPathingNode->parent;
 	}
 	openList.clear();

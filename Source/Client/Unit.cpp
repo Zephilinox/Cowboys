@@ -83,7 +83,6 @@ void Unit::render(ASGE::Renderer* renderer) const
 
 	if (selected)
 	{
-		//todo: align this to the match the tile position when the unit is idle
 		selected_sprite->xPos(getCurrentSprite()->xPos());
 		selected_sprite->yPos(getCurrentSprite()->yPos());
 		renderer->renderSprite(*selected_sprite, Z_ORDER_LAYER::UNITS + 1000.0f + this->y_position);
@@ -262,7 +261,6 @@ void Unit::endTurn()
 
 void Unit::endRound()
 {
-	//TODO - low priority, re-init any temp value changes to default
 	hasReactiveFired = false;
 	time_units = start_time_units;
 }

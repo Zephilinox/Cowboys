@@ -41,6 +41,7 @@ public:
 
 	void unseeAllTiles();
 	void seeAllTiles();
+	void resetPathingTiles();
 
 	std::vector<MoveData>& getPathToGoal() { return pathToGoal; }
 	void clearMoveData();
@@ -51,7 +52,7 @@ public:
 
 	void loadJSONBuildings(int seed);
 
-	bool findPathFromTo(TerrainTile * startTile, TerrainTile * endTile);
+	bool findPathFromTo(TerrainTile * startTile, TerrainTile * endTile, float& move_cost);
 
 	void getFogOfWar(float view_distance, int start_x, int start_y, int end_x, int end_y);
 

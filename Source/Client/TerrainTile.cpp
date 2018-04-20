@@ -27,6 +27,11 @@ ASGE::Sprite * TerrainTile::getOverlaySprite() const
 	return overlay_sprite.get();
 }
 
+ASGE::Sprite * TerrainTile::getPathingSprite() const
+{
+	return pathing_sprite.get();
+}
+
 int TerrainTile::getMoveDifficultyModifier() const
 {
 	return time_units_cost;
@@ -57,6 +62,10 @@ void TerrainTile::render(ASGE::Renderer* rend) const
 	if(is_visible == true)
 	{
 		rend->renderSprite(*ground_sprite, Z_ORDER_LAYER::BACK_GROUND);
+		if(render_pathing_sprite)
+		{
+			rend->renderSprite(*pathing_sprite, Z_ORDER_LAYER::BACK_GROUND + 5);
+		}
 	}
 	else
 	{
@@ -69,7 +78,9 @@ void TerrainTile::initialise(char type, ASGE::Renderer* rend, float xCo, float y
 {
 	ground_sprite = std::move(rend->createUniqueSprite());
 	overlay_sprite = std::move(rend->createUniqueSprite());
+	pathing_sprite = std::move(rend->createUniqueSprite());
 	overlay_sprite->loadTexture("../../Resources/Textures/greyOverlay.png");
+	pathing_sprite->loadTexture("../../Resources/Textures/pathOverlay.png");
 	xCoord = xCo;
 	yCoord = yCo;
 
@@ -114,6 +125,11 @@ void TerrainTile::initialise(char type, ASGE::Renderer* rend, float xCo, float y
 			break;
 		}
 	}
+}
+
+void TerrainTile::setRenderPathing(bool new_val)
+{
+	render_pathing_sprite = new_val;
 }
 
 float TerrainTile::getCombinedCost()

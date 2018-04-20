@@ -83,9 +83,11 @@ private:
 	Warband* active_turn_warband;
 	uint32_t active_turn_unit;
 
-	//Grid
+	//Grid/movement
 	Grid game_grid;
-
+	TerrainTile* selected_tile = nullptr;
+	float move_cost;
+	bool render_move_cost = false;
 
 	//Utility
 	Rng rand_no_generator;
