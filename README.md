@@ -1,8 +1,10 @@
 ﻿Low-Level Programming
 ==================
 
-\
-Setup
+A C++17 2D game made using a lecturers 2D renderer. Using a custom networked implementation, a turn-based strategy game was made with a lobby, pathfinding, and basic gameplay.
+
+## Instructions
+### Setup
 ------
 Download the master branch from this repository.
 
@@ -10,8 +12,7 @@ If playing locally, simply open 2 instances of the client.exe AFTER building the
 
 If playing online, edit the settings.json file, changing the "Server IP" : "localhost" to "Server IP" : "<*insert server player's IP here". Then follow the above, opening 1 instance per PC.
 
-\
-Gameplay
+### Gameplay
 ------
 This game is a turn-based showdown to death!
 
@@ -30,13 +31,8 @@ F1 - Fullscreen
 F2 - Toggles FPS
 F3 - Toggles FPS cap
 
-\
-Additional Documents
+### Additional Documents
 ------
 The complete class diagram for this project is in the Docs folder along with some simple plans we used alongside our Trello Board.
 
 Trello link: https://trello.com/b/QH7kUBM0/llp-network-game-animousagreement
-
-Finally
-------
-Thanks for playing.
