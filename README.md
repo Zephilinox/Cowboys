@@ -3,6 +3,8 @@
 
 A C++17 2D game made using a lecturers 2D renderer. Using a custom networked implementation, a turn-based strategy game was made with a lobby, pathfinding, and basic gameplay.
 
+![](https://github.com/Zephilinox/Cowboys/blob/master/image.png)
+
 ## Instructions
 ### Setup
 ------
